@@ -25,7 +25,6 @@ import {
   Flame,
   Clock,
   BadgeCheck,
-  Sliders,
   DollarSign,
   HelpCircle,
   Building2,
@@ -41,14 +40,12 @@ import { PRODUCTS, Product } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SpreadsheetHeroMockup from "@/components/SpreadsheetHeroMockup";
-import InteractiveCalculatorPreview from "@/components/InteractiveCalculatorPreview";
 import CalculatorGallery from "@/components/CalculatorGallery";
 import CheckoutModal from "@/components/CheckoutModal";
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [heroView, setHeroView] = useState<"spreadsheet" | "calculator">("spreadsheet");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
 
@@ -100,15 +97,15 @@ export default function HomePage() {
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-950 tracking-tight leading-[1.12] max-w-5xl mx-auto">
-              Plan, Price & Pay For Your Build.{" "}
+              Plan, Price & Pay For Your Build{" "}
               <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1">
-                Zero Guesswork. Zero Subscriptions.
+                @ &ldquo;calculator cost&rdquo; (₹499/-)
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="mt-6 text-base sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              The complete construction and flat renovation operating system for India. Turn plans into exact material quantities, compare contractor bids, audit bills with automated tolerance flags, and control every rupee.
+              The complete Indian construction and flat renovation operating system in ready-to-use unlocked Excel files (.xlsx). Turn site plans into exact material quantities, compare contractor bids, audit bills with automated tolerance flags, and control every rupee.
             </p>
 
             {/* Dual CTAs & Live Anchors */}
@@ -124,11 +121,19 @@ export default function HomePage() {
               </button>
 
               <a
-                href="#interactive-demo"
+                href="#what-it-contains"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-base transition-all hover:border-slate-400 shadow-xs cursor-pointer"
               >
-                <Sliders className="w-4 h-4 text-amber-600" />
-                <span>Test Live Simulator</span>
+                <FolderTree className="w-4 h-4 text-amber-600" />
+                <span>What The Package Contains</span>
+              </a>
+
+              <a
+                href="#calculator-gallery"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-bold text-base transition-all shadow-xs cursor-pointer"
+              >
+                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                <span>8 Real Excel Screenshots</span>
               </a>
             </div>
 
@@ -152,44 +157,14 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* HERO INTERACTIVE SHOWCASE TABS */}
+            {/* HERO SPREADSHEET SHOWCASE */}
             <div className="mt-14 max-w-5xl mx-auto">
-              <div className="flex items-center justify-center gap-2 mb-4 bg-slate-200/80 p-1.5 rounded-2xl border border-slate-300/80 w-fit mx-auto">
-                <button
-                  type="button"
-                  onClick={() => setHeroView("spreadsheet")}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                    heroView === "spreadsheet"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-                  <span>Interactive 31-Tab Sheet Preview</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setHeroView("calculator")}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                    heroView === "calculator"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  <Calculator className="w-4 h-4 text-amber-600" />
-                  <span>Live Estimation Simulator</span>
-                </button>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs mb-4">
+                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                <span>31-Tab Connected Excel Engine Preview (No Macros · Standard .XLSX)</span>
               </div>
 
-              {/* Dynamic View container */}
-              <div className="transition-all duration-300">
-                {heroView === "spreadsheet" ? (
-                  <SpreadsheetHeroMockup onUnlockClick={handleHeroUnlock} />
-                ) : (
-                  <InteractiveCalculatorPreview onUnlockClick={handleHeroUnlock} />
-                )}
-              </div>
+              <SpreadsheetHeroMockup onUnlockClick={handleHeroUnlock} />
             </div>
           </div>
         </section>
@@ -218,43 +193,164 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* THE 3 WORKBOOKS INCLUDED */}
-        <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* WHAT THE PACKAGE CONTAINS: 3 WORKBOOKS + 31 CONNECTED TABS */}
+        <section id="what-it-contains" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-amber-800 font-semibold mb-2 shadow-2xs">
               <FolderTree className="w-3.5 h-3.5 text-amber-600" />
-              <span>Full Folder 6 Deliverables</span>
+              <span>Full Deliverables Inventory</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              3 Specialized Workbooks In One Bundle
+              What This Package Contains
             </h2>
             <p className="text-slate-600 text-sm sm:text-base mt-2">
-              Learn from real-world finished examples before entering your own project dimensions.
+              Here is the exact index of 3 unlocked Excel workbooks, 31 connected sheets, and reference guides delivered in your download:
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {flagshipProduct.workbooksIncluded.map((wb, idx) => (
-              <div
-                key={idx}
-                className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold">
-                      .XLSX Workbook
-                    </span>
-                    <span className="text-xs text-amber-700 font-semibold">{wb.useCase}</span>
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900 mt-1">{wb.title}</h3>
-                  <p className="text-xs text-slate-600 mt-2.5 leading-relaxed">{wb.description}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {/* Workbook 1 */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded font-bold">
+                    WORKBOOK 01 · 16 SHEETS
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">.xlsx</span>
                 </div>
-                <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-mono">
-                  <span>{wb.filename}</span>
-                  <span className="text-emerald-600 font-bold">✓ Included</span>
+                <h3 className="text-base font-bold text-slate-900 mb-1">
+                  Construction Calculator Pro (Main Model)
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  Full quantity estimation, civil raw materials, and project cost rollup engine.
+                </p>
+
+                <div className="space-y-1.5 border-t border-slate-100 pt-3 text-xs text-slate-700">
+                  <div className="font-bold text-[10px] uppercase tracking-wider text-amber-800 mb-2">
+                    Included Sheet Headings:
+                  </div>
+                  {[
+                    "01. Start Here & 5-Step Roadmap",
+                    "02. Quick Start 20-Minute Setup",
+                    "03. Project Setup & Unit Toggle (Ft/M)",
+                    "04. Room Area & Floor Dimension Register",
+                    "05. Earthwork Foundation Excavation",
+                    "06. Wall Putty, Primer & Interior Paint",
+                    "07. Exterior Paint & Terrace Waterproofing",
+                    "08. Concrete Mix (Footings, Columns, Slabs)",
+                    "09. Bricks & AAC Blocks Masonry Mortar",
+                    "10. Internal & External Sand Plastering",
+                    "11. Steel Reinforcement Schedule (D²/162)",
+                    "12. Plumbing & Electrical MEP Points",
+                    "13. Master Cost Estimate & Civil Total",
+                    "14. Room-by-Room Cost Breakdown",
+                    "15. 9-Stage Milestone Construction Budget",
+                    "16. Monthly Cash Flow Runway Tracker"
+                  ].map((heading, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span className="font-medium text-[11px] text-slate-800">{heading}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Workbook 2 */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded font-bold">
+                    WORKBOOK 02 · 8 SHEETS
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">.xlsx</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-1">
+                  Contractor Bill Audit & Site Quality Engine
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  Audit contractor claims, check RA bills, prevent overbilling, and track site progress.
+                </p>
+
+                <div className="space-y-1.5 border-t border-slate-100 pt-3 text-xs text-slate-700">
+                  <div className="font-bold text-[10px] uppercase tracking-wider text-amber-800 mb-2">
+                    Included Sheet Headings:
+                  </div>
+                  {[
+                    "17. Material Purchase Order & Indent List",
+                    "18. Daily Site Task & Labor Progress Tracker",
+                    "19. Municipal Permits & Approval Log",
+                    "20. Local Material Supplier Master Rates",
+                    "21. Supplier Quote Comparison Matrix",
+                    "22. Material & Finish Specification Sheet",
+                    "23. Variation & Scope Change Orders",
+                    "24. Visual Project Control Dashboard"
+                  ].map((heading, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span className="font-medium text-[11px] text-slate-800">{heading}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Workbook 3 */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded font-bold">
+                    WORKBOOK 03 · 7 SHEETS
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono">.xlsx</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-1">
+                  Contractor Bids, Renovation & BOQ Quotation
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  Compare tenders, generate client BOQ proposals, and track handovers.
+                </p>
+
+                <div className="space-y-1.5 border-t border-slate-100 pt-3 text-xs text-slate-700">
+                  <div className="font-bold text-[10px] uppercase tracking-wider text-amber-800 mb-2">
+                    Included Sheet Headings:
+                  </div>
+                  {[
+                    "25. Contractor Running Account (RA) Bill Check",
+                    "26. Site Quality & Material Delivery Checks",
+                    "27. Contractor Bids Comparison & Scorecard",
+                    "28. Milestone Payment Schedule & Releases",
+                    "29. Room-by-Room Handover Snag List",
+                    "30. Print-Ready Professional Client BOQ",
+                    "31. Historical Master Rate Library"
+                  ].map((heading, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span className="font-medium text-[11px] text-slate-800">{heading}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Complementary Guides & Bonuses Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+              <FileText className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <div className="text-xs font-bold text-slate-900">13 Civil Engineering PDF Guides Included</div>
+                <div className="text-[11px] text-slate-600 mt-0.5">IS codes, cement grades, site slump test standards, river vs M-Sand, and retention rules.</div>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+              <Sparkles className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+              <div>
+                <div className="text-xs font-bold text-slate-900">7 Anti-Fear Bonus Toolkits Included</div>
+                <div className="text-[11px] text-slate-600 mt-0.5">15 Builder Traps Guide, Contractor Contract Agreement Template, 50-Point Casting Checklist.</div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -417,7 +513,7 @@ export default function HomePage() {
                           Bill Check (5% Tolerance Flag)
                         </span>
                         <span className="bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 text-slate-700 flex items-center gap-1.5">
-                          <Sliders className="w-3.5 h-3.5 text-blue-600" />
+                          <FileText className="w-3.5 h-3.5 text-blue-600" />
                           5 Negotiation Scripts
                         </span>
                       </div>
@@ -523,7 +619,7 @@ export default function HomePage() {
                         Ultimate Personal Net Worth & Monthly Cash Flow OS
                       </h3>
                       <p className="text-xs text-slate-600 mt-2.5 leading-relaxed">
-                        Automated SIP return simulator, debt avalanche payoff engine, and tax planning dashboard in Excel & Google Sheets.
+                        Automated SIP return calculator, debt avalanche payoff engine, and tax planning dashboard in Excel & Google Sheets.
                       </p>
 
                       <div className="mt-5 space-y-2.5 text-xs text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
@@ -561,7 +657,7 @@ export default function HomePage() {
         {/* 4 BUYER SITUATIONS: WHO USES THIS */}
         <section className="py-20 bg-slate-100/50 border-y border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="text-center max-w-3xl mx-auto mb-14">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-amber-800 font-semibold mb-2 shadow-2xs">
                 <UserCheck className="w-3.5 h-3.5 text-amber-600" />
                 <span>Tailored Use Cases</span>
@@ -575,25 +671,70 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {flagshipProduct.targetAudience.map((aud, index) => (
-                <div
-                  key={index}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs hover:shadow-md transition-shadow flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 font-bold mb-4 text-sm">
-                      0{index + 1}
+              {flagshipProduct.targetAudience.map((aud, index) => {
+                const audienceIcons = [
+                  <Home key="1" className="w-4 h-4 text-amber-600" />,
+                  <Hammer key="2" className="w-4 h-4 text-amber-600" />,
+                  <Sparkles key="3" className="w-4 h-4 text-amber-600" />,
+                  <Building2 key="4" className="w-4 h-4 text-amber-600" />,
+                ];
+
+                return (
+                  <div
+                    key={index}
+                    className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-2xs hover:shadow-md hover:border-amber-400 transition-all flex flex-col justify-between h-full"
+                  >
+                    <div>
+                      {/* Top Header Row: Badge + Contextual Icon */}
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="w-8 h-8 rounded-lg bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-800 font-bold text-xs">
+                          0{index + 1}
+                        </span>
+                        <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
+                          {audienceIcons[index]}
+                        </div>
+                      </div>
+
+                      {/* Card Title with unified height */}
+                      <h3 className="text-base font-bold text-slate-900 min-h-[2.75rem] flex items-center leading-snug">
+                        {aud.title}
+                      </h3>
+
+                      {/* The Situation / Problem Box */}
+                      <div className="bg-amber-50/70 border border-amber-200/70 rounded-xl p-3 my-3 min-h-[4.75rem] flex flex-col justify-center">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 block mb-0.5">
+                          Your Situation
+                        </span>
+                        <p className="text-xs text-slate-700 font-medium leading-relaxed">
+                          {aud.situation}
+                        </p>
+                      </div>
+
+                      {/* How The Package Solves It */}
+                      <p className="text-xs text-slate-600 leading-relaxed min-h-[4rem]">
+                        {aud.description}
+                      </p>
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">{aud.title}</h3>
-                    <p className="text-xs text-slate-500 font-medium mt-1">{aud.situation}</p>
-                    <p className="text-xs text-slate-600 mt-3 leading-relaxed">{aud.description}</p>
+
+                    {/* Tools Footer with Tags */}
+                    <div className="mt-4 pt-3.5 border-t border-slate-100">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                        Key Sheets You&apos;ll Use:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {aud.primaryUse.split(", ").map((tool, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-medium border border-slate-200/60"
+                          >
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <div className="mt-5 pt-3 border-t border-slate-100">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block mb-1">Key Tools:</span>
-                    <span className="text-[11px] text-slate-600 font-medium">{aud.primaryUse}</span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -662,7 +803,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white border border-slate-300 rounded-3xl p-6 sm:p-8 shadow-xs">
               <div className="flex items-center gap-2.5 text-slate-900 font-black text-lg sm:text-xl mb-3">
-                <ShieldAlert className="w-6 h-6 text-amber-600 shrink-0" />
+                <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0" />
                 <span>Radical Transparency: What This Package Does Not Do</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
@@ -678,24 +819,6 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </section>
-
-        {/* DEDICATED INTERACTIVE ESTIMATION PLAYGROUND */}
-        <section id="interactive-demo" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold mb-3">
-              <Sliders className="w-3.5 h-3.5 text-amber-600" />
-              <span>Interactive Civil Simulator</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              Test the Estimation Engine in Real-Time
-            </h2>
-            <p className="text-slate-600 text-sm mt-2">
-              Adjust the sliders below to see how our thumb-rule mathematical model predicts turnkey costs and raw materials.
-            </p>
-          </div>
-
-          <InteractiveCalculatorPreview onUnlockClick={handleHeroUnlock} />
         </section>
 
         {/* TESTIMONIALS & SOCIAL PROOF */}
@@ -795,20 +918,24 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* FINAL GUARANTEE & HIGH-CONVERTING BOTTOM CTA */}
+        {/* INSTANT DIGITAL FULFILLMENT & LIFETIME ACCESS CTA */}
         <section className="py-16 bg-gradient-to-b from-amber-50/70 to-slate-100 border-t border-slate-200">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="w-16 h-16 rounded-3xl bg-white border border-amber-300 flex items-center justify-center text-amber-600 mx-auto mb-6 shadow-md shadow-amber-500/10">
-              <ShieldCheck className="w-8 h-8" />
+              <ShieldCheck className="w-8 h-8 text-emerald-600" />
             </div>
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 tracking-tight">
-              100% Risk-Free 7-Day Guarantee
+              Instant Download · Lifetime Access
             </h2>
 
             <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Try the Construction Calculator Pro package on your upcoming house or renovation. If it doesn't give you clarity on material counts, prevent contractor overbilling, or save you hours of work, we'll refund you immediately.
+              Once payment is completed, you receive immediate access on screen to download the complete 31-sheet Excel package (.xlsx), plus backup download links sent directly to your email and WhatsApp. No recurring subscriptions, no macro passwords.
             </p>
+
+            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 text-[11px] font-semibold text-slate-700">
+              <span>All Sales Final · Digital Product Delivered Instantly</span>
+            </div>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
@@ -824,7 +951,7 @@ export default function HomePage() {
                 href={`/p/${flagshipProduct.slug}`}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm transition-all shadow-xs"
               >
-                <span>Read Full 31-Tab Breakdown</span>
+                <span>Read Full Technical Specifications</span>
               </Link>
             </div>
 
