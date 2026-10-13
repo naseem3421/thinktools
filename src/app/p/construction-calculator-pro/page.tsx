@@ -77,7 +77,7 @@ export default function ConstructionCalculatorPage() {
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-2 px-4 text-center text-xs font-bold tracking-wide flex items-center justify-center gap-2 shadow-xs">
         <Flame className="w-3.5 h-3.5 fill-current animate-bounce" />
         <span>
-          LIMITED LAUNCH DEAL: ₹499 (75% OFF) • INSTANT ACCESS ON WHATSAPP & EMAIL • 7-DAY MONEY-BACK GUARANTEE
+          LIMITED LAUNCH DEAL: ₹499 (75% OFF) • INSTANT ACCESS ON WHATSAPP & EMAIL • ALL SALES FINAL
         </span>
       </div>
 
@@ -154,7 +154,7 @@ export default function ConstructionCalculatorPage() {
                     <Sliders className="w-3.5 h-3.5 text-amber-600" /> Feet/Inches & Metres Toggle
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> 7-Day Money-Back Guarantee
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> All Sales Final (Instant Access)
                   </span>
                 </div>
               </div>
@@ -653,7 +653,7 @@ export default function ConstructionCalculatorPage() {
             <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-xs text-slate-500">
               <span className="flex items-center gap-1 font-semibold text-emerald-700">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                7-Day 100% Money-Back Guarantee
+                All Sales Final · 100% Delivery Support
               </span>
               <span className="flex items-center gap-1 font-semibold text-amber-700">
                 <Zap className="w-4 h-4 text-amber-600" />
@@ -701,8 +701,8 @@ export default function ConstructionCalculatorPage() {
                 a: "When a contractor hands you an invoice claiming quantities (e.g., '140 bags of cement used'), you type their claim into Tab 25. It compares their claim against standard civil engineering consumption norms. If the claim is more than 5% over, it automatically highlights in RED so you can demand the measurement sheet before releasing funds."
               },
               {
-                q: "What is your refund policy if I am not satisfied?",
-                a: "We offer a 100% 7-Day Money-Back Guarantee. If this toolkit doesn't give you total clarity and save you at least ₹10,000 on your build, simply message us on WhatsApp and we will refund every single rupee. Zero risk for you."
+                q: "What is your cancellation & refund policy?",
+                a: "All sales are final. Because the workbooks (.xlsx) and guides are digital files delivered immediately upon payment, we do not offer refunds if you change your mind. However, we immediately fix genuine technical issues: duplicate payments are refunded, missing links are resent, and corrupted files are replaced within 2 business days. Please review the uncropped screenshots and sheet descriptions before purchasing."
               }
             ].map((faq, idx) => (
               <div
