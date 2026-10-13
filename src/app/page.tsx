@@ -34,7 +34,8 @@ import {
   FileText,
   UserCheck,
   Home,
-  Hammer
+  Hammer,
+  Gift
 } from "lucide-react";
 import { PRODUCTS, Product } from "@/data/products";
 import Header from "@/components/Header";
@@ -739,61 +740,160 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 7 HEADLINE BONUSES SHOWCASE */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-amber-800 font-semibold mb-2 shadow-2xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Included Free with Purchase</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              7 Specialized Bonuses That Remove Site Anxiety
-            </h2>
-            <p className="text-slate-600 text-sm mt-2">
-              Each bonus directly solves the situations where home builders and renovators lose the most money.
-            </p>
-          </div>
+        {/* 7 HEADLINE BONUSES SHOWCASE - HIGH-IMPACT HIGHLIGHTED SECTION */}
+        <section id="included-bonuses" className="py-20 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
+          {/* Subtle Ambient Gold Glows */}
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[350px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {flagshipProduct.includedBonuses.map((bonus) => (
-              <div
-                key={bonus.number}
-                className="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs hover:shadow-md transition-shadow flex flex-col justify-between"
-              >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* Super Highlight Header */}
+            <div className="text-center max-w-3xl mx-auto mb-14">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 text-amber-300 text-xs font-bold mb-4 shadow-lg shadow-amber-500/10">
+                <Gift className="w-4 h-4 text-amber-400" />
+                <span>₹6,790+ STANDALONE VALUE · 100% FREE WITH TODAY&apos;S ₹499 PURCHASE</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                7 Specialized Bonuses That Remove Site Anxiety
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
+                Engineered by Indian civil professionals to eliminate the exact traps where home builders and renovators routinely lose ₹50,000 to ₹3,00,000+ in avoidable contractor mistakes.
+              </p>
+            </div>
+
+            {/* High-Impact Bonus Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {flagshipProduct.includedBonuses.map((bonus) => {
+                const standaloneValues = [
+                  "₹699",
+                  "₹799",
+                  "₹599",
+                  "₹899",
+                  "₹799",
+                  "₹699",
+                  "₹799",
+                ];
+                const bonusValue = standaloneValues[bonus.number - 1] || "₹699";
+
+                return (
+                  <div
+                    key={bonus.number}
+                    className="bg-slate-950/80 hover:bg-slate-950 border border-slate-800 hover:border-amber-400/80 rounded-2xl p-6 shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/10"
+                  >
+                    <div>
+                      {/* Top Bar: Bonus Tag & Free Value Pill */}
+                      <div className="flex items-center justify-between mb-3.5">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-amber-950 bg-amber-400 px-2.5 py-0.5 rounded-md shadow-xs">
+                          <Gift className="w-3 h-3 text-slate-950" />
+                          Bonus #{bonus.number}
+                        </span>
+
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] text-slate-500 line-through font-mono">
+                            {bonusValue}
+                          </span>
+                          <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded uppercase tracking-wider">
+                            Free Today
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Bonus Title */}
+                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-amber-300 transition-colors leading-snug">
+                        {bonus.title}
+                      </h3>
+
+                      {/* Fear Solved High-Contrast Callout */}
+                      <div className="mt-3 text-xs font-medium text-rose-300 bg-rose-950/40 border border-rose-500/30 p-2.5 rounded-xl leading-relaxed flex items-start gap-2">
+                        <span className="text-rose-400 font-bold shrink-0">🛑 Solves:</span>
+                        <span>{bonus.fearSolved.replace(/^Removes fear:\s*/i, "")}</span>
+                      </div>
+
+                      {/* Deliverable Description */}
+                      <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                        {bonus.description}
+                      </p>
+                    </div>
+
+                    {/* Card Footer: Format & Deliverable Specs */}
+                    <div className="mt-5 pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                      <span className="flex items-center gap-1.5 text-slate-300">
+                        <FileText className="w-3.5 h-3.5 text-amber-400" />
+                        {bonus.pages} {bonus.pages === 1 ? "Page" : "Pages"} PDF
+                      </span>
+                      <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Included Free
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Bonus #8: High-Profile Combined Master Guide Card */}
+              <div className="bg-gradient-to-br from-amber-500/20 via-slate-950 to-slate-950 border-2 border-amber-400/90 rounded-2xl p-6 shadow-2xl flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-all duration-300">
+                <div className="absolute top-0 right-0 bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-bl-xl shadow-xs">
+                  ★ Master Deliverable
+                </div>
+
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-                      Bonus #{bonus.number}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs font-black text-slate-950 bg-amber-400 px-2.5 py-0.5 rounded-md shadow-xs">
+                      Master Document
                     </span>
-                    <span className="text-[11px] text-slate-400 font-mono">{bonus.pages} Pages PDF</span>
+                    <span className="text-[11px] text-slate-500 line-through font-mono">₹1,499</span>
+                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 rounded uppercase">
+                      Free
+                    </span>
                   </div>
-                  <h3 className="text-base font-bold text-slate-900">{bonus.title}</h3>
-                  <div className="mt-2 text-xs font-semibold text-rose-700 bg-rose-50/70 p-2 rounded-lg border border-rose-100">
-                    {bonus.fearSolved}
+
+                  <h3 className="text-base sm:text-lg font-black text-white group-hover:text-amber-300 transition-colors leading-snug">
+                    Combined Master Guide (All in 1 File)
+                  </h3>
+
+                  <div className="mt-3 text-xs font-medium text-amber-200 bg-amber-950/40 border border-amber-500/30 p-2.5 rounded-xl leading-relaxed flex items-start gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span>Every single guide, checklist, script, action plan, and bonus indexed into one searchable 43-page field reference manual.</span>
                   </div>
-                  <p className="text-xs text-slate-600 mt-2.5 leading-relaxed">{bonus.description}</p>
+
+                  <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                    Keep this single PDF on your phone or print it out for jobsite visits. Never scramble for contract clauses, mix proportions, or test procedures again.
+                  </p>
+                </div>
+
+                <div className="mt-5 pt-3.5 border-t border-amber-500/30 flex items-center justify-between text-[11px] font-mono">
+                  <span className="text-amber-300 font-semibold truncate max-w-[200px]">
+                    43 Pages Consolidated PDF
+                  </span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Included Free
+                  </span>
                 </div>
               </div>
-            ))}
+            </div>
 
-            {/* Bonus #8: The Complete Combined 43-Page Guide */}
-            <div className="bg-gradient-to-br from-amber-500/10 to-slate-50 border border-amber-300 rounded-2xl p-6 shadow-2xs flex flex-col justify-between">
+            {/* Bottom Callout Banner */}
+            <div className="mt-12 bg-gradient-to-r from-amber-500/15 via-amber-500/25 to-amber-500/15 border border-amber-400/40 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
               <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-slate-950 bg-amber-400 px-2 py-0.5 rounded">
-                    Master Document
-                  </span>
-                  <span className="text-[11px] text-slate-500 font-mono">43 Pages Total</span>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Instant All-Inclusive Download
                 </div>
-                <h3 className="text-base font-bold text-slate-900">Combined Master Guide (All in 1 File)</h3>
-                <p className="text-xs text-slate-600 mt-3 leading-relaxed">
-                  Every guide, action plan, worksheet, checklist, script, and bonus organized in a single searchable 43-page master PDF document.
+                <h4 className="text-lg sm:text-xl font-black text-white">
+                  Get All 31 Excel Sheets + 13 Field Guides + All 7 Bonuses
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+                  Total combined standalone value of ₹11,780+ — completely unlocked and yours for just ₹499 lifetime.
                 </p>
               </div>
-              <div className="mt-6 pt-3 border-t border-amber-200 text-xs font-bold text-slate-900 flex items-center justify-between">
-                <span>Construction_Calculator_Pro_Guide_COMBINED.pdf</span>
-                <span className="text-emerald-700">✓ Free</span>
-              </div>
+
+              <button
+                onClick={() => setIsCheckoutOpen(true)}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/30 transition-all hover:scale-105 cursor-pointer shrink-0"
+              >
+                <Zap className="w-4 h-4 fill-current" />
+                <span>Claim Toolkit + 7 Bonuses (₹499)</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </section>
