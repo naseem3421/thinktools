@@ -99,7 +99,7 @@ export default function HomePage() {
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-950 tracking-tight leading-[1.12] max-w-5xl mx-auto">
               Plan, Price & Pay For Your Build{" "}
               <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1">
-                @ &ldquo;calculator cost&rdquo; (₹499/-)
+                @ ₹499/-
               </span>
             </h1>
 
