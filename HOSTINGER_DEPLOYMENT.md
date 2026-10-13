@@ -1,71 +1,70 @@
-# Hostinger Deployment Guide for Thinktools.in
+# Deployment Guide: Thinktools.in on Hostinger & GitHub
 
-This project is built with **Next.js + Tailwind CSS** and is optimized to run smoothly on your **Hostinger Business Web Hosting** account.
+This document details the deployment setup for **Thinktools.in** on your **Hostinger Business Web Hosting** and **GitHub**.
 
 ---
 
-## Method 1: Using Hostinger's Built-in Node.js Manager (Recommended)
+## 1. GitHub Repository Details
 
-Hostinger Business Web Hosting includes a native Node.js application manager in hPanel.
+The project repository has been initialized and pushed to GitHub:
+- **Repository URL:** [https://github.com/naseem3421/thinktools](https://github.com/naseem3421/thinktools)
+- **Default Branch:** `main`
+- **Visibility:** Public
 
-### Step 1: Prepare the Production Build
-In `next.config.ts`, set standalone output:
-```ts
-const nextConfig: NextConfig = {
-  output: 'standalone',
-  // ...
-};
-```
-Then run:
+### Git Remote Configuration
 ```bash
-npm run build
+git remote -v
+# origin  https://github.com/naseem3421/thinktools.git (fetch)
+# origin  https://github.com/naseem3421/thinktools.git (push)
 ```
-This produces a self-contained `.next/standalone` folder.
-
-### Step 2: Upload Files to Hostinger
-1. In Hostinger **hPanel**, go to **Files → File Manager**.
-2. Navigate to your domain directory (`domains/thinktools.in/` or `public_html`).
-3. Upload:
-   - The contents of `.next/standalone`
-   - The `public` folder
-   - The `.next/static` folder into `.next/standalone/.next/static`
-
-### Step 3: Start Node.js in hPanel
-1. In hPanel, search for **Node.js**.
-2. Set **Node.js Version** to `20.x` or `22.x`.
-3. Set **Application Root** to your app directory.
-4. Set **Application Startup File** to `server.js`.
-5. Click **Start App**.
 
 ---
 
-## Method 2: High-Performance Static Export (Easiest)
+## 2. Hostinger Account & Domain Status (Verified via API)
 
-If you prefer zero server management with maximum load speed on Hostinger's LiteSpeed servers:
-
-1. In `next.config.ts`, set:
-```ts
-const nextConfig: NextConfig = {
-  output: 'export',
-  images: { unoptimized: true },
-};
-```
-2. Run `npm run build`.
-3. Next.js will generate an `out/` folder containing static HTML, CSS, and JS.
-4. Drag and drop all files from the `out/` folder directly into your Hostinger `public_html/`.
-5. Your store and landing pages will load instantly worldwide!
+- **Domain:** `thinktools.in` (Active in Hostinger portfolio until 2029)
+- **DNS A Record:** `2.57.91.91` (Hostinger LiteSpeed Server)
+- **DNS CNAME:** `www` &rarr; `thinktools.in.`
+- **Hosting Plan:** `Business Web Hosting` (Active until 2030)
 
 ---
 
-## Securing Digital Product Files in Hostinger
+## 3. Production Deployment Package
 
-For your Excel (`.xlsx`) and PDF deliverables:
+A standalone production build has been created with Next.js static export:
+- **Build Output Directory:** `out/`
+- **Deployment Archive:** `thinktools-deploy.zip` (2.06 MB)
+- **Includes:**
+  - `index.html` (Homepage with Bestseller Storefront & Indian conversion hooks)
+  - `p/construction-calculator-pro/index.html` (Construction Pro sales page with all 8 real screenshots)
+  - `p/construction-calculator-pro/download/index.html` (Digital download page)
+  - `screenshots/` (All 8 Excel calculator screenshots)
+  - `.htaccess` (LiteSpeed configuration for clean URLs, HTTPS redirection, Gzip compression, and browser caching)
 
-1. In Hostinger File Manager, create a folder named `private_storage/` in your account home directory (one level above `public_html/`):
+---
+
+## 4. How to Deploy on Hostinger (Choose Either Method)
+
+### Method A: Upload Zip in File Manager (Fastest — 30 Seconds)
+1. Log in to [Hostinger hPanel](https://hpanel.hostinger.com).
+2. Go to **Websites** &rarr; Select `thinktools.in` &rarr; **Manage**.
+3. Under **Files**, open **File Manager**.
+4. Navigate to `public_html` (or `domains/thinktools.in/public_html`).
+5. Click **Upload** and select `thinktools-deploy.zip` from your local machine:
    ```
-   /home/u123456789/
-   ├── private_storage/
-   │   └── Construction_Calculator_Pro_v4_Master.xlsx
-   └── public_html/ (your website)
+   D:\Anti Gravity Projects\Thinktools\thinktools-deploy.zip
    ```
-2. Files inside `private_storage` cannot be directly accessed by web browsers via URL, keeping your digital products protected from unauthorized downloads.
+6. Right-click `thinktools-deploy.zip` in File Manager and select **Extract** into the current directory.
+7. Visit [https://thinktools.in](https://thinktools.in) — your live website is immediately active!
+
+---
+
+### Method B: Git Auto-Deployment from GitHub
+1. In [Hostinger hPanel](https://hpanel.hostinger.com), go to **Websites** &rarr; `thinktools.in` &rarr; **Manage**.
+2. In the left sidebar, go to **Advanced** &rarr; **Git**.
+3. Enter the repository details:
+   - **Repository:** `https://github.com/naseem3421/thinktools.git`
+   - **Branch:** `main`
+   - **Install directory:** `public_html`
+4. Click **Create & Deploy**.
+5. Every time you push changes to GitHub (`git push origin main`), Hostinger can automatically update your website!
