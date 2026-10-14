@@ -5,9 +5,13 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   CheckCircle2,
-  Download,
+  Mail,
   ArrowLeft,
   Sparkles,
+  ExternalLink,
+  ShieldCheck,
+  Clock,
+  HelpCircle
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,19 +20,12 @@ function DownloadContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id") || "TT-839201";
   const name = searchParams.get("name") || "Valued Builder";
-  const email = searchParams.get("email") || "your email";
-  const hasBump = searchParams.get("bump") === "1";
+  const email = searchParams.get("email") || "your email address";
+  const decodedEmail = decodeURIComponent(email);
+  const decodedName = decodeURIComponent(name);
 
-  const handleDownload = (filename: string, content: string) => {
-    const blob = new Blob([content], { type: "text/plain;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  const isGmail = decodedEmail.toLowerCase().includes("@gmail.com");
+  const emailClientUrl = isGmail ? "https://mail.google.com/mail/u/0/#search/thinktools" : `mailto:`;
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
@@ -38,19 +35,22 @@ function DownloadContent() {
           <CheckCircle2 className="w-9 h-9" />
         </div>
         <span className="inline-block text-xs uppercase font-bold tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
-          Payment Verified • Lifetime License Active
+          Payment Confirmed • Digital Files Dispatched
         </span>
         <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Thank You, {decodeURIComponent(name)}!
+          Check Your Email, {decodedName}!
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
-          Your order <strong className="text-amber-700 font-mono">#{orderId}</strong> for{" "}
-          <strong className="text-slate-900">Construction Calculator Pro Package</strong> is complete. Your toolkit is ready for instant download below.
+          Your complete <strong className="text-slate-900">Construction Calculator Pro Package</strong> has been sent directly to:
+          <br />
+          <span className="inline-block mt-1 font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-lg text-sm sm:text-base">
+            {decodedEmail}
+          </span>
         </p>
       </div>
 
       <div className="space-y-6">
-        {/* SINGLE MASTER ALL-IN-ONE DOWNLOAD BOX */}
+        {/* EMAIL DISPATCH CONFIRMATION CARD */}
         <div className="relative rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 text-white p-6 sm:p-9 border-2 border-amber-500/50 shadow-2xl overflow-hidden">
           {/* Decorative ambient background accents */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/15 rounded-full blur-[90px] pointer-events-none" />
@@ -58,98 +58,94 @@ function DownloadContent() {
 
           <div className="relative z-10 flex flex-col items-center text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Complete Package • Single Download</span>
+              <Mail className="w-3.5 h-3.5 text-amber-400" />
+              <span>Direct Attachment Inside Your Email</span>
             </div>
 
             <div className="space-y-2 max-w-xl">
               <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                Download Complete Toolkit (.ZIP)
+                Toolkit Delivered to Your Inbox
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Includes all <strong>3 Excel Workbooks (.xlsx)</strong>, the <strong>43-Page Master Guide (PDF)</strong>, and all <strong>7 Anti-Fear Bonuses &amp; Templates</strong> in one master bundle.
+                For security and permanent offline access, your files are attached directly to your confirmation email as a single master archive:
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-lg text-[11px] text-slate-300 font-mono">
-              <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2">
-                <span className="text-amber-400 font-bold block">3 Workbooks</span>
-                <span className="text-[10px] text-slate-400">All 31 Tabs (.xlsx)</span>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full max-w-lg text-left space-y-2 text-xs">
+              <div className="flex items-center justify-between py-1 border-b border-white/10">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                  Attached File:
+                </span>
+                <span className="font-mono font-bold text-amber-300">
+                  Construction_Calculator_Pro_Complete_Bundle.zip (2.0 MB)
+                </span>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2">
-                <span className="text-amber-400 font-bold block">43-Page Guide</span>
-                <span className="text-[10px] text-slate-400">Master PDF Manual</span>
+              <div className="flex items-center justify-between py-1 border-b border-white/10">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-amber-400 shrink-0" />
+                  Sent From:
+                </span>
+                <span className="font-mono text-slate-200">orders@thinktools.in</span>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2">
-                <span className="text-amber-400 font-bold block">7 Bonuses</span>
-                <span className="text-[10px] text-slate-400">Audits, Scripts, Kits</span>
-              </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2">
-                <span className="text-amber-400 font-bold block">2.0 MB ZIP</span>
-                <span className="text-[10px] text-slate-400">Offline &amp; Lifetime</span>
+              <div className="flex items-center justify-between py-1">
+                <span className="text-slate-400 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-blue-400 shrink-0" />
+                  Delivery Status:
+                </span>
+                <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  Dispatched (Arrives in 1–2 mins)
+                </span>
               </div>
             </div>
 
             <div className="w-full sm:w-auto pt-2 flex flex-col items-center gap-3">
               <a
-                id="btn-download-all-zip"
-                href="/downloads/Construction_Calculator_Pro_Complete_Bundle.zip"
-                download="Construction_Calculator_Pro_Complete_Bundle.zip"
+                id="btn-open-email"
+                href={emailClientUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                <Download className="w-5 h-5 text-slate-950 stroke-[2.5]" />
-                <span>Download All Files (.ZIP)</span>
+                <Mail className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+                <span>{isGmail ? "Open Gmail Inbox" : "Open Your Email Inbox"}</span>
+                <ExternalLink className="w-4 h-4 text-slate-950/70" />
               </a>
 
-              <div className="flex items-center justify-center gap-2 text-xs text-slate-400 font-mono">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Instant Direct Download • Permanent Offline Access</span>
-              </div>
+              <p className="text-xs text-slate-400 font-mono">
+                Order Reference: <strong className="text-slate-300">#{orderId}</strong>
+              </p>
             </div>
           </div>
         </div>
 
-        {/* ORDER BUMP FULFILLMENT (If selected) */}
-        {hasBump && (
-          <div className="bg-gradient-to-r from-amber-50 via-white to-amber-50/60 border border-amber-300 rounded-2xl p-5 sm:p-6 shadow-sm">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 font-bold shadow-sm">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div className="flex-1">
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
-                  Order Bump Unlocked
-                </span>
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 mt-1">
-                  Contractor Site Progress &amp; Labor Billing Suite
-                </h3>
-                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                  Includes the Daily Site Progress Report (DPR), Subcontractor Agreement Template, and Mason/Helper Daily Wage Slips.
-                </p>
-
-                <div className="mt-3.5">
-                  <button
-                    onClick={() =>
-                      handleDownload(
-                        "Contractor_Site_Progress_Suite.csv",
-                        "Contractor Site Progress & Labor Billing Suite\nDaily Progress Report, Subcontractor Agreement, Mason/Helper Wages\n"
-                      )
-                    }
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 cursor-pointer shadow-sm transition-all"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download Progress Suite (.xlsx)</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+        {/* HELPFUL TIPS CARD */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
+            <HelpCircle className="w-4.5 h-4.5 text-amber-600" />
+            <span>Don&apos;t see the email yet?</span>
           </div>
-        )}
+          <ul className="text-xs text-slate-600 space-y-2 leading-relaxed list-disc list-inside">
+            <li>
+              Please check your <strong>Spam / Junk</strong> folder or the <strong>Promotions / Updates</strong> tab in your email provider.
+            </li>
+            <li>
+              Search for subject: <strong className="text-slate-800">&quot;Your Construction Calculator Pro Package&quot;</strong> or sender <strong className="text-slate-800">orders@thinktools.in</strong>.
+            </li>
+            <li>
+              In rare cases, email providers take 2–3 minutes to scan attachments before showing them in your inbox.
+            </li>
+            <li>
+              Need immediate help or manual re-dispatch? Reply or email us anytime at <a href="mailto:support@thinktools.in" className="text-amber-700 underline font-semibold">support@thinktools.in</a> with your Order ID <strong className="text-slate-800">#{orderId}</strong>.
+            </li>
+          </ul>
+        </div>
 
-        {/* Support & Back Link */}
+        {/* Back Link */}
         <div className="border border-slate-200 bg-white rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600 shadow-sm text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <span>Need assistance or file re-delivery? Email our team at <strong className="text-slate-900">support@thinktools.in</strong></span>
+            <span>Official Digital Goods Receipt • Thinktools.in</span>
           </div>
 
           <Link

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { sendOrderDeliveryEmail } from "@/lib/mailer";
 
 export async function POST(request: Request) {
   try {
@@ -85,6 +86,20 @@ export async function POST(request: Request) {
       } catch (sheetError) {
         console.error("Failed to forward transaction to Google Sheet webhook:", sheetError);
       }
+    }
+
+    // Automatically dispatch instant digital delivery email with attachment
+    const recipientEmail = body.customer_email || body.email;
+    if (recipientEmail) {
+      sendOrderDeliveryEmail({
+        toEmail: recipientEmail,
+        customerName: body.customer_name || body.name || "Valued Builder",
+        orderId: razorpay_order_id,
+        paymentId: razorpay_payment_id,
+        productTitle: body.product_title || "Construction Calculator Pro Package",
+      }).catch((emailErr) => {
+        console.error("Async email delivery error:", emailErr);
+      });
     }
 
     return NextResponse.json({
