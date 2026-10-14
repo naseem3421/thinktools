@@ -26,12 +26,9 @@ export default function Header({
             <Wrench className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </div>
           <div>
-            <div className="flex items-center gap-1 sm:gap-1.5">
+            <div className="flex items-center">
               <span className="text-base sm:text-lg font-black tracking-tight text-slate-900">
                 Think<span className="text-amber-600">tools</span>
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-mono">
-                .in
               </span>
             </div>
             <p className="text-[10px] text-slate-500 -mt-1 hidden sm:block">Smart Digital Toolkits</p>
