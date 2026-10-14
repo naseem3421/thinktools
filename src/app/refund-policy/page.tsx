@@ -114,8 +114,8 @@ export default function RefundPolicyPage() {
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 block font-semibold">Missing Delivery Links</strong>
-                  If you completed payment but did not receive your on-screen download link, email, or WhatsApp message within 15 minutes, reach out via our support desk and we will immediately resend your direct access links.
+                  <strong className="text-slate-900 block font-semibold">Missing Delivery Email</strong>
+                  If you completed payment but did not receive your delivery email with the attached toolkit bundle within 15 minutes, reach out via our support desk and our team will immediately re-dispatch your files.
                 </div>
               </div>
 

@@ -26,14 +26,37 @@ export default function ContactPage() {
     message: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
       alert("Please fill in your name, email, and message.");
       return;
     }
-    setIsSubmitted(true);
+    
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Failed to submit request.");
+      }
+      setIsSubmitted(true);
+    } catch (err: unknown) {
+      const error = err as { message?: string };
+      setErrorMessage(error.message || "Unable to send message right now. Please email us directly at support@thinktools.in");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -70,10 +93,10 @@ export default function ContactPage() {
             <div className="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-2">
               <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
                 <Download className="w-4 h-4 text-amber-600" />
-                <span>Instant Download Access</span>
+                <span>Instant Digital Delivery</span>
               </div>
               <p className="text-xs text-amber-900/80 leading-relaxed">
-                Completed payment but closed your browser? Your files are automatically sent to your checkout email and WhatsApp number.
+                Completed payment? Your complete files are automatically attached and dispatched directly to your checkout email from orders@thinktools.in.
               </p>
             </div>
 
@@ -198,12 +221,19 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {errorMessage && (
+                  <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+                    {errorMessage}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>Submit Support Request</span>
+                  <span>{isSubmitting ? "Sending Request..." : "Submit Support Request"}</span>
                 </button>
               </form>
             )}

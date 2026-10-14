@@ -50,29 +50,21 @@ export default function ShippingPolicyPage() {
           {/* Section 2 */}
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">2. Delivery Methods & Timeline</h2>
-            <p>Upon successful payment via Razorpay, access is delivered through three automated channels:</p>
+            <p>Upon successful payment via Razorpay, your digital files are delivered via automated channels:</p>
             <div className="space-y-3 pt-1">
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
-                <Download className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <Mail className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 block font-semibold">1. Instant On-Screen Download (Immediate)</strong>
-                  You are instantly redirected to a secure download portal immediately after payment completion with 1-click download buttons for each workbook and PDF guide.
+                  <strong className="text-slate-900 block font-semibold">1. Direct Email Delivery with Attached Bundle (&lt; 2 Minutes)</strong>
+                  A confirmation email from <code>orders@thinktools.in</code> containing your complete master package (all Excel workbooks and PDF guides in a single 2.0 MB .zip archive attached directly) is dispatched to your registered checkout email address.
                 </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
-                <Mail className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                <Clock className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 block font-semibold">2. Automated Email Receipt & Download Link (&lt; 5 Minutes)</strong>
-                  A confirmation email containing your permanent download link and Razorpay invoice is sent to the email address provided during checkout within 5 minutes.
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3">
-                <Smartphone className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-slate-900 block font-semibold">3. WhatsApp Access Message (&lt; 5 Minutes)</strong>
-                  If you provided an Indian WhatsApp/mobile number, a direct access notification with your download link is dispatched to your WhatsApp for quick mobile access.
+                  <strong className="text-slate-900 block font-semibold">2. Permanent Lifetime Offline Access</strong>
+                  Because the files are attached directly to your email, you retain permanent, lifetime access to the tools offline on your phone, tablet, laptop, or PC without needing to bookmark or rely on external web links.
                 </div>
               </div>
             </div>

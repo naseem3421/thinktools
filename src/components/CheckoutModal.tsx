@@ -320,7 +320,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               {/* Input: Email */}
               <div>
                 <label className="text-xs font-semibold text-slate-300 block mb-1">
-                  Email (we send your download link here) <span className="text-amber-400">*</span>
+                  Email (we attach your toolkit files here) <span className="text-amber-400">*</span>
                 </label>
                 <input
                   type="email"
@@ -335,7 +335,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               {/* Input: Mobile number */}
               <div>
                 <label className="text-xs font-semibold text-slate-300 block mb-1">
-                  Mobile number (for instant WhatsApp download)
+                  Mobile number (for Razorpay transaction SMS receipt)
                 </label>
                 <input
                   type="tel"

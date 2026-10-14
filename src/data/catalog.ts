@@ -330,7 +330,7 @@ export const THINKTOOLS_PROMISES = [
   {
     icon: "Zap",
     title: "Instant Digital Fulfillment",
-    description: "Direct download links sent immediately to your WhatsApp and email the second your secure UPI/Card checkout completes."
+    description: "Complete toolkit bundle delivered straight to your email inbox the second your secure UPI/Card checkout completes."
   }
 ];
 
@@ -370,7 +370,7 @@ export const COMPARISON_POINTS = [
 export const FAQS = [
   {
     question: "How do I receive the toolkits after purchase?",
-    answer: "Immediately upon completing payment via Razorpay (UPI, Credit/Debit Cards, Net Banking), you will be redirected to the secure download page. Additionally, we automatically dispatch download links directly to your registered WhatsApp number and email address within 60 seconds."
+    answer: "Immediately upon completing payment via Razorpay (UPI, Credit/Debit Cards, Net Banking), your complete digital toolkit (.zip bundle containing all workbooks and PDF guides) is dispatched directly to your registered email address with the files attached for instant, permanent offline access."
   },
   {
     question: "Do I need special software or coding skills to use these tools?",

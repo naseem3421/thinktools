@@ -33,6 +33,7 @@ import {
   BookOpen,
   XCircle,
   Smartphone,
+  Mail,
   Quote,
   Flame,
   Check
@@ -76,7 +77,7 @@ export default function ConstructionCalculatorPage() {
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs">
         <Flame className="w-3.5 h-3.5 fill-current animate-bounce shrink-0" />
         <span className="leading-tight">
-          LIMITED LAUNCH DEAL: ₹499 (75% OFF) • INSTANT ACCESS ON WHATSAPP & EMAIL • ALL SALES FINAL
+          LIMITED LAUNCH DEAL: ₹499 (75% OFF) • INSTANT EMAIL DELIVERY WITH ATTACHED FILES • ALL SALES FINAL
         </span>
       </div>
 
@@ -166,7 +167,7 @@ export default function ConstructionCalculatorPage() {
                 {/* Trust Signals (Addressing Indian Purchase Hesitations) */}
                 <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-4 text-[10px] sm:text-[11px] text-slate-500 pt-1 text-left">
                   <span className="flex items-center gap-1.5 font-medium">
-                    <Smartphone className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant WhatsApp Delivery
+                    <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery (Files Attached)
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Works on Excel & Google Sheets
@@ -659,7 +660,7 @@ export default function ConstructionCalculatorPage() {
               </span>
               <span className="flex items-center gap-1 font-semibold text-amber-700">
                 <Zap className="w-4 h-4 text-amber-600 shrink-0" />
-                Instant Delivery (WhatsApp & Email)
+                Instant Email Delivery (Files Attached)
               </span>
             </div>
           </div>
@@ -688,7 +689,7 @@ export default function ConstructionCalculatorPage() {
               },
               {
                 q: "Where do I receive the files after paying ₹499?",
-                a: "You get an instant download button right on your screen immediately after payment. Additionally, a direct download link is sent to your WhatsApp number and Email inbox within 5 seconds so you can save and access it anytime."
+                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 3 workbooks and PDF guides) is dispatched directly to your registered email address with the files attached for instant, permanent offline access."
               },
               {
                 q: "Does this work for flat, apartment, or room renovations?",

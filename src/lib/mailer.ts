@@ -41,10 +41,10 @@ export async function sendOrderDeliveryEmail({
     },
   });
 
-  // Master zip bundle path
+  // Master zip bundle path in private server storage (not exposed via public HTTP)
   const zipPath = path.join(
     process.cwd(),
-    "public",
+    "storage",
     "downloads",
     "Construction_Calculator_Pro_Complete_Bundle.zip"
   );
