@@ -140,6 +140,10 @@ export default function RefundPolicyPage() {
               <Link href="/contact" className="text-amber-800 font-semibold underline">
                 Contact & Support Desk
               </Link>{" "}
+              or write directly to{" "}
+              <a href="mailto:support@thinktools.in" className="text-amber-800 font-semibold underline">
+                support@thinktools.in
+              </a>{" "}
               with your Full Name and Razorpay / UPI Payment ID. Our support team responds within 1 business day.
             </p>
           </section>

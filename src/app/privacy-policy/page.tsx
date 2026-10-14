@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-6">
             <h2 className="text-lg font-bold text-slate-950">6. Privacy Inquiries</h2>
             <p>
-              If you have any questions or concerns about this Privacy Policy, please submit an inquiry through our <Link href="/contact" className="text-amber-800 underline font-semibold">Support Desk</Link>.
+              If you have any questions or concerns about this Privacy Policy, please submit an inquiry through our <Link href="/contact" className="text-amber-800 underline font-semibold">Support Desk</Link> or email us directly at <a href="mailto:support@thinktools.in" className="text-amber-800 underline font-semibold">support@thinktools.in</a>.
             </p>
           </section>
         </div>

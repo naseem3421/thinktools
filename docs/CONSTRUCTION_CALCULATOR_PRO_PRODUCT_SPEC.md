@@ -27,7 +27,7 @@ Every claim and specification in this document is classified under the following
 | **Brand Name** | Thinktools | [VERIFIED] |
 | **Official Domain** | `https://thinktools.in` | [VERIFIED] |
 | **Product Full Name** | Construction Calculator Pro — India Edition | [VERIFIED] |
-| **Support Contact** | `orders@thinktools.in` | [VERIFIED] |
+| **Support Contact** | `support@thinktools.in` (Order Dispatch: `orders@thinktools.in`) | [VERIFIED] |
 | **Fulfillment Mode** | Instant automated email delivery with digital files attached | [VERIFIED] |
 | **License Type** | Single-user personal and commercial planning license (non-transferable, resale prohibited) | [VERIFIED] |
 | **Price Point** | ₹499 INR (Inclusive of digital delivery, no recurring fees) | [VERIFIED] |

@@ -100,7 +100,7 @@ export default function TermsPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-6">
             <h2 className="text-lg font-bold text-slate-950">7. Customer Inquiries & Support</h2>
             <p>
-              For questions regarding these Terms or assistance with your digital purchases, please visit our online <Link href="/contact" className="text-amber-800 underline font-semibold">Contact & Support Desk</Link>.
+              For questions regarding these Terms or assistance with your digital purchases, please visit our online <Link href="/contact" className="text-amber-800 underline font-semibold">Contact & Support Desk</Link> or email us directly at <a href="mailto:support@thinktools.in" className="text-amber-800 underline font-semibold">support@thinktools.in</a>.
             </p>
           </section>
         </div>

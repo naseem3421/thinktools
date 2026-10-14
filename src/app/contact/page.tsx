@@ -89,14 +89,24 @@ export default function ContactPage() {
           </div>
 
           {/* Instant Help Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-2">
               <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
                 <Download className="w-4 h-4 text-amber-600" />
-                <span>Instant Digital Delivery</span>
+                <span>Instant Delivery</span>
               </div>
               <p className="text-xs text-amber-900/80 leading-relaxed">
-                Completed payment? Your complete files are automatically attached and dispatched directly to your checkout email from orders@thinktools.in.
+                Completed payment? Your master bundle is automatically attached and dispatched from <code className="font-mono bg-amber-100/70 px-1 py-0.5 rounded text-[11px] text-amber-900">orders@thinktools.in</code>.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-200 space-y-2">
+              <div className="flex items-center gap-2 text-blue-900 font-bold text-sm">
+                <Mail className="w-4 h-4 text-blue-600" />
+                <span>Direct Support Email</span>
+              </div>
+              <p className="text-xs text-blue-950/80 leading-relaxed">
+                Prefer direct email? Write to <a href="mailto:support@thinktools.in" className="font-semibold underline text-blue-800">support@thinktools.in</a> anytime. Include your Order / Payment ID.
               </p>
             </div>
 
@@ -106,7 +116,7 @@ export default function ContactPage() {
                 <span>Support Desk Hours</span>
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Tickets are reviewed and answered Monday through Saturday. Average turnaround is within 1 to 2 business days.
+                Tickets and emails are answered Monday through Saturday. Average turnaround is within 1 business day.
               </p>
             </div>
           </div>

@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
     await transporter.sendMail({
       from: `"Thinktools Support Desk" <${user}>`,
-      to: user, // Sends directly to orders@thinktools.in
+      to: process.env.SUPPORT_EMAIL || "support@thinktools.in",
       replyTo: email,
       subject: `[Support Ticket] ${categoryName} - from ${name}`,
       html: `

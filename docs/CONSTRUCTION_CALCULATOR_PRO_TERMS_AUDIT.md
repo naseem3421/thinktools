@@ -25,7 +25,7 @@ All previous placeholders (`[Support contact]`, `[Update policy]`, `[Refund poli
 | Policy Dimension | Landing Page & Checkout | Workbook Sheet 23 (`Terms & Disclaimer`) | Delivered PDF Guides | Formal Policy Pages | Alignment Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Seller Identity** | Thinktools (`thinktools.in`) | Thinktools (`thinktools.in`) | Thinktools | Thinktools (`thinktools.in`) | **SYNCHRONIZED** |
-| **Support Email** | `orders@thinktools.in` | `orders@thinktools.in` | `orders@thinktools.in` | `orders@thinktools.in` | **SYNCHRONIZED** |
+| **Support Email** | `support@thinktools.in` | `support@thinktools.in` | `support@thinktools.in` | `support@thinktools.in` (Delivery: `orders@thinktools.in`) | **SYNCHRONIZED** |
 | **Digital Delivery** | Instant automated email delivery with digital files attached | Instant digital delivery | Delivered in `.zip` bundle | Dispatched immediately via Hostinger Secure SMTP | **SYNCHRONIZED** |
 | **Refund Policy** | All sales final; replacement support for corrupted files | All sales final; replacement support for technical issues | Reference to terms | Strict No-Refund Policy; duplicate charges reversed | **SYNCHRONIZED** |
 | **License to Use** | Single-user personal and commercial project planning | Single-user personal and business planning license | Non-transferable; redistribution prohibited | Personal & commercial project planning; resale prohibited | **SYNCHRONIZED** |

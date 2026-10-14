@@ -74,7 +74,7 @@ export default function ShippingPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">3. Did Not Receive Your Download Link?</h2>
             <p>
-              In rare instances where email delivery is delayed by email providers or caught by spam filters, please check your Spam/Junk folder first. If you still have not received your files within 15 minutes of payment, please reach out to us via our <Link href="/contact" className="text-amber-800 underline font-semibold">Contact & Support Desk</Link> with your Full Name and Razorpay Payment ID.
+              In rare instances where email delivery is delayed by email providers or caught by spam filters, please check your Spam/Junk folder first. If you still have not received your files within 15 minutes of payment, please reach out to us via our <Link href="/contact" className="text-amber-800 underline font-semibold">Contact & Support Desk</Link> or email us directly at <a href="mailto:support@thinktools.in" className="text-amber-800 underline font-semibold">support@thinktools.in</a> with your Full Name and Razorpay Payment ID.
             </p>
             <p className="text-xs text-slate-500">
               Our digital support desk will manually re-dispatch your download link directly to your alternate email address.

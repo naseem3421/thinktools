@@ -32,7 +32,17 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
-          <p>© 2026 Thinktools.in. All rights reserved.</p>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <p>© 2026 Thinktools.in. All rights reserved.</p>
+            <span className="hidden sm:inline text-slate-300">•</span>
+            <a
+              href="mailto:support@thinktools.in"
+              className="inline-flex items-center gap-1 text-slate-600 hover:text-amber-800 transition-colors font-medium"
+            >
+              <Mail className="w-3.5 h-3.5 text-amber-600" />
+              <span>support@thinktools.in</span>
+            </a>
+          </div>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <Link href="/terms" className="hover:text-slate-900 transition-colors">
               Terms of Service

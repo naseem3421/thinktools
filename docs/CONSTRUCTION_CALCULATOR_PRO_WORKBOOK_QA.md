@@ -19,7 +19,7 @@ An exhaustive independent structural and mathematical audit was performed on all
 Key Audit Findings:
 - **Formula Syntax & Integrity:** Zero `#REF!`, `#VALUE!`, `#NAME?`, `#DIV/0!`, or `#N/A` errors detected across any worksheet.
 - **External Dependencies:** Zero external file links (`[...]`) or corrupt named ranges present. All lookups and inter-sheet references resolve locally.
-- **Defect Identified & Remediated:** Sheet 23 (`Terms & Disclaimer`) contained an unfinalized internal development draft notice (`[TO COMPLETE BEFORE SALE: Support contact, Update policy, Refund policy...]`) and an unverified testing disclaimer. This was remediated across all three workbooks with authoritative publisher, support (`orders@thinktools.in`), and compatibility specifications. Original pre-edit files were preserved in `storage/downloads/backups/`.
+- **Defect Identified & Remediated:** Sheet 23 (`Terms & Disclaimer`) contained an unfinalized internal development draft notice (`[TO COMPLETE BEFORE SALE: Support contact, Update policy, Refund policy...]`) and an unverified testing disclaimer. This was remediated across all three workbooks with authoritative publisher, support (`support@thinktools.in`), and compatibility specifications. Original pre-edit files were preserved in `storage/downloads/backups/`.
 
 ---
 
@@ -116,7 +116,7 @@ Independent recalculations were performed against civil engineering standards (C
 
 1. **Sheet 23 (`Terms & Disclaimer`) Updated:**
    - **Pre-edit State:** Contained developer draft marker: `TO COMPLETE BEFORE SALE: [Support contact]. [Update policy]. [Refund policy]. [Licence to use]. [Seller name and address]. These are not written yet.`
-   - **Post-edit State:** Replaced with authoritative seller details (`Thinktools / thinktools.in`), verified customer support mailbox (`orders@thinktools.in`), verified single-user personal/commercial license, and clear digital goods refund policy.
+   - **Post-edit State:** Replaced with authoritative seller details (`Thinktools / thinktools.in`), verified customer support mailbox (`support@thinktools.in`), verified single-user personal/commercial license, and clear digital goods refund policy.
    - **Compatibility Field Updated:** Replaced unverified testing note with certified compatibility across Excel (2016-365), Google Sheets, and LibreOffice.
 2. **Synchronized Across Suite:** Fix was applied and verified across all three workbooks (`INDIA_v2`, `EXAMPLE_filled`, `EXAMPLE_renovation`).
 3. **Backups Created:** Original files preserved in `storage/downloads/backups/`.

@@ -75,7 +75,7 @@ The delivered product consists of twenty-two (22) digital files packaged into a 
   - Brickwork modular volume ($500\text{ bricks/cu.m}$ with $5\%$ breakage) verified.
   - Contractor running bill audit (Tab 25) flags $>+5\%$ variance with red conditional formatting.
   - Missing rates safeguard (Tab 13, cell `A34`) alerts user when rates are blank.
-- **Terms & Disclaimer Remediated:** Developer draft note replaced with authoritative Thinktools publisher, support mailbox (`orders@thinktools.in`), single-user license, and certified cross-platform compatibility.
+- **Terms & Disclaimer Remediated:** Developer draft note replaced with authoritative Thinktools publisher, support mailbox (`support@thinktools.in`), single-user license, and certified cross-platform compatibility.
 
 ---
 
