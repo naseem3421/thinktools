@@ -1,12 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Mail, AlertCircle, FileCheck, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Mail, AlertCircle, FileCheck, CheckCircle2, Ban } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Cancellation & Refund Policy — Thinktools.in",
-  description: "Official cancellation and refund policy for digital toolkits and spreadsheet software on Thinktools.in.",
+  description: "Official cancellation and refund policy for digital toolkits and spreadsheet software on Thinktools.in. We do not provide refunds; all sales are final.",
 };
 
 export default function RefundPolicyPage() {
@@ -35,16 +35,20 @@ export default function RefundPolicyPage() {
               Cancellation & Refund Policy
             </h1>
             <p className="text-xs text-slate-500 mt-2">
-              Digital Download Products · Last updated: 13 October 2026
+              Digital Download Products · Thinktools.in
             </p>
           </div>
 
-          {/* Core Notice */}
-          <div className="bg-amber-50/80 border border-amber-300 rounded-2xl p-5 text-xs sm:text-sm text-amber-950 leading-relaxed flex items-start gap-3.5">
-            <AlertCircle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+          {/* Core Clean Notice Banner */}
+          <div className="bg-amber-50/90 border-2 border-amber-300 rounded-2xl p-5 text-xs sm:text-sm text-amber-950 leading-relaxed flex items-start gap-3.5 shadow-2xs">
+            <Ban className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
             <div>
-              <strong className="font-bold block mb-1">All Sales Are Final</strong>
-              Thinktools products (including the Construction Calculator Pro package) are digital goods delivered and made accessible immediately upon payment. Because the spreadsheet files (.xlsx) and PDF guides are non-tangible, irrevocable digital goods delivered immediately, we do not offer unconditional refunds, returns, or exchanges once access is granted.
+              <strong className="font-extrabold text-slate-950 block text-sm mb-1">
+                Strict No-Refund Policy · All Sales Are Final
+              </strong>
+              <p className="text-slate-800">
+                <strong>We do not provide refunds.</strong> All products sold on Thinktools.in (including the Construction Calculator Pro package) are digital goods delivered and made accessible immediately upon payment. Because our Excel workbooks (.xlsx) and PDF guides are non-tangible, irrevocable digital downloads, once access is granted, <strong>all sales are strictly final, non-cancellable, and non-refundable</strong>.
+              </p>
             </div>
           </div>
 
@@ -52,16 +56,17 @@ export default function RefundPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950 flex items-center gap-2">
               <span className="w-6 h-6 rounded-lg bg-slate-100 border border-slate-200 text-slate-900 text-xs flex items-center justify-center font-bold">1</span>
-              What This Means
+              No Refunds & No Cancellations
             </h2>
             <p>
-              Because digital files are downloaded immediately and cannot be physically returned, we do not issue refunds for any of the following reasons:
+              Because digital files are downloaded immediately and cannot be returned, revoked, or retrieved, <strong>we do not provide refunds or accept cancellations</strong> for reasons including, but not limited to:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-slate-600">
-              <li>You changed your mind or purchased by mistake.</li>
-              <li>You did not use the workbooks, or the templates did not suit your particular project preferences.</li>
-              <li>You expected a proprietary cloud software app rather than an Excel workbook. All product pages clearly list that the toolkit consists of unlocked Microsoft Excel (.xlsx) workbooks and PDF guides.</li>
-              <li>You use a spreadsheet application other than Microsoft Excel, Google Sheets, or Apple Numbers.</li>
+              <li>You changed your mind, no longer need the toolkit, or purchased by mistake.</li>
+              <li>You decided not to use the templates or found your project plans changed.</li>
+              <li>You expected a proprietary cloud software subscription rather than unlocked Microsoft Excel (.xlsx) workbooks and PDF guides. All product pages clearly describe the exact file formats.</li>
+              <li>You use a spreadsheet viewer that does not support standard Microsoft Excel or Google Sheets formulas.</li>
+              <li>Personal dissatisfaction with subjective design preferences, color schemes, or layout formatting.</li>
             </ul>
           </section>
 
@@ -69,21 +74,21 @@ export default function RefundPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950 flex items-center gap-2">
               <span className="w-6 h-6 rounded-lg bg-slate-100 border border-slate-200 text-slate-900 text-xs flex items-center justify-center font-bold">2</span>
-              Please Check Before You Buy
+              Please Review Before You Buy
             </h2>
             <p>
-              We prioritize complete transparency. Before completing your purchase:
+              We maintain 100% transparency so you can make an informed decision before purchasing:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-slate-600">
-              <li>Review the real uncropped screenshots in our <strong>Calculator Gallery</strong> on the product page.</li>
-              <li>Inspect the full 31-sheet index, use cases, and deliverable descriptions.</li>
-              <li>Read the FAQ section covering units (Feet/Inches vs. Metres), compatibility with Google Sheets, and formula structures.</li>
+              <li>Inspect our real, uncropped screenshots in the <strong>Calculator Gallery</strong> on the product page.</li>
+              <li>Review the complete index of 31 sheets, bonus guides, and deliverable descriptions.</li>
+              <li>Read the FAQ section covering dual unit toggles (Feet/Inches & Metres), Google Sheets compatibility, and formulas.</li>
               <li>
-                If you have questions before buying, reach out to us via our{" "}
+                If you have any questions prior to purchase, contact our team via the{" "}
                 <Link href="/contact" className="text-amber-800 font-semibold underline">
                   Contact & Support Desk
                 </Link>
-                . We respond promptly.
+                .
               </li>
             </ul>
           </section>
@@ -92,25 +97,25 @@ export default function RefundPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950 flex items-center gap-2">
               <span className="w-6 h-6 rounded-lg bg-slate-100 border border-slate-200 text-slate-900 text-xs flex items-center justify-center font-bold">3</span>
-              Legitimate Issues We Always Fix
+              Genuine Technical Assistance (Non-Refund Support)
             </h2>
             <p>
-              An &ldquo;all sales final&rdquo; policy does not mean we ignore genuine technical problems. We will always resolve the following cases:
+              While we do not provide refunds on digital products, we are committed to ensuring you receive everything you paid for:
             </p>
             <div className="space-y-2.5 pt-1">
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block font-semibold">Duplicate Charges</strong>
-                  If your card or UPI was accidentally charged more than once for the same transaction, submit your payment IDs through our support desk and we will immediately refund the duplicate payment.
+                  If your card or UPI was accidentally charged more than once for the same transaction due to a payment gateway error, share your payment transaction IDs and we will verify and promptly reverse the duplicate charge.
                 </div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 block font-semibold">Missing Delivery Link</strong>
-                  If you completed payment but did not receive the on-screen download link or message within 15 minutes, let us know via support. We will resend the direct download link immediately. If we fail to deliver your files, we will issue a full refund.
+                  <strong className="text-slate-900 block font-semibold">Missing Delivery Links</strong>
+                  If you completed payment but did not receive your on-screen download link, email, or WhatsApp message within 15 minutes, reach out via our support desk and we will immediately resend your direct access links.
                 </div>
               </div>
 
@@ -118,7 +123,7 @@ export default function RefundPolicyPage() {
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block font-semibold">Corrupted or Damaged Files</strong>
-                  If any downloaded file is corrupted or fails to open in standard spreadsheet applications, we will replace it with a tested, working copy.
+                  If any downloaded file is corrupted or fails to open in standard spreadsheet applications (Excel, Google Sheets), we will promptly replace it with a fresh, verified copy.
                 </div>
               </div>
             </div>
@@ -128,24 +133,22 @@ export default function RefundPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950 flex items-center gap-2">
               <span className="w-6 h-6 rounded-lg bg-slate-100 border border-slate-200 text-slate-900 text-xs flex items-center justify-center font-bold">4</span>
-              How to Contact Support
+              How to Reach Support
             </h2>
             <p>
-              To request assistance under Section 3, submit a ticket via our <Link href="/contact" className="text-amber-800 font-semibold underline">Contact & Support Desk</Link> with your Full Name & Razorpay / UPI Payment ID.
-            </p>
-            <p className="text-slate-500 text-xs">
-              We aim to review and reply within 1 to 2 business days. Approved refunds are credited back to the original payment method within 5 to 7 business days, depending on your bank.
+              To request delivery assistance or report a duplicate charge, please visit our{" "}
+              <Link href="/contact" className="text-amber-800 font-semibold underline">
+                Contact & Support Desk
+              </Link>{" "}
+              with your Full Name and Razorpay / UPI Payment ID. Our support team responds within 1 business day.
             </p>
           </section>
 
           {/* Section 5 */}
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-6">
-            <h2 className="text-lg font-bold text-slate-950">5. Single-User Business License</h2>
-            <p>
-              Each purchase grants a non-exclusive, non-transferable license to use the workbooks for your personal projects or your own contracting/consulting business. Reselling, redistributing, or publicly sharing the files is strictly prohibited.
-            </p>
-            <p className="text-xs text-slate-500">
-              By proceeding with payment on Thinktools.in, you acknowledge and agree to this Cancellation & Refund Policy.
+            <h2 className="text-lg font-bold text-slate-950">5. Buyer Agreement</h2>
+            <p className="text-slate-600">
+              By proceeding with payment and downloading any toolkit from Thinktools.in, you explicitly acknowledge, understand, and agree that <strong>we do not provide refunds</strong> and that <strong>all digital sales are final</strong>.
             </p>
           </section>
         </div>

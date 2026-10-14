@@ -159,18 +159,18 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
       className={`w-full max-w-2xl mx-auto rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden relative group transition-all duration-300 hover:border-slate-700 ${className || ""}`}
     >
       {/* Top Window Bar (Mac Chrome style) */}
-      <div className="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
+      <div className="px-3 sm:px-4 py-2 sm:py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-xs">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+          <div className="flex gap-1 sm:gap-1.5 shrink-0">
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-rose-500 inline-block" />
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-amber-500 inline-block" />
+            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 inline-block" />
           </div>
-          <span className="text-amber-400 font-mono font-bold ml-2 text-[11px] flex items-center gap-1.5">
-            <Sparkles className="w-3 h-3 text-amber-500" />
+          <span className="text-amber-400 font-mono font-bold ml-1 sm:ml-2 text-[10px] sm:text-[11px] flex items-center gap-1 sm:gap-1.5 shrink-0">
+            <Sparkles className="w-3 h-3 text-amber-500 shrink-0" />
             {currentItem.tabName}
           </span>
-          <span className="text-slate-500 hidden sm:inline text-[11px] truncate max-w-[200px]">
+          <span className="text-slate-500 hidden md:inline text-[11px] truncate max-w-[200px]">
             · {currentItem.headline}
           </span>
         </div>
@@ -178,21 +178,21 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-2.5 sm:py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] sm:text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer shrink-0"
         >
           <Maximize2 className="w-3 h-3 text-amber-400" />
           <span>Full Screen</span>
         </button>
       </div>
 
-      {/* Tab Selector Pills (Scrollable / Wrap) */}
-      <div className="bg-slate-900/60 border-b border-slate-800 px-2.5 py-2 flex items-center gap-1.5 overflow-x-auto text-xs font-medium scrollbar-none">
+      {/* Tab Selector Pills (Touch-scrollable with overscroll-x-contain) */}
+      <div className="bg-slate-900/60 border-b border-slate-800 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center gap-1 sm:gap-1.5 overflow-x-auto text-xs font-medium scrollbar-none touch-pan-x overscroll-x-contain">
         {CALCULATOR_SCREENSHOTS.map((item, idx) => (
           <button
             key={item.id}
             type="button"
             onClick={() => setActiveIndex(idx)}
-            className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1 ${
+            className={`px-2 py-1 sm:px-2.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1 ${
               activeIndex === idx
                 ? "bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/25 scale-[1.02]"
                 : "bg-slate-800/90 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60"
@@ -217,56 +217,56 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
         <button
           type="button"
           onClick={handlePrev}
-          className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
+          className="absolute left-2 sm:left-2.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
           title="Previous Screenshot"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
 
         {/* Next Button */}
         <button
           type="button"
           onClick={handleNext}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
+          className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
           title="Next Screenshot"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </button>
 
-        {/* Click to zoom pill on hover */}
+        {/* Click to zoom pill */}
         <div
           onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-md bg-slate-950/85 backdrop-blur-md border border-slate-700 text-white text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 cursor-pointer shadow-lg"
+          className="absolute bottom-2 sm:bottom-2.5 right-2 sm:right-2.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-slate-950/85 backdrop-blur-md border border-slate-700 text-white text-[10px] sm:text-[11px] font-semibold opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 cursor-pointer shadow-lg"
         >
           <ZoomIn className="w-3 h-3 text-amber-400" />
-          <span>Click to zoom</span>
+          <span>Zoom</span>
         </div>
       </div>
 
       {/* Bottom Caption Bar */}
-      <div className="px-3.5 py-2.5 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+      <div className="px-3 sm:px-3.5 py-2 sm:py-2.5 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 text-xs">
         <div className="truncate">
-          <span className="text-white font-bold">{currentItem.headline}</span>
+          <span className="text-white font-bold text-xs">{currentItem.headline}</span>
           <span className="text-slate-400 ml-2 hidden sm:inline text-[11px]">{currentItem.subtitle}</span>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 truncate max-w-[200px]">
+        <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+          <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 max-w-none">
             {currentItem.keyMetric}
           </span>
-          <span className="text-[11px] text-slate-400 font-mono">
+          <span className="text-[10px] sm:text-[11px] text-slate-400 font-mono shrink-0">
             {activeIndex + 1}/{CALCULATOR_SCREENSHOTS.length}
           </span>
         </div>
       </div>
 
-      {/* Mini-Thumbnail Strip */}
-      <div className="p-2 bg-slate-950 border-t border-slate-800/80 grid grid-cols-4 sm:grid-cols-8 gap-1.5">
+      {/* Mini-Thumbnail Strip (Smooth swipeable row on mobile, 8-column grid on desktop) */}
+      <div className="p-1.5 sm:p-2 bg-slate-950 border-t border-slate-800/80 flex items-center gap-1.5 overflow-x-auto sm:grid sm:grid-cols-8 sm:gap-1.5 scrollbar-none touch-pan-x">
         {CALCULATOR_SCREENSHOTS.map((item, idx) => (
           <button
             key={item.id}
             type="button"
             onClick={() => setActiveIndex(idx)}
-            className={`relative rounded-md overflow-hidden border transition-all cursor-pointer aspect-[16/10] bg-slate-900 ${
+            className={`relative rounded-md overflow-hidden border transition-all cursor-pointer aspect-[16/10] bg-slate-900 w-16 sm:w-auto shrink-0 sm:shrink ${
               activeIndex === idx
                 ? "border-amber-400 ring-2 ring-amber-400/30 scale-[1.04]"
                 : "border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600"
@@ -288,25 +288,25 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
       {/* FULL-SCREEN HIGH-RESOLUTION LIGHTBOX MODAL */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-200"
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="bg-slate-900 border border-slate-800 rounded-3xl max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col shadow-2xl relative"
+            className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl max-w-6xl w-full max-h-[92vh] overflow-hidden flex flex-col shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
+            <div className="px-3.5 sm:px-5 py-2.5 sm:py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <span className="text-[10px] sm:text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 sm:px-2.5 py-0.5 rounded shrink-0">
                   Tab {currentItem.tabNumber < 10 ? `0${currentItem.tabNumber}` : currentItem.tabNumber} · {currentItem.tabName}
                 </span>
-                <h3 className="text-sm sm:text-base font-bold text-white truncate max-w-md">
+                <h3 className="text-xs sm:text-base font-bold text-white truncate">
                   {currentItem.headline}
                 </h3>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 {onUnlockClick && (
                   <button
                     type="button"
@@ -314,7 +314,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
                       setIsModalOpen(false);
                       onUnlockClick();
                     }}
-                    className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer hidden sm:inline-flex items-center gap-1.5"
+                    className="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer hidden sm:inline-flex items-center gap-1.5"
                   >
                     <span>Download All 31 Tabs (₹499)</span>
                   </button>
@@ -322,7 +322,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer"
+                  className="p-1 sm:p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer"
                   title="Previous Screenshot"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -330,7 +330,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer"
+                  className="p-1 sm:p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer"
                   title="Next Screenshot"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -338,7 +338,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors ml-2 cursor-pointer"
+                  className="p-1 sm:p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors ml-1 sm:ml-2 cursor-pointer"
                   title="Close Lightbox"
                 >
                   <X className="w-4 h-4" />
@@ -347,27 +347,27 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
             </div>
 
             {/* Modal Image Body - Uncropped High-Res View */}
-            <div className="flex-1 overflow-auto bg-slate-950 p-2 sm:p-4 flex items-center justify-center">
+            <div className="flex-1 overflow-auto bg-slate-950 p-1.5 sm:p-4 flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={currentItem.imageSrc}
                 alt={currentItem.altText}
-                className="max-w-full max-h-[75vh] object-contain rounded-xl border border-slate-800 shadow-2xl"
+                className="max-w-full max-h-[60vh] sm:max-h-[72vh] object-contain rounded-lg sm:rounded-xl border border-slate-800 shadow-2xl"
               />
             </div>
 
             {/* Modal Footer Description */}
-            <div className="px-5 py-3 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-              <div>
-                <span className="text-white font-bold">{currentItem.headline}: </span>
-                <span className="text-slate-400">{currentItem.subtitle}</span>
+            <div className="px-3.5 sm:px-5 py-2.5 sm:py-3 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 text-xs">
+              <div className="truncate">
+                <span className="text-white font-bold">{currentItem.headline}</span>
+                <span className="text-slate-400 ml-2 hidden sm:inline">{currentItem.subtitle}</span>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="text-emerald-400 font-mono text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+                <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                   {currentItem.keyMetric}
                 </span>
-                <span className="text-[11px] text-amber-400 font-mono font-semibold">
+                <span className="text-[10px] sm:text-[11px] text-amber-400 font-mono font-semibold">
                   {activeIndex + 1} of {CALCULATOR_SCREENSHOTS.length}
                 </span>
               </div>

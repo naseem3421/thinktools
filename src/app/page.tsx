@@ -38,7 +38,9 @@ import {
   Check,
   Cpu,
   Unlock,
-  AlertCircle
+  AlertCircle,
+  Rocket,
+  Cloud
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -112,12 +114,12 @@ export default function CommonLandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-amber-500 selection:text-slate-950 font-sans">
-      {/* 1. TOP ANNOUNCEMENT TICKER */}
+      {/* 1. TOP ANNOUNCEMENT BANNER */}
       <aside
         aria-label="Store Announcement"
-        className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white px-4 py-2.5 text-center text-xs font-medium border-b border-slate-800 shadow-xs flex items-center justify-center gap-2 flex-wrap"
+        className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white px-3 sm:px-4 py-1.5 sm:py-2.5 text-center text-[11px] sm:text-xs font-medium border-b border-slate-800 shadow-xs flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap"
       >
-        <span className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">
+        <span className="inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shrink-0">
           <Flame className="w-3 h-3 fill-current text-amber-400" />
           Featured Release
         </span>
@@ -126,7 +128,7 @@ export default function CommonLandingPage() {
         </span>
         <Link
           href="/p/construction-calculator-pro"
-          className="inline-flex items-center gap-1 text-amber-400 font-bold hover:text-amber-300 underline underline-offset-2 ml-1 cursor-pointer transition-colors"
+          className="inline-flex items-center gap-1 text-amber-400 font-bold hover:text-amber-300 underline underline-offset-2 ml-1 cursor-pointer transition-colors whitespace-nowrap"
         >
           View Construction Pro &rarr;
         </Link>
@@ -137,24 +139,24 @@ export default function CommonLandingPage() {
 
       <main className="flex-1">
         {/* 3. HERO SECTION */}
-        <section className="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden border-b border-slate-200/80 bg-white">
+        <section className="relative pt-8 pb-12 sm:pt-14 sm:pb-18 md:pt-20 md:pb-24 overflow-hidden border-b border-slate-200/80 bg-white">
           {/* Subtle Grid & Gradient Atmosphere */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a06_1px,transparent_1px),linear-gradient(to_bottom,#0f172a06_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[380px] bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute top-1/3 right-10 w-[450px] h-[300px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] sm:w-[800px] h-[250px] sm:h-[380px] bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent rounded-full blur-[90px] sm:blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/3 right-10 w-[250px] sm:w-[450px] h-[200px] sm:h-[300px] bg-blue-500/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10 text-center">
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-800 text-xs font-semibold mb-6 shadow-2xs hover:border-amber-300 transition-colors">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-800 text-[10px] sm:text-xs font-semibold mb-4 sm:mb-6 shadow-2xs hover:border-amber-300 transition-colors">
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-slate-600">Thinktools.in</span>
               <span className="text-slate-300">•</span>
               <span className="text-slate-900 font-bold">Multi-Niche Digital Tools & Calculators</span>
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-950 tracking-tight leading-[1.12] max-w-4xl mx-auto">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.14] max-w-4xl mx-auto">
               Precision Calculators & Toolkits For{" "}
               <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent">
                 High-Stakes Decisions.
@@ -162,42 +164,42 @@ export default function CommonLandingPage() {
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-5 text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="mt-3.5 sm:mt-5 text-xs sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
               Stop rebuilding fragile spreadsheets from scratch. We build verified, production-grade
               Excel engines for construction estimates, real estate, agency profits, and Indian wealth.
             </p>
 
             {/* Trust Metric Row */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs sm:text-sm text-slate-600 font-medium">
+            <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-2.5 sm:gap-y-3 text-[11px] sm:text-xs md:text-sm text-slate-600 font-medium">
               <div className="flex items-center gap-1.5">
                 <div className="flex text-amber-500">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
+                    <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
                   ))}
                 </div>
                 <span className="font-bold text-slate-900">4.92/5</span>
                 <span className="text-slate-400">(4,200+ Indian Professionals)</span>
               </div>
               <div className="flex items-center gap-1.5 text-slate-700">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 shrink-0" />
                 <span>Zero Subscriptions (Lifetime Access)</span>
               </div>
               <div className="flex items-center gap-1.5 text-slate-700">
-                <Lock className="w-4 h-4 text-amber-600" />
+                <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" />
                 <span>100% Private Offline Files</span>
               </div>
             </div>
 
             {/* CTA & Search Action Area */}
-            <div className="mt-10 max-w-2xl mx-auto flex flex-col sm:flex-row items-center gap-3">
+            <div className="mt-8 sm:mt-10 max-w-2xl mx-auto flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
               <div className="relative w-full">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search toolkits: construction, rental yield, agency margin, FIRE..."
+                  placeholder="Search toolkits: construction, rental yield, agency margin..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all shadow-inner"
+                  className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all shadow-inner"
                 />
                 {searchQuery && (
                   <button
@@ -210,7 +212,7 @@ export default function CommonLandingPage() {
               </div>
               <a
                 href="#catalog"
-                className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all cursor-pointer"
+                className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-2.5 sm:py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer whitespace-nowrap"
               >
                 <span>Browse All</span>
                 <ArrowRight className="w-4 h-4" />
@@ -381,7 +383,7 @@ export default function CommonLandingPage() {
               >
                 {getCategoryIcon(cat.icon)}
                 <span>{cat.label}</span>
-                {cat.isFlagship && (
+                {'isFlagship' in cat && Boolean((cat as { isFlagship?: boolean }).isFlagship) && (
                   <span className="text-[10px] bg-amber-500 text-slate-950 px-1.5 py-0.2 rounded font-extrabold">
                     HOT
                   </span>
@@ -595,7 +597,7 @@ export default function CommonLandingPage() {
                   <tr className="bg-slate-100/80 border-b border-slate-200 text-slate-900 font-bold">
                     <th className="p-4 sm:p-5">Feature</th>
                     <th className="p-4 sm:p-5 text-slate-500 font-medium">Free Internet Templates</th>
-                    <th className="p-4 sm:p-5 text-slate-500 font-medium">SaaS Cloud Apps</th>
+                    <th className="p-4 sm:p-5 text-slate-500 font-medium">Generic Recurring SaaS</th>
                     <th className="p-4 sm:p-5 bg-amber-500/10 text-amber-900 font-extrabold border-l border-amber-200">
                       Thinktools.in Pro Toolkits
                     </th>
@@ -617,6 +619,61 @@ export default function CommonLandingPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          {/* Upcoming SaaS Cloud Construction App Teaser */}
+          <div className="mt-8 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/80 text-white p-6 sm:p-8 border border-slate-800 shadow-xl relative overflow-hidden">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+              <div className="space-y-3 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold">
+                  <span className="flex h-2 w-2 rounded-full bg-amber-400 animate-ping" />
+                  <Rocket className="w-3.5 h-3.5 text-amber-400" />
+                  <span>In Active Development · Coming Soon</span>
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  Prefer Cloud Workflows? Our <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-amber-200 bg-clip-text text-transparent">SaaS Cloud Construction App</span> is on the way!
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  While our unlocked Excel & Google Sheets workbooks provide unmatched lifetime ownership, complete privacy, and zero monthly fees today, we are also actively developing the next evolution: a dedicated <strong>SaaS Cloud Construction App</strong>. Designed for growing builders, civil contractors, and site teams who want real-time multi-device cloud sync, automated site photo logs, mobile contractor portals, and live material market feeds.
+                </p>
+
+                <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-slate-300 font-medium">
+                  <span className="flex items-center gap-1.5 text-emerald-400">
+                    <Cloud className="w-3.5 h-3.5" /> Real-time Cloud Collaboration
+                  </span>
+                  <span className="flex items-center gap-1.5 text-emerald-400">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Mobile Contractor Portal
+                  </span>
+                  <span className="flex items-center gap-1.5 text-amber-400">
+                    <Sparkles className="w-3.5 h-3.5" /> Founder Beta Perks for Toolkit Buyers
+                  </span>
+                </div>
+              </div>
+
+              <div className="shrink-0 w-full lg:w-auto">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center lg:text-left backdrop-blur-xs space-y-2.5">
+                  <span className="text-[11px] uppercase tracking-wider text-amber-400 font-bold block">
+                    Early Access Privilege
+                  </span>
+                  <p className="text-xs text-slate-300 max-w-xs leading-relaxed">
+                    Get started with the <strong>Construction Calculator Pro</strong> toolkit today to automatically lock in priority beta access and VIP credits for our Cloud SaaS release.
+                  </p>
+                  <Link
+                    href="/p/construction-calculator-pro"
+                    className="inline-flex items-center justify-center gap-2 w-full mt-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer"
+                  >
+                    <span>Get Construction Pro (₹499)</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
