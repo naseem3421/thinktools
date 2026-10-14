@@ -50,6 +50,43 @@ export async function POST(request: Request) {
       );
     }
 
+    // Automatically sync transaction to Google Sheet Webhook if configured
+    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    if (sheetWebhookUrl) {
+      try {
+        await fetch(sheetWebhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            event: "payment.captured",
+            payload: {
+              payment: {
+                entity: {
+                  id: razorpay_payment_id,
+                  order_id: razorpay_order_id,
+                  amount: body.amount || 49900,
+                  method: body.method || "Razorpay / UPI",
+                  status: "captured",
+                  name: body.customer_name || "Customer",
+                  email: body.customer_email || "",
+                  contact: body.customer_phone || "",
+                  notes: {
+                    product_title: body.product_title || "Construction Calculator Pro",
+                    product_slug: body.product_slug || "construction-calculator-pro",
+                    customer_name: body.customer_name || "",
+                    customer_email: body.customer_email || "",
+                    customer_phone: body.customer_phone || "",
+                  },
+                },
+              },
+            },
+          }),
+        });
+      } catch (sheetError) {
+        console.error("Failed to forward transaction to Google Sheet webhook:", sheetError);
+      }
+    }
+
     return NextResponse.json({
       success: true,
       message: "Payment verified successfully.",

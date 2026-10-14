@@ -200,6 +200,13 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
+                customer_name: name.trim(),
+                customer_email: email.trim(),
+                customer_phone: phone.trim(),
+                product_id: product.id,
+                product_slug: product.slug,
+                product_title: product.title,
+                amount: amountInPaise,
               }),
             });
 
