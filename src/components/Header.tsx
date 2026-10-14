@@ -56,19 +56,31 @@ export default function Header({
           </div>
         ) : (
           /* Standard Hub Navigation */
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center gap-3 sm:gap-6">
             <Link
-              href="/"
-              className="text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+              href="/#catalog"
+              className="text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors hidden md:inline-block"
             >
-              All Toolkits
+              Tool Catalog
+            </Link>
+            <Link
+              href="/#why-us"
+              className="text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors hidden lg:inline-block"
+            >
+              Why Thinktools
+            </Link>
+            <Link
+              href="/#faqs"
+              className="text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors hidden lg:inline-block"
+            >
+              FAQs
             </Link>
             <Link
               href="/p/construction-calculator-pro"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 text-xs sm:text-sm font-bold transition-all"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs sm:text-sm font-bold shadow-xs hover:shadow-md transition-all cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              <span>Construction Pro</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Construction Pro (₹499)</span>
             </Link>
           </nav>
         )}
