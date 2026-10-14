@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
+import { PRODUCTS } from "@/data/products";
 
 export async function POST(request: Request) {
   try {
@@ -65,7 +66,11 @@ export async function POST(request: Request) {
                 entity: {
                   id: razorpay_payment_id,
                   order_id: razorpay_order_id,
-                  amount: body.amount || 49900,
+                  amount: (() => {
+                    const productSlug = body.product_slug || "construction-calculator-pro";
+                    const p = PRODUCTS[productSlug];
+                    return p ? Math.round(p.price * 100) : (Number(body.amount) || 49900);
+                  })(),
                   method: body.method || "Razorpay / UPI",
                   status: "captured",
                   name: body.customer_name || "Customer",

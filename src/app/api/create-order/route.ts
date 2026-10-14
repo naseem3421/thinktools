@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
+import { PRODUCTS } from "@/data/products";
 
 export async function POST(request: Request) {
   try {
@@ -14,15 +15,33 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json().catch(() => ({}));
-    const { amount, currency = "INR", receipt, notes } = body;
+    const { currency = "INR", receipt, notes = {} } = body;
 
-    const parsedAmount = Math.round(Number(amount));
+    const productSlug =
+      notes?.product_slug || body.product_slug || "construction-calculator-pro";
+    const catalogProduct = PRODUCTS[productSlug];
 
-    if (isNaN(parsedAmount) || parsedAmount < 100) {
+    if (!catalogProduct) {
       return NextResponse.json(
-        { error: "Amount is invalid or below minimum of 100 paise (₹1.00)." },
+        { error: `Product "${productSlug}" not found in catalog.` },
         { status: 400 }
       );
+    }
+
+    // Authoritative server-side price in paise
+    const authoritativeAmount = Math.round(catalogProduct.price * 100);
+
+    // Validate client-sent amount if provided
+    if (body.amount !== undefined) {
+      const clientAmount = Math.round(Number(body.amount));
+      if (clientAmount !== authoritativeAmount) {
+        return NextResponse.json(
+          {
+            error: `Price mismatch: Client requested ₹${clientAmount / 100}, but authoritative price is ₹${authoritativeAmount / 100}.`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
     const razorpay = new Razorpay({
@@ -31,10 +50,16 @@ export async function POST(request: Request) {
     });
 
     const options = {
-      amount: parsedAmount,
+      amount: authoritativeAmount,
       currency: currency || "INR",
-      receipt: receipt || `rcpt_${Date.now()}`,
-      notes: notes || {},
+      receipt: receipt || `rcpt_${productSlug.slice(0, 20)}_${Date.now()}`,
+      notes: {
+        ...notes,
+        product_id: catalogProduct.id,
+        product_slug: catalogProduct.slug,
+        product_title: catalogProduct.title,
+        price_inr: catalogProduct.price,
+      },
     };
 
     const order = await razorpay.orders.create(options);
