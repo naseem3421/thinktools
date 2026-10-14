@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   CheckCircle,
@@ -43,6 +43,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CalculatorGallery from "@/components/CalculatorGallery";
 import CheckoutModal from "@/components/CheckoutModal";
+import { trackEvent } from "@/components/TrackingScripts";
 
 export default function ConstructionCalculatorPage() {
   const product = PRODUCTS["construction-calculator-pro"];
@@ -50,6 +51,15 @@ export default function ConstructionCalculatorPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
   const [sheetModalSearch, setSheetModalSearch] = useState("");
+
+  useEffect(() => {
+    trackEvent("ViewContent", {
+      content_name: product.title,
+      content_ids: [product.id],
+      value: product.price,
+      currency: "INR",
+    });
+  }, [product.title, product.id, product.price]);
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -75,9 +85,9 @@ export default function ConstructionCalculatorPage() {
 
       {/* Top Urgency & Delivery Banner */}
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs">
-        <Flame className="w-3.5 h-3.5 fill-current animate-bounce shrink-0" />
+        <Sparkles className="w-3.5 h-3.5 fill-current shrink-0" />
         <span className="leading-tight">
-          LIMITED LAUNCH DEAL: ₹499 (75% OFF) • INSTANT EMAIL DELIVERY WITH ATTACHED FILES • ALL SALES FINAL
+          DIGITAL TOOLKIT OFFER: ₹499 (LIFETIME ACCESS) • INSTANT EMAIL DELIVERY WITH ATTACHED FILES • ALL SALES FINAL
         </span>
       </div>
 
@@ -91,31 +101,27 @@ export default function ConstructionCalculatorPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               {/* Left Column: Emotion, Logic & Pricing Hook */}
               <div className="lg:col-span-6 space-y-4 sm:space-y-6 text-center lg:text-left">
-                {/* Social Proof Pill */}
+                {/* Standards & Technical Pill */}
                 <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[11px] sm:text-xs text-slate-700 shadow-2xs">
-                  <div className="flex text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="font-bold text-slate-900">4.94/5</span>
+                  <Award className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="font-bold text-slate-900">CPWD & IS 456 Aligned Standards</span>
                   <span className="text-slate-300 hidden sm:inline">•</span>
                   <span className="text-amber-800 font-semibold text-center sm:text-left">
-                    2,840+ Homeowners, Renovators, Builders & Contractors
+                    31 Connected Calculation Worksheets (Zero Macros)
                   </span>
                 </div>
 
                 {/* Primary Headline */}
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.14]">
-                  Plan, Price & Build with Precision.{" "}
+                  Plan Your Construction Budget With a Practical Excel Estimation Toolkit.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-xl sm:text-3xl lg:text-4xl">
-                    For Homeowners, Renovators, Builders & Contractors.
+                    For Homeowners, Renovators, Builders & Contractors Across India.
                   </span>
                 </h1>
 
                 {/* Subtitle */}
                 <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  The complete construction and renovation spreadsheet system for India. Enter room sizes in Feet or Metres to instantly calculate exact cement, steel, sand, bricks, and paint — whether you&apos;re building a home, renovating a flat, managing project budgets, or quoting clients.
+                  Estimate construction quantities, organize material costs, compare selected contractor-claimed quantities and track project expenses using editable Excel workbooks and practical planning resources.
                 </p>
 
                 {/* 4 Consumer Profiles Row */}
@@ -141,7 +147,7 @@ export default function ConstructionCalculatorPage() {
                 {/* Micro-Value Guarantee Pill */}
                 <div className="inline-flex items-start sm:items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[11px] sm:text-xs text-emerald-900 font-semibold text-left">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 sm:mt-0" />
-                  <span>Cost of 1 cement bag (₹499) prevents costly material wastage & estimating errors</span>
+                  <span>Cost of 1 cement bag (₹499) provides a structured estimation framework for your entire project</span>
                 </div>
 
                 {/* Action CTA Group */}
@@ -206,10 +212,10 @@ export default function ConstructionCalculatorPage() {
               The Reality of Building in India
             </span>
             <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 mt-2 sm:mt-3">
-              Why 84% of Indian Homeowners Overpay
+              Why Construction & Renovation Budgets Commonly Exceed Estimates
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
-              Building or renovating a home costs ₹10 Lakhs to ₹5 Crs+. Here is the costly difference between guessing and auditing:
+              Building or renovating a home costs ₹10 Lakhs to ₹5 Crs+. Here is the difference between guessing on site and disciplined estimation:
             </p>
           </div>
 
@@ -222,44 +228,44 @@ export default function ConstructionCalculatorPage() {
                     <XCircle className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">Without Thinktools</h3>
-                    <span className="text-xs text-rose-700 font-semibold font-mono">The Contractor Trap</span>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">Without a Structured Toolkit</h3>
+                    <span className="text-xs text-rose-700 font-semibold font-mono">The Unaudited Site Trap</span>
                   </div>
                 </div>
 
                 <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Vague rough quotes:</strong> Contractor quotes ₹1,700/sq.ft that balloons to ₹2,300/sq.ft midway through.</span>
+                    <span><strong>Vague initial quotes:</strong> Contractor provides an unitemized lump-sum rate per sq.ft that escalates midway through construction.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Blind material bills:</strong> Contractor claims 100 extra cement bags & 500 kg extra steel — you pay out of fear.</span>
+                    <span><strong>Unverified material claims:</strong> Contractor requests extra cement bags or steel rebar without supporting structural measurements.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Measurement tricks:</strong> Overcharging plastering & tile areas by not deducting window & door cutouts.</span>
+                    <span><strong>Measurement discrepancies:</strong> Deductions for doors, windows, and structural cutouts are omitted from plaster and tile billing.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Surprise handover bills:</strong> Contractor hits you with a ₹2 Lakh to ₹5 Lakh variation bill right before Grihapravesham.</span>
+                    <span><strong>Surprise handover bills:</strong> Contractor presents unanticipated extra-item variation bills right before project completion.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Result:</strong> Budget overshoots by 20% to 35% (losing ₹3,00,000 to ₹8,00,000+).</span>
+                    <span><strong>Result:</strong> Unmonitored scope changes and lack of measurement records lead to costly budget overruns.</span>
                   </div>
                 </div>
               </div>
 
               <div className="mt-6 sm:mt-8 pt-3 sm:pt-4 border-t border-rose-200/80 text-xs font-bold text-rose-800 text-center">
-                Average Loss: ₹1,50,000 to ₹4,00,000 on site
+                Common Site Risk: Unchecked quantities and unrecorded variations
               </div>
             </div>
 
             {/* The Smart Way (With Thinktools) */}
             <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-lg relative">
               <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
-                Full Peace of Mind
+                Structured Control
               </div>
 
               <div>
@@ -269,36 +275,36 @@ export default function ConstructionCalculatorPage() {
                   </div>
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-slate-900">With Thinktools Pro (₹499)</h3>
-                    <span className="text-xs text-emerald-800 font-semibold font-mono">Total Rupee Control</span>
+                    <span className="text-xs text-emerald-800 font-semibold font-mono">Disciplined Engineering Framework</span>
                   </div>
                 </div>
 
                 <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Pre-signed itemized BOQ:</strong> Exact line-by-line quantities of steel, cement, sand and tiles before signing.</span>
+                    <span><strong>Itemized Pre-Build Takeoff:</strong> Line-by-line theoretical material requirements for cement, steel, bricks, and tiles before signing.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Automated 5% red alert:</strong> Tab 25 (Bill Check) catches contractor overbilling instantly using civil engineering norms.</span>
+                    <span><strong>Automated 5% Variance Flag:</strong> Tab 25 (Bill Check) highlights contractor claims that exceed calculated requirements by over 5%.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Precise deduction math:</strong> Door and window openings are automatically deducted from plaster & paint areas.</span>
+                    <span><strong>Precise Deduction Logic:</strong> Window and door opening cutouts are subtracted from net plaster and paint surface areas.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Binding change orders:</strong> No extra work begins on site without mutually approved rates upfront.</span>
+                    <span><strong>Documented Change Orders:</strong> Standard administrative procedure ensures variations are agreed in writing before site work starts.</span>
                   </div>
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Result:</strong> Zero financial surprises. You stay 100% on budget.</span>
+                    <span><strong>Result:</strong> Clear financial clarity. Every measurement, material delivery, and running payment is systematically tracked.</span>
                   </div>
                 </div>
               </div>
 
               <div className="mt-6 sm:mt-8 pt-3 sm:pt-4 border-t border-emerald-200/80 text-xs font-bold text-emerald-900 text-center">
-                Documented Savings: ₹42,000 to ₹85,000 on average build
+                Core Protection: Audit contractor quantities before releasing stage disbursements
               </div>
             </div>
           </div>
@@ -463,122 +469,106 @@ export default function ConstructionCalculatorPage() {
           </div>
         </section>
 
-        {/* 6. VERIFIED INDIAN HOMEOWNER & CONTRACTOR REVIEWS (SOCIAL PROOF ACROSS CITIES) */}
+        {/* 6. REAL-WORLD SITE APPLICATIONS & SCENARIOS */}
         <section className="py-10 sm:py-16 max-w-6xl mx-auto px-3.5 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
             <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-              Real Experiences Across India
+              Real-World Applications
             </span>
             <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 mt-2 sm:mt-3">
-              Trusted by 2,840+ Indian Builders
+              Practical Site Scenarios Handled by Thinktools
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
-              Here is what happened when homeowners and contractors used Thinktools on their live sites:
+              Here is how homeowners, self-builders, and contractors utilize the 31-sheet calculation engine across live site phases:
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {/* Review 1: Coimbatore */}
+            {/* Scenario 1: Slab Casting */}
             <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-mono">
-                    Saved ₹42,000
+                  <span className="text-[10px] sm:text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded font-mono">
+                    Structural Concrete & Steel
                   </span>
+                  <span className="text-xs font-semibold text-slate-500 font-mono">Tab 08 & Tab 11</span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;Caught a ₹42,000 TMT steel billing error in our G+1 villa slab. The contractor claimed 4.2 tonnes, but Tab 09 showed 3.65 tonnes was the true requirement with wastage. When I showed him the theoretical consumption, he backed off and adjusted the bill immediately.&rdquo;
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  Auditing Villa Slab Rebar & Concrete
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  When casting an RCC roof slab, Tab 08 (Concrete) models the exact wet-to-dry volumetric conversion (factor 1.54) to calculate 53-grade cement bags, while Tab 11 (Steel) applies IS 1786 rebar weight constants (D²/162) to verify theoretical TMT tonnage before placing steel yard orders.
                 </p>
               </div>
-              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div>
-                  <strong className="text-slate-900 block font-semibold">Rajesh K.</strong>
-                  <span className="text-slate-500 text-[11px]">Homeowner, Coimbatore (Tamil Nadu)</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] text-slate-400">Verified Buyer</span>
+              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span className="font-medium text-slate-800">Primary Objective:</span>
+                <span>Catch rebar billing discrepancies before concrete pour</span>
               </div>
             </div>
 
-            {/* Review 2: Pune */}
+            {/* Scenario 2: Apartment Renovation */}
             <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-mono">
-                    Saved ₹38,000
+                  <span className="text-[10px] sm:text-[11px] font-bold text-blue-800 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded font-mono">
+                    Surface Finishes Takeoff
                   </span>
+                  <span className="text-xs font-semibold text-slate-500 font-mono">Tab 04 & Tab 06</span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;During our 3BHK flat interior renovation, the painting contractor quoted ₹1.4 Lakhs. Tab 06 calculated the exact net wall area minus window and door deductions and proved 78 litres of paint was plenty. Settled for ₹1.02 Lakhs. Best ₹499 ever spent.&rdquo;
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  3BHK Flat Renovation Deductions
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  During interior wall remodels and re-tiling, Tab 04 (Room Area) and Tab 06 (Paint & Tiles) subtract window openings and door jambs from gross wall areas, calculating true net plaster surface, primer requirement, and tile box counts with realistic cutting wastage.
                 </p>
               </div>
-              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div>
-                  <strong className="text-slate-900 block font-semibold">Anand Kulkarni</strong>
-                  <span className="text-slate-500 text-[11px]">IT Professional, Pune (Maharashtra)</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] text-slate-400">Verified Buyer</span>
+              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span className="font-medium text-slate-800">Primary Objective:</span>
+                <span>Prevent over-ordering paint cans and tile boxes</span>
               </div>
             </div>
 
-            {/* Review 3: Bengaluru */}
+            {/* Scenario 3: Material Procurement */}
             <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-mono">
-                    Saved ₹54,000
+                  <span className="text-[10px] sm:text-[11px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded font-mono">
+                    Procurement & Lead Times
                   </span>
+                  <span className="text-xs font-semibold text-slate-500 font-mono">Tab 15 & Tab 17</span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;We were terrified of building our own house in Sarjapur because contractors are infamous for sudden cost overruns. This toolkit gave us complete control over cement, sand, and brick orders. The stage budget tracker kept our spending exactly on target.&rdquo;
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  Owner-Builder Material Dispatch Scheduling
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Tab 17 (Order List) coordinates site purchasing dates against trade milestones, incorporating standard lead times and safety wastage allowances (3% on cement, 5% on rebar) so capital is not trapped in excess site inventory or delayed by stockouts.
                 </p>
               </div>
-              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div>
-                  <strong className="text-slate-900 block font-semibold">Pooja & Vikram Sharma</strong>
-                  <span className="text-slate-500 text-[11px]">Owner-Builders, Bengaluru (Karnataka)</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] text-slate-400">Verified Buyer</span>
+              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span className="font-medium text-slate-800">Primary Objective:</span>
+                <span>Align delivery trucks with weekly mason work plans</span>
               </div>
             </div>
 
-            {/* Review 4: Lucknow (Contractor) */}
+            {/* Scenario 4: Contractor Client Quotations */}
             <div className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex text-amber-500">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-mono">
-                    Won 4 New Contracts
+                  <span className="text-[10px] sm:text-[11px] font-bold text-purple-800 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded font-mono">
+                    Contractor Commercials
                   </span>
+                  <span className="text-xs font-semibold text-slate-500 font-mono">Tab 27 & Tab 30</span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                  &ldquo;As a small civil contractor, Tab 30 (Quotation) gives my clients an instant professional impression. I present transparent line items and milestone schedules with GST breakdown. Clients trust me immediately and sign contracts much faster.&rdquo;
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  Transparent Client Estimating & Bidding
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Civil contractors and interior remodelers use Tab 30 (Quotation) to generate itemized, professional client proposals with milestone-gated payment stages, trade line items, and GST breakdown, establishing clear scope boundaries from day one.
                 </p>
               </div>
-              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div>
-                  <strong className="text-slate-900 block font-semibold">Er. Sunil Verma</strong>
-                  <span className="text-slate-500 text-[11px]">Civil Contractor, Lucknow (Uttar Pradesh)</span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] text-slate-400">Verified Buyer</span>
+              <div className="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span className="font-medium text-slate-800">Primary Objective:</span>
+                <span>Win client confidence with clear, auditable line items</span>
               </div>
             </div>
           </div>

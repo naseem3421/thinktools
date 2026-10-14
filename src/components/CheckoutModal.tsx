@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X, Lock, Check, AlertCircle, FileSpreadsheet } from "lucide-react";
 import { Product } from "@/data/products";
+import { trackEvent } from "@/components/TrackingScripts";
 
 interface CheckoutModalProps {
   product: Product;
@@ -136,6 +137,15 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
 
       // 2. Call backend create-order endpoint (amount in paise, min 100 paise)
       const amountInPaise = Math.round(product.price * 100);
+
+      // Track InitiateCheckout event
+      trackEvent("InitiateCheckout", {
+        content_name: product.title,
+        content_ids: [product.id],
+        value: product.price,
+        currency: "INR",
+      });
+
       const orderRes = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -216,6 +226,15 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 verifyData.message || "Payment signature verification failed. Please contact support."
               );
             }
+
+            // Track verified Purchase event
+            trackEvent("Purchase", {
+              content_name: product.title,
+              content_ids: [product.id],
+              value: product.price,
+              currency: "INR",
+              transaction_id: response.razorpay_payment_id,
+            });
 
             // 5. Successful verification: Redirect to download page
             const query = new URLSearchParams({
