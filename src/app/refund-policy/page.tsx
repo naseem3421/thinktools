@@ -79,10 +79,10 @@ export default function RefundPolicyPage() {
               <li>Inspect the full 31-sheet index, use cases, and deliverable descriptions.</li>
               <li>Read the FAQ section covering units (Feet/Inches vs. Metres), compatibility with Google Sheets, and formula structures.</li>
               <li>
-                If you have questions before buying, email us at{" "}
-                <a href="mailto:hello@thinkbrandfirst.com" className="text-amber-800 font-semibold underline">
-                  hello@thinkbrandfirst.com
-                </a>
+                If you have questions before buying, reach out to us via our{" "}
+                <Link href="/contact" className="text-amber-800 font-semibold underline">
+                  Contact & Support Desk
+                </Link>
                 . We respond promptly.
               </li>
             </ul>
@@ -102,7 +102,7 @@ export default function RefundPolicyPage() {
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block font-semibold">Duplicate Charges</strong>
-                  If your card or UPI was accidentally charged more than once for the same transaction, email us your payment IDs and we will immediately refund the duplicate payment.
+                  If your card or UPI was accidentally charged more than once for the same transaction, submit your payment IDs through our support desk and we will immediately refund the duplicate payment.
                 </div>
               </div>
 
@@ -110,7 +110,7 @@ export default function RefundPolicyPage() {
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block font-semibold">Missing Delivery Link</strong>
-                  If you completed payment but did not receive the on-screen download link or email/WhatsApp message within 15 minutes, email us. We will resend the direct download link immediately. If we fail to deliver your files, we will issue a full refund.
+                  If you completed payment but did not receive the on-screen download link or message within 15 minutes, let us know via support. We will resend the direct download link immediately. If we fail to deliver your files, we will issue a full refund.
                 </div>
               </div>
 
@@ -131,13 +131,8 @@ export default function RefundPolicyPage() {
               How to Contact Support
             </h2>
             <p>
-              To request assistance under Section 3, write to us from the email address you used at checkout:
+              To request assistance under Section 3, submit a ticket via our <Link href="/contact" className="text-amber-800 font-semibold underline">Contact & Support Desk</Link> with your Full Name & Razorpay / UPI Payment ID.
             </p>
-            <div className="p-4 rounded-2xl bg-slate-100/70 border border-slate-200 space-y-1 font-mono text-xs">
-              <div><strong>Email:</strong> <a href="mailto:hello@thinkbrandfirst.com" className="text-amber-800 underline">hello@thinkbrandfirst.com</a></div>
-              <div><strong>WhatsApp:</strong> +91 95858 01018</div>
-              <div><strong>Required Info:</strong> Your Full Name & Razorpay / UPI Payment ID</div>
-            </div>
             <p className="text-slate-500 text-xs">
               We aim to review and reply within 1 to 2 business days. Approved refunds are credited back to the original payment method within 5 to 7 business days, depending on your bank.
             </p>

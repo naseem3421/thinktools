@@ -390,6 +390,6 @@ export const FAQS = [
   },
   {
     question: "What if I get stuck while using one of the workbooks?",
-    answer: "Every toolkit comes accompanied by comprehensive PDF user guides, step-by-step video walkthrough references, and a pre-filled sample project workbook showing how inputs relate to outputs. Plus, our dedicated support team is available at hello@thinkbrandfirst.com."
+    answer: "Every toolkit comes accompanied by comprehensive PDF user guides, step-by-step video walkthrough references, and a pre-filled sample project workbook showing how inputs relate to outputs with built-in guidance notes on every sheet."
   }
 ];

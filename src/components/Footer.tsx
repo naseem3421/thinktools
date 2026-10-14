@@ -28,15 +28,11 @@ export default function Footer() {
               <Lock className="w-4 h-4 text-amber-600" />
               Razorpay / UPI Secure Checkout
             </span>
-            <span className="flex items-center gap-1.5 text-slate-700 font-medium">
-              <Mail className="w-4 h-4 text-blue-600" />
-              hello@thinkbrandfirst.com
-            </span>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
-          <p>© 2026 Thinktools.in by Think Brand First. All rights reserved.</p>
+          <p>© 2026 Thinktools.in. All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             <Link href="/terms" className="hover:text-slate-900 transition-colors">
               Terms of Service

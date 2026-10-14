@@ -82,26 +82,11 @@ export default function ShippingPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">3. Did Not Receive Your Download Link?</h2>
             <p>
-              In rare instances where email delivery is delayed by email providers or caught by spam filters, please check your Spam/Junk folder first. If you still have not received your files within 15 minutes of payment, please reach out to us:
+              In rare instances where email delivery is delayed by email providers or caught by spam filters, please check your Spam/Junk folder first. If you still have not received your files within 15 minutes of payment, please reach out to us via our <Link href="/contact" className="text-amber-800 underline font-semibold">Contact & Support Desk</Link> with your Full Name and Razorpay Payment ID.
             </p>
-            <div className="p-4 rounded-2xl bg-slate-100/70 border border-slate-200 font-mono text-xs space-y-1">
-              <div><strong>Email:</strong> <a href="mailto:hello@thinkbrandfirst.com" className="text-amber-800 underline">hello@thinkbrandfirst.com</a></div>
-              <div><strong>WhatsApp:</strong> +91 95858 01018</div>
-              <div><strong>Details to send:</strong> Your Full Name & Razorpay Payment ID</div>
-            </div>
             <p className="text-xs text-slate-500">
-              Our support team will manually re-dispatch your download link directly to your WhatsApp or alternate email address.
+              Our digital support desk will manually re-dispatch your download link directly to your alternate email address.
             </p>
-          </section>
-
-          {/* Section 4 */}
-          <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-6">
-            <h2 className="text-lg font-bold text-slate-950">4. Business Operating Address</h2>
-            <div className="p-4 rounded-2xl bg-slate-100/70 border border-slate-200 text-xs space-y-1">
-              <div><strong>Think Brand First</strong></div>
-              <div>15/31B2, Gunasekaran Building, Sowdeshwari Nagar, Mooladurai, Sirumugai, Mettupalayam, Coimbatore District, Tamil Nadu 641302, India</div>
-              <div>Website: <a href="https://thinkbrandfirst.com" className="text-amber-800 underline">www.thinkbrandfirst.com</a> · <a href="https://thinktools.in" className="text-amber-800 underline">www.thinktools.in</a></div>
-            </div>
           </section>
         </div>
       </main>

@@ -1,12 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Shield, Lock, Eye, Mail } from "lucide-react";
+import { ArrowLeft, Shield, Lock, Eye } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Privacy Policy — Thinktools.in",
-  description: "Privacy policy explaining how Thinktools.in and Think Brand First collect, process, and protect customer data.",
+  description: "Privacy policy explaining how Thinktools.in collects, processes, and protects customer data.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -35,12 +35,12 @@ export default function PrivacyPolicyPage() {
               Privacy Policy
             </h1>
             <p className="text-xs text-slate-500 mt-2">
-              Think Brand First & Thinktools.in · Last updated: 13 October 2026
+              Thinktools.in · Last updated: 13 October 2026
             </p>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-            This Privacy Policy explains how Think Brand First (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates Thinktools.in and collects, uses, stores, and protects your personal information when you browse our website, purchase digital toolkits, or communicate with us via email or WhatsApp.
+            This Privacy Policy explains how Thinktools.in (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) collects, uses, stores, and protects your personal information when you browse our website, purchase digital toolkits, or communicate with us.
           </p>
 
           {/* Section 1 */}
@@ -48,9 +48,9 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-lg font-bold text-slate-950">1. Information We Collect</h2>
             <p>Depending on your interaction with Thinktools.in, we may collect:</p>
             <ul className="list-disc pl-5 space-y-1.5 text-slate-600">
-              <li><strong>Contact Information:</strong> Your full name, email address, and 10-digit mobile/WhatsApp number provided at checkout.</li>
-              <li><strong>Transaction Records:</strong> Razorpay order ID, payment timestamp, product purchased, and delivery status. We do not store or process your credit card numbers or UPI PINs; all payments are processed through Razorpay&apos;s encrypted payment gateway.</li>
-              <li><strong>Customer Support Communications:</strong> Messages, feedback, and technical queries sent to our email or WhatsApp channel.</li>
+              <li><strong>Contact Information:</strong> Your full name, email address, and 10-digit mobile/WhatsApp number provided at checkout for digital goods delivery.</li>
+              <li><strong>Transaction Records:</strong> Razorpay order ID, payment timestamp, product purchased, and fulfillment delivery status. We do not store or process your credit card numbers or UPI PINs; all payments are processed through Razorpay&apos;s encrypted payment gateway.</li>
+              <li><strong>Customer Support Communications:</strong> Messages, feedback, and technical queries submitted through our online support desk.</li>
               <li><strong>Technical Data:</strong> Browser type, operating system, and IP address collected automatically to ensure platform security and fraud prevention.</li>
             </ul>
           </section>
@@ -63,7 +63,7 @@ export default function PrivacyPolicyPage() {
               <li>To provide customer support and troubleshoot file opening or formatting issues.</li>
               <li>To prevent fraudulent payments and verify duplicate charge claims.</li>
               <li>To send critical updates regarding your downloaded workbooks (such as formula improvements or rate revisions).</li>
-              <li>To comply with statutory tax and accounting obligations in India (GST records).</li>
+              <li>To comply with statutory tax and accounting obligations in India.</li>
             </ul>
           </section>
 
@@ -71,7 +71,7 @@ export default function PrivacyPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">3. WhatsApp Messaging</h2>
             <p>
-              When you opt-in at checkout to receive your download link on WhatsApp, that message is transmitted via the official WhatsApp Business Platform operated by Meta Platforms, Inc. We only use WhatsApp for direct transactional communications (such as sending your download link and order receipt). You may opt-out of notifications at any time by replying &ldquo;STOP&rdquo; or messaging us directly.
+              When you opt-in at checkout to receive your download link on WhatsApp, that message is transmitted via the official WhatsApp Business Platform operated by Meta Platforms, Inc. We only use WhatsApp for direct transactional communications (such as sending your download link and order receipt).
             </p>
           </section>
 
@@ -84,7 +84,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-5 space-y-1.5 text-slate-600">
               <li><strong>Razorpay:</strong> For secure 256-bit encrypted payment authorization and webhook notifications.</li>
               <li><strong>Hostinger:</strong> For secure website hosting and SSL encryption.</li>
-              <li><strong>Meta Platforms (WhatsApp Business):</strong> For delivering automated transaction receipts and links.</li>
+              <li><strong>Meta Platforms (WhatsApp Business):</strong> For delivering automated transaction receipts and download access links.</li>
             </ul>
           </section>
 
@@ -92,19 +92,16 @@ export default function PrivacyPolicyPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">5. Your Rights</h2>
             <p>
-              You have the right to request access to the personal data we hold about you, request corrections, or request deletion of your contact records. To exercise these rights, contact us at <a href="mailto:hello@thinkbrandfirst.com" className="text-amber-800 font-semibold underline">hello@thinkbrandfirst.com</a>.
+              You have the right to request access to the personal data we hold about you, request corrections, or request deletion of your contact records. To exercise these rights, please reach out via our online <Link href="/contact" className="text-amber-800 font-semibold underline">Contact & Support Desk</Link>.
             </p>
           </section>
 
           {/* Section 6 */}
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-6">
-            <h2 className="text-lg font-bold text-slate-950">6. Contact Information</h2>
-            <div className="p-4 rounded-2xl bg-slate-100/70 border border-slate-200 text-xs space-y-1">
-              <div><strong>Think Brand First</strong></div>
-              <div>15/31B2, Gunasekaran Building, Sowdeshwari Nagar, Mooladurai, Sirumugai, Mettupalayam, Coimbatore District, Tamil Nadu 641302, India</div>
-              <div>Email: <a href="mailto:hello@thinkbrandfirst.com" className="text-amber-800 underline">hello@thinkbrandfirst.com</a></div>
-              <div>Phone: +91 95009 35935 · WhatsApp: +91 95858 01018</div>
-            </div>
+            <h2 className="text-lg font-bold text-slate-950">6. Privacy Inquiries</h2>
+            <p>
+              If you have any questions or concerns about this Privacy Policy, please submit an inquiry through our <Link href="/contact" className="text-amber-800 underline font-semibold">Support Desk</Link>.
+            </p>
           </section>
         </div>
       </main>

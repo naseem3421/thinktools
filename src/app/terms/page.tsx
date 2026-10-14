@@ -1,12 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Scale, FileText } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Scale, FileText } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Terms of Service — Thinktools.in",
-  description: "Terms of service and software licensing terms for digital products on Thinktools.in.",
+  description: "Terms of Service governing the purchase and license of digital toolkits and spreadsheets on Thinktools.in.",
 };
 
 export default function TermsPage() {
@@ -35,12 +35,12 @@ export default function TermsPage() {
               Terms of Service
             </h1>
             <p className="text-xs text-slate-500 mt-2">
-              Think Brand First & Thinktools.in · Last updated: 13 October 2026
+              Thinktools.in · Last updated: 13 October 2026
             </p>
           </div>
 
           <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
-            These Terms of Service govern your purchase and use of spreadsheet toolkits, calculation templates, and implementation guides offered on Thinktools.in by Think Brand First (&ldquo;we,&rdquo; &ldquo;our,&rdquo; &ldquo;us&rdquo;). By accessing our website or purchasing a digital toolkit, you agree to these terms.
+            These Terms of Service govern your purchase and use of spreadsheet toolkits, calculation templates, and implementation guides offered on Thinktools.in (&ldquo;we,&rdquo; &ldquo;our,&rdquo; &ldquo;us&rdquo;). By accessing our website or purchasing a digital toolkit, you agree to these terms.
           </p>
 
           {/* Section 1 */}
@@ -84,7 +84,7 @@ export default function TermsPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">5. Limitation of Liability</h2>
             <p>
-              To the fullest extent permitted by Indian law, Think Brand First and its creators shall not be liable for any indirect, incidental, or consequential damages resulting from on-site contractor disputes, site material price fluctuations, or implementation errors. Our aggregate liability for any claim shall not exceed the amount you paid for the product.
+              To the fullest extent permitted by Indian law, Thinktools.in and its creators shall not be liable for any indirect, incidental, or consequential damages resulting from on-site contractor disputes, site material price fluctuations, or implementation errors. Our aggregate liability for any claim shall not exceed the amount you paid for the product.
             </p>
           </section>
 
@@ -92,19 +92,16 @@ export default function TermsPage() {
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
             <h2 className="text-lg font-bold text-slate-950">6. Governing Law & Jurisdiction</h2>
             <p>
-              These Terms of Service are governed by the laws of India. The courts of Tamil Nadu, India have exclusive jurisdiction over any disputes arising from these terms.
+              These Terms of Service are governed by the laws of India. Any disputes arising from these terms shall be subject to the applicable courts of law in India.
             </p>
           </section>
 
           {/* Section 7 */}
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed border-t border-slate-100 pt-6">
-            <h2 className="text-lg font-bold text-slate-950">7. Contact Information</h2>
-            <div className="p-4 rounded-2xl bg-slate-100/70 border border-slate-200 text-xs space-y-1">
-              <div><strong>Think Brand First</strong></div>
-              <div>15/31B2, Gunasekaran Building, Sowdeshwari Nagar, Mooladurai, Sirumugai, Mettupalayam, Coimbatore District, Tamil Nadu 641302, India</div>
-              <div>Email: <a href="mailto:hello@thinkbrandfirst.com" className="text-amber-800 underline">hello@thinkbrandfirst.com</a></div>
-              <div>Phone: +91 95009 35935 · WhatsApp: +91 95858 01018</div>
-            </div>
+            <h2 className="text-lg font-bold text-slate-950">7. Customer Inquiries & Support</h2>
+            <p>
+              For questions regarding these Terms or assistance with your digital purchases, please visit our online <Link href="/contact" className="text-amber-800 underline font-semibold">Contact & Support Desk</Link>.
+            </p>
           </section>
         </div>
       </main>

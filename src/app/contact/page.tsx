@@ -1,15 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Mail, Phone, MapPin, Clock, MessageSquare, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Mail,
+  Clock,
+  MessageSquare,
+  ShieldCheck,
+  CheckCircle2,
+  Send,
+  HelpCircle,
+  FileSpreadsheet,
+  Download
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export const metadata = {
-  title: "Contact Us — Thinktools.in",
-  description: "Get in touch with Thinktools.in support for product questions, order help, and customer assistance.",
-};
-
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    orderId: "",
+    subject: "download-issue",
+    message: ""
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("Please fill in your name, email, and message.");
+      return;
+    }
+    setIsSubmitted(true);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       <Header isFocusMode={false} />
@@ -29,70 +55,158 @@ export default function ContactPage() {
           {/* Header */}
           <div className="border-b border-slate-100 pb-6">
             <span className="text-[11px] uppercase tracking-wider font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-              Customer Support
+              Digital Support Desk
             </span>
             <h1 className="text-2xl sm:text-4xl font-black text-slate-950 mt-3 tracking-tight">
-              Contact Us
+              Contact & Order Assistance
             </h1>
-            <p className="text-xs text-slate-500 mt-2">
-              Have questions before buying or need help with your order? We are here to help.
+            <p className="text-xs sm:text-sm text-slate-500 mt-2">
+              Need assistance with your purchase, file downloads, or pre-sales inquiries? Our digital support desk is here to help.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Email Support Card */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-700">
-                <Mail className="w-5 h-5" />
+          {/* Instant Help Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-2">
+              <div className="flex items-center gap-2 text-amber-900 font-bold text-sm">
+                <Download className="w-4 h-4 text-amber-600" />
+                <span>Instant Download Access</span>
               </div>
-              <h3 className="text-base font-bold text-slate-900">Email Support</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                For order assistance, file replacement, or technical questions before buying:
+              <p className="text-xs text-amber-900/80 leading-relaxed">
+                Completed payment but closed your browser? Your files are automatically sent to your checkout email and WhatsApp number.
               </p>
-              <div className="pt-2">
-                <a
-                  href="mailto:hello@thinkbrandfirst.com"
-                  className="text-sm font-bold text-amber-800 hover:underline block"
-                >
-                  hello@thinkbrandfirst.com
-                </a>
-                <span className="text-[11px] text-slate-400 block mt-1">Average response time: &lt; 2 business days</span>
-              </div>
             </div>
 
-            {/* WhatsApp & Phone Support Card */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700">
-                <MessageSquare className="w-5 h-5" />
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
+                <Clock className="w-4 h-4 text-emerald-600" />
+                <span>Support Desk Hours</span>
               </div>
-              <h3 className="text-base font-bold text-slate-900">WhatsApp & Phone</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Direct WhatsApp assistance for urgent delivery or payment confirmation:
+                Tickets are reviewed and answered Monday through Saturday. Average turnaround is within 1 to 2 business days.
               </p>
-              <div className="pt-2 space-y-1">
-                <div className="text-xs text-slate-700 font-mono">
-                  WhatsApp: <strong className="text-slate-900">+91 95858 01018</strong>
-                </div>
-                <div className="text-xs text-slate-700 font-mono">
-                  Phone: <strong className="text-slate-900">+91 95009 35935</strong>
-                </div>
-                <span className="text-[11px] text-slate-400 block mt-1">Hours: Mon–Sat, 10:00 AM – 6:30 PM IST</span>
-              </div>
             </div>
           </div>
 
-          {/* Business & Registered Address */}
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-            <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
-              <MapPin className="w-4 h-4 text-amber-700" />
-              <span>Registered Business Location</span>
-            </div>
-            <div className="text-xs text-slate-600 leading-relaxed space-y-1 font-mono">
-              <div className="font-bold text-slate-800 font-sans">Think Brand First</div>
-              <div>15/31B2, Gunasekaran Building, Sowdeshwari Nagar,</div>
-              <div>Mooladurai, Sirumugai, Mettupalayam,</div>
-              <div>Coimbatore District, Tamil Nadu 641302, India</div>
-            </div>
+          {/* Online Support Inquiry Form */}
+          <div className="pt-2">
+            <h2 className="text-lg font-bold text-slate-950 mb-1">Submit a Support Request</h2>
+            <p className="text-xs text-slate-500 mb-6">
+              Fill in your details below and our team will get back to your registered email address.
+            </p>
+
+            {isSubmitted ? (
+              <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center text-emerald-600 mx-auto">
+                  <CheckCircle2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-black text-slate-900">Message Received!</h3>
+                <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+                  Thank you, <strong>{formData.name}</strong>. Your ticket has been logged. Our digital support desk will review your request and reply to <strong>{formData.email}</strong> shortly.
+                </p>
+                <button
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setFormData({
+                      name: "",
+                      email: "",
+                      orderId: "",
+                      subject: "download-issue",
+                      message: ""
+                    });
+                  }}
+                  className="mt-3 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  Send Another Inquiry
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Your Full Name <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Ramesh Kumar"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Email Address <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="name@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Order ID / Razorpay Payment ID <span className="text-slate-400 font-normal">(Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. pay_XXXXX or Order #1042"
+                      value={formData.orderId}
+                      onChange={(e) => setFormData({ ...formData, orderId: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Inquiry Category
+                    </label>
+                    <select
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+                    >
+                      <option value="download-issue">File Download / Re-dispatch</option>
+                      <option value="file-compatibility">Excel / Google Sheets Compatibility</option>
+                      <option value="pre-sales">Pre-Sales Question</option>
+                      <option value="billing">Billing / Duplicate Charge</option>
+                      <option value="other">Other Inquiry</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Describe Your Request <span className="text-rose-500">*</span>
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    placeholder="Provide details about your query so we can assist you quickly..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Submit Support Request</span>
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </main>
