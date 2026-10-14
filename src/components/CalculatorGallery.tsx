@@ -134,7 +134,12 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
   }
 ];
 
-export default function CalculatorGallery() {
+interface CalculatorGalleryProps {
+  onUnlockClick?: () => void;
+  className?: string;
+}
+
+export default function CalculatorGallery({ onUnlockClick, className }: CalculatorGalleryProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -149,151 +154,135 @@ export default function CalculatorGallery() {
   };
 
   return (
-    <section id="calculator-gallery" className="py-12 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
-      {/* Background ambient subtle glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
-        {/* Compact Header */}
-        <div className="text-center max-w-2xl mx-auto mb-6">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400 font-semibold mb-2">
-            <Eye className="w-3.5 h-3.5" />
-            <span>Visual Proof · 8 Real Worksheets</span>
+    <div
+      id="calculator-gallery"
+      className={`w-full max-w-2xl mx-auto rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden relative group transition-all duration-300 hover:border-slate-700 ${className || ""}`}
+    >
+      {/* Top Window Bar (Mac Chrome style) */}
+      <div className="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-xs">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Calculator Gallery
-          </h2>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1.5">
-            Click any tab below to inspect the authentic formulas, tolerance flags, and layouts:
-          </p>
+          <span className="text-amber-400 font-mono font-bold ml-2 text-[11px] flex items-center gap-1.5">
+            <Sparkles className="w-3 h-3 text-amber-500" />
+            {currentItem.tabName}
+          </span>
+          <span className="text-slate-500 hidden sm:inline text-[11px] truncate max-w-[200px]">
+            · {currentItem.headline}
+          </span>
         </div>
 
-        {/* Compact Tab Selector Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 mb-5">
-          {CALCULATOR_SCREENSHOTS.map((item, idx) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setActiveIndex(idx)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
-                activeIndex === idx
-                  ? "bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/25 scale-[1.02]"
-                  : "bg-slate-800/90 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60"
-              }`}
-            >
-              <span>{item.shortLabel}</span>
-            </button>
-          ))}
+        <button
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer"
+        >
+          <Maximize2 className="w-3 h-3 text-amber-400" />
+          <span>Full Screen</span>
+        </button>
+      </div>
+
+      {/* Tab Selector Pills (Scrollable / Wrap) */}
+      <div className="bg-slate-900/60 border-b border-slate-800 px-2.5 py-2 flex items-center gap-1.5 overflow-x-auto text-xs font-medium scrollbar-none">
+        {CALCULATOR_SCREENSHOTS.map((item, idx) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setActiveIndex(idx)}
+            className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1 ${
+              activeIndex === idx
+                ? "bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/25 scale-[1.02]"
+                : "bg-slate-800/90 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60"
+            }`}
+          >
+            <span>{item.shortLabel}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Screenshot Display Area with Prev/Next Controls */}
+      <div className="relative aspect-[16/10] bg-slate-950 flex items-center justify-center overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={currentItem.imageSrc}
+          alt={currentItem.altText}
+          onClick={() => setIsModalOpen(true)}
+          className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+        />
+
+        {/* Prev Button */}
+        <button
+          type="button"
+          onClick={handlePrev}
+          className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
+          title="Previous Screenshot"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+
+        {/* Next Button */}
+        <button
+          type="button"
+          onClick={handleNext}
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
+          title="Next Screenshot"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+
+        {/* Click to zoom pill on hover */}
+        <div
+          onClick={() => setIsModalOpen(true)}
+          className="absolute bottom-2.5 right-2.5 px-2.5 py-1 rounded-md bg-slate-950/85 backdrop-blur-md border border-slate-700 text-white text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 cursor-pointer shadow-lg"
+        >
+          <ZoomIn className="w-3 h-3 text-amber-400" />
+          <span>Click to zoom</span>
         </div>
+      </div>
 
-        {/* Compact Spotlight Window */}
-        <div className="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative">
-          {/* Top Window Bar */}
-          <div className="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <div className="flex gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
-              </div>
-              <span className="text-amber-400 font-mono font-semibold ml-2 text-[11px]">
-                {currentItem.tabName}
-              </span>
-              <span className="text-slate-500 hidden sm:inline text-[11px]">· {currentItem.headline}</span>
-            </div>
+      {/* Bottom Caption Bar */}
+      <div className="px-3.5 py-2.5 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <div className="truncate">
+          <span className="text-white font-bold">{currentItem.headline}</span>
+          <span className="text-slate-400 ml-2 hidden sm:inline text-[11px]">{currentItem.subtitle}</span>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 truncate max-w-[200px]">
+            {currentItem.keyMetric}
+          </span>
+          <span className="text-[11px] text-slate-400 font-mono">
+            {activeIndex + 1}/{CALCULATOR_SCREENSHOTS.length}
+          </span>
+        </div>
+      </div>
 
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer"
-            >
-              <Maximize2 className="w-3 h-3 text-amber-400" />
-              <span>Full Screen</span>
-            </button>
-          </div>
-
-          {/* Screenshot Display Area with Prev/Next Controls */}
-          <div className="relative aspect-[16/10] sm:aspect-[16/9] max-h-[460px] bg-slate-950 flex items-center justify-center overflow-hidden group">
+      {/* Mini-Thumbnail Strip */}
+      <div className="p-2 bg-slate-950 border-t border-slate-800/80 grid grid-cols-4 sm:grid-cols-8 gap-1.5">
+        {CALCULATOR_SCREENSHOTS.map((item, idx) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setActiveIndex(idx)}
+            className={`relative rounded-md overflow-hidden border transition-all cursor-pointer aspect-[16/10] bg-slate-900 ${
+              activeIndex === idx
+                ? "border-amber-400 ring-2 ring-amber-400/30 scale-[1.04]"
+                : "border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600"
+            }`}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={currentItem.imageSrc}
-              alt={currentItem.altText}
-              onClick={() => setIsModalOpen(true)}
-              className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+              src={item.imageSrc}
+              alt={item.altText}
+              className="w-full h-full object-cover object-top"
             />
-
-            {/* Prev Button */}
-            <button
-              type="button"
-              onClick={handlePrev}
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
-              title="Previous Screenshot"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            {/* Next Button */}
-            <button
-              type="button"
-              onClick={handleNext}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-slate-900/85 hover:bg-amber-500 hover:text-slate-950 text-white border border-slate-700 flex items-center justify-center shadow-lg transition-all cursor-pointer backdrop-blur-xs"
-              title="Next Screenshot"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-
-            {/* Click to zoom pill on hover */}
-            <div
-              onClick={() => setIsModalOpen(true)}
-              className="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg bg-slate-950/80 backdrop-blur-md border border-slate-700 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 cursor-pointer"
-            >
-              <ZoomIn className="w-3.5 h-3.5 text-amber-400" />
-              <span>Click image to zoom</span>
-            </div>
-          </div>
-
-          {/* Bottom Caption Bar */}
-          <div className="px-4 py-3 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div>
-              <span className="text-white font-bold">{currentItem.headline}</span>
-              <span className="text-slate-400 ml-2 hidden sm:inline">{currentItem.subtitle}</span>
-            </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <span className="text-emerald-400 font-mono text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                {currentItem.keyMetric}
-              </span>
-              <span className="text-[11px] text-slate-400 font-mono">
-                {activeIndex + 1} / {CALCULATOR_SCREENSHOTS.length}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Compact Mini-Thumbnail Strip */}
-        <div className="mt-3 grid grid-cols-4 sm:grid-cols-8 gap-2">
-          {CALCULATOR_SCREENSHOTS.map((item, idx) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setActiveIndex(idx)}
-              className={`relative rounded-lg overflow-hidden border transition-all cursor-pointer aspect-[16/10] bg-slate-950 ${
-                activeIndex === idx
-                  ? "border-amber-400 ring-2 ring-amber-400/30 scale-[1.04]"
-                  : "border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600"
-              }`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.imageSrc}
-                alt={item.altText}
-                className="w-full h-full object-cover object-top"
-              />
-              <span className="absolute bottom-0 inset-x-0 bg-slate-950/85 text-[9px] font-mono text-center text-amber-300 py-0.5 truncate px-0.5">
-                Tab {item.tabNumber < 10 ? `0${item.tabNumber}` : item.tabNumber}
-              </span>
-            </button>
-          ))}
-        </div>
+            <span className="absolute bottom-0 inset-x-0 bg-slate-950/90 text-[8px] font-mono text-center text-amber-300 py-0.5 truncate px-0.5">
+              Tab {item.tabNumber < 10 ? `0${item.tabNumber}` : item.tabNumber}
+            </span>
+          </button>
+        ))}
       </div>
 
       {/* FULL-SCREEN HIGH-RESOLUTION LIGHTBOX MODAL */}
@@ -312,12 +301,24 @@ export default function CalculatorGallery() {
                 <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded">
                   Tab {currentItem.tabNumber < 10 ? `0${currentItem.tabNumber}` : currentItem.tabNumber} · {currentItem.tabName}
                 </span>
-                <h3 className="text-sm sm:text-base font-bold text-white truncate max-w-lg">
+                <h3 className="text-sm sm:text-base font-bold text-white truncate max-w-md">
                   {currentItem.headline}
                 </h3>
               </div>
 
               <div className="flex items-center gap-2">
+                {onUnlockClick && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      onUnlockClick();
+                    }}
+                    className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer hidden sm:inline-flex items-center gap-1.5"
+                  >
+                    <span>Download All 31 Tabs (₹499)</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={handlePrev}
@@ -374,6 +375,6 @@ export default function CalculatorGallery() {
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }

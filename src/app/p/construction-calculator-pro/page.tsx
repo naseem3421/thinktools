@@ -40,7 +40,6 @@ import {
 import { PRODUCTS } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import SpreadsheetHeroMockup from "@/components/SpreadsheetHeroMockup";
 import CalculatorGallery from "@/components/CalculatorGallery";
 import CheckoutModal from "@/components/CheckoutModal";
 
@@ -159,42 +158,23 @@ export default function ConstructionCalculatorPage() {
                 </div>
               </div>
 
-              {/* Right Column: Hero Live Interactive Excel Mockup */}
+              {/* Right Column: Authentic Calculator Gallery */}
               <div className="lg:col-span-6 flex flex-col items-center">
                 <div className="w-full">
                   <div className="mb-2 flex items-center justify-between text-xs text-slate-500 px-1">
                     <span className="font-semibold text-amber-800 flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                      Live Spreadsheet Interface Preview
+                      Calculator Gallery
                     </span>
-                    <span className="text-[11px] text-slate-400">Click tabs to test sheet formulas</span>
+                    <span className="text-[11px] text-slate-400">Click tabs to inspect real worksheets</span>
                   </div>
 
-                  <SpreadsheetHeroMockup onUnlockClick={() => setIsCheckoutOpen(true)} />
+                  <CalculatorGallery onUnlockClick={() => setIsCheckoutOpen(true)} />
                 </div>
               </div>
             </div>
           </div>
         </section>
-
-        {/* 2. THE VISUAL PROOF: 8 REAL WORKBOOK SCREENSHOTS (Uploaded by Owner) */}
-        <CalculatorGallery />
-
-        {/* Quick CTA below Gallery */}
-        <div className="bg-slate-900 pb-12 text-center">
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-slate-800/90 border border-slate-700/80 px-6 py-4 rounded-2xl shadow-xl">
-            <span className="text-white text-sm font-medium">
-              Want these exact 31 formulas running for your house?
-            </span>
-            <button
-              onClick={() => setIsCheckoutOpen(true)}
-              className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-md shadow-amber-500/20 transition-all cursor-pointer flex items-center gap-2"
-            >
-              <span>Download Unlocked Package (₹499)</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
 
         {/* 3. THE INDIAN REALITY: WITHOUT THINKTOOLS VS WITH THINKTOOLS (Side-by-Side Contrast) */}
         <section className="py-16 max-w-6xl mx-auto px-4 sm:px-6">
@@ -206,7 +186,7 @@ export default function ConstructionCalculatorPage() {
               Why 84% of Indian Homeowners Overpay
             </h2>
             <p className="text-slate-600 text-sm mt-2">
-              Building or renovating a home costs ₹25 Lakhs to ₹75 Lakhs+. Here is the costly difference between guessing and auditing:
+              Building or renovating a home costs ₹10 Lakhs to ₹5 Crs+. Here is the costly difference between guessing and auditing:
             </p>
           </div>
 
