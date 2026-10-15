@@ -52,6 +52,7 @@ import {
   FAQS,
   CatalogTool
 } from "@/data/catalog";
+import HomeJsonLd from "@/components/HomeJsonLd";
 
 export default function CommonLandingPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -114,6 +115,7 @@ export default function CommonLandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-amber-500 selection:text-slate-950 font-sans">
+      <HomeJsonLd />
       {/* 1. TOP ANNOUNCEMENT BANNER */}
       <aside
         aria-label="Store Announcement"
@@ -137,7 +139,7 @@ export default function CommonLandingPage() {
       {/* 2. MAIN HEADER */}
       <Header isFocusMode={false} />
 
-      <main className="flex-1">
+      <main className="flex-1 pb-16 sm:pb-0">
         {/* 3. HERO SECTION */}
         <section className="relative pt-8 pb-12 sm:pt-14 sm:pb-18 md:pt-20 md:pb-24 overflow-hidden border-b border-slate-200/80 bg-white">
           {/* Subtle Grid & Gradient Atmosphere */}
@@ -854,7 +856,32 @@ export default function CommonLandingPage() {
         </div>
       )}
 
-      {/* 11. GLOBAL FOOTER */}
+      {/* 11. MOBILE STICKY BOTTOM BAR (Fast Mobile Conversion) */}
+      <aside
+        aria-label="Featured Toolkit Quick Action"
+        className="fixed bottom-0 inset-x-0 z-30 p-2.5 pb-[max(0.65rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t border-slate-200 sm:hidden flex items-center justify-between gap-2.5 shadow-lg"
+      >
+        <div className="min-w-0 pl-1">
+          <span className="text-[10px] text-amber-800 font-bold block truncate uppercase tracking-wider">
+            Flagship Toolkit
+          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-sm font-black text-slate-900 font-mono">₹499</span>
+            <span className="text-[10px] text-slate-400 line-through">₹1,999</span>
+            <span className="text-[10px] text-emerald-700 font-semibold">• 31 Tabs</span>
+          </div>
+        </div>
+
+        <Link
+          href="/p/construction-calculator-pro"
+          className="flex-1 max-w-[210px] py-2.5 px-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all shrink-0"
+        >
+          <span>View Construction Pro</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </aside>
+
+      {/* 12. GLOBAL FOOTER */}
       <Footer />
     </div>
   );
