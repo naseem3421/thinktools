@@ -92,7 +92,7 @@ export async function sendOrderDeliveryEmail({
           <div class="header">
             <span class="badge">Payment Verified • Lifetime License</span>
             <h1 class="title">Your Files Are Attached</h1>
-            <p class="subtitle">Thank you for your order with Thinktools.in</p>
+            <p class="subtitle">ThinkTools.in • Work Smarter.</p>
           </div>
 
           <div class="content">

@@ -36,7 +36,7 @@ export default async function Image() {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <span style={{ fontSize: "32px", fontWeight: "900", letterSpacing: "-0.5px" }}>
-              Thinktools<span style={{ color: "#f59e0b" }}>.in</span>
+              Think<span style={{ color: "#b7fa4d" }}>Tools</span><span style={{ color: "#94a3b8", fontSize: "22px" }}>.in</span>
             </span>
           </div>
 

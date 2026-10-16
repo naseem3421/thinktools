@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Home, Wrench, Search, Compass, FileSpreadsheet } from "lucide-react";
+import { ArrowLeft, Home, Compass, FileSpreadsheet } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 

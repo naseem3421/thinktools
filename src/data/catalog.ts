@@ -4,7 +4,7 @@ export interface CatalogTool {
   title: string;
   shortTitle: string;
   niche: string;
-  category: "all" | "construction" | "real-estate" | "business" | "finance" | "ecommerce" | "nutrition";
+  category: string;
   categoryLabel: string;
   subtitle: string;
   description: string;
@@ -43,11 +43,13 @@ export interface RoadmapTool {
 }
 
 export const CATEGORIES = [
-  { id: "all", label: "All Categories", icon: "LayoutGrid" },
-  { id: "construction", label: "Construction & Civil", icon: "Building2", isFlagship: true },
-  { id: "real-estate", label: "Real Estate & Land", icon: "Home" },
-  { id: "business", label: "Agency & Business", icon: "Briefcase" },
-  { id: "finance", label: "Personal Finance", icon: "TrendingUp" },
+  { id: "all", label: "All Tools", icon: "LayoutGrid", description: "Browse all online tools, Excel models, and digital templates" },
+  { id: "construction", label: "Construction & Civil", icon: "Building2", isFlagship: true, description: "Quantity takeoff, rebar BBS, cement, sand, masonry & bill audit suites" },
+  { id: "electrical", label: "Electrical & Measurement", icon: "Zap", isFlagship: false, description: "Unit conversions, site measurements, wire tables & sizing calculators" },
+  { id: "estimation", label: "Estimation & Budgeting", icon: "Calculator", isFlagship: false, description: "BOQ generators, stage budgets, rate masters & cost contingency models" },
+  { id: "business", label: "Business & Productivity", icon: "Briefcase", isFlagship: false, description: "Hourly rates, client proposals, profit margins & time-saving utilities" },
+  { id: "templates", label: "Templates & Spreadsheets", icon: "FileSpreadsheet", isFlagship: false, description: "Formula-linked, unlocked Microsoft Excel workbooks for offline work" },
+  { id: "saas", label: "Digital Products & SaaS", icon: "Cloud", isFlagship: false, description: "Standalone digital bundles & upcoming cloud collaboration software" },
 ] as const;
 
 export const CATALOG_TOOLS: CatalogTool[] = [
