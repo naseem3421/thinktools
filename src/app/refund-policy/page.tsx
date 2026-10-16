@@ -65,7 +65,7 @@ export default function RefundPolicyPage() {
               <li>You changed your mind, no longer need the toolkit, or purchased by mistake.</li>
               <li>You decided not to use the templates or found your project plans changed.</li>
               <li>You expected a proprietary cloud software subscription rather than unlocked Microsoft Excel (.xlsx) workbooks and PDF guides. All product pages clearly describe the exact file formats.</li>
-              <li>You use a spreadsheet viewer that does not support standard Microsoft Excel or Google Sheets formulas.</li>
+              <li>You use a spreadsheet viewer that does not support standard Microsoft Excel (.xlsx) formulas.</li>
               <li>Personal dissatisfaction with subjective design preferences, color schemes, or layout formatting.</li>
             </ul>
           </section>
@@ -82,7 +82,7 @@ export default function RefundPolicyPage() {
             <ul className="list-disc pl-5 space-y-1.5 text-slate-600">
               <li>Inspect our real, uncropped screenshots in the <strong>Calculator Gallery</strong> on the product page.</li>
               <li>Review the complete index of 31 sheets, bonus guides, and deliverable descriptions.</li>
-              <li>Read the FAQ section covering dual unit toggles (Feet/Inches & Metres), Google Sheets compatibility, and formulas.</li>
+              <li>Read the FAQ section covering dual unit toggles (Feet/Inches & Metres) and Microsoft Excel requirements.</li>
               <li>
                 If you have any questions prior to purchase, contact our team via the{" "}
                 <Link href="/contact" className="text-amber-800 font-semibold underline">
@@ -123,7 +123,7 @@ export default function RefundPolicyPage() {
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block font-semibold">Corrupted or Damaged Files</strong>
-                  If any downloaded file is corrupted or fails to open in standard spreadsheet applications (Excel, Google Sheets), we will promptly replace it with a fresh, verified copy.
+                  If any downloaded file is corrupted or fails to open in Microsoft Excel, we will promptly replace it with a fresh, verified copy.
                 </div>
               </div>
             </div>

@@ -1,41 +1,24 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import {
   CheckCircle,
-  Star,
   FileSpreadsheet,
   Download,
   ShieldCheck,
   Zap,
   ArrowRight,
   Sparkles,
-  Building2,
-  Calculator,
   Laptop,
-  FileText,
-  Clock,
-  ShieldAlert,
   Search,
   CheckCircle2,
-  AlertTriangle,
-  FolderTree,
   Sliders,
-  DollarSign,
   ChevronDown,
   X,
   Award,
   Layers,
-  HelpCircle,
-  BadgeCheck,
-  FileCheck,
-  BookOpen,
   XCircle,
-  Smartphone,
   Mail,
-  Quote,
-  Flame,
   Check
 } from "lucide-react";
 import { PRODUCTS } from "@/data/products";
@@ -176,7 +159,7 @@ export default function ConstructionCalculatorPage() {
                     <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery (Files Attached)
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
-                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Works on Excel & Google Sheets
+                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Requires Microsoft Excel (Windows & Mac)
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <Sliders className="w-3.5 h-3.5 text-amber-600 shrink-0" /> Feet/Inches & Metres Toggle
@@ -674,8 +657,8 @@ export default function ConstructionCalculatorPage() {
                 a: "100% Yes! You don't need any technical background. All complex civil engineering formulas (RCC mix ratios, steel bar weights, mortar coverage) are pre-coded. You simply enter basic room dimensions in Feet or Metres. If you can use WhatsApp and type basic numbers, you can easily use this toolkit."
               },
               {
-                q: "Can I open this on Microsoft Excel, Google Sheets, or mobile?",
-                a: "Yes! The workbooks are pure .xlsx format with standard formulas (no tricky macros or passwords). You can open them on Microsoft Excel (2016 to 365 on Windows & Mac), Google Sheets on your phone or laptop browser, and mobile Excel apps."
+                q: "Which spreadsheet software is required to use this toolkit?",
+                a: "Construction Calculator Pro is built specifically for Microsoft Excel (Excel 2016 to 365 on Windows & Mac). The workbooks are pure OpenXML .xlsx files with advanced cross-sheet formulas, conditional formatting, and rate masters engineered natively for Microsoft Excel. Alternative applications such as Google Sheets are not supported."
               },
               {
                 q: "Where do I receive the files after paying ₹499?",

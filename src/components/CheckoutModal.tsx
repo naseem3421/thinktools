@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X, Lock, Check, AlertCircle, FileSpreadsheet } from "lucide-react";
@@ -77,36 +77,9 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [showFirstName, setShowFirstName] = useState<boolean>(true);
   const [agreeTerms, setAgreeTerms] = useState<boolean>(true);
   const [validationError, setValidationError] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-
-  // Dynamic countdown timer for authentic urgency
-  const [timeLeft, setTimeLeft] = useState({
-    days: 27,
-    hours: 5,
-    minutes: 18,
-    seconds: 27,
-  });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) {
-          return { ...prev, seconds: prev.seconds - 1 };
-        } else if (prev.minutes > 0) {
-          return { ...prev, minutes: 59, seconds: 59 };
-        } else if (prev.hours > 0) {
-          return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        } else if (prev.days > 0) {
-          return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        }
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   if (!isOpen) return null;
 
@@ -365,19 +338,8 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 />
               </div>
 
-              {/* Checkbox: Show first name */}
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-400 pt-1">
-                <input
-                  type="checkbox"
-                  checked={showFirstName}
-                  onChange={(e) => setShowFirstName(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-700 text-amber-500 focus:ring-0 cursor-pointer"
-                />
-                <span>Optional: show my first name in the &ldquo;recent purchase&rdquo; notice on this page.</span>
-              </label>
-
               {/* Mandatory Policy Checkbox */}
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300 leading-relaxed">
+              <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300 leading-relaxed pt-1">
                 <input
                   type="checkbox"
                   checked={agreeTerms}
@@ -496,14 +458,12 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
             <div className="mt-5 pt-4 border-t border-slate-800">
               <div className="flex items-baseline justify-between mb-3">
                 <div>
-                  <span className="text-[11px] sm:text-xs text-slate-400 block">Regular price</span>
-                  <span className="text-slate-500 text-xs sm:text-sm line-through font-mono">
-                    ₹{product.originalPrice}
-                  </span>
+                  <span className="text-[11px] sm:text-xs text-slate-400 block">Package Price</span>
+                  <span className="text-xs text-emerald-400 font-semibold">Lifetime License</span>
                 </div>
                 <div className="text-right">
                   <span className="text-[11px] text-amber-400 font-bold uppercase tracking-wider block">
-                    Limited Special
+                    One-Time Payment
                   </span>
                   <span className="text-2xl sm:text-4xl font-black text-white font-mono">
                     ₹{product.price}
@@ -511,37 +471,15 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 </div>
               </div>
 
-              {/* Countdown Timer */}
-              <div className="bg-[#0b0f14] border border-slate-800 rounded-xl p-2.5 sm:p-3 text-center">
-                <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1 font-bold">
-                  OFFER ENDS IN
-                </span>
-                <div className="grid grid-cols-4 gap-1.5 sm:gap-2 font-mono text-center">
-                  <div className="bg-slate-900 border border-slate-800 rounded-lg py-1 sm:py-1.5">
-                    <span className="text-sm sm:text-lg font-bold text-white block">
-                      {String(timeLeft.days).padStart(2, "0")}
-                    </span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase">DAYS</span>
-                  </div>
-                  <div className="bg-slate-900 border border-slate-800 rounded-lg py-1 sm:py-1.5">
-                    <span className="text-sm sm:text-lg font-bold text-white block">
-                      {String(timeLeft.hours).padStart(2, "0")}
-                    </span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase">HRS</span>
-                  </div>
-                  <div className="bg-slate-900 border border-slate-800 rounded-lg py-1 sm:py-1.5">
-                    <span className="text-sm sm:text-lg font-bold text-white block">
-                      {String(timeLeft.minutes).padStart(2, "0")}
-                    </span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase">MIN</span>
-                  </div>
-                  <div className="bg-slate-900 border border-slate-800 rounded-lg py-1 sm:py-1.5">
-                    <span className="text-sm sm:text-lg font-bold text-amber-400 block">
-                      {String(timeLeft.seconds).padStart(2, "0")}
-                    </span>
-                    <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase">SEC</span>
-                  </div>
+              {/* Verified Product Delivery Info */}
+              <div className="bg-[#0b0f14] border border-slate-800 rounded-xl p-3 text-center space-y-1">
+                <div className="flex items-center justify-center gap-1.5 text-xs text-emerald-400 font-bold">
+                  <Check className="w-4 h-4 text-emerald-400 stroke-[2.5]" />
+                  <span>Instant Digital Delivery</span>
                 </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  Direct on-screen download links + full .zip package automatically attached to your confirmation email.
+                </p>
               </div>
 
               <p className="text-[10px] text-slate-500 mt-2.5 text-center">

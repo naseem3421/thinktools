@@ -59,7 +59,7 @@ export default async function Image() {
                 marginRight: "12px",
               }}
             >
-              4.9/5 Rating (840+ Indian Builders)
+              CPWD & IS 456 STANDARDS
             </div>
             <div
               style={{

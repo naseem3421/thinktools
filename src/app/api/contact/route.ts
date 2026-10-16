@@ -38,7 +38,7 @@ export async function POST(request: Request) {
 
     const categoryLabels: Record<string, string> = {
       "download-issue": "File Download / Re-dispatch",
-      "file-compatibility": "Excel / Google Sheets Compatibility",
+      "file-compatibility": "Microsoft Excel Compatibility",
       "pre-sales": "Pre-Sales Question",
       "billing": "Billing / Duplicate Charge",
       "other": "Other Inquiry",

@@ -132,7 +132,7 @@ export async function sendOrderDeliveryEmail({
 
             <div class="instructions">
               <strong>📎 How to access your files:</strong><br/>
-              Simply download the attached file (<code>Construction_Calculator_Pro_Complete_Bundle.zip</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC, Mac, or mobile phone to start using the tools in Microsoft Excel or Google Sheets immediately.
+              Simply download the attached file (<code>Construction_Calculator_Pro_Complete_Bundle.zip</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC or Mac to start using the tools in Microsoft Excel immediately.
             </div>
 
             <p class="text" style="margin-top: 24px; font-size: 13px;">

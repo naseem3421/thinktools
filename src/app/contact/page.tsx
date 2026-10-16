@@ -209,7 +209,7 @@ export default function ContactPage() {
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
                     >
                       <option value="download-issue">File Download / Re-dispatch</option>
-                      <option value="file-compatibility">Excel / Google Sheets Compatibility</option>
+                      <option value="file-compatibility">Microsoft Excel Compatibility</option>
                       <option value="pre-sales">Pre-Sales Question</option>
                       <option value="billing">Billing / Duplicate Charge</option>
                       <option value="other">Other Inquiry</option>

@@ -13,9 +13,9 @@ export default function HomeJsonLd() {
         "name": "Thinktools",
         "legalName": "Thinktools.in",
         "url": siteUrl,
-        "logo": `${siteUrl}/logo.png`,
+        "logo": `${siteUrl}/favicon.ico`,
         "description":
-          "Premier Indian publisher of professional digital tools, quantity takeoff models, construction estimators, and business spreadsheets.",
+          "Publisher of practical digital tools, quantity takeoff models, construction estimators, and engineering spreadsheets.",
         "email": "support@thinktools.in",
         "foundingLocation": {
           "@type": "Place",
@@ -27,16 +27,16 @@ export default function HomeJsonLd() {
         },
         "knowsAbout": [
           "Civil Engineering Estimation",
-          "IS 456:2000 Standards",
+          "IS 456 Standards",
           "CPWD Rate Norms",
-          "Contractor Bill Auditing",
+          "Contractor Bill Verification",
           "Building Material Calculation",
-          "Financial Modeling in Microsoft Excel",
+          "Microsoft Excel Models",
         ],
         "contactPoint": {
           "@type": "ContactPoint",
           "email": "support@thinktools.in",
-          "contactType": "Customer Support & Technical Help",
+          "contactType": "Customer Support",
           "availableLanguage": ["English", "Hindi"],
         },
       },
@@ -46,25 +46,17 @@ export default function HomeJsonLd() {
         "url": siteUrl,
         "name": "Thinktools.in",
         "description":
-          "Smart digital toolkits, construction estimators, and Excel calculators for builders, professionals, and creators.",
+          "Practical tools, construction estimators, and Excel calculators for builders, professionals, and homeowners.",
         "publisher": {
           "@id": `${siteUrl}#organization`,
         },
         "inLanguage": "en-IN",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": `${siteUrl}/#catalog?q={search_term_string}`,
-          },
-          "query-input": "required name=search_term_string",
-        },
       },
       {
         "@type": "ItemList",
         "@id": `${siteUrl}#catalog`,
-        "name": "Thinktools Digital Spreadsheet Suites & Calculators",
-        "description": "Curated collection of professional offline Excel calculators with zero recurring subscriptions.",
+        "name": "Thinktools Digital Toolkits & Calculators",
+        "description": "Practical Excel calculators and estimation workbooks with zero recurring subscriptions.",
         "itemListElement": CATALOG_TOOLS.map((tool, index) => ({
           "@type": "ListItem",
           "position": index + 1,
@@ -72,8 +64,8 @@ export default function HomeJsonLd() {
             "@type": "Product",
             "name": tool.title,
             "description": tool.description,
-            "url": tool.isReady ? `${siteUrl}${tool.href}` : `${siteUrl}/#catalog`,
-            "image": `${siteUrl}/opengraph-image`,
+            "url": `${siteUrl}${tool.href}`,
+            "image": `${siteUrl}/screenshots/01_cost_estimate.png`,
             "brand": {
               "@type": "Brand",
               "name": "Thinktools",
@@ -82,14 +74,8 @@ export default function HomeJsonLd() {
               "@type": "Offer",
               "priceCurrency": "INR",
               "price": tool.price.toString(),
-              "availability": tool.isReady
-                ? "https://schema.org/InStock"
-                : "https://schema.org/PreOrder",
-            },
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": tool.rating.toString(),
-              "reviewCount": tool.reviewCount.toString(),
+              "availability": "https://schema.org/InStock",
+              "url": `${siteUrl}${tool.href}`,
             },
           },
         })),
@@ -99,10 +85,10 @@ export default function HomeJsonLd() {
         "@id": `${siteUrl}#faq`,
         "mainEntity": FAQS.map((faq) => ({
           "@type": "Question",
-          "name": faq.q,
+          "name": faq.question,
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": faq.a,
+            "text": faq.answer,
           },
         })),
       },

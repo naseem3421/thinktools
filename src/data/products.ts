@@ -34,8 +34,6 @@ export interface Product {
   originalPrice: number;
   currency: string;
   currencySymbol: string;
-  rating: number;
-  reviewCount: number;
   badge?: string;
   unitsSupported: string[];
   compatibility: string[];
@@ -87,14 +85,6 @@ export interface Product {
   faqs: {
     question: string;
     answer: string;
-  }[];
-  testimonials: {
-    name: string;
-    role: string;
-    location: string;
-    comment: string;
-    rating: number;
-    verified: boolean;
   }[];
   folderStructure?: {
     folder: string;
@@ -194,16 +184,14 @@ export const PRODUCTS: Record<string, Product> = {
     originalPrice: 1999,
     currency: "INR",
     currencySymbol: "₹",
-    rating: 4.94,
-    reviewCount: 1420,
     badge: "3 Workbooks · 31 Tabs · 13 PDF Guides · 7 Bonuses",
     unitsSupported: [
       "Feet & Inches (Indian Construction Practice)",
       "Metres & Millimetres (Metric Units)"
     ],
     compatibility: [
-      "Microsoft Excel Desktop (Office 365, Excel 2016 - 2024 on Windows & Mac)",
-      "Google Sheets & LibreOffice Compatible (Standard macro-free formulas)",
+      "Microsoft Excel Only (Office 365, Excel 2016 - 2024 on Windows & Mac)",
+      "Engineered specifically for native Microsoft Excel calculation and formatting",
       "Dual Units: Toggle Feet/Inches or Metres with automatic conversions",
       "Instant Digital Download with Lifetime License"
     ],
@@ -717,9 +705,8 @@ export const PRODUCTS: Record<string, Product> = {
       }
     ],
     requirements: [
-      "Microsoft Excel Desktop recommended for optimal macro-free formula execution.",
-      "Compatible with Excel 2016, 2019, 2021, and Microsoft 365 on Windows & Mac.",
-      "Compatible spreadsheet applications (like Google Sheets & LibreOffice) can open the file.",
+      "Microsoft Excel Required (Office 365, Excel 2016, 2019, 2021, or 2024 on Windows & Mac).",
+      "Requires Microsoft Excel for complete cross-sheet formula calculation and formatting.",
       "Dual units: Supports both Feet/Inches and Metres."
     ],
     disclaimer:
@@ -782,32 +769,6 @@ export const PRODUCTS: Record<string, Product> = {
       {
         question: "Are there any recurring monthly charges?",
         answer: "Zero subscriptions. You pay a one-time fee of ₹499 and own the lifetime license. You can save, duplicate, and reuse the workbooks across unlimited projects."
-      }
-    ],
-    testimonials: [
-      {
-        name: "Er. Rajesh K. Sharma",
-        role: "Civil Contractor & Builder",
-        location: "Pune, Maharashtra",
-        comment: "The 31-sheet layout covers practically every phase from excavation to tiles, painting, and contractor bid comparison. Entering local Pune sand and cement rates updated the entire preliminary BOQ in 10 minutes.",
-        rating: 5,
-        verified: true
-      },
-      {
-        name: "Siddharth Menon",
-        role: "Homeowner (Constructing G+1 House)",
-        location: "Kochi, Kerala",
-        comment: "As a homeowner building my own house, I was worried about my contractor overcharging for TMT steel and cement bags. Using the Bill Check sheet and Material Quality checks, I could cross-check every truck delivery with peace of mind.",
-        rating: 5,
-        verified: true
-      },
-      {
-        name: "Er. Amitav Sen",
-        role: "Site Supervisor",
-        location: "Kolkata, West Bengal",
-        comment: "The nominal mix cement/sand/aggregate ratios and tile adhesive calculator saved me endless manual scratchpad calculations. The 5 exercises and practical worksheets gave our site team huge confidence.",
-        rating: 5,
-        verified: true
       }
     ],
     folderStructure: [

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thinktools.in";
 const pageUrl = `${siteUrl}/p/construction-calculator-pro`;
@@ -109,7 +108,7 @@ export default function ConstructionCalculatorLayout({
         "mpn": "TT-CCP-2026",
         "category": "Civil Engineering Software / Spreadsheets",
         "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Microsoft Excel (2016 or newer, Microsoft 365), Google Sheets, LibreOffice, WPS Office, iOS, Android, macOS, Windows",
+        "operatingSystem": "Microsoft Excel (2016 or newer, Microsoft 365 on Windows & macOS)",
         "fileFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "fileSize": "1.91 MB",
         "brand": {
@@ -166,58 +165,6 @@ export default function ConstructionCalculatorLayout({
             "returnFees": "https://schema.org/FreeReturn",
           },
         },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "bestRating": "5",
-          "worstRating": "1",
-          "ratingCount": "847",
-          "reviewCount": "847",
-        },
-        "review": [
-          {
-            "@type": "Review",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": "5",
-              "bestRating": "5",
-            },
-            "author": {
-              "@type": "Person",
-              "name": "Rajesh Kumar",
-            },
-            "reviewBody":
-              "Saved ₹1.8 Lakhs on my 1800 sq.ft duplex in Bengaluru. The contractor bill audit tab flagged 1.2 tonnes of excess steel billing on the 2nd slab alone.",
-          },
-          {
-            "@type": "Review",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": "5",
-              "bestRating": "5",
-            },
-            "author": {
-              "@type": "Person",
-              "name": "Er. Priya Sundaram",
-            },
-            "reviewBody":
-              "As a consulting structural engineer, I checked all 31 tabs against IS 456:2000 and CPWD standards. Formulas are clean, robust, and zero error bugs.",
-          },
-          {
-            "@type": "Review",
-            "reviewRating": {
-              "@type": "Rating",
-              "ratingValue": "5",
-              "bestRating": "5",
-            },
-            "author": {
-              "@type": "Person",
-              "name": "Venkatesh Murthy",
-            },
-            "reviewBody":
-              "Took 10 minutes to set up. You just enter room dimensions in feet, and it outputs cement bags, sand truckloads, and steel rebar by millimetre diameter.",
-          },
-        ],
       },
       {
         "@type": "FAQPage",
@@ -247,7 +194,7 @@ export default function ConstructionCalculatorLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
-                "The files are pure OpenXML spreadsheets (.xlsx) with zero macros or VBA scripts. They run seamlessly on Microsoft Excel (2016, 2019, 2021, Office 365), Google Sheets (web and mobile app), Apple Numbers, LibreOffice Calc, and WPS Office on Windows, Mac, iPhone, iPad, and Android phones.",
+                "Construction Calculator Pro requires Microsoft Excel (Excel 2016, 2019, 2021, or Microsoft 365 on Windows or Mac). The files are pure OpenXML spreadsheets (.xlsx) engineered with native Microsoft Excel cross-sheet formulas, dynamic rate matrices, and conditional formatting. Google Sheets and other alternative spreadsheet apps are not supported.",
             },
           },
           {

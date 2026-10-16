@@ -9,14 +9,12 @@ export interface CatalogTool {
   subtitle: string;
   description: string;
   price: number;
-  originalPrice: number;
-  discountPercentage: number;
-  rating: number;
-  reviewCount: number;
   badge?: string;
   isFlagship?: boolean;
   isReady: boolean;
-  href: string; // for flagship this is /p/construction-calculator-pro
+  href: string; // link to dedicated product page
+  imageSrc: string;
+  imageAlt: string;
   workbooksCount: number;
   tabsCount: number;
   guideCount: number;
@@ -34,14 +32,22 @@ export interface CatalogTool {
   };
 }
 
+export interface RoadmapTool {
+  id: string;
+  title: string;
+  niche: string;
+  categoryLabel: string;
+  subtitle: string;
+  plannedFeatures: string[];
+  status: "In Development" | "Planned";
+}
+
 export const CATEGORIES = [
-  { id: "all", label: "All Toolkits", icon: "LayoutGrid", count: 6 },
-  { id: "construction", label: "Construction & Civil", icon: "Building2", count: 1, isFlagship: true },
-  { id: "real-estate", label: "Real Estate & Land", icon: "Home", count: 1 },
-  { id: "business", label: "Agency & Freelance", icon: "Briefcase", count: 1 },
-  { id: "finance", label: "Wealth & FIRE", icon: "TrendingUp", count: 1 },
-  { id: "ecommerce", label: "E-Commerce & D2C", icon: "ShoppingBag", count: 1 },
-  { id: "nutrition", label: "Health & Nutrition", icon: "Activity", count: 1 },
+  { id: "all", label: "All Categories", icon: "LayoutGrid" },
+  { id: "construction", label: "Construction & Civil", icon: "Building2", isFlagship: true },
+  { id: "real-estate", label: "Real Estate & Land", icon: "Home" },
+  { id: "business", label: "Agency & Business", icon: "Briefcase" },
+  { id: "finance", label: "Personal Finance", icon: "TrendingUp" },
 ] as const;
 
 export const CATALOG_TOOLS: CatalogTool[] = [
@@ -49,38 +55,37 @@ export const CATALOG_TOOLS: CatalogTool[] = [
     id: "construction-calculator-pro",
     slug: "construction-calculator-pro",
     title: "Construction Calculator Pro – India Edition",
-    shortTitle: "Construction Pro",
-    niche: "Civil Engineering & House Construction",
+    shortTitle: "Construction Calculator Pro",
+    niche: "Civil Engineering & Residential Estimation",
     category: "construction",
     categoryLabel: "Construction & Civil",
-    subtitle: "Complete Indian house construction quantity takeoff, cost estimation & contractor bill audit engine.",
-    description: "Mathematically verified Excel engine built to IS 456 & CPWD specifications. Covers concrete, steel, brickwork, plaster, tiles, plumbing, electrical, and live contractor billing audit to prevent overcharging.",
+    subtitle: "Complete Indian house construction quantity takeoff, cost estimation, and contractor bill verification workbook.",
+    description: "An unlocked, macro-free Microsoft Excel system built around CPWD specifications and IS 456 calculation principles. Covers room area takeoff, concrete, rebar steel, masonry, plaster, flooring, plumbing, electrical, and running bill verification.",
     price: 499,
-    originalPrice: 1999,
-    discountPercentage: 75,
-    rating: 4.94,
-    reviewCount: 2840,
-    badge: "🔥 #1 Bestseller • Most Popular",
+    badge: "Available Now • Complete Suite",
     isFlagship: true,
     isReady: true,
     href: "/p/construction-calculator-pro",
+    imageSrc: "/screenshots/01_cost_estimate.png",
+    imageAlt: "Construction Calculator Pro Cost Estimate Sheet showing bill of quantities and stage budget",
     workbooksCount: 3,
     tabsCount: 31,
     guideCount: 13,
-    fileTypes: [".xlsx (Excel)", "Google Sheets", "13 PDF Guides"],
+    fileTypes: [".xlsx (Requires Microsoft Excel 2016-365)", "13 PDF Guides & Worksheets", "7 Bonus Manuals"],
     keyFeatures: [
-      "31 Connected Tabs: Concrete, Steel (BBS), Brickwork, Flooring & Finishes",
-      "Dynamic Rate Master: Enter your local market rates to get instant project totals",
-      "Contractor Billing Audit Ledger: Cross-check subcontractor bills before paying",
-      "Ready-to-use Sample Workbook: Filled 1,500 sq ft 3-BHK house build example"
+      "31 Connected Worksheets: Room areas, concrete, steel BBS, masonry, plaster, paint, tiles, and services",
+      "Dynamic Central Rate Master: Enter your local market material and labor rates to recalculate the entire project",
+      "Subcontractor Bill Verification Ledger: Cross-check contractor claims against drawing measurements with a 5% variance flag",
+      "Includes 3 Workbooks: Clean Master Template, 1,500 sq ft Villa Example (Chennai), and 1,000 sq ft Apartment Remodel Example",
+      "Dual Measurement Units: Toggle between Feet & Inches and Metric (Metres) across all sheets"
     ],
     solvedProblems: [
-      "Prevents contractor overbilling and surprise project cost inflation",
-      "Eliminates guessing cement bags, steel tonnage, and sand truckloads",
-      "Organizes stage-by-stage labor and vendor payment milestones"
+      "Replaces scattered scratchpad estimates with a unified, formula-linked project ledger",
+      "Calculates theoretical material requirements (cement bags, steel tonnage, sand) using standard civil consumption factors",
+      "Helps cross-examine contractor measurement claims before releasing stage disbursements"
     ],
-    targetAudience: "Homeowners, Civil Engineers, Site Supervisors, Contractors & Architects",
-    highlightTag: "INSTANT ACCESS READY",
+    targetAudience: "Homeowners building or renovating a home, owner-builders, site supervisors, civil engineers, and residential contractors",
+    highlightTag: "INSTANT ACCESS",
     accentColor: {
       primary: "from-amber-500 to-amber-600",
       border: "border-amber-300",
@@ -88,308 +93,138 @@ export const CATALOG_TOOLS: CatalogTool[] = [
       badgeText: "text-amber-800",
       glow: "rgba(245, 158, 11, 0.15)"
     }
-  },
+  }
+];
+
+export const ROADMAP_TOOLS: RoadmapTool[] = [
   {
     id: "real-estate-roi-analyzer",
-    slug: "real-estate-roi-analyzer",
-    title: "Real Estate Deal Analyzer & Rental Yield Pro",
-    shortTitle: "Real Estate ROI Pro",
+    title: "Real Estate Deal Analyzer & Yield Model",
     niche: "Property & Land Investment",
-    category: "real-estate",
     categoryLabel: "Real Estate & Land",
-    subtitle: "Analyze Indian residential & commercial property acquisitions, cash flows, and 20-year ROI.",
-    description: "Underwrite plots, under-construction apartments, and commercial leases with complete Indian stamp duty, registration, GST, and Section 24 / 80C tax deduction modeling.",
-    price: 599,
-    originalPrice: 2499,
-    discountPercentage: 76,
-    rating: 4.91,
-    reviewCount: 1120,
-    badge: "⭐ Investor Choice",
-    isFlagship: false,
-    isReady: true,
-    href: "/p/construction-calculator-pro", // Fallback to store modal / flagship
-    workbooksCount: 2,
-    tabsCount: 14,
-    guideCount: 6,
-    fileTypes: [".xlsx (Excel)", "Google Sheets", "6 PDF Guides"],
-    keyFeatures: [
-      "Net Rental Yield & Cap Rate Calculator for Tier-1 & Tier-2 Indian cities",
-      "Pre-EMI vs Post-EMI Amortization Matrix with Home Loan Prepayment Modeler",
-      "Commercial Lease Escalation & Cam Charges Cash Flow Forecast",
-      "Capital Gains Tax Estimator (LTCG with Indexation comparisons)"
+    subtitle: "Underwriting models for Indian rental yields, stamp duty, registration, and loan prepayment amortization.",
+    plannedFeatures: [
+      "Net rental yield calculations across Tier-1 and Tier-2 Indian cities",
+      "Amortization schedule modeling prepayments and interest savings",
+      "Capital gains tax estimation framework (LTCG / indexation comparisons)"
     ],
-    solvedProblems: [
-      "Distinguishes cash-flowing deals from value traps before signing the agreement",
-      "Simulates real rental returns after municipal taxes, vacancy, and maintenance",
-      "Calculates exact savings from partial home loan prepayments"
-    ],
-    targetAudience: "Property Buyers, Real Estate Investors, HNI Landlords & Consultants",
-    highlightTag: "POPULAR IN 2026",
-    accentColor: {
-      primary: "from-blue-600 to-indigo-600",
-      border: "border-blue-300",
-      badgeBg: "bg-blue-50",
-      badgeText: "text-blue-800",
-      glow: "rgba(59, 130, 246, 0.15)"
-    }
+    status: "In Development"
   },
   {
     id: "agency-client-profit-os",
-    slug: "agency-client-profit-os",
-    title: "Agency Client Retainer & Project Profitability OS",
-    shortTitle: "Agency Profit OS",
-    niche: "Digital Agencies, Studios & Freelancers",
-    category: "business",
-    categoryLabel: "Agency & Freelance",
-    subtitle: "Calculate true billable hourly rates, client retainer margins, and stop unbilled scope creep.",
-    description: "Built for marketing agencies, dev shops, and design studios across India & remote. Accurately factor employee overhead, bench time, GST invoicing, and project milestone profitability.",
-    price: 499,
-    originalPrice: 1999,
-    discountPercentage: 75,
-    rating: 4.88,
-    reviewCount: 940,
-    badge: "⚡ Studio Essential",
-    isFlagship: false,
-    isReady: true,
-    href: "/p/construction-calculator-pro",
-    workbooksCount: 2,
-    tabsCount: 16,
-    guideCount: 8,
-    fileTypes: [".xlsx (Excel)", "Google Sheets", "Client Contract Templates"],
-    keyFeatures: [
-      "True Hourly Cost Calculator factoring bench time, software licenses & rent",
-      "Fixed-Bid vs Monthly Retainer Scope & Margin Simulator",
-      "Automated Milestone Invoicing & Payment Follow-up Pipeline",
-      "Scope Creep Change Order Pricing Sheet & Client Agreement Templates"
+    title: "Agency Retainer & Project Margin Engine",
+    niche: "Studios, Agencies & Independent Consultants",
+    categoryLabel: "Agency & Business",
+    subtitle: "Financial model to calculate true billable hourly rates, team overhead, and fixed-fee client margins.",
+    plannedFeatures: [
+      "True cost-per-hour calculator factoring employee benefits and bench time",
+      "Scope change order pricing worksheet to document revisions",
+      "Milestone-based project disbursement and cash flow forecast"
     ],
-    solvedProblems: [
-      "Stops agencies from underquoting fixed-price client projects",
-      "Surfaces which clients are losing money due to excessive revisions",
-      "Provides clear data to increase retainer fees confidently"
-    ],
-    targetAudience: "Agency Founders, Creative Directors, Freelance Consultants & Dev Studios",
-    highlightTag: "HIGH ROI",
-    accentColor: {
-      primary: "from-violet-600 to-purple-600",
-      border: "border-violet-300",
-      badgeBg: "bg-violet-50",
-      badgeText: "text-violet-800",
-      glow: "rgba(139, 92, 246, 0.15)"
-    }
+    status: "In Development"
   },
   {
     id: "fire-wealth-calculator-india",
-    slug: "fire-wealth-calculator-india",
-    title: "Indian FIRE & Early Retirement Financial Engine",
-    shortTitle: "FIRE Wealth Engine",
-    niche: "Personal Finance & Wealth Creation",
-    category: "finance",
-    categoryLabel: "Wealth & FIRE",
-    subtitle: "Determine your exact financial independence number and inflation-adjusted retirement runway.",
-    description: "Designed specifically for the Indian financial ecosystem. Incorporates healthcare inflation (10-12%), Mutual Fund Step-Up SIPs, NPS, EPF, PPF, real estate cash flow, and tax-efficient withdrawal strategies.",
-    price: 499,
-    originalPrice: 1999,
-    discountPercentage: 75,
-    rating: 4.96,
-    reviewCount: 1650,
-    badge: "🔥 High Demand",
-    isFlagship: false,
-    isReady: true,
-    href: "/p/construction-calculator-pro",
-    workbooksCount: 2,
-    tabsCount: 18,
-    guideCount: 5,
-    fileTypes: [".xlsx (Excel)", "Google Sheets", "FIRE Action Plan PDF"],
-    keyFeatures: [
-      "Multi-Phase Indian Retirement Corpus Model with real lifestyle inflation",
-      "Step-Up SIP Compounding Engine with historical benchmark returns",
-      "Safe Withdrawal Rate (SWR) Stress Tester under market crashes",
-      "Asset Allocation Rebalancing Matrix (Equity vs Debt vs Gold vs Real Estate)"
+    title: "Indian Financial Independence & Corpus Simulator",
+    niche: "Personal Finance & Long-Term Planning",
+    categoryLabel: "Personal Finance",
+    subtitle: "Long-term compounding model factoring Indian lifestyle inflation, Step-Up SIPs, and diversified asset allocation.",
+    plannedFeatures: [
+      "Inflation-adjusted retirement runway modeling healthcare and lifestyle inflation",
+      "Multi-asset rebalancing matrix (Equity, Debt, Gold, Real Estate)",
+      "Systematic withdrawal schedule and stress testing"
     ],
-    solvedProblems: [
-      "Cuts through generic online SIP calculators that ignore Indian inflation",
-      "Shows exactly what age you can afford to retire or take a career break",
-      "Maps debt-to-equity rebalancing without triggering unexpected tax hits"
-    ],
-    targetAudience: "IT Professionals, Salaried Executives, Solopreneurs & Wealth Builders",
-    highlightTag: "LIFE CHANGER",
-    accentColor: {
-      primary: "from-emerald-600 to-teal-600",
-      border: "border-emerald-300",
-      badgeBg: "bg-emerald-50",
-      badgeText: "text-emerald-800",
-      glow: "rgba(16, 185, 129, 0.15)"
-    }
-  },
-  {
-    id: "d2c-unit-economics-simulator",
-    slug: "d2c-unit-economics-simulator",
-    title: "D2C Unit Economics & Ad Spend Breakeven Simulator",
-    shortTitle: "D2C Margin Engine",
-    niche: "E-Commerce, Shopify & Amazon India",
-    category: "ecommerce",
-    categoryLabel: "E-Commerce & D2C",
-    subtitle: "Model COD vs Prepaid margins, RTO losses, courier weight tiers, and blended CAC breakeven.",
-    description: "The battle-tested spreadsheet used by direct-to-consumer founders in India. Factor in 25-35% COD Return-to-Origin (RTO) penalties, payment gateway cuts, GST input credit, and real contribution margin (CM3).",
-    price: 599,
-    originalPrice: 2499,
-    discountPercentage: 76,
-    rating: 4.89,
-    reviewCount: 780,
-    badge: "💼 Founder Toolkit",
-    isFlagship: false,
-    isReady: true,
-    href: "/p/construction-calculator-pro",
-    workbooksCount: 2,
-    tabsCount: 12,
-    guideCount: 4,
-    fileTypes: [".xlsx (Excel)", "Google Sheets", "E-com Playbook PDF"],
-    keyFeatures: [
-      "COD vs Prepaid Net Contribution Margin (CM1, CM2, CM3) Simulator",
-      "RTO Cost Impact Estimator: Calculates dead logistics loss per return",
-      "Target ROAS & Maximum Allowable CAC Calculator for Meta & Google Ads",
-      "Inventory Reorder Point & Working Capital Runway Dashboard"
-    ],
-    solvedProblems: [
-      "Prevents scaling Facebook ads into hidden losses caused by high COD RTO",
-      "Reveals true profit per delivered parcel after all logistics and packaging costs",
-      "Sets strict daily ad budget ceilings based on actual gross margins"
-    ],
-    targetAudience: "D2C Brand Founders, Amazon/Flipkart Sellers, Shopify Store Owners",
-    highlightTag: "FOR GROWTH",
-    accentColor: {
-      primary: "from-rose-600 to-pink-600",
-      border: "border-rose-300",
-      badgeBg: "bg-rose-50",
-      badgeText: "text-rose-800",
-      glow: "rgba(244, 63, 94, 0.15)"
-    }
-  },
-  {
-    id: "diet-nutrition-master-suite",
-    slug: "diet-nutrition-master-suite",
-    title: "Precision Indian Diet & Macro Master Suite",
-    shortTitle: "Nutrition Master",
-    niche: "Health, Fitness & Clinical Nutrition",
-    category: "nutrition",
-    categoryLabel: "Health & Nutrition",
-    subtitle: "1,200+ Indian cooked foods database, macro splits, TDEE calculator & meal plan generator.",
-    description: "Specifically calibrated for Indian diets (dal, roti, rice varieties, paneer, regional dishes). Calculate calorie targets, protein ratios, client dietary logs, and generate formatted PDF meal plans without monthly software fees.",
-    price: 399,
-    originalPrice: 1499,
-    discountPercentage: 73,
-    rating: 4.92,
-    reviewCount: 1430,
-    badge: "🥗 Health Pro",
-    isFlagship: false,
-    isReady: true,
-    href: "/p/construction-calculator-pro",
-    workbooksCount: 2,
-    tabsCount: 10,
-    guideCount: 4,
-    fileTypes: [".xlsx (Excel)", "Google Sheets", "Recipe & Macro PDF"],
-    keyFeatures: [
-      "1,200+ Verified Indian Foods & Regional Recipes with raw vs cooked weights",
-      "Automated TDEE, BMR, and Target Macro Split Generator (Weight loss, Muscle, Maintenance)",
-      "Weekly Client Meal Planning Matrix with automatic grocery list compilation",
-      "Vegetarian & Vegan Protein Optimization Cheat Sheet"
-    ],
-    solvedProblems: [
-      "Solves the lack of accurate Indian food nutrient data in western apps",
-      "Allows fitness coaches to build custom diet plans in under 10 minutes",
-      "No recurring $30/month software subscription needed"
-    ],
-    targetAudience: "Personal Trainers, Nutritionists, Fitness Enthusiasts & Meal Preppers",
-    highlightTag: "INDIAN DIET DATA",
-    accentColor: {
-      primary: "from-teal-600 to-emerald-600",
-      border: "border-teal-300",
-      badgeBg: "bg-teal-50",
-      badgeText: "text-teal-800",
-      glow: "rgba(20, 184, 166, 0.15)"
-    }
+    status: "Planned"
   }
 ];
 
 export const THINKTOOLS_PROMISES = [
   {
     icon: "Unlock",
-    title: "Zero Subscriptions Ever",
-    description: "Pay once and own the tool forever. No monthly billing, no surprise card charges, and no cloud access lockouts."
+    title: "Zero Recurring Subscriptions",
+    description: "Pay once (₹499) for permanent access. No monthly fees, no annual renewals, and no unexpected card charges."
   },
   {
     icon: "ShieldCheck",
-    title: "100% Private & Offline",
-    description: "Runs locally on Microsoft Excel or Google Sheets. Your company figures, project estimates, and net worth never touch any cloud server."
+    title: "100% Private Offline Files",
+    description: "Runs locally on your computer in Microsoft Excel. Your project estimates and numbers never leave your device."
   },
   {
     icon: "Cpu",
-    title: "Battle-Tested Mathematical Models",
-    description: "Every formula is audited by industry practitioners—from licensed civil engineers to certified chartered accountants."
+    title: "Transparent Engineering Formulas",
+    description: "Structured around recognized Indian civil standards (CPWD specifications, IS 456 mix proportions, and IS 1786 rebar constants) with inspectable, editable cells."
   },
   {
     icon: "Zap",
-    title: "Instant Digital Fulfillment",
-    description: "Complete toolkit bundle delivered straight to your email inbox the second your secure UPI/Card checkout completes."
+    title: "Instant Digital Delivery",
+    description: "Immediate on-screen download access upon payment completion plus an automated confirmation email with your .zip package attached."
   }
 ];
 
 export const COMPARISON_POINTS = [
   {
     feature: "Pricing Model",
-    freeWeb: "Ad-heavy or paywalled later",
-    saasApps: "₹1,500 – ₹5,000 / month recurring",
-    thinktools: "₹499 one-time lifetime license"
+    freeWeb: "Ad-heavy or locked behind unexpected paywalls",
+    saasApps: "₹1,500 – ₹5,000 / month recurring subscriptions",
+    thinktools: "₹499 one-time payment for lifetime project use"
   },
   {
     feature: "Data Privacy",
-    freeWeb: "Collected for ad targeting",
-    saasApps: "Stored on third-party servers",
-    thinktools: "100% Local on your computer"
+    freeWeb: "Project data stored on third-party servers",
+    saasApps: "Requires cloud account and persistent connection",
+    thinktools: "100% Local file storage on your own device"
   },
   {
     feature: "Customizability",
-    freeWeb: "Rigid, locked formulas",
-    saasApps: "Limited to rigid UI dropdowns",
-    thinktools: "Fully editable formulas & rows"
+    freeWeb: "Rigid web forms with locked assumptions",
+    saasApps: "Restricted to vendor-defined features",
+    thinktools: "Fully unlocked formulas, editable cells, and rows"
   },
   {
     feature: "Offline Access",
-    freeWeb: "Requires active internet",
-    saasApps: "Stops working without signal",
-    thinktools: "Works 100% offline on any device"
+    freeWeb: "Requires active internet connection",
+    saasApps: "Inaccessible on remote construction sites",
+    thinktools: "Functions completely offline in Microsoft Excel"
   },
   {
-    feature: "Indian Market Specifics",
-    freeWeb: "Generic US / Western units",
-    saasApps: "Poor Indian unit & tax support",
-    thinktools: "Engineered specifically for India"
+    feature: "Indian Construction Standards",
+    freeWeb: "Generic imperial units without Indian trade norms",
+    saasApps: "Western unit conventions with poor Indian rate support",
+    thinktools: "Built for Indian practice (Feet/Inches & Metric, Bags, Brass, Tonnage)"
   }
 ];
 
 export const FAQS = [
   {
-    question: "How do I receive the toolkits after purchase?",
-    answer: "Immediately upon completing payment via Razorpay (UPI, Credit/Debit Cards, Net Banking), your complete digital toolkit (.zip bundle containing all workbooks and PDF guides) is dispatched directly to your registered email address with the files attached for instant, permanent offline access."
+    question: "What is included in Construction Calculator Pro?",
+    answer: "You receive three complete Microsoft Excel (.xlsx) workbooks spanning 31 connected worksheets each: (1) Blank Project Calculator Engine for your custom project, (2) 1,500 sq ft 3-BHK Villa Example (Chennai) with sample calculations and rates, and (3) 1,000 sq ft Flat Renovation Example for interior remodeling. You also receive 13 PDF implementation guides, worksheets, checklists, and 7 specialized bonus reference manuals delivered in a single compressed .zip bundle."
   },
   {
-    question: "Do I need special software or coding skills to use these tools?",
-    answer: "No coding or advanced technical skills required. All our workbooks are engineered for Microsoft Excel (2016 or newer, Microsoft 365, Mac or Windows) and Google Sheets. They are completely macro-free (no dangerous VBA scripts), meaning they open smoothly without security warnings."
+    question: "Who is this calculator designed for?",
+    answer: "The package is designed for homeowners planning a new home construction or renovation, owner-builders managing site purchases directly, site supervisors and civil engineers who need to prepare quick Bill of Quantities (BOQ), and small contractors preparing transparent client quotations."
   },
   {
-    question: "Can I customize the formulas, add my own rows, or change company branding?",
-    answer: "Yes, 100%! Unlike locked web apps, you receive fully unlocked spreadsheet workbooks. You can insert your company logo, modify labor rates, add custom calculation rows, and tailor the layout to your specific business workflow."
+    question: "Which software is required to use Construction Calculator Pro?",
+    answer: "Construction Calculator Pro requires Microsoft Excel (Excel 2016, 2019, 2021, or Microsoft 365 on Windows or Mac). The workbooks are pure OpenXML (.xlsx) files engineered specifically with native Microsoft Excel formulas, conditional formatting rules, and cross-sheet linkages. Google Sheets and other alternative spreadsheet applications are not supported because certain multi-tab formulas, cell formatting, and dynamic references are designed strictly for Microsoft Excel."
   },
   {
-    question: "What makes Construction Calculator Pro different from other online calculators?",
-    answer: "Construction Calculator Pro is a 31-tab connected civil engineering package built to CPWD & IS 456 standards. It includes 3 workbooks (Blank Engine, 1,500 sq ft Chennai Example, and Rate Master), 13 PDF site guides, and 7 bonuses including contractor audit sheets. Clicking on it on this page will take you to its dedicated in-depth presentation."
+    question: "How does digital delivery work after purchase?",
+    answer: "Immediately upon successful payment via Razorpay, your browser redirects to an on-screen confirmation page with direct download links. Simultaneously, our automated fulfillment system dispatches a confirmation email containing your download links and attaching the full .zip bundle directly to your email address."
   },
   {
-    question: "Are there any recurring monthly charges or renewal fees?",
-    answer: "None whatsoever. At Thinktools.in, we stand against the SaaS subscription trap. You pay once and own the workbooks, reference guides, and bonus templates for life."
+    question: "What payment methods are supported?",
+    answer: "We support all major Indian payment methods through Razorpay Standard Checkout: UPI (Google Pay, PhonePe, Paytm, BHIM, and any UPI handle), Debit Cards, Credit Cards (Visa, MasterCard, RuPay), and Net Banking across all major Indian banks."
   },
   {
-    question: "What if I get stuck while using one of the workbooks?",
-    answer: "Every toolkit comes accompanied by comprehensive PDF user guides, step-by-step video walkthrough references, and a pre-filled sample project workbook showing how inputs relate to outputs with built-in guidance notes on every sheet."
+    question: "What is the cancellation and refund policy?",
+    answer: "Because ThinkTools provides instant digital downloads that are fulfilled immediately upon payment, all sales are final once files have been accessed or delivered, as outlined in our Cancellation & Refund Policy. If you experience any technical difficulty opening or downloading your files, our support team will provide replacement files promptly."
+  },
+  {
+    question: "What are the limitations and assumptions of the estimates?",
+    answer: "Construction Calculator Pro provides theoretical material and cost estimates based on user-entered room dimensions, engineering consumption norms (such as CPWD guidelines and IS 456 proportions), and user-provided local material rates. It is not structural engineering software (like STAAD.Pro or ETABS) and does not replace certified structural drawings, municipal plan sanctions, or physical on-site inspections."
+  },
+  {
+    question: "How do I get customer or technical support?",
+    answer: "If you have any questions about downloading your package or opening the files in your preferred spreadsheet software, you can email our support desk directly at support@thinktools.in. We typically respond within 24 business hours."
   }
 ];
