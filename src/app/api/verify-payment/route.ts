@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS } from "@/data/products";
+import { sendMetaCapiEvent } from "@/lib/metaCapi";
 
 export async function POST(request: Request) {
   try {
@@ -106,6 +107,36 @@ export async function POST(request: Request) {
         console.error("Async email delivery error:", emailErr);
       });
     }
+
+    // Automatically dispatch server-side Meta Conversions API (CAPI) event
+    const productSlug = body.product_slug || "construction-calculator-pro";
+    const productObj = PRODUCTS[productSlug];
+    const priceInRupees = productObj ? productObj.price : (Number(body.amount) ? Number(body.amount) / 100 : 499);
+    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
+    const userAgent = request.headers.get("user-agent") || undefined;
+
+    sendMetaCapiEvent({
+      eventName: "Purchase",
+      eventId: razorpay_payment_id,
+      user: {
+        email: recipientEmail,
+        phone: body.customer_phone || body.phone || body.contact,
+        name: body.customer_name || body.name,
+        ip: clientIp,
+        userAgent: userAgent,
+      },
+      customData: {
+        value: priceInRupees,
+        currency: "INR",
+        content_name: body.product_title || productObj?.title || "Construction Calculator Pro",
+        content_ids: [productSlug],
+        content_type: "product",
+        order_id: razorpay_order_id,
+      },
+      eventSourceUrl: `https://thinktools.in/p/${productSlug}`,
+    }).catch((capiErr) => {
+      console.error("Async Meta CAPI delivery error:", capiErr);
+    });
 
     return NextResponse.json({
       success: true,

@@ -200,14 +200,18 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               );
             }
 
-            // Track verified Purchase event
-            trackEvent("Purchase", {
-              content_name: product.title,
-              content_ids: [product.id],
-              value: product.price,
-              currency: "INR",
-              transaction_id: response.razorpay_payment_id,
-            });
+            // Track verified Purchase event with CAPI deduplication key
+            trackEvent(
+              "Purchase",
+              {
+                content_name: product.title,
+                content_ids: [product.id],
+                value: product.price,
+                currency: "INR",
+                transaction_id: response.razorpay_payment_id,
+              },
+              { eventID: response.razorpay_payment_id }
+            );
 
             // 5. Successful verification: Redirect to download page
             const query = new URLSearchParams({

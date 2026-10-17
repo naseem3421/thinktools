@@ -14,12 +14,17 @@ declare global {
 
 export function trackEvent(
   eventName: "ViewContent" | "InitiateCheckout" | "Purchase",
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  options?: { eventID?: string }
 ) {
   if (typeof window !== "undefined") {
     // Meta Pixel
     if (typeof window.fbq === "function") {
-      window.fbq("track", eventName, params);
+      if (options?.eventID) {
+        window.fbq("track", eventName, params, { eventID: options.eventID });
+      } else {
+        window.fbq("track", eventName, params);
+      }
     }
     // Google Analytics 4
     if (typeof window.gtag === "function") {
