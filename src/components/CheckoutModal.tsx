@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X, Lock, Check, AlertCircle, FileSpreadsheet } from "lucide-react";
@@ -74,6 +74,7 @@ function loadRazorpayScript(): Promise<boolean> {
 
 export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) {
   const router = useRouter();
+  const trackedPaymentIds = useRef<Set<string>>(new Set());
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
@@ -115,6 +116,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
       trackEvent("InitiateCheckout", {
         content_name: product.title,
         content_ids: [product.id],
+        content_type: "product",
         value: product.price,
         currency: "INR",
       });
@@ -200,18 +202,22 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               );
             }
 
-            // Track verified Purchase event with CAPI deduplication key
-            trackEvent(
-              "Purchase",
-              {
-                content_name: product.title,
-                content_ids: [product.id],
-                value: product.price,
-                currency: "INR",
-                transaction_id: response.razorpay_payment_id,
-              },
-              { eventID: response.razorpay_payment_id }
-            );
+            // Track verified Purchase event with CAPI deduplication key (guarded against duplicate handler calls)
+            if (!trackedPaymentIds.current.has(response.razorpay_payment_id)) {
+              trackedPaymentIds.current.add(response.razorpay_payment_id);
+              trackEvent(
+                "Purchase",
+                {
+                  content_name: product.title,
+                  content_ids: [product.id],
+                  content_type: "product",
+                  value: product.price,
+                  currency: "INR",
+                  transaction_id: response.razorpay_payment_id,
+                },
+                { eventID: response.razorpay_payment_id }
+              );
+            }
 
             // 5. Successful verification: Redirect to download page
             const query = new URLSearchParams({

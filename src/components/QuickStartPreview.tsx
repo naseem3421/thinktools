@@ -59,7 +59,7 @@ export default function QuickStartPreview({ onUnlockClick }: QuickStartPreviewPr
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveGuideTab(tab.id as any)}
+                onClick={() => setActiveGuideTab(tab.id as "colors" | "workflow" | "checklist" | "troubleshooting")}
                 className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 ${
                   activeGuideTab === tab.id
                     ? "bg-amber-500 text-slate-950 font-bold shadow-lg shadow-amber-500/20"
@@ -312,7 +312,7 @@ export default function QuickStartPreview({ onUnlockClick }: QuickStartPreviewPr
                 </div>
                 <h4 className="text-sm font-bold text-white">Cell Shows Formula Text?</h4>
                 <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                  If a cell shows text instead of a number, simply change cell format from "Text" to "General", then press Enter.
+                  If a cell shows text instead of a number, simply change cell format from &quot;Text&quot; to &quot;General&quot;, then press Enter.
                 </p>
               </div>
 

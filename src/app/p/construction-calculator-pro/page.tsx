@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   CheckCircle,
   FileSpreadsheet,
@@ -35,10 +35,15 @@ export default function ConstructionCalculatorPage() {
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
   const [sheetModalSearch, setSheetModalSearch] = useState("");
 
+  const hasTrackedViewContent = useRef(false);
   useEffect(() => {
+    if (hasTrackedViewContent.current) return;
+    hasTrackedViewContent.current = true;
+
     trackEvent("ViewContent", {
       content_name: product.title,
       content_ids: [product.id],
+      content_type: "product",
       value: product.price,
       currency: "INR",
     });
