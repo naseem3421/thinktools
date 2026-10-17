@@ -1,5 +1,6 @@
 import React from "react";
-import { CATALOG_TOOLS, FAQS } from "@/data/catalog";
+import { CATALOG_TOOLS } from "@/data/catalog";
+import { HOMEPAGE_FAQS } from "@/data/homeContent";
 
 export default function HomeJsonLd() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thinktools.in";
@@ -83,7 +84,7 @@ export default function HomeJsonLd() {
       {
         "@type": "FAQPage",
         "@id": `${siteUrl}#faq`,
-        "mainEntity": FAQS.map((faq) => ({
+        "mainEntity": HOMEPAGE_FAQS.map((faq) => ({
           "@type": "Question",
           "name": faq.question,
           "acceptedAnswer": {

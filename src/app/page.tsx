@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -13,448 +13,239 @@ import {
   Calculator,
   ChevronDown,
   ChevronUp,
-  Search,
   Building2,
   Check,
-  Cpu,
-  Unlock,
-  Maximize2,
-  X,
-  Compass,
-  Rocket,
-  Cloud,
+  AlertCircle,
   Mail,
-  Briefcase,
-  LayoutGrid
+  Layers,
+  Wrench,
+  Bot,
+  Laptop,
+  CheckCircle,
+  HelpCircle,
+  Clock,
+  Send,
+  Compass,
+  FileText,
+  Filter
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import PopularTools from "@/components/PopularTools";
-import {
-  CATALOG_TOOLS,
-  CATEGORIES,
-  THINKTOOLS_PROMISES,
-  COMPARISON_POINTS,
-  FAQS
-} from "@/data/catalog";
 import HomeJsonLd from "@/components/HomeJsonLd";
-
-interface ScreenshotItem {
-  id: string;
-  tabNumber: number;
-  tabName: string;
-  category: string;
-  headline: string;
-  subtitle: string;
-  imageSrc: string;
-  altText: string;
-  details: string;
-}
-
-const PRODUCT_SCREENSHOTS: ScreenshotItem[] = [
-  {
-    id: "cost-estimate",
-    tabNumber: 13,
-    tabName: "13. Cost Estimate",
-    category: "Costing & Budget",
-    headline: "Consolidated Bill of Quantities (BOQ) with Contingency",
-    subtitle: "Every cost line item, trade subtotal, contingency buffer, and rate per sq.ft calculated automatically.",
-    imageSrc: "/screenshots/01_cost_estimate.png",
-    altText: "Tab 13 Cost Estimate - Consolidated Bill of Quantities with trade subtotals",
-    details: "Links dynamic rates from Tab 20 directly to your room dimensions and quantity takeoffs."
-  },
-  {
-    id: "dashboard",
-    tabNumber: 24,
-    tabName: "24. Dashboard",
-    category: "Overview & Controls",
-    headline: "Executive Project Dashboard & Summary Rollups",
-    subtitle: "Real-time totals, material summaries, and budget variance gauges update as you enter site data.",
-    imageSrc: "/screenshots/02_dashboard.png",
-    altText: "Tab 24 Dashboard - Executive project summary with charts and material totals",
-    details: "Provides instant visibility into project cost per sq.ft, total estimated spend, and material totals."
-  },
-  {
-    id: "room-area",
-    tabNumber: 4,
-    tabName: "04. Room Area",
-    category: "Quantity Takeoff",
-    headline: "Room-by-Room Dimensional Survey & Openings Deductions",
-    subtitle: "Enter length, width, and height once. Floor carpet areas and gross/net wall areas calculate automatically.",
-    imageSrc: "/screenshots/03_room_area.png",
-    altText: "Tab 04 Room Area - Detailed room survey with automatic conversions",
-    details: "Supports up to 12 rooms with automatic unit conversion between Feet/Inches and Metric Metres."
-  },
-  {
-    id: "paint-tiles",
-    tabNumber: 6,
-    tabName: "06. Paint & Tiles",
-    category: "Quantity Takeoff",
-    headline: "Surface Finishes, Tile Counts & Paint Litres",
-    subtitle: "Litres of primer and paint, tile box counts, and adhesive bags worked out with opening cutouts deducted.",
-    imageSrc: "/screenshots/04_paint_tiles.png",
-    altText: "Tab 06 Paint and Tiles - Net wall area, primer, paint litres, and tile calculations",
-    details: "Automatically subtracts doors and windows from wall surface areas to prevent over-ordering paint."
-  },
-  {
-    id: "order-list",
-    tabNumber: 17,
-    tabName: "17. Order List",
-    category: "Procurement & Site",
-    headline: "Material Procurement Schedule with Wastage Buffers",
-    subtitle: "Exact procurement quantities for cement bags, rebar steel, sand, and bricks with customizable safety buffers.",
-    imageSrc: "/screenshots/05_order_list.png",
-    altText: "Tab 17 Order List - Procurement schedule with lead times and wastage buffers",
-    details: "Applies standard civil wastage allowances (2-5%) to avoid site stoppages from material shortages."
-  },
-  {
-    id: "stage-budget",
-    tabNumber: 21,
-    tabName: "21. Stage Budget",
-    category: "Cashflow & Trades",
-    headline: "Disbursement Milestone Tracker & Cashflow Forecast",
-    subtitle: "Phase-by-phase breakdown for substructure, RCC frame, brickwork, and finishes to prevent cash shortages.",
-    imageSrc: "/screenshots/06_stage_budget.png",
-    altText: "Tab 21 Stage Budget - Milestone payments and construction cashflow forecast",
-    details: "Helps schedule contractor release payments against completed site milestones rather than unearned calendar dates."
-  },
-  {
-    id: "bill-check",
-    tabNumber: 25,
-    tabName: "25. Bill Check",
-    category: "Contractor Audit",
-    headline: "Subcontractor Invoice & Running Account (RA) Audit",
-    subtitle: "Flag quantity discrepancies between contractor billed claims and certified site measurements with a 5% trigger.",
-    imageSrc: "/screenshots/07_bill_check.png",
-    altText: "Tab 25 Bill Check - Automated contractor bill audit with 5% variance flag",
-    details: "Instant visual warning flags notify you before certifying invoice payments with inflated consumption claims."
-  },
-  {
-    id: "quotation",
-    tabNumber: 30,
-    tabName: "30. Quotation",
-    category: "Client Proposal",
-    headline: "Printable Client Estimate & Quotation Generator",
-    subtitle: "Form-formatted quotation document populated directly from your calculation tabs for client proposals.",
-    imageSrc: "/screenshots/08_quotation.png",
-    altText: "Tab 30 Quotation - Professional printable client estimate with GST breakdown",
-    details: "Print-ready layout designed with proper page breaks and corporate header formatting."
-  }
-];
-
-interface PracticalScenario {
-  id: string;
-  title: string;
-  role: string;
-  context: string;
-  problem: string;
-  workbookSolution: string;
-  tabsUsed: string[];
-}
-
-const PRACTICAL_SCENARIOS: PracticalScenario[] = [
-  {
-    id: "villa-takeoff",
-    title: "Scenario A: Residential Villa Quantity Takeoff (1,500 sq ft G+1)",
-    role: "Homeowner & Owner-Builder",
-    context: "Planning an independent 3-BHK house build with an item-rate labor contractor in suburban Chennai.",
-    problem: "Needed to verify theoretical requirements for cement bags, 8mm–16mm TMT rebar steel, and coarse sand before releasing advance money for raw materials.",
-    workbookSolution: "Used Sheet 04 (Room Area) to record plot and room dimensions, Sheet 08 (Concrete) to calculate footing, column, and slab volumes with dry-volume factor (1.54), and Sheet 20 (Rates) to model current local supplier prices. Resulted in a structured Bill of Quantities before signing contractor agreements.",
-    tabsUsed: ["04. Room Area", "08. Concrete", "11. Steel BBS", "13. Cost Estimate", "20. Rates"]
-  },
-  {
-    id: "flat-remodel",
-    title: "Scenario B: Apartment Interior Renovation (1,000 sq ft Flat)",
-    role: "Apartment Owner / Interior Renovator",
-    context: "Remodeling kitchen, two bathrooms, and living area in an existing high-rise apartment.",
-    problem: "Manual estimates typically overlook door and window cutout deductions, leading to surplus tiles and excess paint buckets stored in balconies.",
-    workbookSolution: "Used the dedicated 'Construction_Calculator_Pro_EXAMPLE_renovation.xlsx' workbook. Sheet 04 and Sheet 06 subtracted window and door openings to calculate net plaster surface area, primer liters, and exact 600×600 mm vitrified floor tile cartons with 7% breakage buffer.",
-    tabsUsed: ["04. Room Area", "06. Paint & Tiles", "14. Room Costs", "17. Order List"]
-  },
-  {
-    id: "bill-audit",
-    title: "Scenario C: Subcontractor Running Account (RA) Bill Verification",
-    role: "Civil Site Supervisor / Client Representative",
-    context: "A masonry subcontractor submitted a running account bill claiming 3,800 cu.ft of 9-inch brickwork and 180 bags of cement.",
-    problem: "Site supervisors need a standardized check to ensure claims align with certified architectural drawings before approving invoice disbursement.",
-    workbookSolution: "Input the contractor's billed numbers into Sheet 25 (Bill Check). The built-in conditional formula automatically compared the billed quantity against the drawing takeoff in Sheet 09 (Bricks & Blocks) and flagged any variance greater than +5% in red for joint site measurement before authorization.",
-    tabsUsed: ["09. Bricks & Blocks", "10. Plaster", "25. Bill Check", "28. Payments"]
-  }
-];
+import ProjectDiscussionModal from "@/components/ProjectDiscussionModal";
+import {
+  DIGITAL_PRODUCTS,
+  CUSTOM_SOLUTIONS,
+  PROJECT_WORK_STEPS,
+  WHY_THINKTOOLS,
+  WHO_WE_BUILD_FOR,
+  HOMEPAGE_FAQS
+} from "@/data/homeContent";
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedScreenshot, setSelectedScreenshot] = useState<ScreenshotItem>(PRODUCT_SCREENSHOTS[0]);
-  const [isZoomOpen, setIsZoomOpen] = useState<boolean>(false);
-  const [activeScenarioId, setActiveScenarioId] = useState<string>("villa-takeoff");
+  const [isDiscussionOpen, setIsDiscussionOpen] = useState<boolean>(false);
+  const [discussionTopic, setDiscussionTopic] = useState<string>("Custom Calculator Development");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  // Filter tools based on search and category
-  const filteredTools = useMemo(() => {
-    return CATALOG_TOOLS.filter((tool) => {
-      const matchesCategory = selectedCategory === "all" || tool.category === selectedCategory;
-      if (!searchQuery.trim()) return matchesCategory;
-      const query = searchQuery.toLowerCase();
-      const matchesSearch =
-        tool.title.toLowerCase().includes(query) ||
-        tool.niche.toLowerCase().includes(query) ||
-        tool.description.toLowerCase().includes(query) ||
-        tool.keyFeatures.some((f) => f.toLowerCase().includes(query));
-      return matchesCategory && matchesSearch;
-    });
-  }, [searchQuery, selectedCategory]);
-
-  const activeScenario = PRACTICAL_SCENARIOS.find((s) => s.id === activeScenarioId) || PRACTICAL_SCENARIOS[0];
-
-  const getCategoryIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Building2":
-        return <Building2 className="w-4 h-4 text-[#172033]" />;
-      case "Zap":
-        return <Zap className="w-4 h-4 text-[#172033]" />;
-      case "Calculator":
-        return <Calculator className="w-4 h-4 text-[#172033]" />;
-      case "Briefcase":
-        return <Briefcase className="w-4 h-4 text-[#172033]" />;
-      case "FileSpreadsheet":
-        return <FileSpreadsheet className="w-4 h-4 text-[#172033]" />;
-      case "Cloud":
-        return <Cloud className="w-4 h-4 text-[#172033]" />;
-      default:
-        return <LayoutGrid className="w-4 h-4 text-[#172033]" />;
-    }
-  };
-
-  const getPromiseIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Unlock":
-        return <Unlock className="w-5 h-5 text-[#172033]" />;
-      case "ShieldCheck":
-        return <ShieldCheck className="w-5 h-5 text-[#172033]" />;
-      case "Cpu":
-        return <Cpu className="w-5 h-5 text-[#172033]" />;
-      case "Zap":
-        return <Zap className="w-5 h-5 text-[#172033]" />;
-      default:
-        return <CheckCircle2 className="w-5 h-5 text-[#172033]" />;
-    }
+  const handleOpenDiscussion = (topic: string) => {
+    setDiscussionTopic(topic);
+    setIsDiscussionOpen(true);
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#475569] flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-amber-500 selection:text-slate-950 font-sans">
       <HomeJsonLd />
 
-      {/* TOP ANNOUNCEMENT TICKER */}
-      <aside
-        aria-label="Important Announcement"
-        className="w-full bg-[#172033] text-white text-[11px] sm:text-xs py-2.5 px-4 text-center font-medium border-b border-slate-800 flex items-center justify-center flex-wrap gap-x-2.5 gap-y-1"
-      >
-        <span className="inline-flex items-center gap-1.5 bg-[#B9F36B]/20 text-[#B9F36B] border border-[#B9F36B]/30 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shrink-0">
-          Featured Suite
-        </span>
-        <span className="text-slate-300">
-          Construction Calculator Pro (3 Workbooks, 31 Connected Tabs, 13 Civil Guides & 7 Bonuses)
-        </span>
-        <span className="hidden sm:inline text-slate-600">•</span>
-        <span className="text-white font-bold">₹499 One-Time Payment</span>
-        <span className="hidden sm:inline text-slate-600">•</span>
-        <Link
-          href="/p/construction-calculator-pro"
-          className="inline-flex items-center gap-1 text-[#B9F36B] font-bold hover:underline ml-1 cursor-pointer transition-colors whitespace-nowrap"
-        >
-          View Details &rarr;
-        </Link>
-      </aside>
-
-      {/* SECTION A: HEADER */}
+      {/* =========================================================================
+          1. HEADER / NAVIGATION
+         ========================================================================= */}
       <Header isFocusMode={false} />
 
       <main className="flex-1">
         {/* =========================================================================
-            SECTION B: HERO SECTION
-            Benefit-focused headline, clear value proposition, Clean Light Theme.
+            2. HERO SECTION
+            Eyebrow: PRACTICAL DIGITAL TOOLS & SOFTWARE
+            Heading: Practical Tools. Purpose-Built Solutions.
            ========================================================================= */}
-        <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 overflow-hidden border-b border-[#E2E8F0] bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            {/* Context Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F7FA] border border-[#E2E8F0] text-[#172033] text-xs font-semibold mb-6 shadow-2xs">
-              <span className="flex h-2 w-2 rounded-full bg-[#84cc16]" />
-              <span>ThinkTools</span>
-              <span className="text-slate-300">•</span>
-              <span className="text-[#64748B]">Work Smarter. Solve Problems Faster.</span>
+        <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 overflow-hidden border-b border-slate-200 bg-white">
+          {/* Subtle Grid Pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a05_1px,transparent_1px),linear-gradient(to_bottom,#0f172a05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] sm:w-[700px] h-[220px] sm:h-[300px] bg-gradient-to-b from-amber-500/10 via-amber-400/5 to-transparent rounded-full blur-[90px] pointer-events-none" />
+
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+              <span>PRACTICAL DIGITAL TOOLS & SOFTWARE</span>
             </div>
 
-            {/* Benefit-Focused H1 */}
-            <h1 className="font-heading text-hero-h1 text-[#172033] max-w-4xl mx-auto">
-              Work Smarter.{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10">Solve Problems Faster.</span>
-                <span className="absolute bottom-1.5 sm:bottom-2 left-0 w-full h-3 sm:h-3.5 bg-[#B9F36B]/60 -z-0 rounded-xs" />
+            {/* Single Page H1 */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.15] max-w-4xl mx-auto">
+              Practical Tools.{" "}
+              <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent">
+                Purpose-Built Solutions.
               </span>
             </h1>
 
-            {/* Supporting Copy */}
-            <p className="mt-5 sm:mt-6 text-sm sm:text-lg text-[#475569] max-w-2xl mx-auto leading-relaxed">
-              Practical calculators, online tools and ready-to-use digital products that help you save time, reduce manual work, and make confident decisions.
+            {/* Body */}
+            <p className="mt-5 text-sm sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              ThinkTools brings together useful online calculators, ready-to-use digital products,
+              and custom software solutions for real-world tasks.
+            </p>
+            <p className="mt-2 text-sm sm:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
+              Use an existing tool, explore our products, or discuss a digital solution built around
+              your specific requirements.
             </p>
 
-            {/* Verifiable Product Facts */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-2.5 text-xs sm:text-sm text-[#475569] font-medium">
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#84cc16] shrink-0" />
-                <span>Zero Subscriptions (Lifetime Ownership)</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#84cc16] shrink-0" />
-                <span>100% Private Offline Files</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#84cc16] shrink-0" />
-                <span>Instant Digital Delivery</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#84cc16] shrink-0" />
-                <span>Standards Aligned (CPWD & IS 456)</span>
-              </div>
-            </div>
-
-            {/* Primary & Secondary CTAs */}
-            <div className="mt-8 sm:mt-10 max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3">
+            {/* CTAs */}
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5">
               <a
-                href="#catalog"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#B9F36B] hover:bg-[#a8eb56] text-[#172033] font-bold text-sm shadow-xs transition-all cursor-pointer whitespace-nowrap"
+                id="hero-primary-cta"
+                href="#products"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-md shadow-amber-500/20 transition-all cursor-pointer whitespace-nowrap"
               >
-                <span>Explore Free Tools</span>
+                <span>Explore Products</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
               <a
-                href="#digital-products"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-[#F5F7FA] text-[#172033] border border-[#E2E8F0] font-semibold text-sm shadow-xs transition-all cursor-pointer whitespace-nowrap"
+                id="hero-secondary-cta"
+                href="#custom-solutions"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-md transition-all cursor-pointer whitespace-nowrap"
               >
-                <span>View Digital Products</span>
+                <span>Build a Custom Solution</span>
               </a>
             </div>
+
+            {/* Small supporting line */}
+            <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-center gap-2 text-xs text-slate-500 font-medium">
+              <span>Digital products</span>
+              <span className="text-slate-300">•</span>
+              <span>Custom calculators</span>
+              <span className="text-slate-300">•</span>
+              <span>Software solutions</span>
+            </div>
           </div>
         </section>
 
         {/* =========================================================================
-            SECTION C & D: SEARCH, QUICK ACCESS & POPULAR WORKING TOOLS
-            Light Grey background (#F5F7FA) with pure white interactive cards.
+            3. DIGITAL PRODUCTS
+            Eyebrow: TOOLS YOU CAN USE
+            Heading: Digital Products for Practical Work (Reduced Title Size)
+            3 Compact Tiles with Cover Images:
+            - Construction Calculator Pro (Available Now, ₹499)
+            - Construction Management SaaS (Coming Soon)
+            - WhatsApp Automation (Coming Soon)
            ========================================================================= */}
-        <section id="catalog" className="py-14 sm:py-20 bg-[#F5F7FA] border-b border-[#E2E8F0]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            {/* Section Header & Search */}
-            <div className="text-center max-w-3xl mx-auto space-y-4">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E2E8F0] text-xs font-bold text-[#172033] uppercase tracking-wider shadow-2xs">
-                <Calculator className="w-3.5 h-3.5 text-[#172033]" />
-                <span>Free Online Utilities</span>
-              </div>
-              <h2 className="font-heading text-section-h2 text-[#172033] tracking-tight">
-                Popular Practical Tools
+        <section id="products" className="py-12 sm:py-16 bg-slate-100/70 border-y border-slate-200 scroll-mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div className="text-center max-w-2xl mx-auto space-y-1.5">
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-widest block">
+                TOOLS YOU CAN USE
+              </span>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-950 tracking-tight">
+                Digital Products for Practical Work
               </h2>
-              <p className="text-sm sm:text-base text-[#475569]">
-                Accurate, fast calculators you can use immediately in your browser—no downloads or sign-ups required.
-              </p>
-
-              {/* Search Bar */}
-              <div className="max-w-lg mx-auto pt-2">
-                <div className="relative">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    placeholder="Search calculators, tools and templates..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-10 py-3 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#172033] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#172033]/10 focus:border-[#172033] transition-all shadow-xs"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery("")}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 font-semibold cursor-pointer"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Quick Category Shortcuts */}
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                {CATEGORIES.map((cat) => {
-                  const isSelected = selectedCategory === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      onClick={() => setSelectedCategory(cat.id)}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                        isSelected
-                          ? "bg-[#172033] text-white shadow-xs font-bold"
-                          : "bg-white text-[#172033] border border-[#E2E8F0] hover:bg-slate-50"
-                      }`}
-                    >
-                      {getCategoryIcon(cat.icon)}
-                      <span>{cat.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Popular Tools Component (6 Interactive Working Calculators) */}
-            <PopularTools />
-          </div>
-        </section>
-
-        {/* =========================================================================
-            SECTION E: CATEGORIES DIRECTORY
-            Pure white background (#FFFFFF) with clean category architecture.
-           ========================================================================= */}
-        <section id="categories" className="py-14 sm:py-20 bg-white border-b border-[#E2E8F0]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5F7FA] border border-[#E2E8F0] text-xs font-bold text-[#172033] uppercase tracking-wider shadow-2xs">
-                <Compass className="w-3.5 h-3.5 text-[#172033]" />
-                <span>Domain Directory</span>
-              </div>
-              <h2 className="font-heading text-section-h2 text-[#172033] tracking-tight">
-                Explore by Tool Category
-              </h2>
-              <p className="text-sm sm:text-base text-[#475569]">
-                Find calculation utilities, professional spreadsheets, and digital models organized by domain.
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Explore downloadable tools and purpose-built software products for specific workflows.
               </p>
             </div>
 
-            {/* Category Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {CATEGORIES.filter((c) => c.id !== "all").map((cat) => (
+            {/* Products Grid - Compact Tiles with Cover Images */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto items-stretch">
+              {DIGITAL_PRODUCTS.map((prod) => (
                 <div
-                  key={cat.id}
-                  onClick={() => {
-                    setSelectedCategory(cat.id);
-                    const el = document.getElementById("catalog");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="p-6 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#172033] hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
+                  key={prod.id}
+                  className={`rounded-2xl overflow-hidden bg-white flex flex-col justify-between transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+                    prod.isAvailable
+                      ? "border-2 border-amber-400/90 shadow-sm shadow-amber-500/5 ring-1 ring-amber-400/20"
+                      : "border border-slate-200/90 shadow-2xs"
+                  }`}
                 >
-                  <div className="space-y-3">
-                    <div className="w-12 h-12 rounded-xl bg-[#F5F7FA] border border-[#E2E8F0] flex items-center justify-center group-hover:bg-[#B9F36B]/20 group-hover:border-[#B9F36B] transition-colors">
-                      {getCategoryIcon(cat.icon)}
+                  {/* Card Cover Image */}
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
+                    <Image
+                      src={prod.coverImage}
+                      alt={prod.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover object-top transition-transform duration-500 hover:scale-105"
+                      priority={prod.isAvailable}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none" />
+
+                    {/* Floating Badges */}
+                    <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-2 pointer-events-none">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-white bg-slate-950/80 backdrop-blur-xs px-2.5 py-0.5 rounded-full font-semibold border border-white/10 shadow-xs">
+                        {prod.category}
+                      </span>
+                      <span
+                        className={`text-[10px] font-mono px-2.5 py-0.5 rounded-full font-bold shadow-xs ${
+                          prod.isAvailable
+                            ? "bg-emerald-500 text-white"
+                            : "bg-slate-900/85 backdrop-blur-xs text-slate-300 border border-white/10"
+                        }`}
+                      >
+                        {prod.availability}
+                      </span>
                     </div>
-                    <div>
-                      <h3 className="font-heading text-base font-bold text-[#172033] group-hover:text-[#172033]">
-                        {cat.label}
-                      </h3>
-                      <p className="text-xs text-[#475569] mt-1.5 leading-relaxed">
-                        {cat.description}
-                      </p>
-                    </div>
+
+                    {/* Price Tag if available */}
+                    {prod.price && (
+                      <div className="absolute bottom-2.5 left-2.5 flex items-baseline gap-1.5 bg-slate-950/90 backdrop-blur-xs border border-white/15 px-2.5 py-1 rounded-lg shadow-sm">
+                        <span className="text-sm font-black text-amber-400 font-mono">
+                          {prod.price}
+                        </span>
+                        <span className="text-[10px] text-slate-300 font-medium">
+                          {prod.priceNote}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-[#E2E8F0] flex items-center justify-between text-xs font-semibold text-[#172033]">
-                    <span className="text-[#64748B]">Browse Category</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  {/* Card Body */}
+                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                    <div className="space-y-2">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-950 tracking-tight leading-snug">
+                        {prod.name}
+                      </h3>
+
+                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                        {prod.description}
+                      </p>
+
+                      {/* Deliverables / Highlights */}
+                      <ul className="space-y-1 pt-1.5 text-[11px] text-slate-600">
+                        {prod.details.slice(0, 3).map((detail, idx) => (
+                          <li key={idx} className="flex items-center gap-1.5 truncate">
+                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                            <span className="truncate">{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Action Button */}
+                    <div className="pt-3 border-t border-slate-100 mt-2">
+                      {prod.isAvailable && prod.ctaHref ? (
+                        <Link
+                          id={`product-${prod.id}-cta`}
+                          href={prod.ctaHref}
+                          className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+                        >
+                          <span>{prod.ctaText}</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={() => handleOpenDiscussion(`${prod.name} (Register Interest)`)}
+                          className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-all cursor-pointer"
+                        >
+                          <Mail className="w-3 h-3" />
+                          <span>{prod.ctaText}</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -463,450 +254,300 @@ export default function HomePage() {
         </section>
 
         {/* =========================================================================
-            SECTION F: DIGITAL PRODUCTS & VERIFIABLE SUITES
-            Show downloadable products separately from free online tools.
+            4. CUSTOM SOLUTIONS
+            Eyebrow: BUILT FOR YOU
+            Heading: Need a Tool Built for Your Workflow?
+            Compact 4-Column Grid + Streamlined Consultation Bar
            ========================================================================= */}
-        <section id="digital-products" className="py-14 sm:py-20 bg-[#F5F7FA] border-b border-[#E2E8F0]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#E2E8F0] text-xs font-bold text-[#172033] uppercase tracking-wider shadow-2xs">
-                <FileSpreadsheet className="w-3.5 h-3.5 text-[#172033]" />
-                <span>Downloadable Systems</span>
-              </div>
-              <h2 className="font-heading text-section-h2 text-[#172033] tracking-tight">
-                Flagship Digital Products & Spreadsheets
+        <section id="custom-solutions" className="py-12 sm:py-16 bg-white border-b border-slate-200 scroll-mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div className="text-center max-w-2xl mx-auto space-y-1.5">
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-widest block">
+                BUILT FOR YOU
+              </span>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-950 tracking-tight">
+                Need a Tool Built for Your Workflow?
               </h2>
-              <p className="text-sm sm:text-base text-[#475569]">
-                Professional, macro-free Microsoft Excel workbooks built around Indian engineering standards. Instant download with lifetime license.
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                We design and build custom calculators, specialized software tools, and automated pipelines tailored to your exact business rules.
               </p>
             </div>
 
-            {/* Featured Product Card: Construction Calculator Pro */}
-            {filteredTools.map((tool) => (
-              <div
-                key={tool.id}
-                className="rounded-3xl bg-white border border-[#E2E8F0] p-6 sm:p-10 shadow-xs hover:border-slate-300 transition-all space-y-8"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                  {/* Left Column: Product Summary */}
-                  <div className="lg:col-span-7 space-y-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#172033] text-white">
-                        Flagship Excel Suite
-                      </span>
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        {tool.badge}
-                      </span>
+            {/* 4 Custom Solution Cards in a Compact 4-Column Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto items-stretch">
+              {CUSTOM_SOLUTIONS.map((service, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 rounded-2xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-amber-400/80 shadow-2xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group"
+                >
+                  <div className="space-y-3">
+                    <div className="w-9 h-9 rounded-xl bg-slate-950 text-amber-400 flex items-center justify-center font-bold shadow-2xs group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                      {idx === 0 && <Calculator className="w-4 h-4" />}
+                      {idx === 1 && <Laptop className="w-4 h-4" />}
+                      {idx === 2 && <Bot className="w-4 h-4" />}
+                      {idx === 3 && <Layers className="w-4 h-4" />}
                     </div>
 
-                    <h3 className="font-heading text-sub-h3 font-extrabold text-[#172033] tracking-tight">
-                      {tool.title}
-                    </h3>
-
-                    <p className="text-sm text-[#475569] leading-relaxed">
-                      {tool.description}
-                    </p>
-
-                    {/* Key Specs Matrix */}
-                    <div className="grid grid-cols-3 gap-3 py-2 text-center">
-                      <div className="p-3 rounded-xl bg-[#F5F7FA] border border-[#E2E8F0]">
-                        <div className="text-lg font-heading font-black text-[#172033] tabular-nums">{tool.workbooksCount}</div>
-                        <div className="text-[10px] text-[#64748B] uppercase font-bold">Workbooks</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#F5F7FA] border border-[#E2E8F0]">
-                        <div className="text-lg font-heading font-black text-[#172033] tabular-nums">{tool.tabsCount}</div>
-                        <div className="text-[10px] text-[#64748B] uppercase font-bold">Connected Sheets</div>
-                      </div>
-                      <div className="p-3 rounded-xl bg-[#F5F7FA] border border-[#E2E8F0]">
-                        <div className="text-lg font-heading font-black text-[#172033] tabular-nums">{tool.guideCount}</div>
-                        <div className="text-[10px] text-[#64748B] uppercase font-bold">PDF Guides</div>
-                      </div>
-                    </div>
-
-                    {/* Key Highlight Bullets */}
-                    <div className="space-y-2 pt-1 text-xs sm:text-sm text-[#475569]">
-                      {tool.keyFeatures.slice(0, 3).map((feat, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <Check className="w-4 h-4 text-[#84cc16] shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Right Column: Pricing & Purchase Action */}
-                  <div className="lg:col-span-5 bg-[#F5F7FA] border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 space-y-6 text-center lg:text-left">
                     <div>
-                      <span className="text-xs font-bold text-[#64748B] uppercase tracking-wider block">
-                        One-Time Lifetime License
-                      </span>
-                      <div className="flex items-baseline justify-center lg:justify-start gap-2 mt-1">
-                        <span className="text-4xl font-heading font-black text-[#172033] tabular-nums">
-                          ₹{tool.price}
-                        </span>
-                        <span className="text-sm text-slate-400 line-through tabular-nums">₹1,999</span>
-                        <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                          Save ₹1,500 Today
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#64748B] mt-2">
-                        Zero recurring subscriptions. Instant digital delivery with .zip attached to email.
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-slate-950 transition-colors leading-snug">
+                        {service.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 leading-relaxed mt-1.5 line-clamp-2">
+                        {service.description}
                       </p>
                     </div>
 
-                    <div className="space-y-2.5">
-                      <Link
-                        href={tool.href}
-                        className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#B9F36B] hover:bg-[#a8eb56] text-[#172033] font-bold text-sm shadow-xs transition-all cursor-pointer"
-                      >
-                        <span>View Full Specifications (₹{tool.price})</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-
-                      <div className="text-[11px] text-[#64748B] text-center">
-                        Requires Microsoft Excel 2016–365 on Windows or Mac
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* Upcoming SaaS Cloud Construction App Teaser */}
-            <div className="rounded-3xl bg-white border border-[#E2E8F0] p-6 sm:p-8 shadow-xs relative overflow-hidden">
-              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                <div className="space-y-3 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F5F7FA] border border-[#E2E8F0] text-[#172033] text-xs font-bold">
-                    <Rocket className="w-3.5 h-3.5 text-[#172033]" />
-                    <span>Upcoming Product · Coming Soon</span>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-black text-[#172033] tracking-tight">
-                    Looking for Cloud Estimation? ThinkTools Construction Cloud SaaS
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-                    ThinkTools provides two distinct options for construction professionals: our available <strong className="text-[#172033]">Construction Calculator Pro</strong> (downloadable Excel toolkit for a single ₹499 one-time payment), and our upcoming <strong className="text-[#172033]">Construction Cloud SaaS</strong>, currently in development for teams seeking browser-based workflows and multi-device cloud synchronization.
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-[#64748B] font-medium">
-                    <span className="flex items-center gap-1.5 text-[#172033]">
-                      <Cloud className="w-3.5 h-3.5" /> Browser-Based Workflows
-                    </span>
-                    <span className="flex items-center gap-1.5 text-[#172033]">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Multi-Device Cloud Sync
-                    </span>
-                    <span className="flex items-center gap-1.5 text-[#172033]">
-                      <Sparkles className="w-3.5 h-3.5" /> Plans starting at ₹999/year
-                    </span>
-                  </div>
-                </div>
-
-                <div className="shrink-0 w-full lg:w-auto">
-                  <div className="bg-[#F5F7FA] border border-[#E2E8F0] rounded-2xl p-5 text-center lg:text-left space-y-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-[11px] uppercase tracking-wider text-[#172033] font-bold block">
-                        Construction Cloud SaaS
+                    {/* Compact Deliverables */}
+                    <div className="pt-1">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-semibold block mb-1.5">
+                        Key Deliverables:
                       </span>
-                      <span className="text-[10px] bg-slate-200 text-[#172033] px-2 py-0.5 rounded-full font-bold">
-                        Coming Soon
-                      </span>
+                      <ul className="space-y-1 text-[11px] text-slate-600">
+                        {service.examples.slice(0, 3).map((ex, exIdx) => (
+                          <li key={exIdx} className="flex items-center gap-1.5 truncate">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                            <span className="truncate">{ex}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
+                  </div>
 
-                    <div>
-                      <div className="text-xs text-[#64748B] font-medium">Annual Subscription</div>
-                      <div className="text-xl sm:text-2xl font-black text-[#172033] font-mono mt-0.5">
-                        Plans starting at ₹999<span className="text-xs font-normal text-[#64748B]">/year</span>
-                      </div>
-                      <div className="text-[11px] text-[#64748B] mt-1 leading-normal max-w-xs">
-                        Independent subscription service. Not included in the ₹499 one-time Excel toolkit purchase.
-                      </div>
-                    </div>
-
-                    <a
-                      href="mailto:support@thinktools.in?subject=Construction%20Cloud%20SaaS%20Early%20Access"
-                      className="inline-flex items-center justify-center gap-2 w-full mt-1 px-4 py-2.5 rounded-xl bg-[#172033] hover:bg-[#1e293b] text-white font-bold text-xs shadow-xs transition-all cursor-pointer"
+                  <div className="pt-3 border-t border-slate-200/70 mt-4">
+                    <button
+                      onClick={() => handleOpenDiscussion(service.title)}
+                      className="w-full text-xs font-bold text-slate-800 hover:text-amber-800 inline-flex items-center justify-between transition-colors cursor-pointer group-hover:text-amber-700"
                     >
-                      <Mail className="w-3.5 h-3.5" />
-                      <span>Contact Us for Early Access</span>
-                    </a>
+                      <span>Discuss Requirement</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </button>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
 
-            {/* Interactive Screenshot Preview Gallery (Clean Light Theme) */}
-            <div className="rounded-3xl bg-white border border-[#E2E8F0] p-6 sm:p-10 shadow-xs space-y-8">
-              <div className="text-center max-w-3xl mx-auto space-y-2">
-                <span className="text-xs font-bold text-[#64748B] uppercase tracking-widest block">
-                  Interactive Worksheet Inspector
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#172033] tracking-tight">
-                  Inspect Real Worksheets & Formulas
-                </h3>
-                <p className="text-sm text-[#475569]">
-                  Explore actual screenshots of the included 31 worksheets. Click any tab below to inspect its layout, calculations, and functions.
+            {/* Streamlined Bottom Action Bar */}
+            <div className="max-w-4xl mx-auto rounded-2xl bg-slate-950 text-white p-5 sm:p-6 border border-slate-800 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center sm:text-left">
+                <div className="inline-flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-amber-400" />
+                  <span className="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold">
+                    Custom Project Consultation
+                  </span>
+                </div>
+                <h4 className="text-sm sm:text-base font-bold text-white">
+                  Have a specific software, spreadsheet, or automation requirement?
+                </h4>
+                <p className="text-xs text-slate-400">
+                  We assess technical feasibility, scope, timeline, and exact pricing before work begins.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                {/* Left Column: Tab Selector Buttons */}
-                <div className="lg:col-span-4 space-y-2">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#64748B] block mb-2 font-bold">
-                    Select Worksheet to Inspect:
-                  </span>
-                  <div className="space-y-1.5 max-h-[460px] overflow-y-auto pr-1">
-                    {PRODUCT_SCREENSHOTS.map((item) => {
-                      const isSelected = selectedScreenshot.id === item.id;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => setSelectedScreenshot(item)}
-                          className={`w-full text-left p-3 rounded-xl border text-xs transition-all cursor-pointer flex items-center justify-between ${
-                            isSelected
-                              ? "bg-[#172033] text-white font-bold border-[#172033] shadow-xs"
-                              : "bg-[#F5F7FA] border-[#E2E8F0] text-[#172033] hover:bg-slate-100"
-                          }`}
-                        >
-                          <div>
-                            <span className="block text-[10px] font-mono opacity-80">{item.category}</span>
-                            <span className="text-xs">{item.tabName}</span>
-                          </div>
-                          <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? "text-[#B9F36B]" : "text-slate-400"}`} />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Right Column: High-Resolution Screenshot Preview */}
-                <div className="lg:col-span-8 bg-[#F5F7FA] rounded-2xl border border-[#E2E8F0] p-5 space-y-4 shadow-xs">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-[#E2E8F0] pb-3">
-                    <div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#64748B] block font-bold">
-                        {selectedScreenshot.category} · Tab #{selectedScreenshot.tabNumber}
-                      </span>
-                      <h4 className="text-base sm:text-lg font-bold text-[#172033] mt-0.5">
-                        {selectedScreenshot.headline}
-                      </h4>
-                    </div>
-                    <button
-                      onClick={() => setIsZoomOpen(true)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#172033] text-xs font-semibold cursor-pointer shrink-0 transition-colors hover:bg-slate-50"
-                    >
-                      <Maximize2 className="w-3.5 h-3.5" />
-                      <span>Zoom Image</span>
-                    </button>
-                  </div>
-
-                  <div
-                    onClick={() => setIsZoomOpen(true)}
-                    className="relative rounded-xl overflow-hidden bg-white border border-[#E2E8F0] aspect-[16/10] w-full cursor-zoom-in group"
-                  >
-                    <Image
-                      src={selectedScreenshot.imageSrc}
-                      alt={selectedScreenshot.altText}
-                      fill
-                      className="object-cover object-top group-hover:scale-101 transition-transform duration-200"
-                      sizes="(max-width: 1024px) 100vw, 750px"
-                    />
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-white border border-[#E2E8F0] text-xs text-[#475569] flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#84cc16] shrink-0 mt-0.5" />
-                    <div>
-                      <span className="font-bold text-[#172033]">{selectedScreenshot.subtitle}</span>
-                      <p className="text-[#64748B] text-[11px] mt-0.5">{selectedScreenshot.details}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Practical Project Scenarios */}
-              <div className="pt-8 border-t border-[#E2E8F0] space-y-6">
-                <div className="text-center max-w-2xl mx-auto space-y-1">
-                  <span className="text-xs text-[#64748B] font-bold uppercase tracking-wider block">
-                    Practical Site Applications
-                  </span>
-                  <h4 className="font-heading text-xl sm:text-2xl font-bold text-[#172033]">
-                    How Users Apply the Workbooks on Real Sites
-                  </h4>
-                  <p className="text-xs text-[#475569]">
-                    Concrete examples of tasks and calculations supported by the 31 worksheets.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {PRACTICAL_SCENARIOS.map((scenario) => {
-                    const isActive = activeScenarioId === scenario.id;
-                    return (
-                      <button
-                        key={scenario.id}
-                        onClick={() => setActiveScenarioId(scenario.id)}
-                        className={`p-3.5 rounded-xl border text-left text-xs transition-all cursor-pointer ${
-                          isActive
-                            ? "bg-[#172033] text-white font-bold border-[#172033] shadow-xs"
-                            : "bg-[#F5F7FA] border-[#E2E8F0] text-[#172033] hover:bg-slate-100"
-                        }`}
-                      >
-                        <span className="block text-[10px] opacity-75">{scenario.role}</span>
-                        <span className="text-xs leading-snug block mt-0.5 font-medium">{scenario.title.split(":")[0]}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="p-5 sm:p-6 rounded-2xl bg-[#F5F7FA] border border-[#E2E8F0] space-y-4 text-xs">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E2E8F0] pb-3">
-                    <h5 className="font-heading text-sm sm:text-base font-bold text-[#172033]">{activeScenario.title}</h5>
-                    <span className="text-[11px] text-[#64748B] bg-white px-2.5 py-0.5 rounded border border-[#E2E8F0] font-medium">
-                      Role: {activeScenario.role}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <strong className="text-[#172033] block mb-1 font-semibold">Site Situation & Challenge:</strong>
-                      <p className="text-[#475569] leading-relaxed">{activeScenario.problem}</p>
-                    </div>
-                    <div>
-                      <strong className="text-[#172033] block mb-1 font-semibold">How the Excel Toolkit Solves It:</strong>
-                      <p className="text-[#475569] leading-relaxed">{activeScenario.workbookSolution}</p>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px]">
-                    <span className="font-bold text-[#172033]">Sheets Employed:</span>
-                    {activeScenario.tabsUsed.map((tab, idx) => (
-                      <span key={idx} className="bg-white px-2 py-0.5 rounded border border-[#E2E8F0] text-[#172033] font-medium">
-                        {tab}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <button
+                  onClick={() => handleOpenDiscussion("General Custom Project")}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer whitespace-nowrap"
+                >
+                  <span>Discuss Your Project</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+                <a
+                  href="mailto:support@thinktools.in?subject=Custom%20Solution%20Enquiry"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 font-bold text-xs transition-all whitespace-nowrap"
+                  title="support@thinktools.in"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  <span className="hidden md:inline">Email Us</span>
+                </a>
               </div>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            SECTION G: WHY THINKTOOLS & COMPARISON
-            Pure White background (#FFFFFF) with clear practical value propositions.
+            6. HOW A CUSTOM PROJECT WORKS
+            Eyebrow: A CLEAR PROCESS
+            Heading: From Requirement to Working Solution
+            Steps: 01. Share Your Requirement, 02. Define the Scope,
+                   03. Develop and Review, 04. Handover
            ========================================================================= */}
-        <section id="why-us" className="py-14 sm:py-20 bg-white border-b border-[#E2E8F0]">
+        <section id="process" className="py-14 sm:py-20 bg-slate-50 border-b border-slate-200 scroll-mt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F5F7FA] border border-[#E2E8F0] text-xs font-bold text-[#172033] uppercase tracking-wider shadow-2xs">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#172033]" />
-                <span>Our Principles</span>
-              </div>
-              <h2 className="font-heading text-section-h2 text-[#172033] tracking-tight">
-                Product-Based Value Over Subscription Traps
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-widest block">
+                A CLEAR PROCESS
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                From Requirement to Working Solution
               </h2>
-              <p className="text-xs sm:text-sm text-[#475569]">
-                Practical tools should be completely private, transparently priced, and owned outright.
+              <p className="text-sm text-slate-600">
+                A structured four-step journey to convert your workflow requirement into a tested digital tool.
               </p>
             </div>
 
-            {/* 4 Feature Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {THINKTOOLS_PROMISES.map((promise, idx) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              {PROJECT_WORK_STEPS.map((step) => (
                 <div
-                  key={idx}
-                  className="p-6 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs space-y-3 hover:border-slate-300 transition-all"
+                  key={step.step}
+                  className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-3 flex flex-col justify-between"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-[#F5F7FA] border border-[#E2E8F0] flex items-center justify-center">
-                    {getPromiseIcon(promise.icon)}
+                  <div className="space-y-2">
+                    <span className="text-2xl font-black text-amber-500 font-mono block">
+                      {step.step}
+                    </span>
+                    <h3 className="text-base font-bold text-slate-900">
+                      {step.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
-                  <h3 className="font-heading text-sm font-bold text-[#172033]">{promise.title}</h3>
-                  <p className="text-xs text-[#475569] leading-relaxed">{promise.description}</p>
                 </div>
               ))}
             </div>
 
-            {/* Comparison Table */}
-            <div className="mt-14 max-w-4xl mx-auto">
-              <div className="text-center mb-6">
-                <h3 className="font-heading text-lg font-bold text-[#172033]">
-                  How ThinkTools Compares to Alternatives
-                </h3>
-              </div>
-              <div className="rounded-2xl border border-[#E2E8F0] bg-white overflow-hidden shadow-xs">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs sm:text-sm">
-                    <thead>
-                      <tr className="bg-[#F5F7FA] border-b border-[#E2E8F0] text-[#172033] font-bold">
-                        <th className="p-4 font-heading">Feature</th>
-                        <th className="p-4 text-[#64748B] font-medium">Free Internet Calculators</th>
-                        <th className="p-4 text-[#64748B] font-medium">Recurring SaaS Apps</th>
-                        <th className="p-4 bg-[#B9F36B]/20 text-[#172033] font-heading font-extrabold border-l border-[#B9F36B]/40">
-                          ThinkTools Pro Toolkits
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#E2E8F0]">
-                      {COMPARISON_POINTS.map((pt, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                          <td className="p-4 font-bold text-[#172033]">{pt.feature}</td>
-                          <td className="p-4 text-[#475569]">{pt.freeWeb}</td>
-                          <td className="p-4 text-[#475569]">{pt.saasApps}</td>
-                          <td className="p-4 font-bold text-[#172033] bg-[#B9F36B]/10 border-l border-[#B9F36B]/30">
-                            <span className="flex items-center gap-1.5 text-[#172033]">
-                              <Check className="w-4 h-4 text-[#84cc16] shrink-0" />
-                              {pt.thinktools}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+            <div className="text-center pt-2">
+              <button
+                onClick={() => handleOpenDiscussion("Start a Conversation")}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+              >
+                <span>Start a Conversation</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </section>
 
         {/* =========================================================================
-            SECTION: FAQS
-            Light grey background with pure white cards.
+            7. WHY THINKTOOLS?
+            Eyebrow: OUR APPROACH
+            Heading: Practical Solutions, Clearly Explained
+            4 Pillars: Built Around Real Requirements, Clear Product Information,
+                       Transparent Scope and Pricing, Different Ways to Solve a Problem
            ========================================================================= */}
-        <section id="faqs" className="py-14 sm:py-20 bg-[#F5F7FA] border-b border-[#E2E8F0]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-            <div className="text-center space-y-2">
-              <span className="text-xs font-bold text-[#64748B] uppercase tracking-wider block">
-                Frequently Asked Questions
+        <section id="about" className="py-14 sm:py-20 bg-white border-b border-slate-200 scroll-mt-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-widest block">
+                OUR APPROACH
               </span>
-              <h2 className="font-heading text-section-h2 text-[#172033] tracking-tight">
-                Clear Answers to Common Inquiries
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                Practical Solutions, Clearly Explained
               </h2>
-              <p className="text-xs sm:text-sm text-[#475569]">
-                Everything you need to know about purchasing, file compatibility, and digital fulfillment.
+              <p className="text-sm text-slate-600">
+                Our focus is on clear scope and useful functionality—not exaggerated claims or
+                guaranteed business outcomes.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              {WHY_THINKTOOLS.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-6 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-2xs space-y-3"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center font-bold text-sm">
+                    {idx + 1}
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="max-w-3xl mx-auto p-4 rounded-xl bg-slate-100 border border-slate-200 text-center text-xs text-slate-600">
+              Our focus is on clear scope and useful functionality—not exaggerated claims or guaranteed business outcomes.
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            8. WHO WE BUILD FOR
+            Eyebrow: DIFFERENT NEEDS, PRACTICAL TOOLS
+            Heading: One Platform. Different Problems to Solve.
+            4 items: Construction & Civil, Business & Operations,
+                     Professionals & Consultants, Businesses With Specific Requirements
+           ========================================================================= */}
+        <section className="py-14 sm:py-20 bg-slate-50 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-widest block">
+                DIFFERENT NEEDS, PRACTICAL TOOLS
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                One Platform. Different Problems to Solve.
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600">
+                Tools and software models planned around realistic day-to-day requirements.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              {WHO_WE_BUILD_FOR.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-2"
+                >
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-center text-[11px] text-slate-500 max-w-2xl mx-auto leading-relaxed">
+              These describe the types of requirements ThinkTools can explore; they are not claims of
+              existing clients or completed projects in every category.
+            </p>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            9. FREQUENTLY ASKED QUESTIONS
+            Strictly factual answers based on actual specifications.
+           ========================================================================= */}
+        <section id="faqs" className="py-14 sm:py-20 bg-white border-b border-slate-200 scroll-mt-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-widest block">
+                QUESTIONS & ANSWERS
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600">
+                Direct information regarding tools, products, custom development, and pricing.
               </p>
             </div>
 
             <div className="space-y-3">
-              {FAQS.map((faq, idx) => {
+              {HOMEPAGE_FAQS.map((faq, idx) => {
                 const isOpen = openFaq === idx;
                 return (
                   <div
                     key={idx}
-                    className="rounded-2xl border border-[#E2E8F0] bg-white overflow-hidden shadow-2xs transition-all"
+                    className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-2xs transition-all"
                   >
                     <button
                       onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer"
+                      className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-bold text-slate-900 text-xs sm:text-sm hover:text-amber-700 transition-colors cursor-pointer"
                     >
-                      <span className="font-heading font-bold text-sm sm:text-base text-[#172033]">{faq.question}</span>
-                      <div className="w-7 h-7 rounded-full bg-[#F5F7FA] border border-[#E2E8F0] flex items-center justify-center shrink-0">
-                        {isOpen ? (
-                          <ChevronUp className="w-4 h-4 text-[#172033]" />
-                        ) : (
-                          <ChevronDown className="w-4 h-4 text-slate-400" />
-                        )}
-                      </div>
+                      <span>{faq.question}</span>
+                      {isOpen ? (
+                        <ChevronUp className="w-4 h-4 text-slate-400 shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                      )}
                     </button>
                     {isOpen && (
-                      <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-[#475569] leading-relaxed border-t border-[#E2E8F0] pt-3">
+                      <div className="px-4 pb-5 sm:px-5 sm:pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
                         {faq.answer}
                       </div>
                     )}
@@ -918,79 +559,76 @@ export default function HomePage() {
         </section>
 
         {/* =========================================================================
-            SECTION H: FINAL CTA
-            Restrained Midnight Navy background with Lime Green CTA.
+            10. FINAL CTA
+            Eyebrow: HAVE A PROBLEM TO SOLVE?
+            Heading: Start With the Right Tool.
+            Description: Explore our available products, use a free online tool,
+            or tell us about a calculator or software solution you need.
+            Primary CTA: Explore Products
+            Secondary CTA: Discuss a Custom Solution
+            Contact: support@thinktools.in
            ========================================================================= */}
-        <section className="py-16 sm:py-24 bg-[#172033] text-white relative overflow-hidden">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#B9F36B] text-xs font-bold uppercase tracking-wider">
-              <span>Ready to Work Smarter?</span>
+        <section className="py-16 sm:py-20 bg-slate-950 text-white text-center border-t border-slate-800">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold border border-amber-500/30">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>HAVE A PROBLEM TO SOLVE?</span>
             </div>
 
-            <h2 className="font-heading text-section-h2 text-white tracking-tight leading-tight">
-              Ready to Work Smarter?
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
+              Start With the Right Tool.
             </h2>
 
             <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
-              Find practical tools and digital products that make everyday work easier. Instant download, lifetime ownership, and zero monthly fees.
+              Explore our available products, use a free online tool, or tell us about a calculator
+              or software solution you need.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-3.5 pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
               <a
-                href="#catalog"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#B9F36B] hover:bg-[#a8eb56] text-[#172033] font-bold text-sm shadow-xs transition-all cursor-pointer"
+                href="#products"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-md shadow-amber-500/20 transition-all cursor-pointer"
               >
-                <span>Explore Free Tools</span>
+                <span>Explore Products</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
-              <Link
-                href="/p/construction-calculator-pro"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-sm transition-all cursor-pointer"
+
+              <button
+                onClick={() => handleOpenDiscussion("Discuss a Custom Solution")}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 font-bold text-sm transition-all cursor-pointer"
               >
-                <span>View Construction Calculator Pro (₹499)</span>
-              </Link>
+                <span>Discuss a Custom Solution</span>
+              </button>
+            </div>
+
+            <div className="pt-4 text-xs text-slate-400">
+              Contact:{" "}
+              <a
+                href="mailto:support@thinktools.in"
+                className="text-amber-400 hover:text-amber-300 font-mono underline font-medium"
+              >
+                support@thinktools.in
+              </a>
             </div>
           </div>
         </section>
       </main>
 
-      {/* SECTION I: FOOTER */}
-      <Footer />
 
-      {/* Screenshot Zoom Modal */}
-      {isZoomOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="relative max-w-5xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-700">
-            <button
-              onClick={() => setIsZoomOpen(false)}
-              className="absolute top-3 right-3 z-10 p-2 rounded-full bg-slate-900/80 hover:bg-slate-900 text-white transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <div className="relative w-full aspect-[16/10] bg-slate-950">
-              <Image
-                src={selectedScreenshot.imageSrc}
-                alt={selectedScreenshot.altText}
-                fill
-                className="object-contain"
-                sizes="(max-width: 1280px) 100vw, 1200px"
-              />
-            </div>
-            <div className="p-4 bg-white border-t border-[#E2E8F0] flex justify-between items-center text-xs">
-              <div>
-                <span className="font-bold text-[#172033]">{selectedScreenshot.headline}</span>
-                <p className="text-[#64748B] text-[11px]">{selectedScreenshot.subtitle}</p>
-              </div>
-              <button
-                onClick={() => setIsZoomOpen(false)}
-                className="px-4 py-2 rounded-lg bg-[#172033] text-white font-bold cursor-pointer hover:bg-slate-800"
-              >
-                Close Preview
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
+      {/* =========================================================================
+          CUSTOM PROJECT DISCUSSION & EARLY INTEREST REGISTRATION MODAL
+         ========================================================================= */}
+      <ProjectDiscussionModal
+        isOpen={isDiscussionOpen}
+        onClose={() => setIsDiscussionOpen(false)}
+        defaultTopic={discussionTopic}
+      />
+
+      {/* =========================================================================
+          11. FOOTER
+         ========================================================================= */}
+      <Footer />
     </div>
   );
 }

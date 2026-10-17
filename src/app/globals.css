@@ -1,30 +1,16 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-heading: var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-manrope: var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-inter: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
 @layer base {
   :root {
-    --font-heading: var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-body: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --navy: #172033;
-    --lime: #B9F36B;
-    --pure-white: #FFFFFF;
-    --light-grey: #F5F7FA;
-    --slate-body: #475569;
-    --slate-muted: #64748B;
-    --border-soft: #E2E8F0;
+    --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   html {
     scroll-behavior: smooth;
     font-family: var(--font-body);
-    background-color: #FFFFFF;
-    color: #172033;
+    background-color: #f8fafc;
+    color: #0f172a;
     max-width: 100vw;
     overflow-x: hidden;
   }
@@ -32,89 +18,12 @@
   body {
     max-width: 100vw;
     overflow-x: hidden;
-    background-color: #FFFFFF;
-    color: #475569;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.6;
-    letter-spacing: -0.011em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.025em;
-    line-height: 1.15;
-    color: #172033;
   }
-
-  h1 {
-    font-weight: 800;
-  }
-
-  h2 {
-    font-weight: 700;
-  }
-
-  h3 {
-    font-weight: 700;
-  }
-
-  h4, h5, h6 {
-    font-weight: 600;
-  }
-
-  p {
-    line-height: 1.65;
-  }
-
-  button, input, select, textarea, label {
-    font-family: var(--font-body);
-  }
-}
-
-.font-heading {
-  font-family: var(--font-heading);
-}
-
-.font-manrope {
-  font-family: var(--font-manrope);
-}
-
-.font-body, .font-inter {
-  font-family: var(--font-body);
-}
-
-/* Fluid responsive typography utilities */
-.text-hero-h1 {
-  font-family: var(--font-heading);
-  font-size: clamp(2.125rem, 4vw + 1rem, 3.75rem); /* 34px mobile to 60px desktop */
-  line-height: 1.12;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.text-section-h2 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.625rem, 2.5vw + 0.8rem, 2.5rem); /* 26px mobile to 40px desktop */
-  line-height: 1.2;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-}
-
-.text-sub-h3 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 1.5vw + 0.75rem, 1.75rem); /* 20px mobile to 28px desktop */
-  line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.text-card-title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.125rem, 1vw + 0.75rem, 1.375rem); /* 18px to 22px */
-  line-height: 1.3;
-  font-weight: 700;
-  letter-spacing: -0.015em;
 }
 
 /* Custom Sleek Scrollbar (Light Theme) */
