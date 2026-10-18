@@ -1,5 +1,4 @@
 import React from "react";
-import { CATALOG_TOOLS } from "@/data/catalog";
 import { HOMEPAGE_FAQS } from "@/data/homeContent";
 
 export default function HomeJsonLd() {
@@ -11,12 +10,12 @@ export default function HomeJsonLd() {
       {
         "@type": "Organization",
         "@id": `${siteUrl}#organization`,
-        "name": "Thinktools",
+        "name": "ThinkTools",
         "legalName": "Thinktools.in",
         "url": siteUrl,
-        "logo": `${siteUrl}/logo.png`,
+        "logo": `${siteUrl}/icon.png`,
         "description":
-          "Publisher of practical digital tools, quantity takeoff models, construction estimators, and engineering spreadsheets.",
+          "Publisher of practical digital products, construction calculators, and custom software and workflow solutions.",
         "email": "support@thinktools.in",
         "foundingLocation": {
           "@type": "Place",
@@ -27,12 +26,11 @@ export default function HomeJsonLd() {
           "name": "India",
         },
         "knowsAbout": [
-          "Civil Engineering Estimation",
-          "IS 456 Standards",
-          "CPWD Rate Norms",
-          "Contractor Bill Verification",
-          "Building Material Calculation",
-          "Microsoft Excel Models",
+          "Digital Products",
+          "Custom Calculator Development",
+          "Construction Quantity Estimation",
+          "Workflow Automation",
+          "Custom Software & SaaS Development",
         ],
         "contactPoint": {
           "@type": "ContactPoint",
@@ -45,41 +43,33 @@ export default function HomeJsonLd() {
         "@type": "WebSite",
         "@id": `${siteUrl}#website`,
         "url": siteUrl,
-        "name": "Thinktools.in",
+        "name": "ThinkTools",
         "description":
-          "Practical tools, construction estimators, and Excel calculators for builders, professionals, and homeowners.",
+          "Digital products and custom software solutions for practical workflows.",
         "publisher": {
           "@id": `${siteUrl}#organization`,
         },
         "inLanguage": "en-IN",
       },
       {
-        "@type": "ItemList",
-        "@id": `${siteUrl}#catalog`,
-        "name": "Thinktools Digital Toolkits & Calculators",
-        "description": "Practical Excel calculators and estimation workbooks with zero recurring subscriptions.",
-        "itemListElement": CATALOG_TOOLS.map((tool, index) => ({
-          "@type": "ListItem",
-          "position": index + 1,
-          "item": {
-            "@type": "Product",
-            "name": tool.title,
-            "description": tool.description,
-            "url": `${siteUrl}${tool.href}`,
-            "image": `${siteUrl}/screenshots/01_cost_estimate.png`,
-            "brand": {
-              "@type": "Brand",
-              "name": "Thinktools",
-            },
-            "offers": {
-              "@type": "Offer",
-              "priceCurrency": "INR",
-              "price": tool.price.toString(),
-              "availability": "https://schema.org/InStock",
-              "url": `${siteUrl}${tool.href}`,
-            },
-          },
-        })),
+        "@type": "Product",
+        "@id": `${siteUrl}#construction-calculator-pro`,
+        "name": "Construction Calculator Pro",
+        "description":
+          "An Excel-based toolkit for construction quantity estimation, cost planning, and related calculations.",
+        "url": `${siteUrl}/p/construction-calculator-pro`,
+        "image": `${siteUrl}/screenshots/01_cost_estimate.png`,
+        "brand": {
+          "@type": "Brand",
+          "name": "ThinkTools",
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": "499",
+          "availability": "https://schema.org/InStock",
+          "url": `${siteUrl}/p/construction-calculator-pro`,
+        },
       },
       {
         "@type": "FAQPage",

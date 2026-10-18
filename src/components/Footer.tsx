@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Mail, Lock } from "lucide-react";
+import { ShieldCheck, Mail, CreditCard } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl overflow-hidden bg-[#021d39] border border-slate-800 shrink-0 shadow-xs">
+            <div className="w-9 h-9 rounded-xl overflow-hidden bg-[#172033] border border-slate-800 shrink-0 shadow-xs">
               <Image
                 src="/icon.png"
                 alt="ThinkTools Logo"
@@ -19,12 +19,12 @@ export default function Footer() {
               />
             </div>
             <div>
-              <span className="text-base font-black text-slate-950 tracking-tight">
+              <span className="text-base font-black text-[#172033] tracking-tight">
                 Think<span className="text-[#65a30d]">Tools</span>
               </span>
               <p className="text-xs text-slate-700 font-semibold">Tools for Better Work.</p>
               <p className="text-[11px] text-slate-500">
-                Practical online tools, digital products, and custom software solutions.
+                Digital products and custom software solutions for practical workflows.
               </p>
             </div>
           </div>
@@ -32,11 +32,11 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-5 text-slate-600 text-xs">
             <span className="flex items-center gap-1.5 text-emerald-700 font-medium">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              Verified Digital Goods Delivery
+              Digital Product Delivery
             </span>
             <span className="flex items-center gap-1.5 text-slate-700 font-medium">
-              <Lock className="w-4 h-4 text-amber-600" />
-              Secure Checkout & Encrypted Files
+              <CreditCard className="w-4 h-4 text-slate-600" />
+              Checkout via Supported Payment Methods
             </span>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function Footer() {
                   href="mailto:support@thinktools.in"
                   className="hover:text-slate-900 transition-colors flex items-center gap-1"
                 >
-                  <Mail className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-[#172033] shrink-0" />
                   <span>support@thinktools.in</span>
                 </a>
               </li>
@@ -120,9 +120,6 @@ export default function Footer() {
         {/* Bottom copyright line */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[11px] pt-1">
           <p>© 2026 ThinkTools. All rights reserved.</p>
-          <p className="text-slate-400">
-            ThinkTools • Tools for Better Work
-          </p>
         </div>
       </div>
     </footer>

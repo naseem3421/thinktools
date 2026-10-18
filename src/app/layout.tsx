@@ -1,24 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope, Inter } from "next/font/google";
 import Script from "next/script";
 import TrackingScripts from "@/components/TrackingScripts";
 import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thinktools.in";
 
 export const viewport: Viewport = {
-  themeColor: "#0f172a",
+  themeColor: "#172033",
   width: "device-width",
   initialScale: 1,
 };
@@ -26,23 +28,22 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Thinktools.in — Smart Digital Toolkits & Construction Calculators",
+    default: "ThinkTools | Digital Products & Custom Software Solutions",
     template: "%s | Thinktools.in",
   },
   description:
-    "Thoughtfully engineered digital tools, construction estimators, and Excel calculators. IS 456 & CPWD compliant, lifetime access, zero subscriptions.",
+    "Explore practical digital products, construction calculation tools, and custom calculator, software, and workflow automation development from ThinkTools.",
   applicationName: "Thinktools",
   keywords: [
-    "construction calculator",
-    "excel construction estimator",
-    "building material estimate",
-    "steel calculator",
-    "cement sand calculator",
-    "civil engineering excel sheets",
-    "contractor bill check",
+    "digital products",
+    "custom software development",
+    "custom calculator development",
+    "construction calculator pro",
+    "excel calculation toolkit",
+    "workflow automation",
     "thinktools"
   ],
-  authors: [{ name: "Thinktools India", url: siteUrl }],
+  authors: [{ name: "Thinktools", url: siteUrl }],
   creator: "Thinktools",
   publisher: "Thinktools",
   formatDetection: {
@@ -57,16 +58,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
-    title: "Thinktools.in — Smart Digital Toolkits & Construction Calculators",
+    title: "ThinkTools | Digital Products & Custom Software Solutions",
     description:
-      "Thoughtfully engineered digital tools, construction estimators, and Excel calculators. Lifetime access, instant download.",
+      "Explore practical digital products, construction calculation tools, and custom calculator, software, and workflow automation development from ThinkTools.",
     siteName: "Thinktools",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Thinktools.in — Smart Digital Toolkits & Construction Calculators",
+    title: "ThinkTools | Digital Products & Custom Software Solutions",
     description:
-      "Engineered Excel suites and construction estimators. No monthly subscriptions, instant download.",
+      "Explore practical digital products, construction calculation tools, and custom calculator, software, and workflow automation development from ThinkTools.",
   },
   icons: {
     icon: [
@@ -78,7 +79,7 @@ export const metadata: Metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
-    robots: {
+  robots: {
     index: true,
     follow: true,
     googleBot: {
@@ -88,19 +89,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-  },
-  other: {
-    "geo.region": "IN",
-    "geo.placename": "India",
-    "geo.position": "20.5937;78.9629",
-    "ICBM": "20.5937, 78.9629",
-    "revisit-after": "3 days",
-    "rating": "General",
-    "distribution": "Global",
-    "DC.title": "Thinktools.in — Smart Digital Toolkits & Construction Calculators",
-    "DC.creator": "Thinktools India",
-    "DC.subject": "Civil Engineering, Construction Cost Estimation, Excel Calculators",
-    "DC.language": "en-IN",
   },
 };
 
@@ -112,9 +100,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900">
+      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans">
         <TrackingScripts />
         {children}
         <CookieBanner />
