@@ -62,12 +62,21 @@ export const metadata: Metadata = {
     description:
       "Explore practical digital products, construction calculation tools, and custom calculator, software, and workflow automation development from ThinkTools.",
     siteName: "Thinktools",
+    images: [
+      {
+        url: `${siteUrl}/logo.png`,
+        width: 1024,
+        height: 364,
+        alt: "ThinkTools - Work Smarter.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "ThinkTools | Digital Products & Custom Software Solutions",
     description:
       "Explore practical digital products, construction calculation tools, and custom calculator, software, and workflow automation development from ThinkTools.",
+    images: [`${siteUrl}/logo.png`],
   },
   icons: {
     icon: [

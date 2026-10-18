@@ -193,7 +193,7 @@ export const PRODUCTS: Record<string, Product> = {
       "Microsoft Excel Only (Office 365, Excel 2016 - 2024 on Windows & Mac)",
       "Engineered specifically for native Microsoft Excel calculation and formatting",
       "Dual Units: Toggle Feet/Inches or Metres with automatic conversions",
-      "Instant Digital Download with Lifetime License"
+      "Instant Digital Download • One-Time Payment"
     ],
     summary:
       "Construction Calculator Pro turns a house plan into accurate material quantities, a costed estimate, a purchase order list, and a phased payment schedule. During construction, it gives you tools to compare contractor bids, audit contractor bills, approve change orders, and conduct site material quality checks.",
@@ -759,8 +759,8 @@ export const PRODUCTS: Record<string, Product> = {
         answer: "Yes, absolutely! Sheet #20 is the 'Rates Table'. As soon as you enter your local prices for cement bags, steel per kg, sand per brass/cu.ft, bricks, or labor rates, all 31 sheets and your client BOQ update in real time."
       },
       {
-        question: "How does the 'Bill Check' tab protect me from overbilling?",
-        answer: "When a contractor submits an invoice claiming material quantities (e.g. 'Used 120 bags of cement and 2 tonnes of steel'), you type their numbers into the Bill Check tab. The file calculates the exact difference against engineering norms and highlights any variation over 5% so you can request the measurement sheet before paying."
+        question: "How does the 'Bill Check' tab help review contractor claims?",
+        answer: "When a contractor submits an invoice claiming material quantities (e.g. cement and steel), you type their numbers into the Bill Check tab. The file calculates the difference against calculated estimates and highlights any variation over 5% so you can review the measurement sheets before paying."
       },
       {
         question: "How does the digital delivery work?",
@@ -768,7 +768,7 @@ export const PRODUCTS: Record<string, Product> = {
       },
       {
         question: "Are there any recurring monthly charges?",
-        answer: "Zero subscriptions. You pay a one-time fee of ₹499 and own the lifetime license. You can save, duplicate, and reuse the workbooks across unlimited projects."
+        answer: "Zero subscriptions. You pay a single one-time fee of ₹499. You can save, duplicate, and reuse the workbooks across your projects with permanent offline access."
       }
     ],
     folderStructure: [

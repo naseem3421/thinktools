@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { X, Lock, Check, AlertCircle, FileSpreadsheet } from "lucide-react";
+import { X, Lock, Check, AlertCircle, FileSpreadsheet, ShieldCheck } from "lucide-react";
 import { Product } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
 
@@ -357,7 +357,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                   className="mt-0.5 rounded border-slate-700 text-amber-500 focus:ring-0 cursor-pointer"
                 />
                 <span>
-                  I understand this is an instant digital product and <strong>Thinktools does not provide refunds</strong> (all sales are final). I agree to the{" "}
+                  I understand this is an instant digital product with immediate delivery. I agree to the{" "}
                   <Link href="/terms" target="_blank" className="text-amber-400 underline hover:text-amber-300">
                     terms
                   </Link>
@@ -392,15 +392,15 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 )}
               </button>
 
-              {/* Digital Product Final Sale Notice */}
-              <div className="p-3 rounded-xl bg-amber-950/30 border border-amber-900/60 text-[11px] text-amber-200/90 leading-relaxed flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              {/* Digital Product Delivery Notice */}
+              <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 leading-relaxed flex items-start gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
-                  <strong>No-Refund Policy:</strong> We do not provide refunds as all products are instant digital downloads. Review the{" "}
+                  <strong>Instant Delivery Notice:</strong> As a digital product delivered directly to your email, purchases are final upon delivery. Review our{" "}
                   <Link href="/refund-policy" target="_blank" className="text-amber-400 underline font-semibold">
                     cancellation & refund policy
-                  </Link>{" "}
-                  before paying.
+                  </Link>
+                  . Our support team is here to assist if you have any questions with your files.
                 </div>
               </div>
 

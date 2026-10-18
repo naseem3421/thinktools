@@ -3,18 +3,19 @@
 import React, { useState } from "react";
 import {
   X,
-  Calculator,
-  RotateCcw,
-  CheckCircle2,
   AlertCircle,
   Copy,
-  Check,
-  Zap,
-  Building2,
-  FileSpreadsheet,
-  ArrowRight
+  Check
 } from "lucide-react";
-import { FreeTool } from "@/data/homeContent";
+
+export interface FreeTool {
+  id?: string;
+  name: string;
+  description: string;
+  category: string;
+  status: string;
+  calculatorType?: string;
+}
 
 interface InteractiveCalculatorModalProps {
   tool: FreeTool | null;
@@ -763,8 +764,8 @@ function GstCalculator() {
             <span className="block text-[11px] text-slate-300 font-medium">Total GST ({gstRate}%)</span>
           </div>
           <div className="bg-white/5 border border-white/10 p-3 rounded-xl">
-            <span className="text-lg sm:text-xl font-bold text-slate-300 font-mono">
-              {isInterstate ? `IGST: ₹${igst.toFixed(2)}` : `C+S: ₹${cgst.toFixed(2)} ea`}
+            <span className="text-sm sm:text-base font-bold text-slate-300 font-mono">
+              {isInterstate ? `IGST: ₹${igst.toFixed(2)}` : `CGST: ₹${cgst.toFixed(2)} | SGST: ₹${sgst.toFixed(2)}`}
             </span>
             <span className="block text-[11px] text-slate-300 font-medium">Split Portions</span>
           </div>

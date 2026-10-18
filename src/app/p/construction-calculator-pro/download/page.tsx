@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   Mail,
   ArrowLeft,
-  Sparkles,
   ExternalLink,
   ShieldCheck,
   Clock,

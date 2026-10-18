@@ -6,7 +6,7 @@ const pageUrl = `${siteUrl}/p/construction-calculator-pro`;
 export const metadata: Metadata = {
   title: "Construction Calculator Pro — 31-Tab Master Civil Suite & BOQ Estimator",
   description:
-    "Authoritative civil engineering and construction estimation suite for Indian residential and commercial projects. 31 interconnected Excel sheets, IS 456:2000 & CPWD norms, automated steel, cement, brick, tile quantities, contractor bill auditing, and 7 anti-fear bonuses. Instant download, lifetime license at ₹499.",
+    "Authoritative civil engineering and construction estimation suite for Indian residential and commercial projects. 31 interconnected Excel sheets, IS 456:2000 & CPWD norms, automated steel, cement, brick, tile quantities, contractor bill auditing, and 7 bonus resources. Instant download at ₹499 one-time payment.",
   keywords: [
     "construction calculator pro",
     "excel construction estimator india",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Construction Calculator Pro — 31-Tab Master Civil Suite & Estimator",
     description:
-      "Stop contractor overbilling and estimate building materials accurately. 3 Excel workbooks + 43-page guide + 7 bonuses. ₹499 lifetime access.",
+      "Estimate building materials and organize construction budgets accurately. 3 Excel workbooks + 43-page guide + 7 bonuses. ₹499 one-time payment.",
     url: pageUrl,
     type: "website",
     siteName: "Thinktools",
@@ -121,6 +121,7 @@ export default function ConstructionCalculatorLayout({
           "name": "Thinktools",
           "url": siteUrl,
           "logo": `${siteUrl}/logo.png`,
+          "sameAs": ["https://www.instagram.com/thinktools.in"],
           "email": "support@thinktools.in",
         },
         "offers": {
@@ -221,7 +222,7 @@ export default function ConstructionCalculatorLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
-                "No. Thinktools operates on a transparent single one-time payment of ₹499 with lifetime access, free future template updates, and zero recurring fees.",
+                "No. Thinktools operates on a transparent single one-time payment of ₹499 with permanent offline access and zero recurring fees or subscriptions.",
             },
           },
         ],

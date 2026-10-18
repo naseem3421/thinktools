@@ -6,12 +6,8 @@ import {
   ArrowLeft,
   Mail,
   Clock,
-  MessageSquare,
-  ShieldCheck,
   CheckCircle2,
   Send,
-  HelpCircle,
-  FileSpreadsheet,
   Download
 } from "lucide-react";
 import Header from "@/components/Header";
@@ -106,7 +102,7 @@ export default function ContactPage() {
                 <span>Direct Support Email</span>
               </div>
               <p className="text-xs text-blue-950/80 leading-relaxed">
-                Prefer direct email? Write to <a href="mailto:support@thinktools.in" className="font-semibold underline text-blue-800">support@thinktools.in</a> anytime. Include your Order / Payment ID.
+                Prefer direct email? Write to <a href="mailto:support@thinktools.in" className="font-semibold underline text-blue-800">support@thinktools.in</a> anytime, or message us on Instagram at <a href="https://www.instagram.com/thinktools.in" target="_blank" rel="noopener noreferrer" className="font-semibold underline text-blue-800">@thinktools.in</a>. Include your Order / Payment ID.
               </p>
             </div>
 

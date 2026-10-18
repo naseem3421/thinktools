@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Scale, FileText } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -74,9 +74,9 @@ export default function TermsPage() {
 
           {/* Section 4 */}
           <section className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
-            <h2 className="text-lg font-bold text-slate-950">4. Payment & No-Refund Terms</h2>
+            <h2 className="text-lg font-bold text-slate-950">4. Payment & Digital Delivery Terms</h2>
             <p>
-              All prices are listed in Indian Rupees (INR). Payments are processed securely via Razorpay (UPI, Credit/Debit Cards, Net Banking, and Wallets). We do not provide refunds on digital products; all sales are strictly final in accordance with our <Link href="/refund-policy" className="text-amber-800 underline font-semibold">Cancellation & Refund Policy</Link>.
+              All prices are listed in Indian Rupees (INR). Payments are processed securely via Razorpay (UPI, Credit/Debit Cards, Net Banking, and Wallets). As digital goods delivered immediately with permanent offline access, orders are non-refundable once delivered, with full technical and delivery support provided in accordance with our <Link href="/refund-policy" className="text-amber-800 underline font-semibold">Cancellation & Refund Policy</Link>.
             </p>
           </section>
 

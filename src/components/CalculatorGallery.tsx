@@ -6,11 +6,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Eye,
   Sparkles,
-  ZoomIn,
-  CheckCircle2,
-  FileSpreadsheet
+  ZoomIn
 } from "lucide-react";
 
 export interface CalculatorScreenshot {
