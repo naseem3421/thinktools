@@ -28,8 +28,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Authoritative server-side price in paise
+    // Authoritative server-side price in paise (must be at least 100 paise / ₹1)
     const authoritativeAmount = Math.round(catalogProduct.price * 100);
+    if (authoritativeAmount < 100) {
+      return NextResponse.json(
+        { error: "Order amount must be at least 100 paise (₹1)." },
+        { status: 400 }
+      );
+    }
 
     // Validate client-sent amount if provided
     if (body.amount !== undefined) {
