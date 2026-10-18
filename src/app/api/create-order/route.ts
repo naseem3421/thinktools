@@ -17,37 +17,53 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const { currency = "INR", receipt, notes = {} } = body;
 
-    const productSlug =
-      notes?.product_slug || body.product_slug || "construction-calculator-pro";
-    const catalogProduct = PRODUCTS[productSlug];
+    // Support both catalog products and direct amounts
+    const productSlug = notes?.product_slug || body.product_slug;
+    const catalogProduct = productSlug ? PRODUCTS[productSlug] : undefined;
 
-    if (!catalogProduct) {
-      return NextResponse.json(
-        { error: `Product "${productSlug}" not found in catalog.` },
-        { status: 400 }
-      );
+    let orderAmount: number;
+    let productTitle = "Construction Calculator Pro";
+    let productId = "construction-calculator-pro";
+    let actualSlug = "construction-calculator-pro";
+
+    if (catalogProduct) {
+      orderAmount = Math.round(catalogProduct.price * 100);
+      productTitle = catalogProduct.title;
+      productId = catalogProduct.id;
+      actualSlug = catalogProduct.slug;
+
+      // Validate client-sent amount if provided against catalog price
+      if (body.amount !== undefined) {
+        const clientAmount = Math.round(Number(body.amount));
+        if (clientAmount !== orderAmount) {
+          return NextResponse.json(
+            {
+              error: `Price mismatch: Client requested ₹${clientAmount / 100}, but authoritative price is ₹${orderAmount / 100}.`,
+            },
+            { status: 400 }
+          );
+        }
+      }
+    } else if (body.amount !== undefined) {
+      orderAmount = Math.round(Number(body.amount));
+      if (body.product_title) productTitle = body.product_title;
+    } else {
+      // Default to construction-calculator-pro
+      const defaultProduct = PRODUCTS["construction-calculator-pro"];
+      orderAmount = defaultProduct ? Math.round(defaultProduct.price * 100) : 49900;
+      if (defaultProduct) {
+        productTitle = defaultProduct.title;
+        productId = defaultProduct.id;
+        actualSlug = defaultProduct.slug;
+      }
     }
 
-    // Authoritative server-side price in paise (must be at least 100 paise / ₹1)
-    const authoritativeAmount = Math.round(catalogProduct.price * 100);
-    if (authoritativeAmount < 100) {
+    // Minimum amount validation: Razorpay requires at least 100 paise (₹1)
+    if (orderAmount < 100) {
       return NextResponse.json(
         { error: "Order amount must be at least 100 paise (₹1)." },
         { status: 400 }
       );
-    }
-
-    // Validate client-sent amount if provided
-    if (body.amount !== undefined) {
-      const clientAmount = Math.round(Number(body.amount));
-      if (clientAmount !== authoritativeAmount) {
-        return NextResponse.json(
-          {
-            error: `Price mismatch: Client requested ₹${clientAmount / 100}, but authoritative price is ₹${authoritativeAmount / 100}.`,
-          },
-          { status: 400 }
-        );
-      }
     }
 
     const razorpay = new Razorpay({
@@ -56,15 +72,15 @@ export async function POST(request: Request) {
     });
 
     const options = {
-      amount: authoritativeAmount,
+      amount: orderAmount,
       currency: currency || "INR",
-      receipt: receipt || `rcpt_${productSlug.slice(0, 20)}_${Date.now()}`,
+      receipt: receipt || `rcpt_${actualSlug.slice(0, 20)}_${Date.now()}`,
       notes: {
         ...notes,
-        product_id: catalogProduct.id,
-        product_slug: catalogProduct.slug,
-        product_title: catalogProduct.title,
-        price_inr: catalogProduct.price,
+        product_id: productId,
+        product_slug: actualSlug,
+        product_title: productTitle,
+        price_inr: orderAmount / 100,
       },
     };
 
