@@ -46,13 +46,13 @@ export async function sendOrderDeliveryEmail({
     process.cwd(),
     "storage",
     "downloads",
-    "Construction_Calculator_Pro_Complete_Bundle.zip"
+    "Construction_Calculator_Pro.zip"
   );
 
   const attachments = [];
   if (fs.existsSync(zipPath)) {
     attachments.push({
-      filename: "Construction_Calculator_Pro_Complete_Bundle.zip",
+      filename: "Construction_Calculator_Pro.zip",
       path: zipPath,
     });
   } else {
@@ -121,10 +121,10 @@ export async function sendOrderDeliveryEmail({
             </div>
 
             <div class="package-list">
-              <h4>Included in your attached .ZIP bundle (2.0 MB):</h4>
+              <h4>Included in your attached .ZIP bundle (1.9 MB):</h4>
               <ul>
                 <li><strong>3 Complete Excel Workbooks (.xlsx)</strong> with all 31 calculation tabs pre-linked.</li>
-                <li><strong>43-Page Master Guide (PDF)</strong> with 30-min fast-track setup and IS 456 formula rules.</li>
+                <li><strong>Master Guide (PDF)</strong> with fast-track setup and IS 456 formula rules.</li>
                 <li><strong>7 Anti-Fear Bonuses &amp; Audit Kits</strong> (Tolerance audits, milestone schedule, snag checklist).</li>
                 <li><strong>Contractor Hiring Kit &amp; Negotiation Scripts</strong> for phone, email, and WhatsApp.</li>
               </ul>
@@ -132,7 +132,7 @@ export async function sendOrderDeliveryEmail({
 
             <div class="instructions">
               <strong>📎 How to access your files:</strong><br/>
-              Simply download the attached file (<code>Construction_Calculator_Pro_Complete_Bundle.zip</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC or Mac to start using the tools in Microsoft Excel immediately.
+              Simply download the attached file (<code>Construction_Calculator_Pro.zip</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC or Mac to start using the tools in Microsoft Excel immediately.
             </div>
 
             <p class="text" style="margin-top: 24px; font-size: 13px;">

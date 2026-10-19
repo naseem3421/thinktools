@@ -77,7 +77,7 @@ function DownloadContent() {
                   Attached File:
                 </span>
                 <span className="font-mono font-bold text-amber-300">
-                  Construction_Calculator_Pro_Complete_Bundle.zip (2.0 MB)
+                  Construction_Calculator_Pro.zip (1.9 MB)
                 </span>
               </div>
               <div className="flex items-center justify-between py-1 border-b border-white/10">

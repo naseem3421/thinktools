@@ -204,7 +204,7 @@ export default function ConstructionCalculatorLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
-                "Delivery is instant and automated. As soon as payment is confirmed via UPI, NetBanking, or Credit/Debit Card through Razorpay, the master zip bundle (Construction_Calculator_Pro_Complete_Bundle.zip) is dispatched directly to your email address within 60 seconds and a download receipt is presented on-screen.",
+                "Delivery is instant and automated. As soon as payment is confirmed via UPI, NetBanking, or Credit/Debit Card through Razorpay, the master zip bundle (Construction_Calculator_Pro.zip) is dispatched directly to your email address within 60 seconds and a download receipt is presented on-screen.",
             },
           },
           {
