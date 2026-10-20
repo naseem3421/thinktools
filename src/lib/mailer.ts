@@ -42,21 +42,29 @@ export async function sendOrderDeliveryEmail({
   });
 
   // Master zip bundle path in private server storage (not exposed via public HTTP)
-  const zipPath = path.join(
-    process.cwd(),
-    "storage",
-    "downloads",
-    "Construction_Calculator_Pro.zip"
-  );
+  const candidateNames = [
+    "Construction_Calculator_Pro_Excel.zip",
+    "Construction_Calculator_Pro.zip",
+  ];
+  let zipPath = "";
+  let zipFileName = "Construction_Calculator_Pro_Excel.zip";
+  for (const name of candidateNames) {
+    const fullPath = path.join(process.cwd(), "storage", "downloads", name);
+    if (fs.existsSync(fullPath)) {
+      zipPath = fullPath;
+      zipFileName = name;
+      break;
+    }
+  }
 
   const attachments = [];
-  if (fs.existsSync(zipPath)) {
+  if (zipPath && fs.existsSync(zipPath)) {
     attachments.push({
-      filename: "Construction_Calculator_Pro.zip",
+      filename: zipFileName,
       path: zipPath,
     });
   } else {
-    console.warn(`[Mailer] Attachment not found at ${zipPath}`);
+    console.warn(`[Mailer] Attachment not found in storage/downloads/`);
   }
 
   const html = `
@@ -132,7 +140,7 @@ export async function sendOrderDeliveryEmail({
 
             <div class="instructions">
               <strong>📎 How to access your files:</strong><br/>
-              Simply download the attached file (<code>Construction_Calculator_Pro.zip</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC or Mac to start using the tools in Microsoft Excel immediately.
+              Simply download the attached file (<code>${zipFileName}</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC or Mac to start using the tools in Microsoft Excel immediately.
             </div>
 
             <p class="text" style="margin-top: 24px; font-size: 13px;">

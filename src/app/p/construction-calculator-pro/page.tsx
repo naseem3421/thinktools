@@ -28,7 +28,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CalculatorGallery from "@/components/CalculatorGallery";
 import CheckoutModal from "@/components/CheckoutModal";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import { trackEvent } from "@/components/TrackingScripts";
 
 export default function ConstructionCalculatorPage() {
@@ -1120,12 +1119,6 @@ export default function ConstructionCalculatorPage() {
           </div>
         </div>
       )}
-
-      {/* Floating WhatsApp Pre-Purchase Support Button */}
-      <WhatsAppButton
-        message="Hi Thinktools! I have a question about Construction Calculator Pro before purchasing."
-        hasBottomBar={true}
-      />
     </div>
   );
 }

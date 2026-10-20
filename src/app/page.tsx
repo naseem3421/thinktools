@@ -20,7 +20,6 @@ import Footer from "@/components/Footer";
 import HomeJsonLd from "@/components/HomeJsonLd";
 import ProjectDiscussionModal from "@/components/ProjectDiscussionModal";
 import ContractorChecklistModal from "@/components/ContractorChecklistModal";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   DIGITAL_PRODUCTS,
   CUSTOM_SERVICES,
@@ -669,12 +668,6 @@ export default function HomePage() {
       <ContractorChecklistModal
         isOpen={isChecklistOpen}
         onClose={() => setIsChecklistOpen(false)}
-      />
-
-      {/* Floating WhatsApp Pre-Purchase Support Button */}
-      <WhatsAppButton
-        message="Hi Thinktools! I have a question about your digital toolkits or custom software development."
-        hasBottomBar={false}
       />
     </div>
   );
