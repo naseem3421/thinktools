@@ -159,13 +159,13 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
     setActiveIndex((prev) => (prev - 1 + CALCULATOR_SCREENSHOTS.length) % CALCULATOR_SCREENSHOTS.length);
   };
 
-  // Auto-slide every 1 second (1000ms)
+  // Auto-slide every 3.5 seconds (3500ms) for comfortable readability
   useEffect(() => {
     if (!isAutoPlay || isHovered || isModalOpen) return;
 
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % CALCULATOR_SCREENSHOTS.length);
-    }, 1000);
+    }, 3500);
 
     return () => clearInterval(timer);
   }, [isAutoPlay, isHovered, isModalOpen, activeIndex]);
@@ -246,7 +246,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* 1-Second Auto-Slide Toggle Button */}
+          {/* Auto-Slide Toggle Button */}
           <button
             type="button"
             onClick={() => setIsAutoPlay((prev) => !prev)}
@@ -255,10 +255,10 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
                 ? "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20"
                 : "bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200 hover:bg-slate-700"
             }`}
-            title={isAutoPlay ? "Pause Auto-Slide (1s)" : "Resume Auto-Slide (1s)"}
+            title={isAutoPlay ? "Pause Auto-Slide" : "Resume Auto-Slide"}
           >
             {isAutoPlay ? <Pause className="w-3 h-3 text-amber-400" /> : <Play className="w-3 h-3 text-slate-400" />}
-            <span className="text-[10px] sm:text-[11px]">{isAutoPlay ? "Auto 1s" : "Paused"}</span>
+            <span className="text-[10px] sm:text-[11px]">{isAutoPlay ? "Auto-play" : "Paused"}</span>
           </button>
 
           <button
