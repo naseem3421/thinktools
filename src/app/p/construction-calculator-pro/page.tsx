@@ -103,9 +103,9 @@ export default function ConstructionCalculatorPage() {
 
                 {/* Primary Headline */}
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.14]">
-                  Plan Your Construction Budget With a Practical Excel Estimation Toolkit.{" "}
+                  Plan Your Construction & Renovation With Zero Guesswork.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-xl sm:text-3xl lg:text-4xl">
-                    For Homeowners, Renovation Owners & Small Contractors Across India.
+                    Engineered for Homeowners, Renovators & Small Contractors.
                   </span>
                 </h1>
 
@@ -119,20 +119,20 @@ export default function ConstructionCalculatorPage() {
                   <div className="bg-white border border-slate-200/90 rounded-xl p-2.5 sm:p-3 shadow-2xs hover:border-amber-300 transition-all">
                     <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
                       <span className="text-sm">🏡</span>
-                      <span>New Homeowners</span>
+                      <span>New Home Builders</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                      Plan cement, steel & brick budget upfront. Audit contractor invoices before paying.
+                      Estimate exact cement, steel & brick requirements. Check contractor claims before paying bills.
                     </p>
                   </div>
 
                   <div className="bg-white border border-slate-200/90 rounded-xl p-2.5 sm:p-3 shadow-2xs hover:border-amber-300 transition-all">
                     <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
                       <span className="text-sm">🔨</span>
-                      <span>Renovation Owners</span>
+                      <span>House & Flat Renovators</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                      Dedicated renovation file for tiles, paint, kitchen & bath without foundation clutter.
+                      Dedicated renovation workbook for kitchen, tiling, paint & bath without foundation clutter.
                     </p>
                   </div>
 
@@ -142,7 +142,7 @@ export default function ConstructionCalculatorPage() {
                       <span>Small Contractors</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                      Create itemized client quotes & stage payment milestone agreements to avoid disputes.
+                      Generate itemized client quotes, order materials with exact wastage & prevent billing disputes.
                     </p>
                   </div>
                 </div>
@@ -153,24 +153,16 @@ export default function ConstructionCalculatorPage() {
                   <span>₹499 one-time payment provides a structured estimation framework for your project</span>
                 </div>
 
-                {/* Action CTA Group */}
+                {/* Action CTA Group (Single Primary Button) */}
                 <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-4">
                   <button
                     id="btn-hero-cta"
                     onClick={() => setIsCheckoutOpen(true)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 sm:px-9 py-3.5 sm:py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
                   >
                     <span>Get Instant Access (₹{product.price})</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
-
-                  <a
-                    href="#calculator-gallery"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 sm:py-4 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-semibold text-xs sm:text-sm shadow-xs transition-all"
-                  >
-                    <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-                    <span>Inspect 8 Real Screenshots</span>
-                  </a>
                 </div>
 
                 {/* UPI & Instant Payment Strip */}
@@ -233,255 +225,107 @@ export default function ConstructionCalculatorPage() {
           </div>
         </section>
 
-        {/* 2. AT A GLANCE: OUR OFFER, PAIN POINTS & USPs */}
+        {/* 2. THE REALITY OF BUILDING & RENOVATING IN INDIA: WITHOUT A SYSTEM VS WITH THINKTOOLS PRO */}
         <section className="py-10 sm:py-16 bg-slate-50/60 border-b border-slate-200">
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
             <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
               <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-                At A Glance
+                Why Construction Budgets Spiral
               </span>
               <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 mt-2 sm:mt-3 tracking-tight">
-                Our Offer, The Pain It Solves, and Why It&apos;s Unique
+                Building or Renovating in India? The Cost of Guessing vs. Disciplined Control
               </h2>
               <p className="text-slate-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
-                Everything you need to know about the toolkit before you start calculating:
+                Whether spending ₹10 Lakhs on a flat renovation or ₹1 Crore+ on a villa build, here is the difference between unaudited site guesswork and disciplined estimation:
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 items-stretch">
-              {/* Pillar 1: Our Offer */}
-              <div className="bg-white border-2 border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-7 flex flex-col justify-between shadow-2xs hover:border-slate-300 transition-all">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 items-stretch">
+              {/* Without Thinktools */}
+              <div className="bg-rose-50/50 border-2 border-rose-200 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-2xs">
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center font-bold shrink-0">
-                      <PackageCheck className="w-5 h-5" />
+                  <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-rose-100 border border-rose-300 text-rose-700 flex items-center justify-center font-bold shrink-0">
+                      <XCircle className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-amber-800 bg-amber-100/70 border border-amber-200 px-2 py-0.5 rounded font-bold block w-fit">
-                        01 · What You Receive
-                      </span>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 mt-1">Our Complete Offer</h3>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900">Without a Structured System</h3>
+                      <span className="text-xs text-rose-700 font-semibold font-mono">The Costly Site Trap</span>
                     </div>
                   </div>
 
-                  <div className="space-y-3 text-xs sm:text-sm text-slate-700">
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>3 Full Excel Workbooks (.xlsx):</strong> Blank Master Engine, 1,500 sq.ft Chennai 3-BHK Villa Example, and Flat Renovation Example.</span>
+                  <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
+                      <span><strong>Vague Lump-Sum Quotes:</strong> Contractors give an unitemized sq.ft rate that mysteriously escalates 20–40% midway through construction.</span>
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>31 Connected Calculation Sheets:</strong> From foundation RCC to electrical points, rates master, and stage disbursement tracker.</span>
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
+                      <span><strong>Blind Material Ordering:</strong> Guessing bags of cement, sand loads, and steel tonnage leads to on-site theft, excess wastage, and costly shortages.</span>
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>13 PDF Guides & Site Worksheets:</strong> Includes 4-week execution blueprint and printable site measurement pads.</span>
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
+                      <span><strong>Unverified Running Bills:</strong> Measurement bills omit standard deductions for doors, windows, and structural cutouts, costing you thousands extra.</span>
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>7 Bonus Reference Kits:</strong> Contractor hiring interview scoring, on-site material quality tests, and 120-item snag list.</span>
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
+                      <span><strong>Surprise Handover Variations:</strong> Unrecorded verbal changes lead to hostile arguments and unexpected extra charges right before move-in.</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                  <span>One-Time Payment</span>
-                  <span className="font-mono font-bold text-slate-900 text-sm">₹499 (Instant Delivery)</span>
+                <div className="mt-6 sm:mt-8 pt-3 sm:pt-4 border-t border-rose-200/80 text-xs font-bold text-rose-800 text-center">
+                  Common Outcome: Budget exhaustion, stressful disputes, and delayed possession
                 </div>
               </div>
 
-              {/* Pillar 2: Pain Points Solved */}
-              <div className="bg-rose-50/40 border-2 border-rose-200 rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-7 flex flex-col justify-between shadow-2xs">
+              {/* With Thinktools Pro */}
+              <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-lg relative">
+                <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                  Disciplined Control
+                </div>
+
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-rose-100 border border-rose-300 text-rose-700 flex items-center justify-center font-bold shrink-0">
-                      <ShieldAlert className="w-5 h-5" />
+                  <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                      <CheckCircle2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-rose-800 bg-rose-100/70 border border-rose-200 px-2 py-0.5 rounded font-bold block w-fit">
-                        02 · Site Risks Addressed
-                      </span>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 mt-1">What Pain Does It Solve?</h3>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900">With Thinktools Pro (₹499)</h3>
+                      <span className="text-xs text-emerald-800 font-semibold font-mono">CPWD & IS Code Aligned Toolkit</span>
                     </div>
                   </div>
 
-                  <div className="space-y-3 text-xs sm:text-sm text-slate-700">
-                    <div className="flex items-start gap-2.5">
-                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                      <span><strong>Eliminates Blind Material Ordering:</strong> Stops guessing bags of cement, sand volume, or steel rebar kg by calculating theoretical requirements up front.</span>
+                  <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>Itemized Pre-Build Takeoff:</strong> Know exact theoretical quantities of cement, steel rebar (IS 1786), sand, and bricks before signing any vendor contract.</span>
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                      <span><strong>Resolves Contractor Measurement Disputes:</strong> Cross-check claimed running bill quantities against engineering norms before releasing stage funds.</span>
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>Automated 5% Variance Flag:</strong> Tab 25 cross-checks contractor running bills against engineering norms and highlights claims exceeding 5%.</span>
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                      <span><strong>Prevents Surprise Extra Bills:</strong> Standard change-order documentation ensures scope variations are agreed in writing before site work starts.</span>
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>1-Click Dual Unit Toggle:</strong> Seamlessly switch between Feet/Inches (Indian residential practice) and Metric (Metres/Millimetres) with zero formula breaks.</span>
                     </div>
-                    <div className="flex items-start gap-2.5">
-                      <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                      <span><strong>Removes Budget Anxiety:</strong> Provides complete visibility over expenses, vendor quotes, and material wastage margins across all project stages.</span>
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>100% Unlocked Excel (Zero Macros):</strong> Permanent offline access with no locked formulas, no passwords, and no subscription renewals.</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800 text-center">
-                  Structured oversight from excavation to handover
-                </div>
-              </div>
-
-              {/* Pillar 3: Our USPs */}
-              <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-4 sm:p-5 lg:p-7 flex flex-col justify-between shadow-lg relative">
-                <div className="absolute top-3.5 right-3.5 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 py-0.5 rounded-full">
-                  Competitive Edge
-                </div>
-                <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center font-bold shrink-0">
-                      <Zap className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-800 bg-emerald-100/80 border border-emerald-200 px-2 py-0.5 rounded font-bold block w-fit">
-                        03 · Why Us
-                      </span>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-950 mt-1">Our Unique Selling Points</h3>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 text-xs sm:text-sm text-slate-700">
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>CPWD & IS 456 Aligned Norms:</strong> Built on official Indian civil engineering consumption ratios and standard density tables (IS 1786 rebar, concrete grades M15–M25).</span>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>1-Click Dual Unit Toggle:</strong> Seamlessly switch between Feet & Inches (Indian residential practice) and Metric (Metres/Millimetres) with automatic formula updates.</span>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>100% Unlocked Excel (Zero Macros):</strong> OpenXML .xlsx files with no locked passwords, no hidden code, and zero subscription fees. Works permanently offline.</span>
-                    </div>
-                    <div className="flex items-start gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Interconnected 31-Sheet Architecture:</strong> Enter rates once on the Master Rates sheet; all 31 calculation tabs, purchase orders, and the live dashboard sync automatically.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-emerald-200/80">
+                <div className="mt-6 sm:mt-8 pt-4 border-t border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <span className="text-xs font-bold text-emerald-900">3 Workbooks · 31 Sheets · ₹499</span>
                   <button
                     onClick={() => setIsCheckoutOpen(true)}
-                    className="w-full py-2.5 px-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all"
+                    className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all"
                   >
-                    <span>Get All 31 Sheets (₹499)</span>
+                    <span>Get Instant Access</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. THE INDIAN REALITY: WITHOUT THINKTOOLS VS WITH THINKTOOLS (Side-by-Side Contrast) */}
-        <section className="py-10 sm:py-16 max-w-6xl mx-auto px-3.5 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-            <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-              The Reality of Building in India
-            </span>
-            <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 mt-2 sm:mt-3">
-              Why Construction & Renovation Budgets Commonly Exceed Estimates
-            </h2>
-            <p className="text-slate-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
-              Building or renovating a home costs ₹10 Lakhs to ₹5 Crs+. Here is the difference between guessing on site and disciplined estimation:
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 items-stretch">
-            {/* The Old Risky Way (Without Thinktools) */}
-            <div className="bg-rose-50/50 border-2 border-rose-200 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-4 sm:mb-6">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-rose-100 border border-rose-300 text-rose-700 flex items-center justify-center font-bold shrink-0">
-                    <XCircle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">Without a Structured Toolkit</h3>
-                    <span className="text-xs text-rose-700 font-semibold font-mono">The Unaudited Site Trap</span>
-                  </div>
-                </div>
-
-                <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Vague initial quotes:</strong> Contractor provides an unitemized lump-sum rate per sq.ft that escalates midway through construction.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Unverified material claims:</strong> Contractor requests extra cement bags or steel rebar without supporting structural measurements.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Measurement discrepancies:</strong> Deductions for doors, windows, and structural cutouts are omitted from plaster and tile billing.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Surprise handover bills:</strong> Contractor presents unanticipated extra-item variation bills right before project completion.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <span className="text-rose-600 font-bold mt-0.5 shrink-0">✕</span>
-                    <span><strong>Result:</strong> Unmonitored scope changes and lack of measurement records lead to costly budget overruns.</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 sm:mt-8 pt-3 sm:pt-4 border-t border-rose-200/80 text-xs font-bold text-rose-800 text-center">
-                Common Site Risk: Unchecked quantities and unrecorded variations
-              </div>
-            </div>
-
-            {/* The Smart Way (With Thinktools) */}
-            <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-lg relative">
-              <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
-                Structured Control
-              </div>
-
-              <div>
-                <div className="flex items-center gap-3 mb-4 sm:mb-6">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center font-bold shrink-0">
-                    <CheckCircle2 className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">With Thinktools Pro (₹499)</h3>
-                    <span className="text-xs text-emerald-800 font-semibold font-mono">Disciplined Engineering Framework</span>
-                  </div>
-                </div>
-
-                <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm text-slate-700">
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Itemized Pre-Build Takeoff:</strong> Line-by-line theoretical material requirements for cement, steel, bricks, and tiles before signing.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Automated 5% Variance Flag:</strong> Tab 25 (Bill Check) highlights contractor claims that exceed calculated requirements by over 5%.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Precise Deduction Logic:</strong> Window and door opening cutouts are subtracted from net plaster and paint surface areas.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Documented Change Orders:</strong> Standard administrative procedure ensures variations are agreed in writing before site work starts.</span>
-                  </div>
-                  <div className="flex items-start gap-2.5 sm:gap-3">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
-                    <span><strong>Result:</strong> Clear financial clarity. Every measurement, material delivery, and running payment is systematically tracked.</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 sm:mt-8 pt-3 sm:pt-4 border-t border-emerald-200/80 text-xs font-bold text-emerald-900 text-center">
-                Core Practice: Review contractor quantities and compare estimates before releasing stage disbursements
               </div>
             </div>
           </div>
@@ -806,11 +650,6 @@ export default function ConstructionCalculatorPage() {
                   <span>{highlight}</span>
                 </div>
               ))}
-            </div>
-
-            {/* Practical Estimation Note */}
-            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed mb-5 sm:mb-6">
-              Estimates depend on the dimensions, rates, assumptions, and inputs supplied by the user. Verify quantities, site conditions, and applicable technical requirements before making purchasing or construction decisions.
             </div>
 
             <button
