@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { PRODUCTS } from "@/data/products";
+import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
 
 export async function POST(request: Request) {
   try {
@@ -85,6 +86,36 @@ export async function POST(request: Request) {
     };
 
     const order = await razorpay.orders.create(options);
+
+    // Dispatch server-side InitiateCheckout with deduplication key (matching browser eventID)
+    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
+    const userAgent = request.headers.get("user-agent") || undefined;
+    const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+
+    sendMetaCapiEvent({
+      eventName: "InitiateCheckout",
+      eventId: order.id,
+      user: {
+        email: notes?.customer_email || body.email,
+        phone: notes?.customer_phone || body.phone,
+        name: notes?.customer_name || body.name,
+        ip: clientIp,
+        userAgent: userAgent,
+        fbp,
+        fbc,
+      },
+      customData: {
+        value: orderAmount / 100,
+        currency: currency || "INR",
+        content_name: productTitle,
+        content_ids: [productId],
+        content_type: "product",
+        order_id: order.id,
+      },
+      eventSourceUrl: `https://thinktools.in/p/${actualSlug}`,
+    }).catch((capiErr) => {
+      console.error("Async Meta CAPI InitiateCheckout delivery error:", capiErr);
+    });
 
     return NextResponse.json({
       order_id: order.id,

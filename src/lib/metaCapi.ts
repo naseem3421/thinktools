@@ -131,3 +131,17 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
     return false;
   }
 }
+
+/**
+ * Extracts Meta _fbp (browser ID) and _fbc (click ID) cookies from request headers
+ * to significantly improve Conversions API Event Match Quality (EMQ) and deduplication.
+ */
+export function extractMetaCookies(cookieHeader: string | null | undefined): { fbp?: string; fbc?: string } {
+  if (!cookieHeader) return {};
+  const fbpMatch = cookieHeader.match(/(?:^|;\s*)_fbp=([^;]+)/);
+  const fbcMatch = cookieHeader.match(/(?:^|;\s*)_fbc=([^;]+)/);
+  return {
+    fbp: fbpMatch ? decodeURIComponent(fbpMatch[1]) : undefined,
+    fbc: fbcMatch ? decodeURIComponent(fbcMatch[1]) : undefined,
+  };
+}

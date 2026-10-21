@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS } from "@/data/products";
-import { sendMetaCapiEvent } from "@/lib/metaCapi";
+import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
 
 export async function POST(request: Request) {
   try {
@@ -114,6 +114,7 @@ export async function POST(request: Request) {
     const priceInRupees = productObj ? productObj.price : (Number(body.amount) ? Number(body.amount) / 100 : 499);
     const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
     const userAgent = request.headers.get("user-agent") || undefined;
+    const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
 
     sendMetaCapiEvent({
       eventName: "Purchase",
@@ -124,6 +125,8 @@ export async function POST(request: Request) {
         name: body.customer_name || body.name,
         ip: clientIp,
         userAgent: userAgent,
+        fbp,
+        fbc,
       },
       customData: {
         value: priceInRupees,

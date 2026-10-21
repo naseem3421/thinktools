@@ -112,15 +112,6 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
       // 2. Call backend create-order endpoint (amount in paise, min 100 paise)
       const amountInPaise = Math.round(product.price * 100);
 
-      // Track InitiateCheckout event
-      trackEvent("InitiateCheckout", {
-        content_name: product.title,
-        content_ids: [product.id],
-        content_type: "product",
-        value: product.price,
-        currency: "INR",
-      });
-
       const orderRes = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -143,6 +134,19 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
       if (!orderRes.ok || !orderData.order_id) {
         throw new Error(orderData.error || "Unable to initiate order. Please try again.");
       }
+
+      // Track InitiateCheckout with matching CAPI deduplication key (order.id)
+      trackEvent(
+        "InitiateCheckout",
+        {
+          content_name: product.title,
+          content_ids: [product.id],
+          content_type: "product",
+          value: product.price,
+          currency: "INR",
+        },
+        { eventID: orderData.order_id }
+      );
 
       const razorpayKey =
         orderData.key_id || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
@@ -218,6 +222,9 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 { eventID: response.razorpay_payment_id }
               );
             }
+
+            // Small delay to ensure browser tracking beacon dispatches before page navigation
+            await new Promise((resolve) => setTimeout(resolve, 350));
 
             // 5. Successful verification: Redirect to download page
             const query = new URLSearchParams({
