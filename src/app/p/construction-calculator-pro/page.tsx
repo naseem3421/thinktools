@@ -97,21 +97,24 @@ export default function ConstructionCalculatorPage() {
                   <span className="font-bold text-slate-900">CPWD & IS 456 Aligned Standards</span>
                   <span className="text-slate-300 hidden sm:inline">•</span>
                   <span className="text-amber-800 font-semibold text-center sm:text-left">
-                    31 Connected Calculation Worksheets (Zero Macros)
+                    31 Connected Worksheets • Feet/Inches & Metres
                   </span>
                 </div>
 
                 {/* Primary Headline */}
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.14]">
-                  Plan Your Construction & Renovation With Zero Guesswork.{" "}
+                  Never Overpay for Construction or Renovation Again.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-xl sm:text-3xl lg:text-4xl">
-                    Engineered for Homeowners, Renovators & Small Contractors.
+                    Accurate Material Estimates & Budget Control in Minutes.
                   </span>
                 </h1>
 
                 {/* Subtitle */}
                 <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  Estimate construction quantities, organize material costs, compare selected contractor-claimed quantities and track project expenses using editable Excel workbooks and practical planning resources.
+                  <strong className="text-slate-900 font-semibold block mb-1">
+                    Built for Homeowners, Renovation Owners & Small Contractors Across India.
+                  </strong>
+                  Calculate exact quantities of cement, steel, sand, and tiles before work begins. Audit contractor running bills, catch 5%+ quantity inflations, and keep your project on budget with zero engineering experience required.
                 </p>
 
                 {/* 3 Focused Use Cases for Target Audiences */}
