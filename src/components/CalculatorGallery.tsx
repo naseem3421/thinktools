@@ -170,12 +170,20 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
     return () => clearInterval(timer);
   }, [isAutoPlay, isHovered, isModalOpen, activeIndex]);
 
-  // Keep active tab smoothly visible in scrollable row on mobile
+  // Keep active tab smoothly visible in scrollable row on mobile without moving window scroll
   useEffect(() => {
-    if (!tabsContainerRef.current) return;
-    const activeBtn = tabsContainerRef.current.querySelector<HTMLButtonElement>(`[data-index="${activeIndex}"]`);
+    const container = tabsContainerRef.current;
+    if (!container || container.scrollWidth <= container.clientWidth) return;
+    const activeBtn = container.querySelector<HTMLButtonElement>(`[data-index="${activeIndex}"]`);
     if (activeBtn) {
-      activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      const btnLeft = activeBtn.offsetLeft;
+      const btnWidth = activeBtn.offsetWidth;
+      const containerWidth = container.clientWidth;
+      // Scroll horizontally within the tabs container only; NEVER touch window vertical scroll
+      container.scrollTo({
+        left: btnLeft - containerWidth / 2 + btnWidth / 2,
+        behavior: "smooth"
+      });
     }
   }, [activeIndex]);
 
