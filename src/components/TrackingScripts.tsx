@@ -90,12 +90,13 @@ function MetaPixelRouteTracker() {
         window.fbq("track", "PageView");
       }
 
+      const activeGaId = process.env.NEXT_PUBLIC_GA4_ID || "G-E8KZSPYVY1";
       if (
         typeof window !== "undefined" &&
         typeof window.gtag === "function" &&
-        process.env.NEXT_PUBLIC_GA4_ID
+        activeGaId
       ) {
-        window.gtag("config", process.env.NEXT_PUBLIC_GA4_ID, {
+        window.gtag("config", activeGaId, {
           page_path: currentUrl,
         });
       }
@@ -111,7 +112,7 @@ function MetaPixelRouteTracker() {
  */
 export default function TrackingScripts() {
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
-  const gaId = process.env.NEXT_PUBLIC_GA4_ID;
+  const gaId = process.env.NEXT_PUBLIC_GA4_ID || "G-E8KZSPYVY1";
 
   // Development warning if Pixel ID is not configured
   useEffect(() => {
@@ -125,7 +126,7 @@ export default function TrackingScripts() {
   return (
     <>
       {/* Client-side route change tracker for App Router (wrapped in Suspense for useSearchParams) */}
-      {pixelId && (
+      {(pixelId || gaId) && (
         <Suspense fallback={null}>
           <MetaPixelRouteTracker />
         </Suspense>
