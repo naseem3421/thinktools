@@ -344,7 +344,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               {/* Input: Mobile number */}
               <div>
                 <label className="text-xs font-semibold text-slate-300 block mb-1">
-                  Mobile number (for Razorpay transaction SMS receipt)
+                  Mobile number (Optional — for SMS & WhatsApp receipt)
                 </label>
                 <input
                   type="tel"
@@ -403,11 +403,11 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 leading-relaxed flex items-start gap-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
-                  <strong>Instant Delivery Notice:</strong> As a digital product delivered directly to your email, purchases are final upon delivery. Review our{" "}
+                  <strong>Instant Digital Delivery:</strong> Files are delivered immediately to your email with instant on-screen access. Review our{" "}
                   <Link href="/refund-policy" target="_blank" className="text-amber-400 underline font-semibold">
                     cancellation & refund policy
                   </Link>
-                  . Our support team is here to assist if you have any questions with your files.
+                  . Our support team (support@thinktools.in) is always here to assist if you have any questions with your files.
                 </div>
               </div>
 

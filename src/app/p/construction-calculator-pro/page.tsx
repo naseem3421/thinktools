@@ -77,7 +77,7 @@ export default function ConstructionCalculatorPage() {
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs">
         <Sparkles className="w-3.5 h-3.5 fill-current shrink-0" />
         <span className="leading-tight">
-          CONSTRUCTION CALCULATOR PRO: ₹499 ONE-TIME PAYMENT • INSTANT EMAIL DELIVERY WITH ATTACHED FILES • ALL SALES FINAL
+          CONSTRUCTION CALCULATOR PRO: ₹499 ONE-TIME PAYMENT • INSTANT ON-SCREEN DOWNLOAD + EMAIL ATTACHMENT • 100% UNLOCKED EXCEL
         </span>
       </div>
 
@@ -105,7 +105,7 @@ export default function ConstructionCalculatorPage() {
                 <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.14]">
                   Plan Your Construction Budget With a Practical Excel Estimation Toolkit.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-xl sm:text-3xl lg:text-4xl">
-                    For Homeowners, Renovators, Builders & Contractors Across India.
+                    For Homeowners, Renovation Owners & Small Contractors Across India.
                   </span>
                 </h1>
 
@@ -114,23 +114,36 @@ export default function ConstructionCalculatorPage() {
                   Estimate construction quantities, organize material costs, compare selected contractor-claimed quantities and track project expenses using editable Excel workbooks and practical planning resources.
                 </p>
 
-                {/* 4 Consumer Profiles Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-semibold text-slate-700">
-                  <div className="bg-white border border-slate-200 rounded-lg px-2 py-1.5 flex items-center justify-center sm:justify-start gap-1.5 shadow-2xs">
-                    <span className="text-amber-600">🏡</span>
-                    <span>Homeowners</span>
+                {/* 3 Focused Use Cases for Target Audiences */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 text-left pt-1">
+                  <div className="bg-white border border-slate-200/90 rounded-xl p-2.5 sm:p-3 shadow-2xs hover:border-amber-300 transition-all">
+                    <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
+                      <span className="text-sm">🏡</span>
+                      <span>New Homeowners</span>
+                    </div>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-snug">
+                      Plan cement, steel & brick budget upfront. Audit contractor invoices before paying.
+                    </p>
                   </div>
-                  <div className="bg-white border border-slate-200 rounded-lg px-2 py-1.5 flex items-center justify-center sm:justify-start gap-1.5 shadow-2xs">
-                    <span className="text-amber-600">🔨</span>
-                    <span>Renovators</span>
+
+                  <div className="bg-white border border-slate-200/90 rounded-xl p-2.5 sm:p-3 shadow-2xs hover:border-amber-300 transition-all">
+                    <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
+                      <span className="text-sm">🔨</span>
+                      <span>Renovation Owners</span>
+                    </div>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-snug">
+                      Dedicated renovation file for tiles, paint, kitchen & bath without foundation clutter.
+                    </p>
                   </div>
-                  <div className="bg-white border border-slate-200 rounded-lg px-2 py-1.5 flex items-center justify-center sm:justify-start gap-1.5 shadow-2xs">
-                    <span className="text-amber-600">🏗️</span>
-                    <span>Builders</span>
-                  </div>
-                  <div className="bg-white border border-slate-200 rounded-lg px-2 py-1.5 flex items-center justify-center sm:justify-start gap-1.5 shadow-2xs">
-                    <span className="text-amber-600">📐</span>
-                    <span>Contractors</span>
+
+                  <div className="bg-white border border-slate-200/90 rounded-xl p-2.5 sm:p-3 shadow-2xs hover:border-amber-300 transition-all">
+                    <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
+                      <span className="text-sm">📐</span>
+                      <span>Small Contractors</span>
+                    </div>
+                    <p className="text-[11px] text-slate-600 mt-1 leading-snug">
+                      Create itemized client quotes & stage payment milestone agreements to avoid disputes.
+                    </p>
                   </div>
                 </div>
 
@@ -191,7 +204,7 @@ export default function ConstructionCalculatorPage() {
                     <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery (Files Attached)
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
-                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Requires Microsoft Excel (Windows & Mac)
+                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Built for Microsoft Excel (Windows & Mac) • Openable in Google Sheets
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <Sliders className="w-3.5 h-3.5 text-amber-600 shrink-0" /> Feet/Inches & Metres Toggle
@@ -842,7 +855,7 @@ export default function ConstructionCalculatorPage() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Verified across Microsoft Excel (2016 through Office 365 on Windows & Mac) and Google Sheets. If you encounter any technical file opening glitch or unresolvable formula issue, our engineering team will provide priority WhatsApp/email assistance within 24 hours or issue a prompt, friendly refund.
+                  Built natively for Microsoft Excel (.xlsx) on Windows & Mac with automated cross-sheet formulas, and openable in Google Sheets & LibreOffice for standard viewing. If you encounter any technical file opening glitch or formula issue, our engineering team will provide priority WhatsApp/email assistance within 24 hours or issue a prompt, friendly refund.
                 </p>
               </div>
               <button
@@ -956,7 +969,7 @@ export default function ConstructionCalculatorPage() {
               },
               {
                 q: "Which spreadsheet software is required to use this toolkit?",
-                a: "Construction Calculator Pro is built specifically for Microsoft Excel (Excel 2016 to 365 on Windows & Mac). The workbooks are pure OpenXML .xlsx files with advanced cross-sheet formulas, conditional formatting, and rate masters engineered natively for Microsoft Excel. Alternative applications such as Google Sheets are not supported."
+                a: "Construction Calculator Pro is built natively for Microsoft Excel (Excel 2016 through Microsoft 365 on Windows & Mac) for full cross-sheet formula calculations, rate synchronizations, and dropdowns. The workbooks are pure OpenXML .xlsx files that can also be opened and edited in Google Sheets and LibreOffice, with desktop Microsoft Excel recommended for the fastest automated calculation experience."
               },
               {
                 q: "Where do I receive the files after paying ₹499?",
@@ -975,8 +988,8 @@ export default function ConstructionCalculatorPage() {
                 a: "When a contractor provides an invoice claiming quantities (e.g., cement or steel used), you can enter their claim into Tab 25. It compares the claimed quantities against your calculated engineering estimates. If a claim exceeds the estimate by more than 5%, it highlights the item in red so you can review the contractor's measurement sheets together before making payment."
               },
               {
-                q: "What is your cancellation and refund policy?",
-                a: "Because Construction Calculator Pro is an instant digital product containing unlocked Excel workbooks and downloadable guides delivered immediately upon purchase, sales are final once delivered. We want you to be completely confident before buying, which is why we provide full preview screenshots and sheet-by-sheet breakdowns of everything included. If you ever experience any download issues, file questions, or duplicate charges, our dedicated support team (support@thinktools.in) will assist you promptly until everything is running smoothly."
+                q: "How does digital delivery and support work?",
+                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 3 workbooks, 13 PDF guides, and 7 bonus kits) is displayed on screen for instant download and automatically attached to your confirmation email for permanent offline access. If you ever experience any file questions, download issues, or duplicate charges, our dedicated support team (support@thinktools.in) will assist you promptly until everything is running smoothly."
               }
             ].map((faq, idx) => (
               <div
