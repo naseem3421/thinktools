@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Maximize2,
   X,
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  ZoomIn
+  ZoomIn,
+  Play,
+  Pause
 } from "lucide-react";
 
 export interface CalculatorScreenshot {
@@ -139,6 +141,13 @@ interface CalculatorGalleryProps {
 export default function CalculatorGallery({ onUnlockClick, className }: CalculatorGalleryProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isAutoPlay, setIsAutoPlay] = useState<boolean>(true);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const tabsContainerRef = useRef<HTMLDivElement | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+  const isSwipingRef = useRef<boolean>(false);
 
   const currentItem = CALCULATOR_SCREENSHOTS[activeIndex];
 
@@ -150,9 +159,73 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
     setActiveIndex((prev) => (prev - 1 + CALCULATOR_SCREENSHOTS.length) % CALCULATOR_SCREENSHOTS.length);
   };
 
+  // Auto-slide every 1 second (1000ms)
+  useEffect(() => {
+    if (!isAutoPlay || isHovered || isModalOpen) return;
+
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % CALCULATOR_SCREENSHOTS.length);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isAutoPlay, isHovered, isModalOpen, activeIndex]);
+
+  // Keep active tab smoothly visible in scrollable row on mobile
+  useEffect(() => {
+    if (!tabsContainerRef.current) return;
+    const activeBtn = tabsContainerRef.current.querySelector<HTMLButtonElement>(`[data-index="${activeIndex}"]`);
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  }, [activeIndex]);
+
+  // Touch Swipe Handlers (Swipe left for Next, Swipe right for Prev)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+    isSwipingRef.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const deltaX = touchStartXRef.current - e.touches[0].clientX;
+    const deltaY = touchStartYRef.current - e.touches[0].clientY;
+
+    if (Math.abs(deltaX) > 20 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      isSwipingRef.current = true;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+
+    const deltaX = touchStartXRef.current - touchEndX;
+    const deltaY = touchStartYRef.current - touchEndY;
+
+    // Minimum swipe threshold 35px, predominantly horizontal
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 35) {
+      if (deltaX > 0) {
+        handleNext(); // swipe left -> next picture
+      } else {
+        handlePrev(); // swipe right -> prev picture
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+
+    setTimeout(() => {
+      isSwipingRef.current = false;
+    }, 100);
+  };
+
   return (
     <div
       id="calculator-gallery"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={`w-full max-w-2xl mx-auto rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden relative group transition-all duration-300 hover:border-slate-700 ${className || ""}`}
     >
       {/* Top Window Bar (Mac Chrome style) */}
@@ -172,21 +245,42 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-2.5 sm:py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] sm:text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer shrink-0"
-        >
-          <Maximize2 className="w-3 h-3 text-amber-400" />
-          <span>Full Screen</span>
-        </button>
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* 1-Second Auto-Slide Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsAutoPlay((prev) => !prev)}
+            className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] sm:text-[11px] font-medium border transition-colors cursor-pointer shrink-0 ${
+              isAutoPlay
+                ? "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20"
+                : "bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200 hover:bg-slate-700"
+            }`}
+            title={isAutoPlay ? "Pause Auto-Slide (1s)" : "Resume Auto-Slide (1s)"}
+          >
+            {isAutoPlay ? <Pause className="w-3 h-3 text-amber-400" /> : <Play className="w-3 h-3 text-slate-400" />}
+            <span className="text-[10px] sm:text-[11px]">{isAutoPlay ? "Auto 1s" : "Paused"}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-2.5 sm:py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] sm:text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer shrink-0"
+          >
+            <Maximize2 className="w-3 h-3 text-amber-400" />
+            <span>Full Screen</span>
+          </button>
+        </div>
       </div>
 
       {/* Tab Selector Pills (Touch-scrollable with overscroll-x-contain) */}
-      <div className="bg-slate-900/60 border-b border-slate-800 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center gap-1 sm:gap-1.5 overflow-x-auto text-xs font-medium scrollbar-none touch-pan-x overscroll-x-contain">
+      <div
+        ref={tabsContainerRef}
+        className="bg-slate-900/60 border-b border-slate-800 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center gap-1 sm:gap-1.5 overflow-x-auto text-xs font-medium scrollbar-none touch-pan-x overscroll-x-contain"
+      >
         {CALCULATOR_SCREENSHOTS.map((item, idx) => (
           <button
             key={item.id}
+            data-index={idx}
             type="button"
             onClick={() => setActiveIndex(idx)}
             className={`px-2 py-1 sm:px-2.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1 ${
@@ -200,14 +294,25 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
         ))}
       </div>
 
-      {/* Screenshot Display Area with Prev/Next Controls */}
-      <div className="relative aspect-[16/10] bg-slate-950 flex items-center justify-center overflow-hidden">
+      {/* Screenshot Display Area with Touch Swipe & Prev/Next Controls */}
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative aspect-[16/10] bg-slate-950 flex items-center justify-center overflow-hidden touch-pan-y select-none"
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
+          key={currentItem.id}
           src={currentItem.imageSrc}
           alt={currentItem.altText}
-          onClick={() => setIsModalOpen(true)}
-          className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+          draggable={false}
+          onClick={() => {
+            if (!isSwipingRef.current) {
+              setIsModalOpen(true);
+            }
+          }}
+          className="w-full h-full object-contain cursor-zoom-in transition-opacity duration-200"
         />
 
         {/* Prev Button */}
@@ -343,13 +448,20 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
               </div>
             </div>
 
-            {/* Modal Image Body - Uncropped High-Res View */}
-            <div className="flex-1 overflow-auto bg-slate-950 p-1.5 sm:p-4 flex items-center justify-center">
+            {/* Modal Image Body - Uncropped High-Res View with Touch Swipe */}
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="flex-1 overflow-auto bg-slate-950 p-1.5 sm:p-4 flex items-center justify-center touch-pan-y select-none"
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                key={currentItem.id}
                 src={currentItem.imageSrc}
                 alt={currentItem.altText}
-                className="max-w-full max-h-[60vh] sm:max-h-[72vh] object-contain rounded-lg sm:rounded-xl border border-slate-800 shadow-2xl"
+                draggable={false}
+                className="max-w-full max-h-[60vh] sm:max-h-[72vh] object-contain rounded-lg sm:rounded-xl border border-slate-800 shadow-2xl transition-opacity duration-200"
               />
             </div>
 
