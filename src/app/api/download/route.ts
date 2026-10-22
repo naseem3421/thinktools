@@ -5,6 +5,7 @@ import path from "path";
 export async function GET(request: Request) {
   try {
     const candidatePaths = [
+      path.join(process.cwd(), "public", "downloads", "d7x9m2k4q8v1", "Construction_Calculator_Pro_Excel.zip"),
       path.join(process.cwd(), "public", "downloads", "Construction_Calculator_Pro_Excel.zip"),
       path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro_Excel.zip"),
     ];
@@ -18,7 +19,7 @@ export async function GET(request: Request) {
     }
 
     if (!foundPath) {
-      return NextResponse.redirect(new URL("/downloads/Construction_Calculator_Pro_Excel.zip", request.url));
+      return NextResponse.redirect(new URL("/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip", request.url));
     }
 
     const stat = fs.statSync(foundPath);

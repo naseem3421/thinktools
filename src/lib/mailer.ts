@@ -43,6 +43,7 @@ export async function sendOrderDeliveryEmail({
 
   // Master zip bundle candidate paths
   const candidatePaths = [
+    path.join(process.cwd(), "public", "downloads", "d7x9m2k4q8v1", "Construction_Calculator_Pro_Excel.zip"),
     path.join(process.cwd(), "public", "downloads", "Construction_Calculator_Pro_Excel.zip"),
     path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro_Excel.zip"),
     path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro.zip"),
@@ -147,7 +148,7 @@ export async function sendOrderDeliveryEmail({
             </div>
 
             <div style="text-align: center; margin: 28px 0;">
-              <a href="https://thinktools.in/downloads/Construction_Calculator_Pro_Excel.zip" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
+              <a href="https://thinktools.in/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
                 ⬇️ Click Here to Download .ZIP (1.9 MB)
               </a>
               <div style="font-size: 11px; color: #64748b; margin-top: 8px;">

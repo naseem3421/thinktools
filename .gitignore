@@ -26,6 +26,7 @@
 *.zip
 !storage/downloads/*.zip
 !public/downloads/*.zip
+!public/downloads/**/*.zip
 storage/downloads/backups/
 
 # debug
