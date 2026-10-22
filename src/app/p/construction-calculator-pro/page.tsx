@@ -27,8 +27,12 @@ import { PRODUCTS } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CalculatorGallery from "@/components/CalculatorGallery";
-import CheckoutModal from "@/components/CheckoutModal";
+import dynamic from "next/dynamic";
 import { trackEvent } from "@/components/TrackingScripts";
+
+const CheckoutModal = dynamic(() => import("@/components/CheckoutModal"), {
+  ssr: false,
+});
 
 export default function ConstructionCalculatorPage() {
   const product = PRODUCTS["construction-calculator-pro"];

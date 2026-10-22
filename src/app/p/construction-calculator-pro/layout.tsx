@@ -265,6 +265,15 @@ export default function ConstructionCalculatorLayout({
 
   return (
     <>
+      {/* High-priority preload for Largest Contentful Paint (LCP) hero screenshot */}
+      <link
+        rel="preload"
+        as="image"
+        href="/screenshots/01_cost_estimate.webp"
+        type="image/webp"
+        // @ts-expect-error Next.js supports fetchPriority in metadata/head tags
+        fetchPriority="high"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdGraph) }}

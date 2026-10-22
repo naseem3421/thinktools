@@ -22,6 +22,7 @@ export interface CalculatorScreenshot {
   headline: string;
   subtitle: string;
   imageSrc: string;
+  thumbSrc?: string;
   altText: string;
   keyMetric: string;
 }
@@ -36,7 +37,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Cost & Budget",
     headline: "Know your full build cost before you sign",
     subtitle: "Every cost line, contingency and headroom vs. budget",
-    imageSrc: "/screenshots/01_cost_estimate.png",
+    imageSrc: "/screenshots/01_cost_estimate.webp",
+    thumbSrc: "/screenshots/thumb_01_cost_estimate.webp",
     altText: "Tab 13 Cost Estimate - Know your full build cost before you sign",
     keyMetric: "Subtotal, 10% contingency, ₹17,08,134 at ₹1,139/sq.ft"
   },
@@ -49,7 +51,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Overview & Controls",
     headline: "Your whole project on one screen",
     subtitle: "Live totals, materials and charts update as you work",
-    imageSrc: "/screenshots/02_dashboard.png",
+    imageSrc: "/screenshots/02_dashboard.webp",
+    thumbSrc: "/screenshots/thumb_02_dashboard.webp",
     altText: "Tab 24 Dashboard - Your whole project on one screen",
     keyMetric: "Spend vs estimate chart, material rollups, headroom gauge"
   },
@@ -62,7 +65,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Measure & Quantify",
     headline: "Enter room sizes once. Everything else calculates.",
     subtitle: "Areas in sq ft and sq m, added up automatically",
-    imageSrc: "/screenshots/03_room_area.png",
+    imageSrc: "/screenshots/03_room_area.webp",
+    thumbSrc: "/screenshots/thumb_03_room_area.webp",
     altText: "Tab 04 Room Area - Enter room sizes once. Everything else calculates.",
     keyMetric: "Up to 12 rooms, carpet area 1,034 sq ft, automatic conversions"
   },
@@ -75,7 +79,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Measure & Quantify",
     headline: "Paint and tile quantities, worked out for you",
     subtitle: "Litres, tiles and costs per room, with openings deducted",
-    imageSrc: "/screenshots/04_paint_tiles.png",
+    imageSrc: "/screenshots/04_paint_tiles.webp",
+    thumbSrc: "/screenshots/thumb_04_paint_tiles.webp",
     altText: "Tab 06 Paint and Tiles - Litres, tiles and costs per room",
     keyMetric: "Net wall area 3,592 sq ft, 80L paint, 294 floor tiles (600×600)"
   },
@@ -88,7 +93,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Buy, Track & Approve",
     headline: "Know exactly what to buy, and from whom",
     subtitle: "Quantities with wastage, rates and a total material cost",
-    imageSrc: "/screenshots/05_order_list.png",
+    imageSrc: "/screenshots/05_order_list.webp",
+    thumbSrc: "/screenshots/thumb_05_order_list.webp",
     altText: "Tab 17 Order List - Know exactly what to buy, and from whom",
     keyMetric: "203 cement bags, 3.425T steel, 22,302 bricks with buffers"
   },
@@ -101,7 +107,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Cost & Budget",
     headline: "Track spend stage by stage against your target",
     subtitle: "Flags any stage that goes over its budget",
-    imageSrc: "/screenshots/06_stage_budget.png",
+    imageSrc: "/screenshots/06_stage_budget.webp",
+    thumbSrc: "/screenshots/thumb_06_stage_budget.webp",
     altText: "Tab 15 Stage Budget - Track spend stage by stage against your target",
     keyMetric: "Stage share targets, estimated vs target bars, Over-budget warning"
   },
@@ -114,7 +121,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Buy, Track & Approve",
     headline: "Catch overcharged contractor bills",
     subtitle: "Compares your calculation with the contractor's claim",
-    imageSrc: "/screenshots/07_bill_check.png",
+    imageSrc: "/screenshots/07_bill_check.webp",
+    thumbSrc: "/screenshots/thumb_07_bill_check.webp",
     altText: "Tab 25 Bill Check - Catch overcharged contractor bills",
     keyMetric: "5% allowed tolerance, auto red alert when claims exceed norms"
   },
@@ -127,7 +135,8 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     categoryLabel: "Overview & Controls",
     headline: "A print-ready quotation for your client",
     subtitle: "Itemised, with contingency, GST and validity terms",
-    imageSrc: "/screenshots/08_quotation.png",
+    imageSrc: "/screenshots/08_quotation.webp",
+    thumbSrc: "/screenshots/thumb_08_quotation.webp",
     altText: "Tab 30 Quotation - A print-ready quotation for your client",
     keyMetric: "Print-ready BOQ proposal, 30-day validity, contract terms"
   }
@@ -315,6 +324,8 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
           src={currentItem.imageSrc}
           alt={currentItem.altText}
           draggable={false}
+          fetchPriority={activeIndex === 0 ? "high" : "auto"}
+          decoding="async"
           onClick={() => {
             if (!isSwipingRef.current) {
               setIsModalOpen(true);
@@ -384,8 +395,10 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={item.imageSrc}
+              src={item.thumbSrc || item.imageSrc}
               alt={item.altText}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover object-top"
             />
             <span className="absolute bottom-0 inset-x-0 bg-slate-950/90 text-[8px] font-mono text-center text-amber-300 py-0.5 truncate px-0.5">
