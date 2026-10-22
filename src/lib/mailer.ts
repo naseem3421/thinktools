@@ -138,9 +138,20 @@ export async function sendOrderDeliveryEmail({
               </ul>
             </div>
 
+            <div style="text-align: center; margin: 28px 0;">
+              <a href="https://thinktools.in/api/download" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
+                ⬇️ Click Here to Download .ZIP (1.9 MB)
+              </a>
+              <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
+                Direct offline master package • No login or password required
+              </div>
+            </div>
+
             <div class="instructions">
-              <strong>📎 How to access your files:</strong><br/>
-              Simply download the attached file (<code>${zipFileName}</code>) below this email. Right-click and choose <em>"Extract All"</em> on your PC or Mac to start using the tools in Microsoft Excel immediately.
+              <strong>📎 Two ways to access your files:</strong><br/>
+              1. <strong>Click the button above</strong> to download the full package instantly to your device.<br/>
+              2. <strong>Or download the attached file</strong> (<code>${zipFileName}</code>) located at the bottom of this email.<br/>
+              Right-click and choose <em>"Extract All"</em> on your PC or Mac to open the workbooks in Microsoft Excel immediately.
             </div>
 
             <p class="text" style="margin-top: 24px; font-size: 13px;">

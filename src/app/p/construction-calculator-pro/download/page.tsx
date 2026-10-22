@@ -10,7 +10,8 @@ import {
   ExternalLink,
   ShieldCheck,
   Clock,
-  HelpCircle
+  HelpCircle,
+  Download
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -99,23 +100,33 @@ function DownloadContent() {
               </div>
             </div>
 
-            <div className="w-full sm:w-auto pt-2 flex flex-col items-center gap-3">
+            <div className="w-full sm:w-auto pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                id="btn-direct-download"
+                href="/api/download"
+                download="Construction_Calculator_Pro_Excel.zip"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              >
+                <Download className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+                <span>Download Files Now (.zip)</span>
+              </a>
+
               <a
                 id="btn-open-email"
                 href={emailClientUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-bold text-sm border border-white/20 transition-all cursor-pointer"
               >
-                <Mail className="w-5 h-5 text-slate-950 stroke-[2.5]" />
-                <span>{isGmail ? "Open Gmail Inbox" : "Open Your Email Inbox"}</span>
-                <ExternalLink className="w-4 h-4 text-slate-950/70" />
+                <Mail className="w-4 h-4 text-amber-400" />
+                <span>{isGmail ? "Open Gmail" : "Open Email"}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
-
-              <p className="text-xs text-slate-400 font-mono">
-                Order Reference: <strong className="text-slate-300">#{orderId}</strong>
-              </p>
             </div>
+
+            <p className="text-xs text-slate-400 font-mono">
+              Order Reference: <strong className="text-slate-300">#{orderId}</strong>
+            </p>
           </div>
         </div>
 
