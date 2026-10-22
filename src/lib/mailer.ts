@@ -41,30 +41,38 @@ export async function sendOrderDeliveryEmail({
     },
   });
 
-  // Master zip bundle path in private server storage (not exposed via public HTTP)
-  const candidateNames = [
-    "Construction_Calculator_Pro_Excel.zip",
-    "Construction_Calculator_Pro.zip",
+  // Master zip bundle candidate paths
+  const candidatePaths = [
+    path.join(process.cwd(), "public", "downloads", "Construction_Calculator_Pro_Excel.zip"),
+    path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro_Excel.zip"),
+    path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro.zip"),
   ];
-  let zipPath = "";
+
+  let fileBuffer: Buffer | null = null;
   let zipFileName = "Construction_Calculator_Pro_Excel.zip";
-  for (const name of candidateNames) {
-    const fullPath = path.join(process.cwd(), "storage", "downloads", name);
-    if (fs.existsSync(fullPath)) {
-      zipPath = fullPath;
-      zipFileName = name;
-      break;
+
+  for (const p of candidatePaths) {
+    if (fs.existsSync(p)) {
+      try {
+        fileBuffer = fs.readFileSync(p);
+        zipFileName = path.basename(p);
+        console.log(`[Mailer] Successfully loaded attachment: ${p} (${fileBuffer.length} bytes)`);
+        break;
+      } catch (err) {
+        console.error(`[Mailer] Error reading file at ${p}:`, err);
+      }
     }
   }
 
   const attachments = [];
-  if (zipPath && fs.existsSync(zipPath)) {
+  if (fileBuffer) {
     attachments.push({
       filename: zipFileName,
-      path: zipPath,
+      content: fileBuffer,
+      contentType: "application/zip",
     });
   } else {
-    console.warn(`[Mailer] Attachment not found in storage/downloads/`);
+    console.error(`[Mailer] CRITICAL WARNING: Zip attachment not found in any candidate path!`);
   }
 
   const html = `
@@ -139,7 +147,7 @@ export async function sendOrderDeliveryEmail({
             </div>
 
             <div style="text-align: center; margin: 28px 0;">
-              <a href="https://thinktools.in/api/download" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
+              <a href="https://thinktools.in/downloads/Construction_Calculator_Pro_Excel.zip" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
                 ⬇️ Click Here to Download .ZIP (1.9 MB)
               </a>
               <div style="font-size: 11px; color: #64748b; margin-top: 8px;">

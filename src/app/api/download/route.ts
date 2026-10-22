@@ -4,14 +4,25 @@ import path from "path";
 
 export async function GET(request: Request) {
   try {
-    const filePath = path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro_Excel.zip");
+    const candidatePaths = [
+      path.join(process.cwd(), "public", "downloads", "Construction_Calculator_Pro_Excel.zip"),
+      path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro_Excel.zip"),
+    ];
 
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: "File not found" }, { status: 404 });
+    let foundPath = "";
+    for (const p of candidatePaths) {
+      if (fs.existsSync(p)) {
+        foundPath = p;
+        break;
+      }
     }
 
-    const stat = fs.statSync(filePath);
-    const fileBuffer = fs.readFileSync(filePath);
+    if (!foundPath) {
+      return NextResponse.redirect(new URL("/downloads/Construction_Calculator_Pro_Excel.zip", request.url));
+    }
+
+    const stat = fs.statSync(foundPath);
+    const fileBuffer = fs.readFileSync(foundPath);
 
     return new NextResponse(fileBuffer, {
       status: 200,

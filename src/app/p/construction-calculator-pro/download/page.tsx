@@ -103,7 +103,7 @@ function DownloadContent() {
             <div className="w-full sm:w-auto pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 id="btn-direct-download"
-                href="/api/download"
+                href="/downloads/Construction_Calculator_Pro_Excel.zip"
                 download="Construction_Calculator_Pro_Excel.zip"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
