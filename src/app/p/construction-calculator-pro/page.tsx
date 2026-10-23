@@ -81,7 +81,7 @@ export default function ConstructionCalculatorPage() {
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs">
         <Sparkles className="w-3.5 h-3.5 fill-current shrink-0" />
         <span className="leading-tight">
-          CONSTRUCTION CALCULATOR PRO: ₹499 ONE-TIME PAYMENT • INSTANT ON-SCREEN DOWNLOAD + EMAIL ATTACHMENT • 100% UNLOCKED EXCEL
+          🚀 SPECIAL LAUNCH PRICE: ₹499/- (Goes to ₹999/- on 15 Nov) • INSTANT ON-SCREEN DOWNLOAD + EMAIL ATTACHMENT • 100% UNLOCKED EXCEL
         </span>
       </div>
 
@@ -619,12 +619,12 @@ export default function ConstructionCalculatorPage() {
         <section className="py-10 sm:py-16 max-w-3xl mx-auto px-3.5 sm:px-6">
           <div className="rounded-2xl sm:rounded-3xl bg-white border-2 border-amber-400 p-5 sm:p-8 md:p-10 shadow-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-black text-[10px] sm:text-xs uppercase px-3 sm:px-4 py-1 sm:py-1.5 rounded-bl-xl sm:rounded-bl-2xl">
-              One-Time Payment
+              Special Launch Offer
             </div>
 
             <div className="text-center pb-5 sm:pb-6 border-b border-slate-200">
               <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-slate-500 block">
-                Instant Download • Zero Subscriptions
+                Instant Download • Zero Subscriptions • Lifetime Access
               </span>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 mt-1">
                 Construction Calculator Pro Package
@@ -634,12 +634,20 @@ export default function ConstructionCalculatorPage() {
               </p>
 
               <div className="mt-5 sm:mt-6 flex flex-col items-center justify-center">
-                <span className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 font-mono">
-                  ₹{product.price}
-                </span>
-                <span className="text-xs sm:text-sm font-semibold text-slate-600 mt-1">
-                  ₹499 — One-Time Payment
-                </span>
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <span className="text-base sm:text-xl font-bold text-slate-400 line-through">
+                    ₹999
+                  </span>
+                  <span className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 font-mono">
+                    ₹{product.price}/-
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[10px] sm:text-xs uppercase tracking-wide">
+                    50% OFF
+                  </span>
+                </div>
+                <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-bold text-[11px] sm:text-xs">
+                  <span>⏰ Launch Price: ₹499/- • Goes to ₹999/- on 15 Nov</span>
+                </div>
               </div>
             </div>
 
