@@ -203,7 +203,7 @@ export default function ConstructionCalculatorPage() {
                     <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery (Files Attached)
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
-                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Built for Microsoft Excel (Windows & Mac) • Openable in Google Sheets
+                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Built for Microsoft Excel (Windows & Mac)
                   </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <Sliders className="w-3.5 h-3.5 text-amber-600 shrink-0" /> Feet/Inches & Metres Toggle
@@ -576,7 +576,7 @@ export default function ConstructionCalculatorPage() {
                     Open in Excel & Start Estimating
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed">
-                    Unzip the package. Open the Master Workbook in Microsoft Excel or Google Sheets, follow the 4-week step-by-step roadmap, and begin running your project numbers right away.
+                    Unzip the package. Open the Master Workbook in Microsoft Excel, follow the 4-week step-by-step roadmap, and begin running your project numbers right away.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-emerald-700 font-medium flex items-center gap-1.5">
@@ -601,7 +601,7 @@ export default function ConstructionCalculatorPage() {
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Built natively for Microsoft Excel (.xlsx) on Windows & Mac with automated cross-sheet formulas, and openable in Google Sheets & LibreOffice for standard viewing. If you encounter any technical file opening glitch or formula issue, our engineering team will provide priority WhatsApp/email assistance within 24 hours or issue a prompt, friendly refund.
+                  Built natively for Microsoft Excel (.xlsx) on Windows & Mac with automated cross-sheet formulas. If you encounter any technical file opening glitch or formula issue, our engineering team will provide priority WhatsApp/email assistance within 24 hours or issue a prompt, friendly refund.
                 </p>
               </div>
               <button
@@ -710,7 +710,7 @@ export default function ConstructionCalculatorPage() {
               },
               {
                 q: "Which spreadsheet software is required to use this toolkit?",
-                a: "Construction Calculator Pro is built natively for Microsoft Excel (Excel 2016 through Microsoft 365 on Windows & Mac) for full cross-sheet formula calculations, rate synchronizations, and dropdowns. The workbooks are pure OpenXML .xlsx files that can also be opened and edited in Google Sheets and LibreOffice, with desktop Microsoft Excel recommended for the fastest automated calculation experience."
+                a: "Construction Calculator Pro is built natively for Microsoft Excel (Excel 2016 through Microsoft 365 on Windows & Mac) for full cross-sheet formula calculations, rate synchronizations, and dropdowns. The workbooks are pure OpenXML .xlsx files engineered specifically for desktop Microsoft Excel for the fastest automated calculation experience."
               },
               {
                 q: "Where do I receive the files after paying ₹499?",

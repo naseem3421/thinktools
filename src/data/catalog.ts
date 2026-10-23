@@ -205,7 +205,7 @@ export const FAQS = [
   },
   {
     question: "Which software is required to use Construction Calculator Pro?",
-    answer: "Construction Calculator Pro requires Microsoft Excel (Excel 2016, 2019, 2021, or Microsoft 365 on Windows or Mac). The workbooks are pure OpenXML (.xlsx) files engineered specifically with native Microsoft Excel formulas, conditional formatting rules, and cross-sheet linkages. Google Sheets and other alternative spreadsheet applications are not supported because certain multi-tab formulas, cell formatting, and dynamic references are designed strictly for Microsoft Excel."
+    answer: "Construction Calculator Pro requires Microsoft Excel (Excel 2016, 2019, 2021, or Microsoft 365 on Windows or Mac). The workbooks are pure OpenXML (.xlsx) files engineered specifically with native Microsoft Excel formulas, conditional formatting rules, and cross-sheet linkages. Alternative spreadsheet applications are not supported because certain multi-tab formulas, cell formatting, and dynamic references are designed strictly for Microsoft Excel."
   },
   {
     question: "How does digital delivery work after purchase?",

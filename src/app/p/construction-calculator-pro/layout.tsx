@@ -195,7 +195,7 @@ export default function ConstructionCalculatorLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
-                "Construction Calculator Pro requires Microsoft Excel (Excel 2016, 2019, 2021, or Microsoft 365 on Windows or Mac). The files are pure OpenXML spreadsheets (.xlsx) engineered with native Microsoft Excel cross-sheet formulas, dynamic rate matrices, and conditional formatting. Google Sheets and other alternative spreadsheet apps are not supported.",
+                "Construction Calculator Pro requires Microsoft Excel (Excel 2016, 2019, 2021, or Microsoft 365 on Windows or Mac). The files are pure OpenXML spreadsheets (.xlsx) engineered with native Microsoft Excel cross-sheet formulas, dynamic rate matrices, and conditional formatting. Other alternative spreadsheet apps are not supported.",
             },
           },
           {
