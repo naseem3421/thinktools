@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/"],
+        disallow: ["/api/", "/_next/", "/p/construction-calculator-pro/diwali"],
       },
       // Explicitly welcome AI Answer & Generative Search Engines (AIO / AEO / GEO)
       {
@@ -27,7 +27,7 @@ export default function robots(): MetadataRoute.Robots {
           "CCBot",
         ],
         allow: "/",
-        disallow: ["/api/"],
+        disallow: ["/api/", "/p/construction-calculator-pro/diwali"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

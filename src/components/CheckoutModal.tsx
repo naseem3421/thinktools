@@ -234,7 +234,10 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               email: encodeURIComponent(email),
               phone: encodeURIComponent(phone),
             });
-            router.push(`/p/${product.slug}/download?${query.toString()}`);
+            const downloadPath = product.slug.includes("diwali")
+              ? "/p/construction-calculator-pro/download"
+              : `/p/${product.slug}/download`;
+            router.push(`${downloadPath}?${query.toString()}`);
           } catch (verifyErr: unknown) {
             console.error("Verification error:", verifyErr);
             const err = verifyErr as { message?: string };

@@ -1299,3 +1299,14 @@ export const PRODUCTS: Record<string, Product> = {
     ]
   }
 };
+
+PRODUCTS["construction-calculator-pro-diwali"] = {
+  ...PRODUCTS["construction-calculator-pro"],
+  id: "prod_const_india_diwali_299",
+  slug: "construction-calculator-pro-diwali",
+  title: "CONSTRUCTION CALCULATOR PRO – DIWALI SPECIAL",
+  badgeTitle: "Diwali Special Offer • Limited-Time Festive Deal",
+  price: 299,
+  originalPrice: 999,
+  badge: "🪔 Diwali Special Deal (₹299)",
+};
