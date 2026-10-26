@@ -21,9 +21,13 @@ import {
   Mail,
   Check,
   PackageCheck,
-  ShieldAlert
+  ShieldAlert,
+  ShoppingCart,
+  Plus,
+  Trash2,
+  Play
 } from "lucide-react";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CalculatorGallery from "@/components/CalculatorGallery";
@@ -34,12 +38,52 @@ const CheckoutModal = dynamic(() => import("@/components/CheckoutModal"), {
   ssr: false,
 });
 
+const ReelPreviewModal = dynamic(() => import("@/components/ReelPreviewModal"), {
+  ssr: false,
+});
+
 export default function ConstructionCalculatorPage() {
   const product = PRODUCTS["construction-calculator-pro"];
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
   const [sheetModalSearch, setSheetModalSearch] = useState("");
+  const [selectedAddonIds, setSelectedAddonIds] = useState<string[]>([]);
+  const [isReelModalOpen, setIsReelModalOpen] = useState(false);
+  const [activeReelId, setActiveReelId] = useState("main-calculator");
+
+  const openReel = (id: string) => {
+    setActiveReelId(id);
+    setIsReelModalOpen(true);
+  };
+
+  const allAddonIds = Object.keys(ADDON_PRODUCTS);
+  const isBundleApplied = selectedAddonIds.length === allAddonIds.length;
+  const bundleDiscount = isBundleApplied ? 97 : 0;
+
+  const toggleAddon = (id: string) => {
+    setSelectedAddonIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const removeAddon = (id: string) => {
+    setSelectedAddonIds((prev) => prev.filter((item) => item !== id));
+  };
+
+  const toggleBundle = () => {
+    if (isBundleApplied) {
+      setSelectedAddonIds([]);
+    } else {
+      setSelectedAddonIds(allAddonIds);
+    }
+  };
+
+  const addonsSubtotal = selectedAddonIds.reduce(
+    (sum, id) => sum + (ADDON_PRODUCTS[id]?.price || 0),
+    0
+  );
+  const orderTotal = product.price + addonsSubtotal - bundleDiscount;
 
   const hasTrackedViewContent = useRef(false);
   useEffect(() => {
@@ -81,7 +125,7 @@ export default function ConstructionCalculatorPage() {
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs">
         <Sparkles className="w-3.5 h-3.5 fill-current shrink-0" />
         <span className="leading-tight">
-          🚀 SPECIAL LAUNCH PRICE: ₹499/- (Goes to ₹999/- on 15 Nov) • INSTANT ON-SCREEN DOWNLOAD + EMAIL ATTACHMENT • 100% UNLOCKED EXCEL
+          🚀 SPECIAL LAUNCH PRICE: ₹299/- (Goes to ₹999/- on 15 Nov) • INSTANT ON-SCREEN DOWNLOAD + EMAIL ATTACHMENT • 100% UNLOCKED EXCEL
         </span>
       </div>
 
@@ -139,7 +183,7 @@ export default function ConstructionCalculatorPage() {
                       <span>House & Flat Renovators</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                      Dedicated renovation workbook for kitchen, tiling, paint & bath without foundation clutter.
+                      Dedicated renovation template for kitchen, tiling, paint & bath without foundation clutter.
                     </p>
                   </div>
 
@@ -157,10 +201,10 @@ export default function ConstructionCalculatorPage() {
                 {/* Micro-Value Pill */}
                 <div className="inline-flex items-start sm:items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[11px] sm:text-xs text-emerald-900 font-semibold text-left">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 sm:mt-0" />
-                  <span>₹499 one-time payment provides a structured estimation framework for your project</span>
+                  <span>₹299 one-time payment provides a structured estimation framework for your project</span>
                 </div>
 
-                {/* Action CTA Group (Single Primary Button) */}
+                {/* Action CTA Group (Primary + Video Reel Walkthrough) */}
                 <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-4">
                   <button
                     id="btn-hero-cta"
@@ -169,6 +213,17 @@ export default function ConstructionCalculatorPage() {
                   >
                     <span>Get Instant Access (₹{product.price})</span>
                     <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => openReel("main-calculator")}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-xs sm:text-sm shadow-2xs transition-all cursor-pointer group"
+                  >
+                    <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
+                    </span>
+                    <span>Watch 60s Reel Tour</span>
                   </button>
                 </div>
 
@@ -298,7 +353,7 @@ export default function ConstructionCalculatorPage() {
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900">With Thinktools Pro (₹499)</h3>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900">With Thinktools Pro (₹299)</h3>
                       <span className="text-xs text-emerald-800 font-semibold font-mono">CPWD & IS Code Aligned Toolkit</span>
                     </div>
                   </div>
@@ -324,7 +379,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 <div className="mt-6 sm:mt-8 pt-4 border-t border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="text-xs font-bold text-emerald-900">3 Workbooks · 31 Sheets · ₹499</span>
+                  <span className="text-xs font-bold text-emerald-900">31 Connected Sheets · Complete Suite · ₹299</span>
                   <button
                     onClick={() => setIsCheckoutOpen(true)}
                     className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all"
@@ -346,7 +401,7 @@ export default function ConstructionCalculatorPage() {
                 Paisa Vasool Math
               </span>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 mt-2">
-                Why ₹499 is Less Than 0.02% of Your Build
+                Why ₹299 is Less Than 0.02% of Your Build
               </h2>
             </div>
 
@@ -368,7 +423,7 @@ export default function ConstructionCalculatorPage() {
               </div>
               <div className="bg-amber-500 text-slate-950 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-amber-400 shadow-md flex flex-col justify-center">
                 <span className="text-[11px] sm:text-xs font-bold block">Thinktools Pro</span>
-                <span className="text-base sm:text-xl font-black font-mono">₹499 (Lifetime)</span>
+                <span className="text-base sm:text-xl font-black font-mono">₹299 (Lifetime)</span>
               </div>
             </div>
 
@@ -378,12 +433,12 @@ export default function ConstructionCalculatorPage() {
           </div>
         </section>
 
-        {/* 5. THE COMPLETE BUNDLE BOX: WHAT YOU RECEIVE FOR ₹499 */}
+        {/* 5. THE COMPLETE BUNDLE BOX: WHAT YOU RECEIVE FOR ₹299 */}
         <section className="py-10 sm:py-16 bg-white border-b border-slate-200">
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
             <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
               <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-                Everything Included In The ₹499 Bundle
+                Everything Included In The ₹299 Bundle
               </span>
               <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 mt-2 sm:mt-3">
                 Complete Construction Toolkit Box
@@ -394,16 +449,16 @@ export default function ConstructionCalculatorPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-              {/* Deliverable 1: 3 Excel Workbooks */}
+              {/* Deliverable 1: Complete 31-Sheet System */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-2xs flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-[10px] font-mono text-emerald-800 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded font-bold">
-                      3 Excel Files (.XLSX)
+                      31 Connected Sheets (.XLSX)
                     </span>
                     <span className="text-xs text-amber-700 font-semibold font-mono">Core Engines</span>
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">3 Specialized Workbooks (31 Tabs)</h3>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Complete 31-Sheet System</h3>
                   <div className="mt-3 space-y-2 text-xs text-slate-600">
                     <div className="flex items-start gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
@@ -420,14 +475,27 @@ export default function ConstructionCalculatorPage() {
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => setIsSheetModalOpen(true)}
-                  className="mt-5 w-full py-2.5 px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <Layers className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Inspect All 31 Sheet Names &rarr;</span>
-                </button>
+                <div className="mt-5 space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => openReel("main-calculator")}
+                    className="w-full py-2.5 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-300 text-amber-950 font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer group"
+                  >
+                    <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Play className="w-2 h-2 fill-current ml-0.5" />
+                    </span>
+                    <span>Watch 60s Reel Walkthrough</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsSheetModalOpen(true)}
+                    className="w-full py-2 px-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Layers className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Inspect All 31 Sheet Names &rarr;</span>
+                  </button>
+                </div>
               </div>
 
               {/* Deliverable 2: 13 PDF Implementation Documents */}
@@ -488,7 +556,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-slate-200 text-[11px] text-slate-500 font-medium flex items-center justify-between">
-                  <span>Included in ₹499 Package</span>
+                  <span>Included in ₹299 Package</span>
                   <span className="font-semibold text-slate-700">7 Reference Files</span>
                 </div>
               </div>
@@ -528,7 +596,7 @@ export default function ConstructionCalculatorPage() {
                     Secure 30-Second Checkout
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed">
-                    Pay ₹499 via UPI (Google Pay, PhonePe, Paytm, BHIM), NetBanking, or Cards. Processed securely through Razorpay with 256-bit bank-grade encryption.
+                    Pay ₹299 via UPI (Google Pay, PhonePe, Paytm, BHIM), NetBanking, or Cards. Processed securely through Razorpay with 256-bit bank-grade encryption.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-emerald-700 font-medium flex items-center gap-1.5">
@@ -576,7 +644,7 @@ export default function ConstructionCalculatorPage() {
                     Open in Excel & Start Estimating
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed">
-                    Unzip the package. Open the Master Workbook in Microsoft Excel, follow the 4-week step-by-step roadmap, and begin running your project numbers right away.
+                    Unzip the package. Open the Master 31-Sheet Calculator in Microsoft Excel, follow the 4-week step-by-step roadmap, and begin running your project numbers right away.
                   </p>
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-100 text-[11px] text-emerald-700 font-medium flex items-center gap-1.5">
@@ -609,8 +677,293 @@ export default function ConstructionCalculatorPage() {
                 onClick={() => setIsCheckoutOpen(true)}
                 className="shrink-0 w-full md:w-auto px-5 py-3 bg-[#172033] hover:bg-slate-800 text-white font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer text-center"
               >
-                Get Started (₹499)
+                Get Started (₹{product.price})
               </button>
+            </div>
+          </div>
+        </section>
+
+        {/* NEW SECTION: MANAGE YOUR CONSTRUCTION BUSINESS SMARTER */}
+        <section id="business-tools" className="py-12 sm:py-16 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
+          {/* Ambient lighting accents */}
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+          <div className="max-w-6xl mx-auto px-3.5 sm:px-6 relative z-10">
+            {/* Section Header */}
+            <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-400 bg-amber-500/15 border border-amber-500/30 px-3 py-1 rounded-full">
+                Optional Power Add-Ons • ₹99 Each
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-2 sm:mt-3 tracking-tight">
+                Manage Your Construction Business Smarter
+              </h2>
+              <p className="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                Get these ready-to-use Excel tools to manage site expenses, labour wages and outstanding payments.
+              </p>
+            </div>
+
+            {/* 4-IN-1 BUNDLE OFFER HIGHLIGHT BANNER */}
+            <div className="mb-6 sm:mb-8 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-amber-500/20 via-slate-900 to-emerald-500/15 border-2 border-amber-400 p-4 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+                <div className="space-y-1.5 max-w-xl text-left">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] sm:text-xs uppercase tracking-wider">
+                      ⚡ LIMITED TIME BUNDLE OFFER
+                    </span>
+                    <span className="text-emerald-400 font-bold text-xs font-mono">
+                      Save ₹1,397 (74% OFF Total Value)
+                    </span>
+                  </div>
+                  <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight">
+                    Get All 3 Add-Ons + Main 31-Sheet Calculator for ₹499/-
+                  </h3>
+                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Includes Construction Calculator Pro + Site Expense Tracker + Labour Attendance & Wage Sheet + Payment Collection Tracker. Complete end-to-end site operations suite.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row lg:flex-col sm:items-center lg:items-end justify-between gap-3 shrink-0">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xs sm:text-sm text-slate-400 line-through font-mono">
+                      ₹1,896
+                    </span>
+                    <span className="text-2xl sm:text-3xl font-black text-white font-mono">
+                      ₹499/-
+                    </span>
+                    <span className="text-[10px] font-bold text-amber-300 uppercase bg-amber-500/20 px-2 py-0.5 rounded">
+                      All 4 Tools
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={toggleBundle}
+                    className={`w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      isBundleApplied
+                        ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/25"
+                        : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/25 hover:scale-[1.02]"
+                    }`}
+                  >
+                    {isBundleApplied ? (
+                      <>
+                        <Check className="w-4 h-4 stroke-[3]" />
+                        <span>Bundle Selected (₹499)</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4" />
+                        <span>Select Complete 4-in-1 Bundle (₹499)</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* 3 Product Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              {Object.values(ADDON_PRODUCTS).map((addon) => {
+                const isSelected = selectedAddonIds.includes(addon.id);
+                return (
+                  <div
+                    key={addon.id}
+                    className={`rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200 border ${
+                      isSelected
+                        ? "bg-[#16202c] border-amber-400 ring-2 ring-amber-400/30 shadow-xl shadow-amber-500/10"
+                        : "bg-[#111722] border-slate-800 hover:border-slate-700"
+                    }`}
+                  >
+                    <div>
+                      {/* Badge & Price Header */}
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">
+                          {addon.badge || "Excel Tool"}
+                        </span>
+                        <div className="text-right">
+                          <span className="text-xs text-slate-400 line-through mr-1.5 font-mono">
+                            ₹{addon.originalPrice}
+                          </span>
+                          <span className="text-lg sm:text-xl font-black font-mono text-white">
+                            ₹{addon.price}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                        {addon.title}
+                      </h3>
+
+                      {/* Price Note */}
+                      <p className="text-[11px] text-emerald-400 font-medium mt-0.5">
+                        ₹99 (one-time payment)
+                      </p>
+
+                      {/* Benefits List */}
+                      <ul className="mt-4 space-y-2 text-xs text-slate-300">
+                        {addon.features.map((feature, fIdx) => (
+                          <li key={fIdx} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                            <span className="leading-snug">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Card Actions */}
+                    <div className="mt-6 pt-4 border-t border-slate-800/80 space-y-2.5">
+                      <button
+                        type="button"
+                        onClick={() => openReel(addon.id)}
+                        className="w-full py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-amber-300 hover:text-amber-200 border border-amber-500/30 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer group"
+                      >
+                        <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <Play className="w-2 h-2 fill-current ml-0.5" />
+                        </span>
+                        <span>Watch 60s Reel Walkthrough</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => toggleAddon(addon.id)}
+                        className={`w-full py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-emerald-500 hover:bg-rose-600 text-slate-950 hover:text-white"
+                            : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md shadow-amber-500/20"
+                        }`}
+                      >
+                        {isSelected ? (
+                          <>
+                            <Check className="w-4 h-4 stroke-[3]" />
+                            <span>Added to Cart (Click to Remove)</span>
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="w-4 h-4" />
+                            <span>Add to Cart (₹99)</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* CART SUMMARY */}
+            <div className="mt-8 rounded-2xl sm:rounded-3xl bg-[#0b0f14] border border-slate-800 p-5 sm:p-7 shadow-2xl">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <ShoppingCart className="w-4 h-4 text-amber-400" />
+                    <h3 className="text-base sm:text-lg font-bold text-white">Your Cart Summary</h3>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    {selectedAddonIds.length === 0
+                      ? "Base suite included. Select optional ₹99 tools above to expand your system."
+                      : `${selectedAddonIds.length} optional business tool${selectedAddonIds.length > 1 ? "s" : ""} selected.`}
+                  </p>
+                </div>
+                {selectedAddonIds.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedAddonIds([])}
+                    className="text-xs text-slate-400 hover:text-rose-400 transition-colors self-start md:self-auto cursor-pointer"
+                  >
+                    Clear All Add-ons
+                  </button>
+                )}
+              </div>
+
+              {/* Itemized Table / List */}
+              <div className="py-4 space-y-2.5 text-xs sm:text-sm">
+                {/* Main Product */}
+                <div className="flex items-center justify-between py-1.5 text-slate-200">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <span className="font-semibold">Construction Calculator Pro (Complete 31-Sheet Suite)</span>
+                    <span className="text-[10px] text-slate-500 font-mono">Qty: 1</span>
+                  </div>
+                  <span className="font-mono font-bold text-white">₹{product.price}</span>
+                </div>
+
+                {/* Selected Add-ons */}
+                {selectedAddonIds.map((id) => {
+                  const addon = ADDON_PRODUCTS[id];
+                  if (!addon) return null;
+                  return (
+                    <div
+                      key={id}
+                      className="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/60 border border-slate-800/80 text-slate-200"
+                    >
+                      <div className="flex items-center gap-2 truncate pr-2">
+                        <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+                        <span className="font-medium truncate">{addon.title}</span>
+                        <span className="text-[10px] text-slate-400 font-mono shrink-0">Qty: 1</span>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="font-mono font-bold text-amber-400">₹{addon.price}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeAddon(id)}
+                          className="text-slate-400 hover:text-rose-400 transition-colors p-1"
+                          title="Remove item"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Subtotals & Totals Row */}
+              <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1.5 text-xs">
+                  <div className="flex items-center gap-4 text-slate-400">
+                    <span>Add-ons Subtotal:</span>
+                    <span className="font-mono font-bold text-amber-400">
+                      ₹{addonsSubtotal}
+                    </span>
+                    <span className="text-[11px] text-slate-500">
+                      ({selectedAddonIds.length} tool{selectedAddonIds.length === 1 ? "" : "s"} @ ₹99)
+                    </span>
+                  </div>
+                  {isBundleApplied && (
+                    <div className="flex items-center gap-2 text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25 max-w-fit">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>4-in-1 Bundle Savings: -₹97 (Capped at ₹499)</span>
+                    </div>
+                  )}
+                  <div className="flex items-baseline gap-2 text-sm sm:text-base pt-0.5">
+                    <span className="text-slate-300 font-bold">Total Order Amount:</span>
+                    {isBundleApplied && (
+                      <span className="text-xs text-slate-500 line-through font-mono">
+                        ₹596
+                      </span>
+                    )}
+                    <span className="text-xl sm:text-2xl font-black font-mono text-white">
+                      ₹{orderTotal}
+                    </span>
+                    {isBundleApplied && (
+                      <span className="text-[10px] font-bold text-emerald-400 uppercase bg-emerald-500/20 px-2 py-0.5 rounded">
+                        Bundle Applied
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  id="btn-cart-checkout"
+                  onClick={() => setIsCheckoutOpen(true)}
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
+                >
+                  <span>Proceed to Checkout (₹{orderTotal})</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -630,7 +983,7 @@ export default function ConstructionCalculatorPage() {
                 Construction Calculator Pro Package
               </h3>
               <p className="text-xs text-slate-600 mt-1.5 sm:mt-2">
-                3 Excel workbooks · 31 connected worksheets · 13 PDF guides and worksheets · 7 bonus resources
+                31 connected sheets · Master templates & practical examples · 13 PDF guides · 7 bonus resources
               </p>
 
               <div className="mt-5 sm:mt-6 flex flex-col items-center justify-center">
@@ -642,18 +995,18 @@ export default function ConstructionCalculatorPage() {
                     ₹{product.price}/-
                   </span>
                   <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[10px] sm:text-xs uppercase tracking-wide">
-                    50% OFF
+                    70% OFF
                   </span>
                 </div>
                 <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-bold text-[11px] sm:text-xs">
-                  <span>⏰ Launch Price: ₹499/- • Goes to ₹999/- on 15 Nov</span>
+                  <span>⏰ Launch Price: ₹299/- • Goes to ₹999/- on 15 Nov</span>
                 </div>
               </div>
             </div>
 
             <div className="py-5 sm:py-6 space-y-2.5 sm:space-y-3">
               {[
-                "3 Excel workbooks (.xlsx): Blank Master, Chennai 3BHK Example, Flat Renovation",
+                "31 connected Excel sheets (.xlsx): Blank Master, Chennai 3BHK Example, Flat Renovation",
                 "31 connected worksheets with Dual Units Toggle (Feet/Inches & Metres)",
                 "Contractor bill check comparison sheet with variance flags",
                 "Procurement order list with wastage allowances & lead times",
@@ -675,6 +1028,29 @@ export default function ConstructionCalculatorPage() {
               <Download className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Get the Complete Package (₹{product.price})</span>
             </button>
+
+            {/* 4-in-1 Bundle Upgrade Callout */}
+            <div className="mt-3.5 p-3.5 rounded-xl bg-gradient-to-r from-amber-50 to-amber-100/60 border border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1.5 font-bold text-amber-950 text-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Looking for Complete Site Operations?</span>
+                </div>
+                <p className="text-[11px] text-slate-600">
+                  Get the 4-in-1 Bundle (Main Suite + Expense Tracker + Labour Wage + Payment Tracker) for just <strong className="text-slate-900 font-bold">₹499/-</strong> (Save ₹1,397).
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedAddonIds(allAddonIds);
+                  setIsCheckoutOpen(true);
+                }}
+                className="w-full sm:w-auto px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs whitespace-nowrap shadow-sm transition-all cursor-pointer text-center"
+              >
+                Get 4-in-1 Bundle (₹499) &rarr;
+              </button>
+            </div>
 
             {/* Payment Trust Badges (UPI, GPay, PhonePe, Cards) */}
             <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-slate-500 font-medium">
@@ -721,16 +1097,16 @@ export default function ConstructionCalculatorPage() {
                 a: "Construction Calculator Pro is built natively for Microsoft Excel (Excel 2016 through Microsoft 365 on Windows & Mac) for full cross-sheet formula calculations, rate synchronizations, and dropdowns. The workbooks are pure OpenXML .xlsx files engineered specifically for desktop Microsoft Excel for the fastest automated calculation experience."
               },
               {
-                q: "Where do I receive the files after paying ₹499?",
-                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 3 workbooks and PDF guides) is dispatched directly to your registered email address with the files attached for instant, permanent offline access."
+                q: "Where do I receive the files after paying ₹299?",
+                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 31 sheets, finished examples, and PDF guides) is dispatched directly to your registered email address with the files attached for instant, permanent offline access."
               },
               {
                 q: "Does this work for flat, apartment, or room renovations?",
-                a: "Yes! You get a dedicated workbook: 'Construction_Calculator_Pro_EXAMPLE_renovation.xlsx' specifically built for non-structural upgrades (kitchen remodel, bathroom tiling, floor retiling, wall painting, and electrical points) without overwhelming you with foundation sheets."
+                a: "Yes! You get a dedicated template: 'Construction_Calculator_Pro_EXAMPLE_renovation.xlsx' specifically built for non-structural upgrades (kitchen remodel, bathroom tiling, floor retiling, wall painting, and electrical points) without overwhelming you with foundation sheets."
               },
               {
                 q: "What if I measure in Feet & Inches instead of Metres?",
-                a: "The workbook has a 1-click unit toggle in Sheet #3 (Setup). Switch between Feet/Inches (Indian residential standard) and Metres anytime. All area, volume, brick, and paint formulas automatically recalculate."
+                a: "The sheets have a 1-click unit toggle in Sheet #3 (Setup). Switch between Feet/Inches (Indian residential standard) and Metres anytime. All area, volume, brick, and paint formulas automatically recalculate."
               },
               {
                 q: "How does the 'Bill Check' tab help review contractor claims?",
@@ -738,7 +1114,7 @@ export default function ConstructionCalculatorPage() {
               },
               {
                 q: "How does digital delivery and support work?",
-                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 3 workbooks, 13 PDF guides, and 7 bonus kits) is displayed on screen for instant download and automatically attached to your confirmation email for permanent offline access. If you ever experience any file questions, download issues, or duplicate charges, our dedicated support team (support@thinktools.in) will assist you promptly until everything is running smoothly."
+                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 31 sheets, finished examples, 13 PDF guides, and 7 bonus kits) is displayed on screen for instant download and automatically attached to your confirmation email for permanent offline access. If you ever experience any file questions, download issues, or duplicate charges, our dedicated support team (support@thinktools.in) will assist you promptly until everything is running smoothly."
               }
             ].map((faq, idx) => (
               <div
@@ -773,7 +1149,16 @@ export default function ConstructionCalculatorPage() {
         <div>
           <span className="text-[10px] text-slate-500 block font-medium">One-Time Payment</span>
           <div className="flex items-center gap-1.5">
-            <span className="text-base font-black text-slate-900 font-mono">₹{product.price}</span>
+            <span className="text-base font-black text-slate-900 font-mono">₹{orderTotal}</span>
+            {isBundleApplied ? (
+              <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">
+                Bundle Offer (₹499)
+              </span>
+            ) : selectedAddonIds.length > 0 ? (
+              <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">
+                +{selectedAddonIds.length} add-on{selectedAddonIds.length > 1 ? "s" : ""}
+              </span>
+            ) : null}
           </div>
         </div>
 
@@ -781,7 +1166,7 @@ export default function ConstructionCalculatorPage() {
           onClick={() => setIsCheckoutOpen(true)}
           className="flex-1 py-2.5 px-3.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer"
         >
-          <span>Get the Complete Package</span>
+          <span>Get Instant Access</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
@@ -793,6 +1178,19 @@ export default function ConstructionCalculatorPage() {
         product={product}
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
+        selectedAddonIds={selectedAddonIds}
+        onRemoveAddon={removeAddon}
+      />
+
+      {/* 9:16 Instagram Reels Walkthrough Modal */}
+      <ReelPreviewModal
+        isOpen={isReelModalOpen}
+        onClose={() => setIsReelModalOpen(false)}
+        activeReelId={activeReelId}
+        onSelectReel={(id) => setActiveReelId(id)}
+        selectedAddonIds={selectedAddonIds}
+        onToggleAddon={toggleAddon}
+        onOpenCheckout={() => setIsCheckoutOpen(true)}
       />
 
       {/* CLEAN MODAL FOR 31-TAB DETAILED INSPECTION (Keeps Landing Page Fast & Short) */}
@@ -812,7 +1210,7 @@ export default function ConstructionCalculatorPage() {
                   All 31 Connected Tabs
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-slate-950 mt-1 truncate">
-                  Complete Workbook Architecture Index
+                  Complete 31-Sheet Architecture Index
                 </h3>
               </div>
               <button
@@ -875,7 +1273,7 @@ export default function ConstructionCalculatorPage() {
                 }}
                 className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/20 cursor-pointer whitespace-nowrap"
               >
-                Download Package (₹499)
+                Download Package (₹{product.price})
               </button>
             </div>
           </div>

@@ -3,14 +3,16 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { X, Lock, Check, AlertCircle, FileSpreadsheet, ShieldCheck } from "lucide-react";
-import { Product } from "@/data/products";
+import { X, Lock, Check, AlertCircle, FileSpreadsheet, ShieldCheck, Trash2 } from "lucide-react";
+import { Product, ADDON_PRODUCTS, AddonProduct } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
 
 interface CheckoutModalProps {
   product: Product;
   isOpen: boolean;
   onClose: () => void;
+  selectedAddonIds?: string[];
+  onRemoveAddon?: (id: string) => void;
 }
 
 interface RazorpaySuccessResponse {
@@ -72,7 +74,13 @@ function loadRazorpayScript(): Promise<boolean> {
   });
 }
 
-export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) {
+export default function CheckoutModal({
+  product,
+  isOpen,
+  onClose,
+  selectedAddonIds = [],
+  onRemoveAddon,
+}: CheckoutModalProps) {
   const router = useRouter();
   const trackedPaymentIds = useRef<Set<string>>(new Set());
   const [name, setName] = useState<string>("");
@@ -81,6 +89,16 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
   const [agreeTerms, setAgreeTerms] = useState<boolean>(true);
   const [validationError, setValidationError] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+
+  // Authoritatively compute total with selected add-ons and bundle discount
+  const selectedAddons: AddonProduct[] = (selectedAddonIds || [])
+    .map((id) => ADDON_PRODUCTS[id])
+    .filter(Boolean);
+  const addonsSubtotal = selectedAddons.reduce((sum, item) => sum + item.price, 0);
+  const isBundleApplied = (selectedAddonIds || []).length === Object.keys(ADDON_PRODUCTS).length;
+  const bundleDiscount = isBundleApplied ? 97 : 0;
+  const grandTotal = product.price + addonsSubtotal - bundleDiscount;
+  const amountInPaise = Math.round(grandTotal * 100);
 
   if (!isOpen) return null;
 
@@ -110,8 +128,6 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
       }
 
       // 2. Call backend create-order endpoint (amount in paise, min 100 paise)
-      const amountInPaise = Math.round(product.price * 100);
-
       const orderRes = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -119,10 +135,13 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
           amount: amountInPaise,
           currency: "INR",
           receipt: `rcpt_${product.slug.slice(0, 20)}_${Date.now()}`,
+          product_slug: product.slug,
+          addon_ids: selectedAddonIds,
           notes: {
             product_id: product.id,
             product_slug: product.slug,
             product_title: product.title,
+            addon_ids: selectedAddonIds.join(","),
             customer_name: name.trim(),
             customer_email: email.trim(),
             customer_phone: phone.trim(),
@@ -136,13 +155,17 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
       }
 
       // Track InitiateCheckout with matching CAPI deduplication key (order.id)
+      const fullOrderTitle = selectedAddons.length
+        ? `${product.title} + ${selectedAddons.length} Add-on${selectedAddons.length > 1 ? "s" : ""}`
+        : product.title;
+
       trackEvent(
         "InitiateCheckout",
         {
-          content_name: product.title,
-          content_ids: [product.id],
+          content_name: fullOrderTitle,
+          content_ids: [product.id, ...selectedAddonIds],
           content_type: "product",
-          value: product.price,
+          value: grandTotal,
           currency: "INR",
         },
         { eventID: orderData.order_id }
@@ -157,7 +180,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
         amount: orderData.amount,
         currency: orderData.currency || "INR",
         name: "Thinktools",
-        description: product.title,
+        description: fullOrderTitle,
         order_id: orderData.order_id,
         prefill: {
           name: name.trim(),
@@ -195,6 +218,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 product_id: product.id,
                 product_slug: product.slug,
                 product_title: product.title,
+                addon_ids: selectedAddonIds,
                 amount: amountInPaise,
               }),
             });
@@ -212,10 +236,10 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               trackEvent(
                 "Purchase",
                 {
-                  content_name: product.title,
-                  content_ids: [product.id],
+                  content_name: fullOrderTitle,
+                  content_ids: [product.id, ...selectedAddonIds],
                   content_type: "product",
-                  value: product.price,
+                  value: grandTotal,
                   currency: "INR",
                   transaction_id: response.razorpay_payment_id,
                 },
@@ -227,13 +251,17 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
             await new Promise((resolve) => setTimeout(resolve, 350));
 
             // 5. Successful verification: Redirect to download page
-            const query = new URLSearchParams({
+            const queryParams: Record<string, string> = {
               order_id: response.razorpay_order_id,
               payment_id: response.razorpay_payment_id,
               name: encodeURIComponent(name),
               email: encodeURIComponent(email),
               phone: encodeURIComponent(phone),
-            });
+            };
+            if (selectedAddonIds.length > 0) {
+              queryParams.addons = selectedAddonIds.join(",");
+            }
+            const query = new URLSearchParams(queryParams);
             const downloadPath = product.slug.includes("diwali")
               ? "/p/construction-calculator-pro/download"
               : `/p/${product.slug}/download`;
@@ -304,7 +332,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm sm:text-lg font-bold text-white">Your details</h3>
-                <span className="text-xs font-mono font-bold text-amber-400">Total: ₹{product.price}</span>
+                <span className="text-xs font-mono font-bold text-amber-400">Total: ₹{grandTotal}</span>
               </div>
 
               {validationError && (
@@ -397,7 +425,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                 ) : (
                   <span className="flex items-center gap-2">
                     <Lock className="w-4 h-4" />
-                    <span>PAY ₹{product.price} SECURELY</span>
+                    <span>PAY ₹{grandTotal} SECURELY</span>
                   </span>
                 )}
               </button>
@@ -458,7 +486,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
               {/* Deliverables Bullet List */}
               <div className="space-y-2 text-[11px] sm:text-xs text-slate-300">
                 {[
-                  "3-workbook master system (Blank, 3BHK Example, Flat Renovation)",
+                  "Complete 31-sheet system (Blank Master, 3BHK Example, Flat Renovation)",
                   "31 connected Excel sheets, measurement to final billing",
                   "Automated 5% contractor bill audit & tolerance flags",
                   "Exact procurement order list with wastage & buffers",
@@ -472,22 +500,80 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                   </div>
                 ))}
               </div>
+
+              {/* Optional Selected Add-ons itemized list */}
+              {selectedAddons.length > 0 && (
+                <div className="mt-4 pt-3 border-t border-slate-800">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">
+                      Selected Add-Ons ({selectedAddons.length})
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400">
+                      Subtotal: ₹{addonsSubtotal}
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {selectedAddons.map((addon) => (
+                      <div
+                        key={addon.id}
+                        className="flex items-center justify-between bg-[#0b0f14] border border-slate-800/80 rounded-lg p-2 text-xs"
+                      >
+                        <div className="min-w-0 pr-2">
+                          <p className="font-semibold text-slate-200 truncate">{addon.title}</p>
+                          <span className="text-[10px] text-slate-400">1 × ₹{addon.price} • One-time</span>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="font-mono font-bold text-amber-400 text-xs">₹{addon.price}</span>
+                          {onRemoveAddon && (
+                            <button
+                              type="button"
+                              onClick={() => onRemoveAddon(addon.id)}
+                              className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors"
+                              title="Remove this add-on"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Pricing & Countdown Container */}
             <div className="mt-5 pt-4 border-t border-slate-800">
-              <div className="flex items-baseline justify-between mb-3">
-                <div>
-                  <span className="text-[11px] sm:text-xs text-slate-400 block">Package Price</span>
-                  <span className="text-xs text-emerald-400 font-semibold">Lifetime License</span>
+              <div className="space-y-1.5 mb-3 text-xs">
+                <div className="flex justify-between text-slate-400">
+                  <span>Construction Calculator Pro:</span>
+                  <span className="font-mono text-slate-200">₹{product.price}</span>
                 </div>
-                <div className="text-right">
-                  <span className="text-[11px] text-amber-400 font-bold uppercase tracking-wider block">
-                    One-Time Payment
-                  </span>
-                  <span className="text-2xl sm:text-4xl font-black text-white font-mono">
-                    ₹{product.price}
-                  </span>
+                {selectedAddons.length > 0 && (
+                  <div className="flex justify-between text-slate-400">
+                    <span>Business Add-ons ({selectedAddons.length}):</span>
+                    <span className="font-mono text-amber-400">+₹{addonsSubtotal}</span>
+                  </div>
+                )}
+                {isBundleApplied && (
+                  <div className="flex justify-between text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">
+                    <span>⚡ 4-in-1 Complete Bundle Discount:</span>
+                    <span className="font-mono">-₹97</span>
+                  </div>
+                )}
+                <div className="flex items-baseline justify-between pt-2 border-t border-slate-800">
+                  <div>
+                    <span className="text-[11px] sm:text-xs text-slate-400 block">Total Due</span>
+                    <span className="text-xs text-emerald-400 font-semibold">Lifetime License</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[11px] text-amber-400 font-bold uppercase tracking-wider block">
+                      One-Time Payment
+                    </span>
+                    <span className="text-2xl sm:text-4xl font-black text-white font-mono">
+                      ₹{grandTotal}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -498,7 +584,7 @@ export default function CheckoutModal({ product, isOpen, onClose }: CheckoutModa
                   <span>Instant Digital Delivery</span>
                 </div>
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  Direct on-screen download links + full .zip package automatically attached to your confirmation email.
+                  Direct on-screen download links + full packages automatically attached to your confirmation email.
                 </p>
               </div>
 

@@ -155,7 +155,7 @@ export default function HomePage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700 pt-0.5">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span><strong>3 Master Workbooks:</strong> 31 connected sheets</span>
+                      <span><strong>31 Connected Sheets:</strong> Master system & examples</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -167,7 +167,7 @@ export default function HomePage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span><strong>Instant UPI Unlock:</strong> Lifetime access at ₹499</span>
+                      <span><strong>Instant UPI Unlock:</strong> Lifetime access from ₹299</span>
                     </div>
                   </div>
                 </div>
@@ -178,12 +178,21 @@ export default function HomePage() {
                       One-Time Purchase
                     </span>
                     <div className="flex items-baseline gap-2 mt-0.5">
-                      <span className="text-2xl sm:text-3xl font-black text-[#172033]">₹499</span>
-                      <span className="text-xs text-slate-500 font-medium">Lifetime Access</span>
+                      <span className="text-sm sm:text-base text-slate-400 line-through font-mono">₹999</span>
+                      <span className="text-2xl sm:text-3xl font-black text-[#172033] font-mono">₹299</span>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase">
+                        70% OFF
+                      </span>
                     </div>
-                    <p className="text-[11px] text-slate-500 mt-1">
-                      Instant file download + automated email receipt with lifetime updates.
-                    </p>
+                    <div className="mt-2.5 p-2 rounded-xl bg-amber-50 border border-amber-200 text-left">
+                      <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-950">
+                        <span>⚡ 4-in-1 Complete Bundle:</span>
+                        <span className="font-mono text-slate-950 font-black">₹499/-</span>
+                      </div>
+                      <p className="text-[10px] text-slate-600 mt-0.5">
+                        Main Suite + 3 Trackers <span className="line-through font-mono text-slate-400">₹1,896</span> (Save ₹1,397)
+                      </p>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -191,7 +200,7 @@ export default function HomePage() {
                       href="/p/construction-calculator-pro"
                       className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-md shadow-amber-500/20 transition-all cursor-pointer"
                     >
-                      <span>Get Instant Access (₹499)</span>
+                      <span>Get Instant Access (From ₹299)</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link

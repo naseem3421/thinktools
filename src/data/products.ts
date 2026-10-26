@@ -180,11 +180,11 @@ export const PRODUCTS: Record<string, Product> = {
     ],
     category: "construction",
     categoryLabel: "Construction & Engineering",
-    price: 499,
-    originalPrice: 1999,
+    price: 299,
+    originalPrice: 999,
     currency: "INR",
     currencySymbol: "₹",
-    badge: "3 Workbooks · 31 Tabs · 13 PDF Guides · 7 Bonuses",
+    badge: "31 Connected Sheets · 13 PDF Guides · 7 Bonuses",
     unitsSupported: [
       "Feet & Inches (Indian Construction Practice)",
       "Metres & Millimetres (Metric Units)"
@@ -744,7 +744,7 @@ export const PRODUCTS: Record<string, Product> = {
     faqs: [
       {
         question: "What is included in the package?",
-        answer: "You receive 3 distinct Excel workbooks (Blank Project Engine, Chennai 1,500 sq ft 3-BHK House Build Example, and 1,000 sq ft Flat Renovation Example) spanning 31 connected tabs, plus 13 PDF implementation guides, worksheets, checklists, negotiation scripts, and 7 specialized bonus kits."
+        answer: "You receive 31 connected Excel sheets across master templates and finished examples (Blank Project Engine, Chennai 1,500 sq ft 3-BHK House Build Example, and 1,000 sq ft Flat Renovation Example), plus 13 PDF implementation guides, worksheets, checklists, negotiation scripts, and 7 specialized bonus kits."
       },
       {
         question: "Can I use this for flat, apartment, or room renovations?",
@@ -764,7 +764,7 @@ export const PRODUCTS: Record<string, Product> = {
       },
       {
         question: "How does the digital delivery work?",
-        answer: "This is an instant digital product. Immediately after completing checkout, you will receive on-screen download links for all 3 Excel workbooks and all 13 PDF guides, along with an automated email backup confirmation."
+        answer: "This is an instant digital product. Immediately after completing checkout, you will receive on-screen download links for all 31 Excel sheets and all 13 PDF guides, along with an automated email backup confirmation."
       },
       {
         question: "Are there any recurring monthly charges?",
@@ -1250,7 +1250,7 @@ export const PRODUCTS: Record<string, Product> = {
     sellerChecklist: [
       {
         id: 1,
-        item: "Open all three workbooks in Microsoft Excel and run the Excel Test Script (including negative-amount check)",
+        item: "Open all 31 sheets across templates in Microsoft Excel and run the Excel Test Script (including negative-amount check)",
         status: "Pending",
         notes: "Verifies macro-free formula integrity and conditional formatting across Excel versions"
       },
@@ -1310,3 +1310,154 @@ PRODUCTS["construction-calculator-pro-diwali"] = {
   originalPrice: 999,
   badge: "🪔 Diwali Special Deal (₹299)",
 };
+
+export interface AddonProduct {
+  id: string;
+  slug: string;
+  title: string;
+  shortTitle: string;
+  description: string;
+  price: number;
+  originalPrice: number;
+  features: string[];
+  fileFormat: string;
+  badge?: string;
+  videoSrc?: string;
+}
+
+export interface ReelVideo {
+  id: string;
+  src: string;
+  title: string;
+  subtitle: string;
+  priceTag: string;
+  duration?: string;
+  addonId?: string;
+  isMainProduct?: boolean;
+}
+
+export const REEL_VIDEOS: Record<string, ReelVideo> = {
+  "main-calculator": {
+    id: "main-calculator",
+    src: "/videos/main-calculator-reel.mp4",
+    title: "Construction Calculator Pro",
+    subtitle: "31 Connected Excel Sheets Walkthrough",
+    priceTag: "₹299",
+    duration: "60s",
+    isMainProduct: true
+  },
+  "site-expense-profit-tracker": {
+    id: "site-expense-profit-tracker",
+    src: "/videos/site-expense-tracker-reel.mp4",
+    title: "Site Expense & Profit Tracker",
+    subtitle: "Real-time Expense, Cash Advance & Profit Tracker",
+    priceTag: "₹99",
+    duration: "60s",
+    addonId: "site-expense-profit-tracker"
+  },
+  "labour-attendance-weekly-wage-sheet": {
+    id: "labour-attendance-weekly-wage-sheet",
+    src: "/videos/labour-attendance-sheet-reel.mp4",
+    title: "Labour Attendance & Wage Sheet",
+    subtitle: "Daily Attendance, Weekly Pay & Overtime Calculator",
+    priceTag: "₹99",
+    duration: "60s",
+    addonId: "labour-attendance-weekly-wage-sheet"
+  },
+  "payment-collection-tracker": {
+    id: "payment-collection-tracker",
+    src: "/videos/payment-collection-tracker-reel.mp4",
+    title: "Payment Collection Tracker",
+    subtitle: "Track Invoices, Aging Debts & WhatsApp Follow-ups",
+    priceTag: "₹99",
+    duration: "60s",
+    addonId: "payment-collection-tracker"
+  }
+};
+
+export const BUNDLE_PRICE = 499;
+export const BUNDLE_ORIGINAL_PRICE = 1896; // 999 + (3 * 299) = 1896
+export const BUNDLE_INDIVIDUAL_TOTAL = 596; // 299 + (3 * 99) = 596
+export const BUNDLE_DISCOUNT = 97; // 596 - 499 = 97
+
+export function calculateOrderSummary(basePrice: number, addonIds: string[]): {
+  addonsSubtotal: number;
+  rawTotal: number;
+  bundleDiscount: number;
+  grandTotal: number;
+  isBundleApplied: boolean;
+} {
+  const allAddonKeys = Object.keys(ADDON_PRODUCTS);
+  const validIds = addonIds.filter((id) => Boolean(ADDON_PRODUCTS[id]));
+  const addonsSubtotal = validIds.reduce(
+    (sum, id) => sum + (ADDON_PRODUCTS[id]?.price || 0),
+    0
+  );
+  const rawTotal = basePrice + addonsSubtotal;
+  const isBundleApplied = validIds.length === allAddonKeys.length;
+  const bundleDiscount = isBundleApplied ? BUNDLE_DISCOUNT : 0;
+  const grandTotal = rawTotal - bundleDiscount;
+
+  return {
+    addonsSubtotal,
+    rawTotal,
+    bundleDiscount,
+    grandTotal,
+    isBundleApplied
+  };
+}
+
+export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
+  "site-expense-profit-tracker": {
+    id: "site-expense-profit-tracker",
+    slug: "site-expense-profit-tracker",
+    title: "Site Expense & Profit Tracker",
+    shortTitle: "Site Expense Tracker",
+    description: "Track construction site expenses and budgets, monitor client payments and supervisor advances, and view actual and projected site profit.",
+    price: 99,
+    originalPrice: 299,
+    badge: "₹99 One-Time",
+    videoSrc: "/videos/site-expense-tracker-reel.mp4",
+    features: [
+      "Track construction site expenses and budgets.",
+      "Monitor client payments and supervisor advances.",
+      "View actual and projected site profit."
+    ],
+    fileFormat: ".xlsx (Microsoft Excel)"
+  },
+  "labour-attendance-weekly-wage-sheet": {
+    id: "labour-attendance-weekly-wage-sheet",
+    slug: "labour-attendance-weekly-wage-sheet",
+    title: "Labour Attendance & Weekly Wage Sheet",
+    shortTitle: "Labour & Wage Sheet",
+    description: "Record daily labour attendance, calculate weekly wages, overtime and advance deductions, and generate printable wage sheets.",
+    price: 99,
+    originalPrice: 299,
+    badge: "₹99 One-Time",
+    videoSrc: "/videos/labour-attendance-sheet-reel.mp4",
+    features: [
+      "Record daily labour attendance.",
+      "Calculate weekly wages, overtime and advance deductions.",
+      "Generate printable wage sheets."
+    ],
+    fileFormat: ".xlsx (Microsoft Excel)"
+  },
+  "payment-collection-tracker": {
+    id: "payment-collection-tracker",
+    slug: "payment-collection-tracker",
+    title: "Payment Collection Tracker",
+    shortTitle: "Payment Tracker",
+    description: "Track outstanding invoices and overdue payments, prioritise payment follow-ups, and prepare WhatsApp payment reminders.",
+    price: 99,
+    originalPrice: 299,
+    badge: "₹99 One-Time",
+    videoSrc: "/videos/payment-collection-tracker-reel.mp4",
+    features: [
+      "Track outstanding invoices and overdue payments.",
+      "Prioritise payment follow-ups.",
+      "Prepare WhatsApp payment reminders."
+    ],
+    fileFormat: ".xlsx (Microsoft Excel)"
+  }
+};
+

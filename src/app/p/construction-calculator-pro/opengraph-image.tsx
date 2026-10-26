@@ -118,7 +118,7 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            31 interconnected sheets for cement, steel, bricks, paint, tiles, foundation and contractor bill audits. 3 Excel workbooks + 43-page guide + 7 bonuses.
+            31 interconnected sheets for cement, steel, bricks, paint, tiles, foundation and contractor bill audits. 31 connected sheets + 43-page guide + 7 bonuses.
           </div>
         </div>
 

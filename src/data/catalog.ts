@@ -61,7 +61,7 @@ export const CATALOG_TOOLS: CatalogTool[] = [
     categoryLabel: "Construction & Civil",
     subtitle: "Complete Indian house construction quantity takeoff, cost estimation, and contractor bill verification workbook.",
     description: "An unlocked, macro-free Microsoft Excel system built around CPWD specifications and IS 456 calculation principles. Covers room area takeoff, concrete, rebar steel, masonry, plaster, flooring, plumbing, electrical, and running bill verification.",
-    price: 499,
+    price: 299,
     badge: "Available Now • Complete Suite",
     isFlagship: true,
     isReady: true,
@@ -76,7 +76,7 @@ export const CATALOG_TOOLS: CatalogTool[] = [
       "31 Connected Worksheets: Room areas, concrete, steel BBS, masonry, plaster, paint, tiles, and services",
       "Dynamic Central Rate Master: Enter your local market material and labor rates to recalculate the entire project",
       "Subcontractor Bill Verification Ledger: Cross-check contractor claims against drawing measurements with a 5% variance flag",
-      "Includes 3 Workbooks: Clean Master Template, 1,500 sq ft Villa Example (Chennai), and 1,000 sq ft Apartment Remodel Example",
+      "Includes 31 Connected Sheets: Clean Master Template, 1,500 sq ft Villa Example (Chennai), and 1,000 sq ft Apartment Remodel Example",
       "Dual Measurement Units: Toggle between Feet & Inches and Metric (Metres) across all sheets"
     ],
     solvedProblems: [
@@ -142,7 +142,7 @@ export const THINKTOOLS_PROMISES = [
   {
     icon: "Unlock",
     title: "Zero Recurring Subscriptions",
-    description: "Pay once (₹499) for permanent access. No monthly fees, no annual renewals, and no unexpected card charges."
+    description: "Pay once (₹299) for permanent access. No monthly fees, no annual renewals, and no unexpected card charges."
   },
   {
     icon: "ShieldCheck",
@@ -166,7 +166,7 @@ export const COMPARISON_POINTS = [
     feature: "Pricing Model",
     freeWeb: "Ad-heavy or locked behind unexpected paywalls",
     saasApps: "₹1,500 – ₹5,000 / month recurring subscriptions",
-    thinktools: "₹499 one-time payment for lifetime project use"
+    thinktools: "₹299 one-time payment for lifetime project use"
   },
   {
     feature: "Data Privacy",
@@ -197,7 +197,7 @@ export const COMPARISON_POINTS = [
 export const FAQS = [
   {
     question: "What is included in Construction Calculator Pro?",
-    answer: "You receive three complete Microsoft Excel (.xlsx) workbooks spanning 31 connected worksheets each: (1) Blank Project Calculator Engine for your custom project, (2) 1,500 sq ft 3-BHK Villa Example (Chennai) with sample calculations and rates, and (3) 1,000 sq ft Flat Renovation Example for interior remodeling. You also receive 13 PDF implementation guides, worksheets, checklists, and 7 specialized bonus reference manuals delivered in a single compressed .zip bundle."
+    answer: "You receive 31 connected Microsoft Excel (.xlsx) sheets across complete master templates and practical examples: (1) Blank Project Calculator Engine for your custom project, (2) 1,500 sq ft 3-BHK Villa Example (Chennai) with sample calculations and rates, and (3) 1,000 sq ft Flat Renovation Example for interior remodeling. You also receive 13 PDF implementation guides, worksheets, checklists, and 7 specialized bonus reference manuals delivered in a single compressed .zip bundle."
   },
   {
     question: "Who is this calculator designed for?",

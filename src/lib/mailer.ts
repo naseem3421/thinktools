@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import path from "path";
 import fs from "fs";
+import { ADDON_PRODUCTS } from "@/data/products";
 
 interface SendOrderDeliveryParams {
   toEmail: string;
@@ -8,6 +9,7 @@ interface SendOrderDeliveryParams {
   orderId: string;
   paymentId: string;
   productTitle?: string;
+  addonIds?: string[];
 }
 
 export async function sendOrderDeliveryEmail({
@@ -16,6 +18,7 @@ export async function sendOrderDeliveryEmail({
   orderId,
   paymentId,
   productTitle = "Construction Calculator Pro Package",
+  addonIds = [],
 }: SendOrderDeliveryParams) {
   const host = process.env.SMTP_HOST || "smtp.hostinger.com";
   const port = Number(process.env.SMTP_PORT) || 465;
@@ -65,7 +68,7 @@ export async function sendOrderDeliveryEmail({
     }
   }
 
-  const attachments = [];
+  const attachments: { filename: string; content: Buffer; contentType: string }[] = [];
   if (fileBuffer) {
     attachments.push({
       filename: zipFileName,
@@ -75,6 +78,43 @@ export async function sendOrderDeliveryEmail({
   } else {
     console.error(`[Mailer] CRITICAL WARNING: Zip attachment not found in any candidate path!`);
   }
+
+  // Look for any purchased addon files to attach
+  const purchasedAddons = (addonIds || []).map((id) => ADDON_PRODUCTS[id]).filter(Boolean);
+  for (const addon of purchasedAddons) {
+    const addonCandidatePaths = [
+      path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "storage", "downloads", `${addon.id}.xlsx`),
+    ];
+    for (const ap of addonCandidatePaths) {
+      if (fs.existsSync(ap)) {
+        try {
+          const ab = fs.readFileSync(ap);
+          attachments.push({
+            filename: `${addon.title.replace(/[^a-zA-Z0-9_-]/g, "_")}.xlsx`,
+            content: ab,
+            contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          console.log(`[Mailer] Successfully attached addon file: ${ap}`);
+          break;
+        } catch (err) {
+          console.error(`[Mailer] Error reading addon file ${ap}:`, err);
+        }
+      }
+    }
+  }
+
+  const addonsListHtml = purchasedAddons.length > 0
+    ? `
+      <div class="package-list" style="background: #f0fdf4; border: 1px solid #bbf7d0; margin-top: 16px;">
+        <h4 style="color: #166534;">Included Business Add-On Tools (${purchasedAddons.length}):</h4>
+        <ul>
+          ${purchasedAddons.map((addon) => `<li><strong>${addon.title}</strong> — ${addon.description}</li>`).join("")}
+        </ul>
+      </div>
+    `
+    : "";
 
   const html = `
     <!DOCTYPE html>
@@ -140,12 +180,13 @@ export async function sendOrderDeliveryEmail({
             <div class="package-list">
               <h4>Included in your attached .ZIP bundle (1.9 MB):</h4>
               <ul>
-                <li><strong>3 Complete Excel Workbooks (.xlsx)</strong> with all 31 calculation tabs pre-linked.</li>
+                <li><strong>Complete 31-Sheet System (.xlsx)</strong> with all 31 calculation tabs pre-linked.</li>
                 <li><strong>Master Guide (PDF)</strong> with fast-track setup and IS 456 formula rules.</li>
                 <li><strong>7 Anti-Fear Bonuses &amp; Audit Kits</strong> (Tolerance audits, milestone schedule, snag checklist).</li>
                 <li><strong>Contractor Hiring Kit &amp; Negotiation Scripts</strong> for phone, email, and WhatsApp.</li>
               </ul>
             </div>
+            ${addonsListHtml}
 
             <div style="text-align: center; margin: 28px 0;">
               <a href="https://thinktools.in/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">

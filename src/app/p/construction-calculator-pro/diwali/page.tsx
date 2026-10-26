@@ -178,7 +178,7 @@ export default function DiwaliConstructionCalculatorPage() {
                 {/* Micro-Value Pill */}
                 <div className="inline-flex items-start sm:items-center gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[11px] sm:text-xs text-amber-900 font-semibold text-left">
                   <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5 sm:mt-0" />
-                  <span>Diwali Special Price of ₹299/- includes all 3 workbooks, 31 sheets & 13 PDF guides</span>
+                  <span>Diwali Special Price of ₹299/- includes all 31 sheets, finished examples & 13 PDF guides</span>
                 </div>
 
                 {/* Action CTA Group (Single Primary Button) */}
@@ -431,13 +431,13 @@ export default function DiwaliConstructionCalculatorPage() {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12 text-left">
-              {/* Item 1: 3 Master Workbooks */}
+              {/* Item 1: Complete 31-Sheet System */}
               <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 sm:p-6 space-y-3">
                 <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
                   <FileSpreadsheet className="w-5 h-5" />
                 </div>
                 <h3 className="text-sm sm:text-base font-bold text-white">
-                  3 Master Excel Workbooks (.xlsx)
+                  Complete 31-Sheet System (.xlsx)
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   (1) Blank Project Calculator Engine for your custom project, (2) 1,500 sq ft 3-BHK Villa Example (Chennai) with sample calculations and rates, and (3) 1,000 sq ft Flat Renovation Example.
@@ -566,7 +566,7 @@ export default function DiwaliConstructionCalculatorPage() {
                 Construction Calculator Pro Package
               </h3>
               <p className="text-xs text-slate-600 mt-1.5 sm:mt-2">
-                3 Excel workbooks · 31 connected worksheets · 13 PDF guides and worksheets · 7 bonus resources
+                31 connected sheets · Master templates & practical examples · 13 PDF guides and worksheets · 7 bonus resources
               </p>
 
               {/* Price Anchor */}
@@ -590,7 +590,7 @@ export default function DiwaliConstructionCalculatorPage() {
 
             <div className="py-5 sm:py-6 space-y-2.5 sm:space-y-3">
               {[
-                "3 Excel workbooks (.xlsx): Blank Master, Chennai 3BHK Example, Flat Renovation",
+                "31 connected Excel sheets (.xlsx): Blank Master, Chennai 3BHK Example, Flat Renovation",
                 "31 connected worksheets with Dual Units Toggle (Feet/Inches & Metres)",
                 "Contractor bill check comparison sheet with variance flags",
                 "Procurement order list with wastage allowances & lead times",
@@ -659,7 +659,7 @@ export default function DiwaliConstructionCalculatorPage() {
               },
               {
                 q: "Where do I receive the files after paying ₹299?",
-                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 3 workbooks and PDF guides) is displayed on screen for instant direct download and dispatched directly to your registered email address with the files attached for permanent offline access."
+                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 31 sheets, finished examples, and PDF guides) is displayed on screen for instant direct download and dispatched directly to your registered email address with the files attached for permanent offline access."
               },
               {
                 q: "Does this work for flat, apartment, or room renovations?",
@@ -671,7 +671,7 @@ export default function DiwaliConstructionCalculatorPage() {
               },
               {
                 q: "How does digital delivery and support work?",
-                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 3 workbooks, 13 PDF guides, and 7 bonus kits) is displayed on screen for instant download and automatically attached to your confirmation email for permanent offline access. If you ever experience any file questions, download issues, or duplicate charges, our dedicated support team (support@thinktools.in) will assist you promptly."
+                a: "Immediately upon completing payment via Razorpay, your complete digital toolkit (.zip bundle containing all 31 sheets, finished examples, 13 PDF guides, and 7 bonus kits) is displayed on screen for instant download and automatically attached to your confirmation email for permanent offline access. If you ever experience any file questions, download issues, or duplicate charges, our dedicated support team (support@thinktools.in) will assist you promptly."
               }
             ].map((faq, idx) => (
               <div

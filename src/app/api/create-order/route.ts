@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
 
 export async function POST(request: Request) {
@@ -16,46 +16,66 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json().catch(() => ({}));
-    const { currency = "INR", receipt, notes = {} } = body;
+    const { currency = "INR", receipt, notes = {}, addon_ids = [] } = body;
 
     // Support both catalog products and direct amounts
     const productSlug = notes?.product_slug || body.product_slug;
     const catalogProduct = productSlug ? PRODUCTS[productSlug] : undefined;
 
-    let orderAmount: number;
+    let baseAmountPaise: number;
     let productTitle = "Construction Calculator Pro";
     let productId = "construction-calculator-pro";
     let actualSlug = "construction-calculator-pro";
 
     if (catalogProduct) {
-      orderAmount = Math.round(catalogProduct.price * 100);
+      baseAmountPaise = Math.round(catalogProduct.price * 100);
       productTitle = catalogProduct.title;
       productId = catalogProduct.id;
       actualSlug = catalogProduct.slug;
-
-      // Validate client-sent amount if provided against catalog price
-      if (body.amount !== undefined) {
-        const clientAmount = Math.round(Number(body.amount));
-        if (clientAmount !== orderAmount) {
-          return NextResponse.json(
-            {
-              error: `Price mismatch: Client requested ₹${clientAmount / 100}, but authoritative price is ₹${orderAmount / 100}.`,
-            },
-            { status: 400 }
-          );
-        }
-      }
-    } else if (body.amount !== undefined) {
-      orderAmount = Math.round(Number(body.amount));
+    } else if (body.amount !== undefined && !body.product_slug) {
+      baseAmountPaise = Math.round(Number(body.amount));
       if (body.product_title) productTitle = body.product_title;
     } else {
       // Default to construction-calculator-pro
       const defaultProduct = PRODUCTS["construction-calculator-pro"];
-      orderAmount = defaultProduct ? Math.round(defaultProduct.price * 100) : 49900;
+      baseAmountPaise = defaultProduct ? Math.round(defaultProduct.price * 100) : 29900;
       if (defaultProduct) {
         productTitle = defaultProduct.title;
         productId = defaultProduct.id;
         actualSlug = defaultProduct.slug;
+      }
+    }
+
+    // Authoritative Addon Validation & Server-Side Price Calculation
+    // Never trust client amounts: validate IDs against authoritative ADDON_PRODUCTS dictionary
+    const rawAddonIds = Array.isArray(addon_ids)
+      ? addon_ids
+      : (typeof notes?.addon_ids === "string" ? notes.addon_ids.split(",") : []);
+
+    const idStrings: string[] = Array.from(new Set((rawAddonIds as unknown[]).map((id) => String(id).trim())));
+    const validAddonIds: string[] = idStrings.filter((id) => Boolean(ADDON_PRODUCTS[id]));
+
+    const addonsPaise = validAddonIds.reduce(
+      (sum: number, id: string) => sum + Math.round(ADDON_PRODUCTS[id].price * 100),
+      0
+    );
+
+    // Bundle Offer Logic: If all 3 add-ons are selected, bundle price is ₹499 (saves ₹97)
+    const isBundleApplied = validAddonIds.length === Object.keys(ADDON_PRODUCTS).length;
+    const bundleDiscountPaise = isBundleApplied ? 97 * 100 : 0;
+
+    const orderAmount = baseAmountPaise + addonsPaise - bundleDiscountPaise;
+
+    // Validate client-sent amount if provided against authoritative server total
+    if (body.amount !== undefined) {
+      const clientAmount = Math.round(Number(body.amount));
+      if (clientAmount !== orderAmount) {
+        return NextResponse.json(
+          {
+            error: `Price mismatch: Client requested ₹${clientAmount / 100}, but authoritative price is ₹${orderAmount / 100}.`,
+          },
+          { status: 400 }
+        );
       }
     }
 
@@ -81,6 +101,9 @@ export async function POST(request: Request) {
         product_id: productId,
         product_slug: actualSlug,
         product_title: productTitle,
+        addon_ids: validAddonIds.join(","),
+        addon_titles: validAddonIds.map((id) => ADDON_PRODUCTS[id].title).join(", "),
+        bundle_applied: isBundleApplied ? "true" : "false",
         price_inr: orderAmount / 100,
       },
     };
@@ -91,6 +114,11 @@ export async function POST(request: Request) {
     const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
     const userAgent = request.headers.get("user-agent") || undefined;
     const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+
+    const contentIds = [productId, ...validAddonIds];
+    const fullContentName = validAddonIds.length
+      ? `${productTitle} + ${validAddonIds.length} Add-on${validAddonIds.length > 1 ? "s" : ""}`
+      : productTitle;
 
     sendMetaCapiEvent({
       eventName: "InitiateCheckout",
@@ -107,8 +135,8 @@ export async function POST(request: Request) {
       customData: {
         value: orderAmount / 100,
         currency: currency || "INR",
-        content_name: productTitle,
-        content_ids: [productId],
+        content_name: fullContentName,
+        content_ids: contentIds,
         content_type: "product",
         order_id: order.id,
       },

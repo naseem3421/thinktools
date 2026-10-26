@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
+
+// Memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries
+const processedPayments = new Set<string>();
 
 export async function POST(request: Request) {
   try {
@@ -53,9 +56,42 @@ export async function POST(request: Request) {
       );
     }
 
-    // Automatically sync transaction to Google Sheet Webhook if configured
+    // Authoritative calculation of product + addon total
+    const rawAddonIds = Array.isArray(body.addon_ids)
+      ? body.addon_ids
+      : (typeof body.addon_ids === "string" && body.addon_ids ? body.addon_ids.split(",") : []);
+
+    const idStrings: string[] = Array.from(new Set((rawAddonIds as unknown[]).map((id) => String(id).trim())));
+    const validAddonIds: string[] = idStrings.filter((id) => Boolean(ADDON_PRODUCTS[id]));
+
+    const productSlug = body.product_slug || "construction-calculator-pro";
+    const productObj = PRODUCTS[productSlug];
+    const basePrice = productObj ? productObj.price : 299;
+    const addonsTotal = validAddonIds.reduce((sum: number, id: string) => sum + ADDON_PRODUCTS[id].price, 0);
+    const isBundleApplied = validAddonIds.length === Object.keys(ADDON_PRODUCTS).length;
+    const bundleDiscount = isBundleApplied ? 97 : 0;
+    const totalPriceInRupees = basePrice + addonsTotal - bundleDiscount;
+    const totalAmountPaise = Math.round(totalPriceInRupees * 100);
+
+    const productTitle = productObj?.title || "Construction Calculator Pro";
+    const fullOrderTitle = validAddonIds.length
+      ? `${productTitle} + ${validAddonIds.length} Add-on${validAddonIds.length > 1 ? "s" : ""}`
+      : productTitle;
+
+    // Idempotency check: prevent duplicate fulfillment on network retry
+    const isFirstFulfillment = !processedPayments.has(razorpay_payment_id);
+    if (isFirstFulfillment) {
+      processedPayments.add(razorpay_payment_id);
+      // Bound the set size to prevent memory leaks over time
+      if (processedPayments.size > 10000) {
+        const first = processedPayments.values().next().value;
+        if (first) processedPayments.delete(first);
+      }
+    }
+
+    // Automatically sync transaction to Google Sheet Webhook if configured (only on first fulfillment)
     const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    if (sheetWebhookUrl) {
+    if (sheetWebhookUrl && isFirstFulfillment) {
       try {
         await fetch(sheetWebhookUrl, {
           method: "POST",
@@ -67,19 +103,17 @@ export async function POST(request: Request) {
                 entity: {
                   id: razorpay_payment_id,
                   order_id: razorpay_order_id,
-                  amount: (() => {
-                    const productSlug = body.product_slug || "construction-calculator-pro";
-                    const p = PRODUCTS[productSlug];
-                    return p ? Math.round(p.price * 100) : (Number(body.amount) || 49900);
-                  })(),
+                  amount: totalAmountPaise,
                   method: body.method || "Razorpay / UPI",
                   status: "captured",
                   name: body.customer_name || "Customer",
                   email: body.customer_email || "",
                   contact: body.customer_phone || "",
                   notes: {
-                    product_title: body.product_title || "Construction Calculator Pro",
-                    product_slug: body.product_slug || "construction-calculator-pro",
+                    product_title: fullOrderTitle,
+                    product_slug: productSlug,
+                    addon_ids: validAddonIds.join(","),
+                    addon_titles: validAddonIds.map((id) => ADDON_PRODUCTS[id].title).join(", "),
                     customer_name: body.customer_name || "",
                     customer_email: body.customer_email || "",
                     customer_phone: body.customer_phone || "",
@@ -94,52 +128,54 @@ export async function POST(request: Request) {
       }
     }
 
-    // Automatically dispatch instant digital delivery email with attachment
+    // Automatically dispatch instant digital delivery email with attachment (only on first fulfillment)
     const recipientEmail = body.customer_email || body.email;
-    if (recipientEmail) {
+    if (recipientEmail && isFirstFulfillment) {
       sendOrderDeliveryEmail({
         toEmail: recipientEmail,
         customerName: body.customer_name || body.name || "Valued Builder",
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
-        productTitle: body.product_title || "Construction Calculator Pro Package",
+        productTitle: fullOrderTitle,
+        addonIds: validAddonIds,
       }).catch((emailErr) => {
         console.error("Async email delivery error:", emailErr);
       });
     }
 
-    // Automatically dispatch server-side Meta Conversions API (CAPI) event
-    const productSlug = body.product_slug || "construction-calculator-pro";
-    const productObj = PRODUCTS[productSlug];
-    const priceInRupees = productObj ? productObj.price : (Number(body.amount) ? Number(body.amount) / 100 : 499);
-    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
-    const userAgent = request.headers.get("user-agent") || undefined;
-    const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+    // Automatically dispatch server-side Meta Conversions API (CAPI) event (only on first fulfillment)
+    if (isFirstFulfillment) {
+      const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
+      const userAgent = request.headers.get("user-agent") || undefined;
+      const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
 
-    sendMetaCapiEvent({
-      eventName: "Purchase",
-      eventId: razorpay_payment_id,
-      user: {
-        email: recipientEmail,
-        phone: body.customer_phone || body.phone || body.contact,
-        name: body.customer_name || body.name,
-        ip: clientIp,
-        userAgent: userAgent,
-        fbp,
-        fbc,
-      },
-      customData: {
-        value: priceInRupees,
-        currency: "INR",
-        content_name: body.product_title || productObj?.title || "Construction Calculator Pro",
-        content_ids: [productSlug],
-        content_type: "product",
-        order_id: razorpay_order_id,
-      },
-      eventSourceUrl: `https://thinktools.in/p/${productSlug}`,
-    }).catch((capiErr) => {
-      console.error("Async Meta CAPI delivery error:", capiErr);
-    });
+      const contentIds = [productSlug, ...validAddonIds];
+
+      sendMetaCapiEvent({
+        eventName: "Purchase",
+        eventId: razorpay_payment_id,
+        user: {
+          email: recipientEmail,
+          phone: body.customer_phone || body.phone || body.contact,
+          name: body.customer_name || body.name,
+          ip: clientIp,
+          userAgent: userAgent,
+          fbp,
+          fbc,
+        },
+        customData: {
+          value: totalPriceInRupees,
+          currency: "INR",
+          content_name: fullOrderTitle,
+          content_ids: contentIds,
+          content_type: "product",
+          order_id: razorpay_order_id,
+        },
+        eventSourceUrl: `https://thinktools.in/p/${productSlug}`,
+      }).catch((capiErr) => {
+        console.error("Async Meta CAPI delivery error:", capiErr);
+      });
+    }
 
     return NextResponse.json({
       success: true,
