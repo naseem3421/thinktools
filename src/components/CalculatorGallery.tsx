@@ -267,7 +267,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
           <button
             type="button"
             onClick={() => setIsAutoPlay((prev) => !prev)}
-            className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] sm:text-[11px] font-medium border transition-colors cursor-pointer shrink-0 ${
+            className={`inline-flex items-center gap-1 px-1.5 min-[360px]:px-2 py-1 rounded text-[10px] sm:text-[11px] font-medium border transition-colors cursor-pointer shrink-0 ${
               isAutoPlay
                 ? "bg-amber-500/10 text-amber-400 border-amber-500/30 hover:bg-amber-500/20"
                 : "bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200 hover:bg-slate-700"
@@ -275,16 +275,17 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
             title={isAutoPlay ? "Pause Auto-Slide" : "Resume Auto-Slide"}
           >
             {isAutoPlay ? <Pause className="w-3 h-3 text-amber-400" /> : <Play className="w-3 h-3 text-slate-400" />}
-            <span className="text-[10px] sm:text-[11px]">{isAutoPlay ? "Auto-play" : "Paused"}</span>
+            <span className="text-[9px] min-[360px]:text-[10px] sm:text-[11px]">{isAutoPlay ? "Auto-play" : "Paused"}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-2.5 sm:py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] sm:text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 min-[360px]:px-2 py-1 sm:px-2.5 sm:py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] sm:text-[11px] font-medium border border-slate-700 transition-colors cursor-pointer shrink-0"
           >
             <Maximize2 className="w-3 h-3 text-amber-400" />
-            <span>Full Screen</span>
+            <span className="hidden min-[360px]:inline">Full Screen</span>
+            <span className="min-[360px]:hidden">Expand</span>
           </button>
         </div>
       </div>
@@ -366,12 +367,12 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
 
       {/* Bottom Caption Bar */}
       <div className="px-3 sm:px-3.5 py-2 sm:py-2.5 bg-slate-900/90 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 text-xs">
-        <div className="truncate">
+        <div className="truncate min-w-0">
           <span className="text-white font-bold text-xs">{currentItem.headline}</span>
           <span className="text-slate-400 ml-2 hidden sm:inline text-[11px]">{currentItem.subtitle}</span>
         </div>
-        <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
-          <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 max-w-none">
+        <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 min-w-0">
+          <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 truncate max-w-[210px] min-[360px]:max-w-[260px] sm:max-w-none">
             {currentItem.keyMetric}
           </span>
           <span className="text-[10px] sm:text-[11px] text-slate-400 font-mono shrink-0">

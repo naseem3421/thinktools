@@ -124,10 +124,13 @@ export default function ConstructionCalculatorPage() {
       />
 
       {/* Top Delivery & Product Banner */}
-      <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs">
+      <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-1.5 sm:py-2 px-2.5 sm:px-4 text-center text-[10px] sm:text-xs font-bold tracking-wide flex items-center justify-center gap-1 sm:gap-2 shadow-xs">
         <Sparkles className="w-3.5 h-3.5 fill-current shrink-0" />
-        <span className="leading-tight">
+        <span className="leading-tight hidden sm:inline">
           🚀 SPECIAL LAUNCH PRICE: ₹299/- (Regular ₹999/- • Next 50 Copies Only) • INSTANT ON-SCREEN DOWNLOAD + EMAIL ATTACHMENT • 100% UNLOCKED EXCEL
+        </span>
+        <span className="leading-tight sm:hidden">
+          🚀 SPECIAL LAUNCH: ₹299/- (Next 50 Copies Only) • Instant Download + Unlocked Excel
         </span>
       </div>
 
@@ -138,11 +141,11 @@ export default function ConstructionCalculatorPage() {
           <div className="absolute bottom-10 right-10 w-[250px] sm:w-[400px] h-[200px] sm:h-[300px] bg-blue-500/5 rounded-full blur-[90px] sm:blur-[120px] pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
               {/* Left Column: Emotion, Logic & Pricing Hook */}
-              <div className="lg:col-span-6 space-y-4 sm:space-y-6 text-center lg:text-left">
+              <div className="lg:col-span-6 space-y-3.5 sm:space-y-6 text-center lg:text-left">
                 {/* Standards & Technical Pill */}
-                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl sm:rounded-full bg-white border border-slate-200 text-[11px] sm:text-xs text-slate-700 shadow-2xs">
+                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-1 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl sm:rounded-full bg-white border border-slate-200 text-[10px] min-[360px]:text-[11px] sm:text-xs text-slate-700 shadow-2xs leading-snug">
                   <Award className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                   <span className="font-bold text-slate-900">CPWD & IS 456 Aligned Standards</span>
                   <span className="text-slate-300 hidden sm:inline">•</span>
@@ -152,15 +155,15 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 {/* Primary Headline */}
-                <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.14]">
+                <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.18] sm:leading-[1.14] break-words">
                   Never Overpay for Construction or Renovation Again.{" "}
-                  <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-xl sm:text-3xl lg:text-4xl">
+                  <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-3xl lg:text-4xl">
                     Accurate Material Estimates & Budget Control in Minutes.
                   </span>
                 </h1>
 
                 {/* Subtitle */}
-                <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                <p className="text-xs min-[380px]:text-[13px] sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
                   <strong className="text-slate-900 font-semibold block mb-1">
                     Built for Homeowners, Renovation Owners & Small Contractors Across India.
                   </strong>
@@ -201,7 +204,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 {/* Micro-Value Pill */}
-                <div className="inline-flex items-start sm:items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[11px] sm:text-xs text-emerald-900 font-semibold text-left">
+                <div className="inline-flex items-start sm:items-center gap-2 bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-[10px] min-[360px]:text-[11px] sm:text-xs text-emerald-900 font-semibold text-left leading-snug">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 sm:mt-0" />
                   <span>₹299 one-time payment provides a structured estimation framework for your project</span>
                 </div>
@@ -211,7 +214,7 @@ export default function ConstructionCalculatorPage() {
                   <button
                     id="btn-hero-cta"
                     onClick={() => setIsCheckoutOpen(true)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 sm:px-9 py-3.5 sm:py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 min-[380px]:px-7 sm:px-9 py-3 sm:py-3.5 md:py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
                   >
                     <span>Get Instant Access (₹{product.price})</span>
                     <ArrowRight className="w-4 h-4" />
@@ -220,7 +223,7 @@ export default function ConstructionCalculatorPage() {
                   <button
                     type="button"
                     onClick={() => openReel("main-calculator")}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-xs sm:text-sm shadow-2xs transition-all cursor-pointer group"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-3.5 md:py-4 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-xs sm:text-sm shadow-2xs transition-all cursor-pointer group whitespace-nowrap"
                   >
                     <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
@@ -230,32 +233,32 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 {/* UPI & Instant Payment Strip */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-0.5">
-                  <span className="text-[11px] font-semibold text-slate-500 flex items-center gap-1.5">
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 sm:gap-2 pt-0.5">
+                  <span className="text-[10px] min-[360px]:text-[11px] font-semibold text-slate-500 flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     Instant Unlock with UPI:
                   </span>
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-bold text-slate-700 shadow-2xs">
+                  <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
+                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[9px] min-[360px]:text-[10px] font-bold text-slate-700 shadow-2xs">
                       GPay
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-bold text-purple-700 shadow-2xs">
+                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[9px] min-[360px]:text-[10px] font-bold text-purple-700 shadow-2xs">
                       PhonePe
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-bold text-sky-700 shadow-2xs">
+                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[9px] min-[360px]:text-[10px] font-bold text-sky-700 shadow-2xs">
                       Paytm
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-bold text-emerald-700 shadow-2xs">
+                    <span className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[9px] min-[360px]:text-[10px] font-bold text-emerald-700 shadow-2xs">
                       BHIM
                     </span>
-                    <span className="text-[10px] text-slate-400 font-medium">
+                    <span className="text-[9px] min-[360px]:text-[10px] text-slate-400 font-medium ml-0.5">
                       + Cards & NetBanking
                     </span>
                   </div>
                 </div>
 
                 {/* Trust Signals (Addressing Indian Purchase Hesitations) */}
-                <div className="grid grid-cols-1 min-[420px]:grid-cols-2 sm:flex sm:flex-wrap items-start sm:items-center justify-center lg:justify-start gap-2 sm:gap-4 text-[10px] sm:text-[11px] text-slate-500 pt-1 text-left">
+                <div className="grid grid-cols-1 min-[380px]:grid-cols-2 lg:flex lg:flex-wrap items-start sm:items-center justify-center lg:justify-start gap-2 sm:gap-3 text-[10px] min-[360px]:text-[11px] text-slate-500 pt-1 text-left max-w-lg lg:max-w-none mx-auto lg:mx-0">
                   <span className="flex items-center gap-1.5 font-medium">
                     <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery (Files Attached)
                   </span>
@@ -345,18 +348,18 @@ export default function ConstructionCalculatorPage() {
 
               {/* With Construction Calculator Pro */}
               <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-lg relative">
-                <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-2xs">
                   Disciplined Control
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                  <div className="flex items-center gap-3 mb-4 sm:mb-6 pr-24 min-[400px]:pr-28 md:pr-24 lg:pr-28">
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center font-bold shrink-0">
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900">With Construction Calculator Pro (₹299)</h3>
-                      <span className="text-xs text-emerald-800 font-semibold font-mono">CPWD & IS Code Aligned Toolkit</span>
+                      <h3 className="text-sm min-[380px]:text-base sm:text-lg font-bold text-slate-900 leading-snug">With Construction Calculator Pro (₹299)</h3>
+                      <span className="text-[11px] sm:text-xs text-emerald-800 font-semibold font-mono block mt-0.5">CPWD & IS Code Aligned Toolkit</span>
                     </div>
                   </div>
 
@@ -381,10 +384,10 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 <div className="mt-6 sm:mt-8 pt-4 border-t border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="text-xs font-bold text-emerald-900">31 Connected Sheets · Complete Suite · ₹299</span>
+                  <span className="text-xs font-bold text-emerald-900 text-center sm:text-left">31 Connected Sheets · Complete Suite · ₹299</span>
                   <button
                     onClick={() => setIsCheckoutOpen(true)}
-                    className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all"
+                    className="w-full sm:w-auto py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all whitespace-nowrap"
                   >
                     <span>Get Instant Access</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -407,25 +410,26 @@ export default function ConstructionCalculatorPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 text-center">
-              <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 shadow-2xs">
-                <span className="text-[11px] sm:text-xs text-slate-500 block">1 Cement Bag</span>
-                <span className="text-base sm:text-xl font-black text-slate-900 font-mono">₹420 – ₹440</span>
-                <span className="text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Used up in 20 min</span>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 text-center">
+              <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 shadow-2xs flex flex-col justify-center">
+                <span className="text-[10px] min-[360px]:text-[11px] sm:text-xs text-slate-500 block truncate">1 Cement Bag</span>
+                <span className="text-sm min-[360px]:text-base sm:text-xl font-black text-slate-900 font-mono mt-0.5">₹420 – ₹440</span>
+                <span className="text-[9px] min-[360px]:text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Used up in 20 min</span>
               </div>
-              <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 shadow-2xs">
-                <span className="text-[11px] sm:text-xs text-slate-500 block">1 Family Dinner</span>
-                <span className="text-base sm:text-xl font-black text-slate-900 font-mono">₹800 – ₹1,200</span>
-                <span className="text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Gone in 1 evening</span>
+              <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 shadow-2xs flex flex-col justify-center">
+                <span className="text-[10px] min-[360px]:text-[11px] sm:text-xs text-slate-500 block truncate">1 Family Dinner</span>
+                <span className="text-sm min-[360px]:text-base sm:text-xl font-black text-slate-900 font-mono mt-0.5">₹800 – ₹1,200</span>
+                <span className="text-[9px] min-[360px]:text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Gone in 1 evening</span>
               </div>
-              <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 shadow-2xs">
-                <span className="text-[11px] sm:text-xs text-slate-500 block">1 Day Supervisor</span>
-                <span className="text-base sm:text-xl font-black text-slate-900 font-mono">₹1,000 – ₹1,500</span>
-                <span className="text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Daily recurring cost</span>
+              <div className="bg-white p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200 shadow-2xs flex flex-col justify-center">
+                <span className="text-[10px] min-[360px]:text-[11px] sm:text-xs text-slate-500 block truncate">1 Day Supervisor</span>
+                <span className="text-sm min-[360px]:text-base sm:text-xl font-black text-slate-900 font-mono mt-0.5">₹1,000 – ₹1,500</span>
+                <span className="text-[9px] min-[360px]:text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Daily recurring cost</span>
               </div>
-              <div className="bg-amber-500 text-slate-950 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-amber-400 shadow-md flex flex-col justify-center">
-                <span className="text-[11px] sm:text-xs font-bold block">Construction Calculator Pro</span>
-                <span className="text-base sm:text-xl font-black font-mono">₹299 (Lifetime)</span>
+              <div className="bg-amber-500 text-slate-950 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-amber-400 shadow-md flex flex-col justify-center">
+                <span className="text-[10px] min-[360px]:text-[11px] sm:text-xs font-bold block truncate">Construction Calculator Pro</span>
+                <span className="text-sm min-[360px]:text-base sm:text-xl font-black font-mono mt-0.5">₹299 (Lifetime)</span>
+                <span className="text-[9px] min-[360px]:text-[10px] sm:text-[11px] text-slate-900/80 font-semibold block mt-0.5 sm:mt-1">Lifetime ROI</span>
               </div>
             </div>
 
@@ -741,7 +745,7 @@ export default function ConstructionCalculatorPage() {
                   <button
                     type="button"
                     onClick={toggleBundle}
-                    className={`w-full sm:w-auto px-6 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                    className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
                       isBundleApplied
                         ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/25"
                         : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/25 hover:scale-[1.02]"
@@ -755,7 +759,8 @@ export default function ConstructionCalculatorPage() {
                     ) : (
                       <>
                         <Sparkles className="w-4 h-4" />
-                        <span>Select Complete 4-in-1 Bundle (₹499)</span>
+                        <span className="hidden min-[420px]:inline">Select Complete 4-in-1 Bundle (₹499)</span>
+                        <span className="min-[420px]:hidden">Get 4-in-1 Bundle (₹499)</span>
                       </>
                     )}
                   </button>
@@ -770,7 +775,7 @@ export default function ConstructionCalculatorPage() {
                 return (
                   <div
                     key={addon.id}
-                    className={`rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-200 border ${
+                    className={`rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between transition-all duration-200 border ${
                       isSelected
                         ? "bg-[#16202c] border-amber-400 ring-2 ring-amber-400/30 shadow-xl shadow-amber-500/10"
                         : "bg-[#111722] border-slate-800 hover:border-slate-700"
@@ -848,7 +853,7 @@ export default function ConstructionCalculatorPage() {
                         )}
                       </button>
 
-                      <p className="text-[10px] sm:text-[11px] text-amber-400/90 text-center mt-2 font-medium">
+                      <p className="text-[10px] sm:text-[11px] text-amber-400/90 text-center mt-2 font-medium leading-snug">
                         Included in the <strong className="text-amber-300 font-bold">4-in-1 Bundle for ₹499</strong> (Save ₹1,397)
                       </p>
                     </div>
@@ -858,8 +863,8 @@ export default function ConstructionCalculatorPage() {
             </div>
 
             {/* CART SUMMARY */}
-            <div className="mt-8 rounded-2xl sm:rounded-3xl bg-[#0b0f14] border border-slate-800 p-5 sm:p-7 shadow-2xl">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+            <div className="mt-8 rounded-2xl sm:rounded-3xl bg-[#0b0f14] border border-slate-800 p-3.5 min-[380px]:p-5 sm:p-7 shadow-2xl">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 border-b border-slate-800/80 pb-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <ShoppingCart className="w-4 h-4 text-amber-400" />
@@ -885,13 +890,14 @@ export default function ConstructionCalculatorPage() {
               {/* Itemized Table / List */}
               <div className="py-4 space-y-2.5 text-xs sm:text-sm">
                 {/* Main Product */}
-                <div className="flex items-center justify-between py-1.5 text-slate-200">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span className="font-semibold">Construction Calculator Pro (Complete 31-Sheet Suite)</span>
-                    <span className="text-[10px] text-slate-500 font-mono">Qty: 1</span>
+                <div className="flex items-center justify-between py-1.5 text-slate-200 gap-2">
+                  <div className="flex items-center gap-2 min-w-0 pr-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                    <span className="font-semibold truncate sm:whitespace-normal">Construction Calculator Pro</span>
+                    <span className="text-[10px] text-slate-400 font-mono shrink-0 hidden sm:inline">(31-Sheet Suite)</span>
+                    <span className="text-[10px] text-slate-500 font-mono shrink-0">Qty: 1</span>
                   </div>
-                  <span className="font-mono font-bold text-white">₹{product.price}</span>
+                  <span className="font-mono font-bold text-white shrink-0">₹{product.price}</span>
                 </div>
 
                 {/* Selected Add-ons */}
@@ -901,14 +907,14 @@ export default function ConstructionCalculatorPage() {
                   return (
                     <div
                       key={id}
-                      className="flex items-center justify-between py-2 px-3 rounded-xl bg-slate-900/60 border border-slate-800/80 text-slate-200"
+                      className="flex items-center justify-between py-2 px-2.5 sm:px-3 rounded-xl bg-slate-900/60 border border-slate-800/80 text-slate-200 gap-2"
                     >
-                      <div className="flex items-center gap-2 truncate pr-2">
+                      <div className="flex items-center gap-2 min-w-0 truncate pr-1">
                         <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
                         <span className="font-medium truncate">{addon.title}</span>
-                        <span className="text-[10px] text-slate-400 font-mono shrink-0">Qty: 1</span>
+                        <span className="text-[10px] text-slate-400 font-mono shrink-0 hidden min-[360px]:inline">Qty: 1</span>
                       </div>
-                      <div className="flex items-center gap-3 shrink-0">
+                      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                         <span className="font-mono font-bold text-amber-400">₹{addon.price}</span>
                         <button
                           type="button"
@@ -925,24 +931,24 @@ export default function ConstructionCalculatorPage() {
               </div>
 
               {/* Subtotals & Totals Row */}
-              <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                 <div className="space-y-1.5 text-xs">
-                  <div className="flex items-center gap-4 text-slate-400">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-slate-400">
                     <span>Add-ons Subtotal:</span>
                     <span className="font-mono font-bold text-amber-400">
                       ₹{addonsSubtotal}
                     </span>
-                    <span className="text-[11px] text-slate-500">
+                    <span className="text-[10px] sm:text-[11px] text-slate-500">
                       ({selectedAddonIds.length} tool{selectedAddonIds.length === 1 ? "" : "s"} @ ₹99)
                     </span>
                   </div>
                   {isBundleApplied && (
-                    <div className="flex items-center gap-2 text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25 max-w-fit">
-                      <Sparkles className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25 max-w-fit text-[11px] sm:text-xs">
+                      <Sparkles className="w-3.5 h-3.5 shrink-0" />
                       <span>4-in-1 Bundle Savings: -₹97 (Capped at ₹499)</span>
                     </div>
                   )}
-                  <div className="flex items-baseline gap-2 text-sm sm:text-base pt-0.5">
+                  <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2 text-sm sm:text-base pt-0.5">
                     <span className="text-slate-300 font-bold">Total Order Amount:</span>
                     {isBundleApplied && (
                       <span className="text-xs text-slate-500 line-through font-mono">
@@ -953,7 +959,7 @@ export default function ConstructionCalculatorPage() {
                       ₹{orderTotal}
                     </span>
                     {isBundleApplied && (
-                      <span className="text-[10px] font-bold text-emerald-400 uppercase bg-emerald-500/20 px-2 py-0.5 rounded">
+                      <span className="text-[9px] min-[360px]:text-[10px] font-bold text-emerald-400 uppercase bg-emerald-500/20 px-1.5 py-0.5 rounded">
                         Bundle Applied
                       </span>
                     )}
@@ -964,7 +970,7 @@ export default function ConstructionCalculatorPage() {
                   type="button"
                   id="btn-cart-checkout"
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
+                  className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
                 >
                   <span>Proceed to Checkout (₹{orderTotal})</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1135,7 +1141,7 @@ export default function ConstructionCalculatorPage() {
               ].map((rev, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-amber-500/40 hover:bg-slate-900 transition-all shadow-lg group"
+                  className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 min-[380px]:p-4 sm:p-5 flex flex-col justify-between hover:border-amber-500/40 hover:bg-slate-900 transition-all shadow-lg group"
                 >
                   <div>
                     {/* Top row: stars + verified pill */}
@@ -1145,7 +1151,7 @@ export default function ConstructionCalculatorPage() {
                           <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                         ))}
                       </div>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full">
+                      <span className="inline-flex items-center gap-1 text-[9px] min-[360px]:text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full whitespace-nowrap">
                         <BadgeCheck className="w-3 h-3 text-emerald-400 shrink-0" />
                         Verified Purchase
                       </span>
@@ -1153,7 +1159,7 @@ export default function ConstructionCalculatorPage() {
 
                     {/* Highlight Tag */}
                     <div className="mb-2.5">
-                      <span className="inline-block px-2.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold text-[11px]">
+                      <span className="inline-block px-2.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold text-[10px] min-[360px]:text-[11px] leading-snug">
                         ★ {rev.highlight}
                       </span>
                     </div>
@@ -1167,19 +1173,19 @@ export default function ConstructionCalculatorPage() {
                   {/* Bottom Meta */}
                   <div className="mt-4 pt-3.5 border-t border-slate-800/80">
                     <div className="flex items-center justify-between gap-2">
-                      <div>
-                        <div className="font-bold text-xs sm:text-sm text-white flex items-center gap-1.5">
+                      <div className="min-w-0 flex-1">
+                        <div className="font-bold text-xs sm:text-sm text-white flex items-center gap-1.5 truncate">
                           <span>{rev.name}</span>
                         </div>
-                        <p className="text-[10px] text-slate-400 mt-0.5">
+                        <p className="text-[10px] text-slate-400 mt-0.5 truncate">
                           {rev.role} • <span className="text-slate-300 font-medium">{rev.city}</span>
                         </p>
-                        <p className="text-[9px] text-slate-500 mt-0.5 truncate max-w-[240px]">
+                        <p className="text-[9px] min-[360px]:text-[10px] text-slate-500 mt-0.5 line-clamp-1">
                           {rev.project}
                         </p>
                       </div>
                     </div>
-                    <div className="mt-2 text-[10px] text-amber-400/80 font-medium flex items-center gap-1 bg-slate-950/60 px-2 py-1 rounded border border-slate-800">
+                    <div className="mt-2 text-[9px] min-[360px]:text-[10px] text-amber-400/80 font-medium flex flex-wrap items-center gap-1 bg-slate-950/60 px-2 py-1 rounded border border-slate-800">
                       <span className="text-slate-400">Verified on:</span>
                       <span className="font-semibold text-amber-300">{rev.tabUsed}</span>
                     </div>
@@ -1192,8 +1198,8 @@ export default function ConstructionCalculatorPage() {
 
         {/* 7. PRICING & OFFER: CLEAR, TRANSPARENT VALUE */}
         <section className="py-10 sm:py-16 max-w-3xl mx-auto px-3.5 sm:px-6">
-          <div className="rounded-2xl sm:rounded-3xl bg-white border-2 border-amber-400 p-5 sm:p-8 md:p-10 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-black text-[10px] sm:text-xs uppercase px-3 sm:px-4 py-1 sm:py-1.5 rounded-bl-xl sm:rounded-bl-2xl">
+          <div className="rounded-2xl sm:rounded-3xl bg-white border-2 border-amber-400 p-4 min-[380px]:p-6 sm:p-8 md:p-10 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-black text-[9px] sm:text-xs uppercase px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-bl-xl sm:rounded-bl-2xl">
               Special Launch Offer
             </div>
 
@@ -1205,7 +1211,7 @@ export default function ConstructionCalculatorPage() {
                 Construction Calculator Pro Package
               </h3>
               <p className="text-xs text-slate-600 mt-1.5 sm:mt-2">
-                31 connected sheets · Master templates & practical examples · 13 PDF guides · 7 bonus resources
+                31 connected sheets · Master templates &amp; practical examples · 13 PDF guides · 7 bonus resources
               </p>
 
               <div className="mt-5 sm:mt-6 flex flex-col items-center justify-center">
@@ -1220,8 +1226,9 @@ export default function ConstructionCalculatorPage() {
                     70% OFF
                   </span>
                 </div>
-                <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-bold text-[11px] sm:text-xs">
-                  <span>⏰ Special Launch Price: ₹299/- • Regular Price ₹999/- (Next 50 Copies Only)</span>
+                <div className="mt-2 inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-bold text-[10px] min-[380px]:text-[11px] sm:text-xs text-center leading-snug">
+                  <span className="hidden min-[420px]:inline">⏰ Special Launch Price: ₹299/- • Regular Price ₹999/- (Next 50 Copies Only)</span>
+                  <span className="min-[420px]:hidden">⏰ Launch Price: ₹299/- (Next 50 Copies Only)</span>
                 </div>
               </div>
             </div>
@@ -1245,7 +1252,7 @@ export default function ConstructionCalculatorPage() {
             <button
               id="btn-pricing-cta"
               onClick={() => setIsCheckoutOpen(true)}
-              className="w-full py-3.5 sm:py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3 sm:py-3.5 md:py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
             >
               <Download className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Get the Complete Package (₹{product.price})</span>
@@ -1275,16 +1282,16 @@ export default function ConstructionCalculatorPage() {
             </div>
 
             {/* Payment Trust Badges (UPI, GPay, PhonePe, Cards) */}
-            <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-slate-500 font-medium">
+            <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-center gap-1 sm:gap-2 text-[9px] min-[360px]:text-[10px] sm:text-[11px] text-slate-500 font-medium">
               <span className="text-slate-600 font-semibold">Accepted Payments:</span>
-              <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold text-slate-800">GPay</span>
-              <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold text-purple-800">PhonePe</span>
-              <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold text-sky-800">Paytm</span>
-              <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold text-emerald-800">BHIM UPI</span>
-              <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold text-blue-800">RuPay / Cards</span>
+              <span className="bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded border border-slate-200 font-bold text-slate-800">GPay</span>
+              <span className="bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded border border-slate-200 font-bold text-purple-800">PhonePe</span>
+              <span className="bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded border border-slate-200 font-bold text-sky-800">Paytm</span>
+              <span className="bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded border border-slate-200 font-bold text-emerald-800">BHIM UPI</span>
+              <span className="bg-slate-100 px-1.5 sm:px-2 py-0.5 rounded border border-slate-200 font-bold text-blue-800">RuPay / Cards</span>
             </div>
 
-            <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-6 text-xs text-slate-500 text-center sm:text-left">
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-slate-500 text-center sm:text-left">
               <span className="flex items-center gap-1 font-semibold text-emerald-700">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                 Instant Delivery · Dedicated File Support
@@ -1296,7 +1303,7 @@ export default function ConstructionCalculatorPage() {
             </div>
 
             <div className="mt-3.5 pt-3.5 border-t border-slate-100 text-center">
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[10px] min-[360px]:text-[11px] text-slate-500 px-1 leading-relaxed">
                 Questions or need assistance? Reach our team at{" "}
                 <a
                   href="mailto:support@thinktools.in"
@@ -1380,32 +1387,34 @@ export default function ConstructionCalculatorPage() {
       </main>
 
       {/* MOBILE STICKY BOTTOM BAR (Ensures Frictionless Instant Buy on Phones) */}
-      <div className="fixed bottom-0 inset-x-0 z-30 p-2.5 sm:p-3 pb-[max(0.65rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t border-slate-200 sm:hidden flex items-center justify-between gap-2.5 sm:gap-3 shadow-lg">
-        <div>
-          <span className="text-[10px] text-slate-500 block font-medium">One-Time Payment</span>
+      <div className="fixed bottom-0 inset-x-0 z-30 p-2 sm:p-3 pb-[max(0.65rem,env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t border-slate-200 sm:hidden flex items-center justify-between gap-2 sm:gap-3 shadow-lg">
+        <div className="shrink-0 min-w-0 pr-1">
+          <span className="text-[9px] min-[360px]:text-[10px] text-slate-500 block font-medium">One-Time Payment</span>
           <div className="flex items-center gap-1.5">
-            <span className="text-base font-black text-slate-900 font-mono">₹{orderTotal}</span>
+            <span className="text-sm min-[360px]:text-base font-black text-slate-900 font-mono">₹{orderTotal}</span>
             {isBundleApplied ? (
-              <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">
-                Bundle Offer (₹499)
+              <span className="text-[9px] min-[360px]:text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded whitespace-nowrap">
+                Bundle (₹499)
               </span>
             ) : selectedAddonIds.length > 0 ? (
-              <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">
+              <span className="text-[9px] min-[360px]:text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded whitespace-nowrap">
                 +{selectedAddonIds.length} add-on{selectedAddonIds.length > 1 ? "s" : ""}
               </span>
             ) : null}
           </div>
-          <span className="text-[9px] text-slate-500 font-medium block mt-0.5">
-            🔒 256-Bit SSL • Instant UPI Delivery
+          <span className="text-[8px] min-[360px]:text-[9px] text-slate-500 font-medium block mt-0.5 whitespace-nowrap">
+            <span className="hidden min-[360px]:inline">🔒 256-Bit SSL • Instant UPI Delivery</span>
+            <span className="min-[360px]:hidden">🔒 256-Bit SSL • UPI</span>
           </span>
         </div>
 
         <button
           onClick={() => setIsCheckoutOpen(true)}
-          className="flex-1 py-2.5 px-3.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer"
+          className="flex-1 py-2.5 px-2.5 min-[360px]:px-3.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1 min-[360px]:gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer whitespace-nowrap"
         >
-          <span>Get Instant Access</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <span className="hidden min-[360px]:inline">Get Instant Access</span>
+          <span className="min-[360px]:hidden">Instant Access</span>
+          <ArrowRight className="w-3.5 h-3.5 shrink-0" />
         </button>
       </div>
 
