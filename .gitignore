@@ -28,6 +28,7 @@
 !public/downloads/*.zip
 !public/downloads/**/*.zip
 storage/downloads/backups/
+storage/videos_backup/
 
 # debug
 npm-debug.log*

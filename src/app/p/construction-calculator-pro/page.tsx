@@ -223,7 +223,7 @@ export default function ConstructionCalculatorPage() {
                     <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
                     </span>
-                    <span>Watch 60s Reel Tour</span>
+                    <span>Watch 60s Walkthrough</span>
                   </button>
                 </div>
 
@@ -287,7 +287,7 @@ export default function ConstructionCalculatorPage() {
           </div>
         </section>
 
-        {/* 2. THE REALITY OF BUILDING & RENOVATING IN INDIA: WITHOUT A SYSTEM VS WITH THINKTOOLS PRO */}
+        {/* 2. THE REALITY OF BUILDING & RENOVATING IN INDIA: WITHOUT A SYSTEM VS WITH CONSTRUCTION CALCULATOR PRO */}
         <section className="py-10 sm:py-16 bg-slate-50/60 border-b border-slate-200">
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
             <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
@@ -341,7 +341,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
               </div>
 
-              {/* With Thinktools Pro */}
+              {/* With Construction Calculator Pro */}
               <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between shadow-lg relative">
                 <div className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 bg-emerald-600 text-white font-bold text-[9px] sm:text-[10px] uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
                   Disciplined Control
@@ -353,7 +353,7 @@ export default function ConstructionCalculatorPage() {
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900">With Thinktools Pro (₹299)</h3>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900">With Construction Calculator Pro (₹299)</h3>
                       <span className="text-xs text-emerald-800 font-semibold font-mono">CPWD & IS Code Aligned Toolkit</span>
                     </div>
                   </div>
@@ -422,7 +422,7 @@ export default function ConstructionCalculatorPage() {
                 <span className="text-[10px] sm:text-[11px] text-slate-400 block mt-0.5 sm:mt-1">Daily recurring cost</span>
               </div>
               <div className="bg-amber-500 text-slate-950 p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-amber-400 shadow-md flex flex-col justify-center">
-                <span className="text-[11px] sm:text-xs font-bold block">Thinktools Pro</span>
+                <span className="text-[11px] sm:text-xs font-bold block">Construction Calculator Pro</span>
                 <span className="text-base sm:text-xl font-black font-mono">₹299 (Lifetime)</span>
               </div>
             </div>
@@ -484,7 +484,7 @@ export default function ConstructionCalculatorPage() {
                     <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Play className="w-2 h-2 fill-current ml-0.5" />
                     </span>
-                    <span>Watch 60s Reel Walkthrough</span>
+                    <span>Watch 60s Walkthrough</span>
                   </button>
 
                   <button
@@ -821,7 +821,7 @@ export default function ConstructionCalculatorPage() {
                         <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
                           <Play className="w-2 h-2 fill-current ml-0.5" />
                         </span>
-                        <span>Watch 60s Reel Walkthrough</span>
+                        <span>Watch 60s Walkthrough</span>
                       </button>
 
                       <button
