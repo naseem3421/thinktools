@@ -362,14 +362,14 @@ export default function ReelPreviewModal({
               />
             )}
 
-            {/* Tap to Unmute Banner (only shows when muted & controls visible) */}
-            {isMuted && isPlaying && !videoError && showControls && (
+            {/* Tap to Unmute Banner (shows whenever muted so mobile users can tap for audio) */}
+            {isMuted && isPlaying && !videoError && (
               <div
                 onClick={toggleMute}
-                className="absolute top-14 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/75 hover:bg-black/90 text-white text-[11px] font-semibold backdrop-blur-md border border-white/10 transition-colors shadow-lg cursor-pointer"
+                className="absolute top-14 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/85 hover:bg-black text-white text-xs font-semibold backdrop-blur-md border border-amber-400/40 transition-all shadow-xl cursor-pointer hover:scale-105 animate-pulse"
               >
-                <VolumeX className="w-3.5 h-3.5 text-amber-400" />
-                <span>Tap to Unmute</span>
+                <VolumeX className="w-4 h-4 text-amber-400" />
+                <span>Tap for Audio 🔊</span>
               </div>
             )}
 
