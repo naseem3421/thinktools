@@ -170,6 +170,54 @@ export default function HomePage() {
                       <span><strong>Instant UPI Unlock:</strong> Lifetime access from ₹299</span>
                     </div>
                   </div>
+
+                  {/* Companion Site Operations Tools (Option 1) */}
+                  <div className="pt-2.5 border-t border-slate-100">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-2">
+                      <Boxes className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                      <span>3 Companion Site Tools (₹99 each or in the 4-in-1 Bundle):</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <Link
+                        href="/p/construction-calculator-pro#business-tools"
+                        className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left group block"
+                      >
+                        <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
+                          <span>📊 Site Expenses</span>
+                          <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
+                          Daily petty cash, vouchers &amp; vendor spend
+                        </p>
+                      </Link>
+
+                      <Link
+                        href="/p/construction-calculator-pro#business-tools"
+                        className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left group block"
+                      >
+                        <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
+                          <span>👷 Labour &amp; Wages</span>
+                          <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
+                          Daily mistri/coolie registers &amp; wage slips
+                        </p>
+                      </Link>
+
+                      <Link
+                        href="/p/construction-calculator-pro#business-tools"
+                        className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left group block"
+                      >
+                        <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
+                          <span>💰 Payments</span>
+                          <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
+                          Milestone invoices, GST &amp; aging reminders
+                        </p>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 w-full md:max-w-md md:mx-auto lg:w-80 lg:mx-0 shrink-0 flex flex-col justify-between space-y-3.5">
