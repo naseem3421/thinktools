@@ -141,6 +141,7 @@ export async function POST(request: Request) {
         order_id: order.id,
       },
       eventSourceUrl: `https://thinktools.in/p/${actualSlug}`,
+      requestHost: request.headers.get("x-forwarded-host") || request.headers.get("host"),
     }).catch((capiErr) => {
       console.error("Async Meta CAPI InitiateCheckout delivery error:", capiErr);
     });

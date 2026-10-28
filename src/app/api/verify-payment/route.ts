@@ -172,6 +172,7 @@ export async function POST(request: Request) {
           order_id: razorpay_order_id,
         },
         eventSourceUrl: `https://thinktools.in/p/${productSlug}`,
+        requestHost: request.headers.get("x-forwarded-host") || request.headers.get("host"),
       }).catch((capiErr) => {
         console.error("Async Meta CAPI delivery error:", capiErr);
       });
