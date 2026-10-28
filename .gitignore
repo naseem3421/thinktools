@@ -25,6 +25,7 @@
 *.pem
 *.zip
 !storage/downloads/*.zip
+!storage/downloads/**/*.zip
 !public/downloads/*.zip
 !public/downloads/**/*.zip
 storage/downloads/backups/

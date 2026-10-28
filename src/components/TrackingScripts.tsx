@@ -13,15 +13,6 @@ declare global {
   }
 }
 
-const PRODUCTION_HOSTNAMES = ["thinktools.in", "www.thinktools.in"];
-
-export function isProductionSite(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    PRODUCTION_HOSTNAMES.includes(window.location.hostname)
-  );
-}
-
 export type TrackingEventName = "PageView" | "ViewContent" | "InitiateCheckout" | "Purchase";
 
 export interface TrackingEventParams {
@@ -47,7 +38,7 @@ export function trackEvent(
   params?: TrackingEventParams,
   options?: TrackingEventOptions
 ) {
-  if (!isProductionSite()) return;
+  if (typeof window === "undefined") return;
 
   // 1. Meta Pixel
   if (typeof window.fbq === "function") {
@@ -81,8 +72,6 @@ function MetaPixelRouteTracker() {
   const lastTrackedUrl = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!isProductionSite()) return;
-
     const query = searchParams?.toString();
     const currentUrl = pathname + (query ? `?${query}` : "");
 
@@ -151,19 +140,16 @@ export default function TrackingScripts() {
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
-                (function(){
-                  if(!/^(www\\.)?thinktools\\.in$/.test(window.location.hostname))return;
-                  !function(f,b,e,v,n,t,s)
-                  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                  n.queue=[];t=b.createElement(e);t.async=!0;
-                  t.src=v;s=b.getElementsByTagName(e)[0];
-                  s.parentNode.insertBefore(t,s)}(window, document,'script',
-                  'https://connect.facebook.net/en_US/fbevents.js');
-                  fbq('init', '${pixelId}');
-                  fbq('track', 'PageView');
-                })();
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '${pixelId}');
+                fbq('track', 'PageView');
               `,
             }}
           />
@@ -192,15 +178,12 @@ export default function TrackingScripts() {
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
-                (function(){
-                  if(!/^(www\\.)?thinktools\\.in$/.test(window.location.hostname))return;
-                  window.dataLayer = window.dataLayer || [];
-                  window.gtag = function(){window.dataLayer.push(arguments);};
-                  window.gtag('js', new Date());
-                  window.gtag('config', '${gaId}', {
-                    page_path: window.location.pathname,
-                  });
-                })();
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}', {
+                  page_path: window.location.pathname,
+                });
               `,
             }}
           />

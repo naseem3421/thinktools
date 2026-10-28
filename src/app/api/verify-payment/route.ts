@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
+import { generateDownloadToken } from "@/lib/downloadToken";
 
 // Memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries
 const processedPayments = new Set<string>();
@@ -172,17 +173,25 @@ export async function POST(request: Request) {
           order_id: razorpay_order_id,
         },
         eventSourceUrl: `https://thinktools.in/p/${productSlug}`,
-        requestHost: request.headers.get("x-forwarded-host") || request.headers.get("host"),
       }).catch((capiErr) => {
         console.error("Async Meta CAPI delivery error:", capiErr);
       });
     }
+
+    // Generate cryptographically signed, 3-hour time-limited download token
+    const downloadToken = generateDownloadToken({
+      order_id: razorpay_order_id,
+      addon_ids: validAddonIds,
+      product_slug: productSlug,
+      hoursValid: 3,
+    });
 
     return NextResponse.json({
       success: true,
       message: "Payment verified successfully.",
       order_id: razorpay_order_id,
       payment_id: razorpay_payment_id,
+      download_token: downloadToken,
     });
   } catch (error: unknown) {
     console.error("Payment signature verification error:", error);

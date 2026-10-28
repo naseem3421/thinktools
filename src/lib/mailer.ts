@@ -83,18 +83,26 @@ export async function sendOrderDeliveryEmail({
   const purchasedAddons = (addonIds || []).map((id) => ADDON_PRODUCTS[id]).filter(Boolean);
   for (const addon of purchasedAddons) {
     const addonCandidatePaths = [
-      path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.zip`),
       path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.zip`),
+      path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "storage", "downloads", `${addon.id}.zip`),
       path.join(process.cwd(), "storage", "downloads", `${addon.id}.xlsx`),
     ];
     for (const ap of addonCandidatePaths) {
       if (fs.existsSync(ap)) {
         try {
           const ab = fs.readFileSync(ap);
+          const ext = path.extname(ap).toLowerCase();
+          const contentType =
+            ext === ".zip"
+              ? "application/zip"
+              : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
           attachments.push({
-            filename: `${addon.title.replace(/[^a-zA-Z0-9_-]/g, "_")}.xlsx`,
+            filename: `${addon.title.replace(/[^a-zA-Z0-9_-]/g, "_")}${ext}`,
             content: ab,
-            contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            contentType,
           });
           console.log(`[Mailer] Successfully attached addon file: ${ap}`);
           break;

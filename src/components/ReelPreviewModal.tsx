@@ -114,7 +114,7 @@ export default function ReelPreviewModal({
 
     if (videoRef.current) {
       videoRef.current.currentTime = 0;
-      videoRef.current.muted = false; // Volume ON
+      videoRef.current.muted = false; // Volume always ON
       videoRef.current
         .play()
         .then(() => {
@@ -122,13 +122,29 @@ export default function ReelPreviewModal({
           setIsMuted(false);
         })
         .catch(() => {
-          // If browser policy requires user gesture for audio, fallback to muted play
+          // If browser policy requires user gesture for audio, temporarily mute to start playback,
+          // then auto-unmute on the very first touch/click
           if (videoRef.current) {
             videoRef.current.muted = true;
             setIsMuted(true);
             videoRef.current
               .play()
-              .then(() => setIsPlaying(true))
+              .then(() => {
+                setIsPlaying(true);
+                // Attempt to auto-unmute on first user touch/click anywhere in window
+                const unmuteOnUserAction = () => {
+                  if (videoRef.current) {
+                    videoRef.current.muted = false;
+                    setIsMuted(false);
+                  }
+                  window.removeEventListener("pointerdown", unmuteOnUserAction);
+                  window.removeEventListener("touchstart", unmuteOnUserAction);
+                  window.removeEventListener("click", unmuteOnUserAction);
+                };
+                window.addEventListener("pointerdown", unmuteOnUserAction, { once: true });
+                window.addEventListener("touchstart", unmuteOnUserAction, { once: true });
+                window.addEventListener("click", unmuteOnUserAction, { once: true });
+              })
               .catch(() => setIsPlaying(false));
           }
         });

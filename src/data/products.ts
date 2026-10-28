@@ -1416,14 +1416,14 @@ export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
     description: "Track construction site expenses and budgets, monitor client payments and supervisor advances, and view actual and projected site profit.",
     price: 99,
     originalPrice: 299,
-    badge: "₹99 One-Time",
+    badge: "Add-on",
     videoSrc: "/videos/site-expense-tracker-reel.mp4",
     features: [
       "Track construction site expenses and budgets.",
       "Monitor client payments and supervisor advances.",
       "View actual and projected site profit."
     ],
-    fileFormat: ".xlsx (Microsoft Excel)"
+    fileFormat: ".zip / .xlsx (Microsoft Excel)"
   },
   "labour-attendance-weekly-wage-sheet": {
     id: "labour-attendance-weekly-wage-sheet",
@@ -1433,14 +1433,14 @@ export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
     description: "Record daily labour attendance, calculate weekly wages, overtime and advance deductions, and generate printable wage sheets.",
     price: 99,
     originalPrice: 299,
-    badge: "₹99 One-Time",
+    badge: "Add-on",
     videoSrc: "/videos/labour-attendance-sheet-reel.mp4",
     features: [
       "Record daily labour attendance.",
       "Calculate weekly wages, overtime and advance deductions.",
       "Generate printable wage sheets."
     ],
-    fileFormat: ".xlsx (Microsoft Excel)"
+    fileFormat: ".zip / .xlsx (Microsoft Excel)"
   },
   "payment-collection-tracker": {
     id: "payment-collection-tracker",
@@ -1450,14 +1450,14 @@ export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
     description: "Track outstanding invoices and overdue payments, prioritise payment follow-ups, and prepare WhatsApp payment reminders.",
     price: 99,
     originalPrice: 299,
-    badge: "₹99 One-Time",
+    badge: "Add-on",
     videoSrc: "/videos/payment-collection-tracker-reel.mp4",
     features: [
       "Track outstanding invoices and overdue payments.",
       "Prioritise payment follow-ups.",
       "Prepare WhatsApp payment reminders."
     ],
-    fileFormat: ".xlsx (Microsoft Excel)"
+    fileFormat: ".zip / .xlsx (Microsoft Excel)"
   }
 };
 

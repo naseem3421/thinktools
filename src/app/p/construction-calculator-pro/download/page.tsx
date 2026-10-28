@@ -24,8 +24,13 @@ function DownloadContent() {
   const name = searchParams.get("name") || "Valued Builder";
   const email = searchParams.get("email") || "your email address";
   const addonsParam = searchParams.get("addons") || "";
+  const token = searchParams.get("token") || "";
   const decodedEmail = decodeURIComponent(email);
   const decodedName = decodeURIComponent(name);
+
+  const mainDownloadUrl = token
+    ? `/api/download?file=main&token=${encodeURIComponent(token)}`
+    : `/api/download?file=main`;
 
   const purchasedAddons: AddonProduct[] = addonsParam
     ? addonsParam
@@ -113,7 +118,7 @@ function DownloadContent() {
             <div className="w-full sm:w-auto pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 id="btn-direct-download"
-                href="/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip"
+                href={mainDownloadUrl}
                 download="Construction_Calculator_Pro_Excel.zip"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
@@ -165,10 +170,18 @@ function DownloadContent() {
                       Format: {addon.fileFormat}
                     </span>
                   </div>
-                  <div className="text-left sm:text-right shrink-0 pt-2 sm:pt-0">
+                  <div className="text-left sm:text-right shrink-0 pt-2 sm:pt-0 flex flex-wrap items-center gap-2">
+                    <a
+                      href={token ? `/api/download?file=${addon.id}&token=${encodeURIComponent(token)}` : `/api/download?file=${addon.id}`}
+                      download={`${addon.id}.zip`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm transition-all cursor-pointer"
+                    >
+                      <Download className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <span>Download (.zip)</span>
+                    </a>
                     <span className="inline-flex items-center gap-1.5 text-emerald-700 font-semibold bg-emerald-100/70 px-2.5 py-1 rounded-lg text-xs">
                       <Clock className="w-3.5 h-3.5 text-emerald-600" />
-                      Dispatched to Email
+                      In Email
                     </span>
                   </div>
                 </div>

@@ -99,6 +99,16 @@ export default function ConstructionCalculatorPage() {
       value: product.price,
       currency: "INR",
     });
+
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("bundle") === "true") {
+        setSelectedAddonIds(Object.keys(ADDON_PRODUCTS));
+      }
+      if (urlParams.get("checkout") === "true") {
+        setIsCheckoutOpen(true);
+      }
+    }
   }, [product.title, product.id, product.price]);
 
   const toggleFaq = (index: number) => {
@@ -147,7 +157,9 @@ export default function ConstructionCalculatorPage() {
                 {/* Standards & Technical Pill */}
                 <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-1 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl sm:rounded-full bg-white border border-slate-200 text-[10px] min-[360px]:text-[11px] sm:text-xs text-slate-700 shadow-2xs leading-snug">
                   <Award className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="font-bold text-slate-900">CPWD & IS 456 Aligned Standards</span>
+                  <span className="font-bold text-slate-900">Built by a Civil Engineer, 10+ Years</span>
+                  <span className="text-slate-300 hidden sm:inline">•</span>
+                  <span className="font-bold text-slate-900">CPWD & IS 456 Aligned</span>
                   <span className="text-slate-300 hidden sm:inline">•</span>
                   <span className="text-amber-800 font-semibold text-center sm:text-left">
                     31 Connected Worksheets • Feet/Inches & Metres
@@ -259,6 +271,9 @@ export default function ConstructionCalculatorPage() {
 
                 {/* Trust Signals (Addressing Indian Purchase Hesitations) */}
                 <div className="grid grid-cols-1 min-[380px]:grid-cols-2 lg:flex lg:flex-wrap items-start sm:items-center justify-center lg:justify-start gap-2 sm:gap-3 text-[10px] min-[360px]:text-[11px] text-slate-500 pt-1 text-left max-w-lg lg:max-w-none mx-auto lg:mx-0">
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <Play className="w-3.5 h-3.5 text-amber-600 fill-amber-500/20 shrink-0" /> Walkthrough Video Included
+                  </span>
                   <span className="flex items-center gap-1.5 font-medium">
                     <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery (Files Attached)
                   </span>
@@ -689,78 +704,65 @@ export default function ConstructionCalculatorPage() {
           </div>
         </section>
 
-        {/* NEW SECTION: MANAGE YOUR CONSTRUCTION BUSINESS SMARTER */}
-        <section id="business-tools" className="py-12 sm:py-16 bg-slate-900 text-white border-y border-slate-800 relative overflow-hidden">
-          {/* Ambient lighting accents */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-
+        {/* STREAMLINED & VISUALLY LIGHT: MANAGE YOUR CONSTRUCTION BUSINESS SMARTER */}
+        <section id="business-tools" className="py-12 sm:py-16 bg-white text-slate-900 border-y border-slate-200 relative overflow-hidden">
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6 relative z-10">
             {/* Section Header */}
-            <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-400 bg-amber-500/15 border border-amber-500/30 px-3 py-1 rounded-full">
-                Optional Power Add-Ons • ₹99 Each
+            <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full inline-block">
+                Optional Site Add-Ons • ₹99 Each
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-2 sm:mt-3 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-950 mt-2.5 tracking-tight">
                 Manage Your Construction Business Smarter
               </h2>
-              <p className="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
-                Get these ready-to-use Excel tools to manage site expenses, labour wages and outstanding payments.
+              <p className="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+                Plug-and-play Excel tools for contractors and builders to track site cash, labour wages, and client billings.
               </p>
             </div>
 
-            {/* 4-IN-1 BUNDLE OFFER HIGHLIGHT BANNER */}
-            <div className="mb-6 sm:mb-8 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-amber-500/20 via-slate-900 to-emerald-500/15 border-2 border-amber-400 p-4 sm:p-6 shadow-xl relative overflow-hidden">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
-                <div className="space-y-1.5 max-w-xl text-left">
+            {/* 4-IN-1 BUNDLE PROMO BANNER (LIGHT & CLEAN) */}
+            <div className="mb-6 sm:mb-8 rounded-2xl bg-gradient-to-r from-amber-50 via-white to-emerald-50 border-2 border-amber-400/90 p-4 sm:p-5 shadow-sm">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1 text-left">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] sm:text-xs uppercase tracking-wider">
-                      ⚡ LIMITED TIME BUNDLE OFFER
+                    <span className="px-2 py-0.5 rounded-md bg-amber-500 text-slate-950 font-black text-[10px] uppercase tracking-wider">
+                      ⚡ 4-IN-1 BUNDLE SAVINGS
                     </span>
-                    <span className="text-emerald-400 font-bold text-xs font-mono">
+                    <span className="text-emerald-700 font-bold text-xs font-mono">
                       Save ₹1,397 (74% OFF Total Value)
                     </span>
                   </div>
-                  <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight">
-                    Get All 3 Add-Ons + Main 31-Sheet Calculator for ₹499/-
+                  <h3 className="text-base sm:text-xl font-black text-slate-950 tracking-tight">
+                    Construction Calculator Pro (31 Sheets) + Get All 3 Site Tools
                   </h3>
-                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                    Includes Construction Calculator Pro + Site Expense Tracker + Labour Attendance & Wage Sheet + Payment Collection Tracker. Complete end-to-end site operations suite.
+                  <p className="text-slate-600 text-xs leading-relaxed max-w-xl">
+                    Construction Calculator Pro + Site Expenses + Labour Wages + Payment Collection Tracker.
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row lg:flex-col sm:items-center lg:items-end justify-between gap-3 shrink-0">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xs sm:text-sm text-slate-400 line-through font-mono">
-                      ₹1,896
-                    </span>
-                    <span className="text-2xl sm:text-3xl font-black text-white font-mono">
-                      ₹499/-
-                    </span>
-                    <span className="text-[10px] font-bold text-amber-300 uppercase bg-amber-500/20 px-2 py-0.5 rounded">
-                      All 4 Tools
-                    </span>
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="text-right">
+                    <span className="text-xs text-slate-400 line-through font-mono block">₹1,896</span>
+                    <span className="text-xl sm:text-2xl font-black text-slate-950 font-mono">₹499</span>
                   </div>
-
                   <button
                     type="button"
                     onClick={toggleBundle}
-                    className={`w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+                    className={`px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer whitespace-nowrap shadow-xs ${
                       isBundleApplied
-                        ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/25"
-                        : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/25 hover:scale-[1.02]"
+                        ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                        : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-500/20"
                     }`}
                   >
                     {isBundleApplied ? (
                       <>
                         <Check className="w-4 h-4 stroke-[3]" />
-                        <span>Bundle Selected (₹499)</span>
+                        <span>Bundle Selected</span>
                       </>
                     ) : (
                       <>
                         <Sparkles className="w-4 h-4" />
-                        <span className="hidden min-[420px]:inline">Select Complete 4-in-1 Bundle (₹499)</span>
-                        <span className="min-[420px]:hidden">Get 4-in-1 Bundle (₹499)</span>
+                        <span>Select 4-in-1 Bundle</span>
                       </>
                     )}
                   </button>
@@ -768,50 +770,45 @@ export default function ConstructionCalculatorPage() {
               </div>
             </div>
 
-            {/* 3 Product Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            {/* 3 CLEAN LIGHTWEIGHT CARDS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
               {Object.values(ADDON_PRODUCTS).map((addon) => {
                 const isSelected = selectedAddonIds.includes(addon.id);
                 return (
                   <div
                     key={addon.id}
-                    className={`rounded-2xl sm:rounded-3xl p-4 sm:p-6 flex flex-col justify-between transition-all duration-200 border ${
+                    className={`rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 border bg-white ${
                       isSelected
-                        ? "bg-[#16202c] border-amber-400 ring-2 ring-amber-400/30 shadow-xl shadow-amber-500/10"
-                        : "bg-[#111722] border-slate-800 hover:border-slate-700"
+                        ? "border-emerald-500 ring-2 ring-emerald-500/20 shadow-md"
+                        : "border-slate-200 hover:border-slate-300 shadow-2xs hover:shadow-sm"
                     }`}
                   >
                     <div>
-                      {/* Badge & Price Header */}
-                      <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded">
+                      {/* Top Row: Badge + Price */}
+                      <div className="flex items-center justify-between gap-2 mb-2.5">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-900 bg-amber-100/70 border border-amber-200/80 px-2 py-0.5 rounded">
                           {addon.badge || "Excel Tool"}
                         </span>
-                        <div className="text-right">
-                          <span className="text-xs text-slate-400 line-through mr-1.5 font-mono">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-xs text-slate-400 line-through font-mono">
                             ₹{addon.originalPrice}
                           </span>
-                          <span className="text-lg sm:text-xl font-black font-mono text-white">
+                          <span className="text-lg font-black font-mono text-slate-900">
                             ₹{addon.price}
                           </span>
                         </div>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                      <h3 className="text-base font-bold text-slate-950 leading-snug">
                         {addon.title}
                       </h3>
 
-                      {/* Price Note */}
-                      <p className="text-[11px] text-emerald-400 font-medium mt-0.5">
-                        ₹99 (one-time payment)
-                      </p>
-
-                      {/* Benefits List */}
-                      <ul className="mt-4 space-y-2 text-xs text-slate-300">
+                      {/* Key Features (Clean & Tight) */}
+                      <ul className="mt-3.5 space-y-2 text-xs text-slate-600">
                         {addon.features.map((feature, fIdx) => (
                           <li key={fIdx} className="flex items-start gap-2">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                             <span className="leading-snug">{feature}</span>
                           </li>
                         ))}
@@ -819,158 +816,89 @@ export default function ConstructionCalculatorPage() {
                     </div>
 
                     {/* Card Actions */}
-                    <div className="mt-6 pt-4 border-t border-slate-800/80 space-y-2.5">
+                    <div className="mt-5 pt-3.5 border-t border-slate-100 space-y-2">
                       <button
                         type="button"
                         onClick={() => openReel(addon.id)}
-                        className="w-full py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-amber-300 hover:text-amber-200 border border-amber-500/30 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer group"
+                        className="w-full py-1.5 px-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                       >
-                        <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <Play className="w-2 h-2 fill-current ml-0.5" />
-                        </span>
+                        <Play className="w-3 h-3 text-amber-600 fill-amber-500/30" />
                         <span>Watch 60s Walkthrough</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => toggleAddon(addon.id)}
-                        className={`w-full py-2.5 sm:py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                        className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
                           isSelected
-                            ? "bg-emerald-500 hover:bg-rose-600 text-slate-950 hover:text-white"
-                            : "bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md shadow-amber-500/20"
+                            ? "bg-emerald-600 hover:bg-rose-600 text-white"
+                            : "bg-slate-900 hover:bg-slate-800 text-white shadow-xs"
                         }`}
                       >
                         {isSelected ? (
                           <>
                             <Check className="w-4 h-4 stroke-[3]" />
-                            <span>Added to Cart (Click to Remove)</span>
+                            <span>Added (+₹99) · Tap to Remove</span>
                           </>
                         ) : (
                           <>
                             <Plus className="w-4 h-4" />
-                            <span>Add to Cart (₹99)</span>
+                            <span>Add Tool (+₹99)</span>
                           </>
                         )}
                       </button>
-
-                      <p className="text-[10px] sm:text-[11px] text-amber-400/90 text-center mt-2 font-medium leading-snug">
-                        Included in the <strong className="text-amber-300 font-bold">4-in-1 Bundle for ₹499</strong> (Save ₹1,397)
-                      </p>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* CART SUMMARY */}
-            <div className="mt-8 rounded-2xl sm:rounded-3xl bg-[#0b0f14] border border-slate-800 p-3.5 min-[380px]:p-5 sm:p-7 shadow-2xl">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 border-b border-slate-800/80 pb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <ShoppingCart className="w-4 h-4 text-amber-400" />
-                    <h3 className="text-base sm:text-lg font-bold text-white">Your Cart Summary</h3>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-0.5">
+            {/* STREAMLINED ORDER BAR (NO CLUTTERED RECEIPT TABLE) */}
+            <div className="mt-6 sm:mt-8 rounded-2xl bg-slate-50 border border-slate-200 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-0.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-extrabold text-sm sm:text-base text-slate-900">
+                    Order Summary:
+                  </span>
+                  <span className="text-xs text-slate-600">
                     {selectedAddonIds.length === 0
-                      ? "Base suite included. Select optional ₹99 tools above to expand your system."
-                      : `${selectedAddonIds.length} optional business tool${selectedAddonIds.length > 1 ? "s" : ""} selected.`}
-                  </p>
+                      ? "Main 31-Sheet Calculator (₹299)"
+                      : isBundleApplied
+                      ? "4-in-1 Complete Bundle (₹499)"
+                      : `Main Suite (₹299) + ${selectedAddonIds.length} Site Tool${selectedAddonIds.length > 1 ? "s" : ""} (+₹${addonsSubtotal})`}
+                  </span>
                 </div>
-                {selectedAddonIds.length > 0 && (
+                <div className="flex items-baseline gap-2 pt-0.5">
+                  <span className="text-xs text-slate-500">Total Price:</span>
+                  {isBundleApplied && (
+                    <span className="text-xs text-slate-400 line-through font-mono">₹596</span>
+                  )}
+                  <span className="text-2xl font-black font-mono text-slate-950">
+                    ₹{orderTotal}
+                  </span>
+                  {isBundleApplied && (
+                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded-full uppercase">
+                      Bundle Savings Active
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 shrink-0">
+                {selectedAddonIds.length > 0 && !isBundleApplied && (
                   <button
                     type="button"
-                    onClick={() => setSelectedAddonIds([])}
-                    className="text-xs text-slate-400 hover:text-rose-400 transition-colors self-start md:self-auto cursor-pointer"
+                    onClick={toggleBundle}
+                    className="px-3.5 py-2.5 rounded-xl border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-950 font-bold text-xs transition-colors cursor-pointer"
                   >
-                    Clear All Add-ons
+                    Upgrade to All 3 for ₹499
                   </button>
                 )}
-              </div>
-
-              {/* Itemized Table / List */}
-              <div className="py-4 space-y-2.5 text-xs sm:text-sm">
-                {/* Main Product */}
-                <div className="flex items-center justify-between py-1.5 text-slate-200 gap-2">
-                  <div className="flex items-center gap-2 min-w-0 pr-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-                    <span className="font-semibold truncate sm:whitespace-normal">Construction Calculator Pro</span>
-                    <span className="text-[10px] text-slate-400 font-mono shrink-0 hidden sm:inline">(31-Sheet Suite)</span>
-                    <span className="text-[10px] text-slate-500 font-mono shrink-0">Qty: 1</span>
-                  </div>
-                  <span className="font-mono font-bold text-white shrink-0">₹{product.price}</span>
-                </div>
-
-                {/* Selected Add-ons */}
-                {selectedAddonIds.map((id) => {
-                  const addon = ADDON_PRODUCTS[id];
-                  if (!addon) return null;
-                  return (
-                    <div
-                      key={id}
-                      className="flex items-center justify-between py-2 px-2.5 sm:px-3 rounded-xl bg-slate-900/60 border border-slate-800/80 text-slate-200 gap-2"
-                    >
-                      <div className="flex items-center gap-2 min-w-0 truncate pr-1">
-                        <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
-                        <span className="font-medium truncate">{addon.title}</span>
-                        <span className="text-[10px] text-slate-400 font-mono shrink-0 hidden min-[360px]:inline">Qty: 1</span>
-                      </div>
-                      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                        <span className="font-mono font-bold text-amber-400">₹{addon.price}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeAddon(id)}
-                          className="text-slate-400 hover:text-rose-400 transition-colors p-1"
-                          title="Remove item"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Subtotals & Totals Row */}
-              <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-                <div className="space-y-1.5 text-xs">
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-slate-400">
-                    <span>Add-ons Subtotal:</span>
-                    <span className="font-mono font-bold text-amber-400">
-                      ₹{addonsSubtotal}
-                    </span>
-                    <span className="text-[10px] sm:text-[11px] text-slate-500">
-                      ({selectedAddonIds.length} tool{selectedAddonIds.length === 1 ? "" : "s"} @ ₹99)
-                    </span>
-                  </div>
-                  {isBundleApplied && (
-                    <div className="flex items-center gap-1.5 sm:gap-2 text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25 max-w-fit text-[11px] sm:text-xs">
-                      <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                      <span>4-in-1 Bundle Savings: -₹97 (Capped at ₹499)</span>
-                    </div>
-                  )}
-                  <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2 text-sm sm:text-base pt-0.5">
-                    <span className="text-slate-300 font-bold">Total Order Amount:</span>
-                    {isBundleApplied && (
-                      <span className="text-xs text-slate-500 line-through font-mono">
-                        ₹596
-                      </span>
-                    )}
-                    <span className="text-xl sm:text-2xl font-black font-mono text-white">
-                      ₹{orderTotal}
-                    </span>
-                    {isBundleApplied && (
-                      <span className="text-[9px] min-[360px]:text-[10px] font-bold text-emerald-400 uppercase bg-emerald-500/20 px-1.5 py-0.5 rounded">
-                        Bundle Applied
-                      </span>
-                    )}
-                  </div>
-                </div>
-
                 <button
                   type="button"
                   id="btn-cart-checkout"
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+                  className="px-6 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-amber-500/20 transition-all cursor-pointer whitespace-nowrap"
                 >
                   <span>Proceed to Checkout (₹{orderTotal})</span>
                   <ArrowRight className="w-4 h-4" />
@@ -980,73 +908,77 @@ export default function ConstructionCalculatorPage() {
           </div>
         </section>
 
-        {/* 6.5. 12 VERIFIED INDIAN SITE REVIEWS: AUTHENTIC EXPERIENCES */}
-        <section className="py-12 sm:py-20 bg-[#0a0f16] text-white border-y border-slate-800 relative overflow-hidden">
+        {/* 6.5. 12 VERIFIED INDIAN SITE REVIEWS: COMPACT AUTO-SLIDING MARQUEE */}
+        <section className="py-8 sm:py-12 bg-[#0a0f16] text-white border-y border-slate-800 relative overflow-hidden">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
-          <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10">
-            {/* Header */}
-            <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs uppercase tracking-wider mb-3">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Real Site Experiences</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
-                Used on 3,400+ Construction Sites Across India
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-400 mt-2 sm:mt-3 leading-relaxed">
-                From first-time homeowners auditing contractor invoices in Chennai &amp; Lucknow to civil thekedars closing fast client quotations in Pune &amp; Ahmedabad.
-              </p>
-
-              {/* Rating Summary Bar */}
-              <div className="mt-5 inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-slate-900/90 border border-slate-800 px-4 sm:px-6 py-2.5 rounded-2xl shadow-xl">
-                <div className="flex items-center gap-1 text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <div className="h-4 w-px bg-slate-800 hidden sm:block" />
-                <span className="text-xs sm:text-sm font-bold text-slate-200">
-                  <strong className="text-white font-black">4.9 / 5</strong> Average Rating
-                </span>
-                <div className="h-4 w-px bg-slate-800 hidden sm:block" />
-                <span className="text-xs text-emerald-400 flex items-center gap-1 font-semibold">
-                  <BadgeCheck className="w-4 h-4" /> 100% Verified Excel Buyers
-                </span>
-              </div>
+          
+          <div className="max-w-7xl mx-auto px-3.5 sm:px-6 relative z-10 mb-6 sm:mb-8 text-center">
+            {/* Compact Header */}
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-2">
+              <Sparkles className="w-3 h-3" />
+              <span>Real Site Experiences</span>
             </div>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight">
+              Used on 250+ Construction Sites Across India
+            </h2>
+            <div className="mt-2.5 inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 bg-slate-900/80 border border-slate-800 px-3 sm:px-4 py-1.5 rounded-xl text-xs">
+              <div className="flex items-center gap-0.5 text-amber-400">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <span className="font-bold text-slate-200">
+                <strong className="text-white">4.9 / 5</strong> Average Rating
+              </span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
+              <span className="text-emerald-400 flex items-center gap-1 font-semibold">
+                <BadgeCheck className="w-3.5 h-3.5" /> 100% Verified Excel Buyers
+              </span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
+              <span className="text-slate-400 text-[11px] italic">
+                (Hover or touch card to pause)
+              </span>
+            </div>
+          </div>
 
-            {/* 12 Reviews Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Continuous Sliding Marquee Container with subtle edge fades */}
+          <div className="relative w-full overflow-hidden py-1">
+            {/* Left & Right gradient shadow fades */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-20 bg-gradient-to-r from-[#0a0f16] to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-20 bg-gradient-to-l from-[#0a0f16] to-transparent z-20 pointer-events-none" />
+
+            {/* Track 1: First 6 reviews duplicated for infinite seamless scroll */}
+            <div className="animate-marquee gap-3.5 sm:gap-4 px-2">
               {[
                 {
                   name: "Karthik Ramanathan",
                   role: "Independent Homeowner",
                   city: "Chennai, Tamil Nadu",
-                  project: "G+1 Individual Villa (2,100 sq.ft), Medavakkam",
+                  project: "G+1 Individual Villa (2,100 sq.ft)",
                   tabUsed: "Tab 11: Steel Estimation & BBS",
                   highlight: "Saved ₹1.3 Lakhs on rebar quote",
                   review:
-                    "My structural contractor quoted 11.2 tons of steel rebar for the frame. I fed the exact column, beam, and slab spans into Tab 11 (Steel Estimation). The formula showed 9.1 tons with 4% lap wastage. I sat down with him with the printout — he cross-checked his bar-bending schedule and agreed on 9.3 tons. Saved nearly ₹1.3 Lakhs in steel alone on day one. Best ₹299 spent.",
+                    "My contractor quoted 11.2 tons of steel rebar. I fed spans into Tab 11 and formula showed 9.1 tons with lap wastage. He agreed on 9.3 tons after checking the printout. Saved nearly ₹1.3 Lakhs on steel alone.",
                 },
                 {
                   name: "Er. Suresh Patil",
                   role: "Civil Contractor",
                   city: "Pune, Maharashtra",
                   project: "Residential & Turnkey Theka",
-                  tabUsed: "Tab 04: Master Rate Card & Tab 22: Quotation",
+                  tabUsed: "Tab 04 & Tab 22: Quotation",
                   highlight: "Closes client quotes in 24 hours",
                   review:
-                    "Earlier I used to calculate on a rough diary and give lump-sum quotes. Clients always suspected thekedars were padding margins. Now I enter carpet area, update local Pune cement and aggregate rates, and print the Item-wise Material & Labour Summary. Clients approve quotes in 24 hours because the transparency is unquestionable.",
+                    "Earlier I used to calculate on a rough diary. Clients always suspected margin padding. Now I enter carpet area, update local Pune cement rates, and print the summary. Clients approve quotes in 24 hours.",
                 },
                 {
                   name: "Abhishek Verma",
                   role: "IT Professional / Homebuilder",
                   city: "Lucknow, Uttar Pradesh",
-                  project: "1,450 sq.ft Independent House, Gomti Nagar Extn",
-                  tabUsed: "Tab 15: Mortar, Masonry & Plaster",
+                  project: "1,450 sq.ft House, Gomti Nagar",
+                  tabUsed: "Tab 15: Mortar & Plaster",
                   highlight: "Stopped blind contractor overbilling",
                   review:
-                    "I work in IT and have zero civil knowledge. Every weekend my supervisor used to demand '50 bags cement aur mangwao'. I had no way to know if cement was genuinely used or sold offsite. Using Tab 15, I verified the exact 1:4 and 1:6 plaster requirements. That blind anxiety during construction disappeared completely.",
+                    "Every weekend my supervisor demanded '50 bags cement aur mangwao'. Using Tab 15, I verified the exact 1:4 and 1:6 plaster requirements. That blind anxiety during construction disappeared completely.",
                 },
                 {
                   name: "Venkat Rao & Sravani",
@@ -1056,27 +988,27 @@ export default function ConstructionCalculatorPage() {
                   tabUsed: "Tab 25: Contractor Bill Audit",
                   highlight: "Caught 21 missing cement bags",
                   review:
-                    "Tab 25 (Bill Check) is pure gold! After our first-floor slab casting, our contractor billed 195 bags of OPC cement. The sheet estimate flagged anything above 172 bags in red. We audited empty bags on site and found 21 bags were completely missing from deliveries. That single check paid for this sheet 100 times over.",
+                    "Tab 25 is pure gold! Contractor billed 195 bags of OPC cement. Sheet flagged anything above 172 bags in red. We audited empty bags on site and found 21 bags were completely missing. Paid for itself 100x.",
                 },
                 {
                   name: "Gaurav Mehta",
                   role: "Apartment Renovation",
                   city: "Mumbai, Maharashtra",
-                  project: "3BHK Flat Renovation (1,180 sq.ft), Kandivali",
+                  project: "3BHK Renovation (1,180 sq.ft)",
                   tabUsed: "EXAMPLE_renovation.xlsx",
                   highlight: "Zero tile & paint wastage excess",
                   review:
-                    "I didn't need the foundation or column sheets, but the included 'EXAMPLE_renovation.xlsx' was a lifesaver. It calculated exact 2x2 vitrified tile boxes needed with 6% cutting wastage and exact paint primer quantities for Asian Paints Royal. The tiling thekedar didn't get to claim even 2 extra boxes.",
+                    "The included 'EXAMPLE_renovation.xlsx' calculated exact 2x2 vitrified tile boxes needed with 6% cutting wastage and exact paint primer quantities for Asian Paints. The thekedar couldn't claim extra boxes.",
                 },
                 {
                   name: "R. Murugesan",
                   role: "Senior Site Supervisor",
                   city: "Coimbatore, Tamil Nadu",
                   project: "18+ Years Building Experience",
-                  tabUsed: "Tab 03: Dual Unit Toggle & IS 456 Standards",
+                  tabUsed: "Tab 03: Dual Unit Toggle & IS 456",
                   highlight: "IS 456 & d²/162 code compliant",
                   review:
-                    "Most software made by software guys fails on real Indian sites. This toolkit actually uses IS 456 thumb rules and proper d²/162 rebar formulas. The Feet & Inches toggle works seamlessly for our Tamil Nadu residential drawings. Even our site junior engineers now keep a copy on their laptops.",
+                    "This toolkit actually uses IS 456 thumb rules and proper d²/162 rebar formulas. The Feet & Inches toggle works seamlessly for our Tamil Nadu drawings. Even our junior engineers now keep a copy.",
                 },
                 {
                   name: "Deepak Sharma",
@@ -1086,108 +1018,166 @@ export default function ConstructionCalculatorPage() {
                   tabUsed: "Tab 04: Local Market Rates",
                   highlight: "Instant sync with zero VBA macros",
                   review:
-                    "Downloaded at 11:30 PM after watching the walkthrough video. Updated our local Jaipur cement rate to ₹395 and sand rate in Sheet #4, and all 31 connected sheets recalculated instantly. No locked cells, no weird password restrictions, and zero macros to corrupt the file. 100% clean Excel.",
+                    "Updated our local Jaipur cement rate to ₹395 and sand rate in Sheet #4, and all 31 connected sheets recalculated instantly. No locked cells, no weird passwords, and zero macros. 100% clean Excel.",
                 },
                 {
                   name: "Arunachalam & Priya",
                   role: "Working Couple",
                   city: "Bengaluru, Karnataka",
                   project: "1,800 sq.ft Villa, Sarjapur Road",
-                  tabUsed: "Tab 17: Flooring & Vitrified Tiles",
+                  tabUsed: "Tab 17: Vitrified Tiles",
                   highlight: "Prevented ₹34,000 tile markup",
                   review:
-                    "Our flooring contractor insisted on 18% tile wastage allowance claiming difficult corner cuts. We checked Tab 17, which recommended 6-8% wastage for our rectangular room layout. We ordered strictly as per the sheet and ended up with just 3 spare tiles left over! Prevented a massive ₹34,000 wastage markup.",
+                    "Contractor insisted on 18% tile wastage allowance. We checked Tab 17 which recommended 6-8% wastage for our rectangular layout. We ordered strictly as per the sheet and had just 3 spare tiles left!",
                 },
                 {
                   name: "Manoj Kumar Tiwari",
                   role: "Civil Engineering Consultant",
                   city: "Noida, Uttar Pradesh",
-                  project: "Residential Audits & Project Management",
-                  tabUsed: "Full 31-Sheet Master Suite + 13 PDFs",
-                  highlight: "Pure formula engineering • Works on Mac/PC",
+                  project: "Residential Audits & PM",
+                  tabUsed: "Full 31-Sheet Suite + 13 PDFs",
+                  highlight: "Pure formula engineering • Mac/PC",
                   review:
-                    "Most Excel tools sold on social media have broken VBA macros that crash on modern Mac or Windows machines. Thinktools kept this 100% pure formula-driven. It opens in 2 seconds on my laptop and iPhone Excel app. The 13 PDF site checklists alone are worth triple the price.",
+                    "Most Excel tools sold on social media have broken VBA macros. Thinktools kept this 100% pure formula-driven. It opens in 2 seconds on my laptop and iPhone Excel app. The PDF checklists are stellar.",
                 },
                 {
                   name: "George Thomas",
                   role: "NRI Homeowner",
                   city: "Kochi, Kerala (Remote from Dubai)",
-                  project: "2,600 sq.ft Ancestral House, Aluva",
-                  tabUsed: "Bonus 7: 120-Point Handover Checklist",
-                  highlight: "Caught defects before final retention payout",
+                  project: "2,600 sq.ft Ancestral House",
+                  tabUsed: "Bonus 7: Handover Checklist",
+                  highlight: "Caught defects before final payout",
                   review:
-                    "Managing home construction from Dubai through WhatsApp photos gave me sleepless nights. I printed the PDF checklists for my brother on-site. The 120-point handover checklist caught hollow sounds under bathroom wall tiles and poor window sill slope before we released the final 10% retention money.",
+                    "Managing construction from Dubai through WhatsApp gave me sleepless nights. The 120-point handover checklist caught hollow sounds under wall tiles before we released the final retention money.",
                 },
                 {
                   name: "Anand Joshi",
                   role: "Civil Contractor",
                   city: "Ahmedabad, Gujarat",
                   project: "Turnkey Residential Construction",
-                  tabUsed: "4-in-1 Bundle: Labour Attendance & Wage Sheet",
+                  tabUsed: "Labour Attendance & Wage Sheet",
                   highlight: "Zero wage disputes every weekend",
                   review:
-                    "I bought the 4-in-1 Bundle for ₹499. The Labour Attendance & Wage Tracker alone replaced three messy paper registers. Every Saturday when misty and coolie wages are settled, there is zero dispute because daily overtime and food advances are logged. Saves our supervisor 3 hours every weekend.",
+                    "The Labour Attendance & Wage Tracker alone replaced three messy paper registers. When misty and coolie wages are settled on Saturday, there is zero dispute because daily overtime is logged.",
                 },
                 {
                   name: "Subhashish Das",
                   role: "Architectural Draughtsman",
                   city: "Kolkata, West Bengal",
                   project: "Bespoke Residential Planning",
-                  tabUsed: "EXAMPLE_Chennai_3BHK & Blank Master",
+                  tabUsed: "EXAMPLE_Chennai_3BHK & Master",
                   highlight: "Instant cost baseline for clients",
                   review:
-                    "I was initially hesitant because of the low ₹299 price tag. But seeing the pre-filled Chennai 3BHK working file and Flat Renovation example blew me away. It gives clients an immediate realistic cost estimate before we even complete municipal sanction drawings. Brilliant resource.",
+                    "Seeing the pre-filled Chennai 3BHK working file and Flat Renovation example blew me away. It gives clients an immediate realistic cost estimate before municipal sanction drawings. Brilliant resource.",
+                },
+                // Duplicated clone items to create seamless infinite loop
+                {
+                  name: "Karthik Ramanathan",
+                  role: "Independent Homeowner",
+                  city: "Chennai, Tamil Nadu",
+                  project: "G+1 Individual Villa (2,100 sq.ft)",
+                  tabUsed: "Tab 11: Steel Estimation & BBS",
+                  highlight: "Saved ₹1.3 Lakhs on rebar quote",
+                  review:
+                    "My contractor quoted 11.2 tons of steel rebar. I fed spans into Tab 11 and formula showed 9.1 tons with lap wastage. He agreed on 9.3 tons after checking the printout. Saved nearly ₹1.3 Lakhs on steel alone.",
+                },
+                {
+                  name: "Er. Suresh Patil",
+                  role: "Civil Contractor",
+                  city: "Pune, Maharashtra",
+                  project: "Residential & Turnkey Theka",
+                  tabUsed: "Tab 04 & Tab 22: Quotation",
+                  highlight: "Closes client quotes in 24 hours",
+                  review:
+                    "Earlier I used to calculate on a rough diary. Clients always suspected margin padding. Now I enter carpet area, update local Pune cement rates, and print the summary. Clients approve quotes in 24 hours.",
+                },
+                {
+                  name: "Abhishek Verma",
+                  role: "IT Professional / Homebuilder",
+                  city: "Lucknow, Uttar Pradesh",
+                  project: "1,450 sq.ft House, Gomti Nagar",
+                  tabUsed: "Tab 15: Mortar & Plaster",
+                  highlight: "Stopped blind contractor overbilling",
+                  review:
+                    "Every weekend my supervisor demanded '50 bags cement aur mangwao'. Using Tab 15, I verified the exact 1:4 and 1:6 plaster requirements. That blind anxiety during construction disappeared completely.",
+                },
+                {
+                  name: "Venkat Rao & Sravani",
+                  role: "First-time House Builders",
+                  city: "Hyderabad, Telangana",
+                  project: "G+2 Duplex Villa, Miyapur",
+                  tabUsed: "Tab 25: Contractor Bill Audit",
+                  highlight: "Caught 21 missing cement bags",
+                  review:
+                    "Tab 25 is pure gold! Contractor billed 195 bags of OPC cement. Sheet flagged anything above 172 bags in red. We audited empty bags on site and found 21 bags were completely missing. Paid for itself 100x.",
+                },
+                {
+                  name: "Gaurav Mehta",
+                  role: "Apartment Renovation",
+                  city: "Mumbai, Maharashtra",
+                  project: "3BHK Renovation (1,180 sq.ft)",
+                  tabUsed: "EXAMPLE_renovation.xlsx",
+                  highlight: "Zero tile & paint wastage excess",
+                  review:
+                    "The included 'EXAMPLE_renovation.xlsx' calculated exact 2x2 vitrified tile boxes needed with 6% cutting wastage and exact paint primer quantities for Asian Paints. The thekedar couldn't claim extra boxes.",
+                },
+                {
+                  name: "R. Murugesan",
+                  role: "Senior Site Supervisor",
+                  city: "Coimbatore, Tamil Nadu",
+                  project: "18+ Years Building Experience",
+                  tabUsed: "Tab 03: Dual Unit Toggle & IS 456",
+                  highlight: "IS 456 & d²/162 code compliant",
+                  review:
+                    "This toolkit actually uses IS 456 thumb rules and proper d²/162 rebar formulas. The Feet & Inches toggle works seamlessly for our Tamil Nadu drawings. Even our junior engineers now keep a copy.",
                 },
               ].map((rev, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 min-[380px]:p-4 sm:p-5 flex flex-col justify-between hover:border-amber-500/40 hover:bg-slate-900 transition-all shadow-lg group"
+                  className="w-[300px] sm:w-[360px] shrink-0 bg-slate-900/95 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-amber-500/50 hover:bg-slate-900 transition-all shadow-lg"
                 >
                   <div>
                     {/* Top row: stars + verified pill */}
-                    <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center justify-between gap-2 mb-2">
                       <div className="flex items-center gap-0.5 text-amber-400">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                          <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
                         ))}
                       </div>
-                      <span className="inline-flex items-center gap-1 text-[9px] min-[360px]:text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full whitespace-nowrap">
+                      <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full whitespace-nowrap">
                         <BadgeCheck className="w-3 h-3 text-emerald-400 shrink-0" />
-                        Verified Purchase
+                        Verified
                       </span>
                     </div>
 
                     {/* Highlight Tag */}
-                    <div className="mb-2.5">
-                      <span className="inline-block px-2.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold text-[10px] min-[360px]:text-[11px] leading-snug">
+                    <div className="mb-2">
+                      <span className="inline-block px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold text-[10px] leading-snug">
                         ★ {rev.highlight}
                       </span>
                     </div>
 
                     {/* Review Body */}
-                    <p className="text-xs sm:text-[13px] text-slate-300 leading-relaxed italic">
+                    <p className="text-xs text-slate-300 leading-relaxed italic line-clamp-4">
                       &ldquo;{rev.review}&rdquo;
                     </p>
                   </div>
 
                   {/* Bottom Meta */}
-                  <div className="mt-4 pt-3.5 border-t border-slate-800/80">
+                  <div className="mt-3 pt-2.5 border-t border-slate-800/80">
                     <div className="flex items-center justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <div className="font-bold text-xs sm:text-sm text-white flex items-center gap-1.5 truncate">
-                          <span>{rev.name}</span>
+                        <div className="font-bold text-xs text-white truncate">
+                          {rev.name}
                         </div>
-                        <p className="text-[10px] text-slate-400 mt-0.5 truncate">
-                          {rev.role} • <span className="text-slate-300 font-medium">{rev.city}</span>
-                        </p>
-                        <p className="text-[9px] min-[360px]:text-[10px] text-slate-500 mt-0.5 line-clamp-1">
-                          {rev.project}
+                        <p className="text-[10px] text-slate-400 truncate">
+                          {rev.role} • <span className="text-slate-300">{rev.city}</span>
                         </p>
                       </div>
                     </div>
-                    <div className="mt-2 text-[9px] min-[360px]:text-[10px] text-amber-400/80 font-medium flex flex-wrap items-center gap-1 bg-slate-950/60 px-2 py-1 rounded border border-slate-800">
-                      <span className="text-slate-400">Verified on:</span>
-                      <span className="font-semibold text-amber-300">{rev.tabUsed}</span>
+                    <div className="mt-1.5 text-[9px] text-amber-400/80 font-medium truncate bg-slate-950/60 px-2 py-0.5 rounded border border-slate-800">
+                      <span className="text-slate-500">Verified: </span>
+                      <span className="text-amber-300">{rev.tabUsed}</span>
                     </div>
                   </div>
                 </div>
@@ -1235,6 +1225,8 @@ export default function ConstructionCalculatorPage() {
 
             <div className="py-5 sm:py-6 space-y-2.5 sm:space-y-3">
               {[
+                "Engineered by a Civil Engineer (10+ Years On-Site Experience)",
+                "Full Walkthrough Video Included (Step-by-step video guide)",
                 "31 connected Excel sheets (.xlsx): Blank Master, Chennai 3BHK Example, Flat Renovation",
                 "31 connected worksheets with Dual Units Toggle (Feet/Inches & Metres)",
                 "Contractor bill check comparison sheet with variance flags",

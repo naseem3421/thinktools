@@ -25,17 +25,6 @@ interface MetaCapiParams {
   user: CapiUserData;
   customData?: CapiCustomData;
   eventSourceUrl?: string;
-  requestHost?: string | null;
-}
-
-const LOCAL_HOST_PATTERN =
-  /^(localhost|127\.\d+\.\d+\.\d+|0\.0\.0\.0|\[?::1\]?|.*\.localhost|.*\.local|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/i;
-
-export function shouldSendCapi(requestHost?: string | null): boolean {
-  if (process.env.NODE_ENV !== "production") return false;
-  if (!requestHost) return true;
-  const hostname = requestHost.split(",")[0].trim().replace(/:\d+$/, "");
-  return !LOCAL_HOST_PATTERN.test(hostname);
 }
 
 function sha256(val: string): string {
@@ -63,10 +52,6 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
 
   // Gracefully skip if CAPI token or Pixel ID is not configured
   if (!pixelId || !accessToken) {
-    return false;
-  }
-
-  if (!shouldSendCapi(params.requestHost)) {
     return false;
   }
 

@@ -258,6 +258,9 @@ export default function CheckoutModal({
               email: encodeURIComponent(email),
               phone: encodeURIComponent(phone),
             };
+            if (verifyData.download_token) {
+              queryParams.token = verifyData.download_token;
+            }
             if (selectedAddonIds.length > 0) {
               queryParams.addons = selectedAddonIds.join(",");
             }
