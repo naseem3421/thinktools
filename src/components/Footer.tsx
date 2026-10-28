@@ -144,18 +144,6 @@ export default function Footer() {
         {/* Bottom copyright line */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-[11px] pt-1">
           <p>© {new Date().getFullYear()} ThinkTools. All rights reserved.</p>
-          <div className="flex items-center gap-3">
-            <a
-              href="https://www.instagram.com/thinktools.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="ThinkTools Instagram"
-              className="inline-flex items-center gap-1.5 text-slate-400 hover:text-[#b6f84c] transition-colors"
-            >
-              <InstagramIcon className="w-3.5 h-3.5 text-[#b6f84c]" />
-              <span className="font-medium">@thinktools.in</span>
-            </a>
-          </div>
         </div>
       </div>
     </footer>
