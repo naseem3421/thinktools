@@ -219,7 +219,7 @@ export default function ReelPreviewModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/92 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-slate-950/92 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
     >
       {/* Outer Wrapper centering strict 9:16 player and exterior controls */}
@@ -232,7 +232,7 @@ export default function ReelPreviewModal({
           type="button"
           onClick={onClose}
           aria-label="Close video player"
-          className="hidden md:flex absolute -top-12 -right-4 z-50 p-2 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white transition-all cursor-pointer border border-white/20 shadow-xl hover:scale-110"
+          className="hidden md:flex absolute -top-12 -right-4 z-[60] p-2 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white transition-all cursor-pointer border border-white/20 shadow-xl hover:scale-110"
         >
           <X className="w-5 h-5" />
         </button>
@@ -244,7 +244,7 @@ export default function ReelPreviewModal({
               type="button"
               onClick={handlePrev}
               aria-label="Previous reel"
-              className="hidden md:flex absolute -left-14 top-1/2 -translate-y-1/2 z-50 p-2.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/20 transition-all cursor-pointer shadow-xl hover:scale-110"
+              className="hidden md:flex absolute -left-14 top-1/2 -translate-y-1/2 z-[60] p-2.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/20 transition-all cursor-pointer shadow-xl hover:scale-110"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -252,7 +252,7 @@ export default function ReelPreviewModal({
               type="button"
               onClick={handleNext}
               aria-label="Next reel"
-              className="hidden md:flex absolute -right-14 top-1/2 -translate-y-1/2 z-50 p-2.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/20 transition-all cursor-pointer shadow-xl hover:scale-110"
+              className="hidden md:flex absolute -right-14 top-1/2 -translate-y-1/2 z-[60] p-2.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/20 transition-all cursor-pointer shadow-xl hover:scale-110"
             >
               <ChevronRight className="w-5 h-5" />
             </button>

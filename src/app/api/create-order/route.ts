@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
+import { initOrder } from "@/lib/orderStore";
 
 export async function POST(request: Request) {
   try {
@@ -109,6 +110,17 @@ export async function POST(request: Request) {
     };
 
     const order = await razorpay.orders.create(options);
+
+    // Persist order with capi_purchase_sent: false default
+    try {
+      initOrder(order.id, {
+        amount: orderAmount / 100,
+        currency: currency || "INR",
+        status: "created",
+      });
+    } catch (orderStoreErr) {
+      console.warn("Could not persist initial order record:", orderStoreErr);
+    }
 
     // Dispatch server-side InitiateCheckout with deduplication key (matching browser eventID)
     const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;

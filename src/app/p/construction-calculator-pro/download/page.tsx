@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -25,6 +25,7 @@ function DownloadContent() {
   const email = searchParams.get("email") || "your email address";
   const addonsParam = searchParams.get("addons") || "";
   const token = searchParams.get("token") || "";
+  const amountParam = searchParams.get("amount") || "";
   const decodedEmail = decodeURIComponent(email);
   const decodedName = decodeURIComponent(name);
 
@@ -38,6 +39,60 @@ function DownloadContent() {
         .map((id) => ADDON_PRODUCTS[id.trim()])
         .filter(Boolean)
     : [];
+
+  // Compute authoritative order value
+  const rawAmount = parseFloat(amountParam);
+  const calculatedBase = 299;
+  const calculatedAddons = purchasedAddons.reduce((sum, a) => sum + a.price, 0);
+  const calculatedDiscount = purchasedAddons.length === 3 ? 97 : 0;
+  const defaultAmount = calculatedBase + calculatedAddons - calculatedDiscount;
+  const purchaseValue = !isNaN(rawAmount) && rawAmount > 0 ? rawAmount : defaultAmount;
+
+  // Exactly ONE browser-side Purchase event with matching eventID = String(order.id)
+  // Protected against reloads with localStorage key: "fb_purchase_" + orderId
+  const purchaseFiredRef = useRef(false);
+
+  useEffect(() => {
+    // Only fire for real orders, not fallback placeholders
+    if (!orderId || orderId === "TT-839201") return;
+    if (purchaseFiredRef.current) return;
+
+    const storageKey = `fb_purchase_${orderId}`;
+    try {
+      if (typeof window !== "undefined" && window.localStorage) {
+        if (window.localStorage.getItem(storageKey)) {
+          return;
+        }
+        window.localStorage.setItem(storageKey, "1");
+      }
+    } catch {
+      // Ignore localStorage restrictions in private browsing modes
+    }
+
+    purchaseFiredRef.current = true;
+
+    // 1. Meta Pixel Purchase event with matching eventID
+    if (typeof window !== "undefined" && typeof window.fbq === "function") {
+      window.fbq(
+        "track",
+        "Purchase",
+        {
+          value: purchaseValue,
+          currency: "INR",
+        },
+        { eventID: String(orderId) }
+      );
+    }
+
+    // 2. GA4 Purchase event for consistency
+    if (typeof window !== "undefined" && typeof window.gtag === "function") {
+      window.gtag("event", "purchase", {
+        transaction_id: String(orderId),
+        value: purchaseValue,
+        currency: "INR",
+      });
+    }
+  }, [orderId, purchaseValue]);
 
   const isGmail = decodedEmail.toLowerCase().includes("@gmail.com");
   const emailClientUrl = isGmail ? "https://mail.google.com/mail/u/0/#search/thinktools" : `mailto:`;

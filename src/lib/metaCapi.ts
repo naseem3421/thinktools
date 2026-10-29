@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-interface CapiUserData {
+export interface CapiUserData {
   email?: string;
   phone?: string;
   name?: string;
@@ -10,7 +10,7 @@ interface CapiUserData {
   fbc?: string;
 }
 
-interface CapiCustomData {
+export interface CapiCustomData {
   value?: number;
   currency?: string;
   content_name?: string;
@@ -19,7 +19,7 @@ interface CapiCustomData {
   order_id?: string;
 }
 
-interface MetaCapiParams {
+export interface MetaCapiParams {
   eventName: "Purchase" | "InitiateCheckout" | "ViewContent";
   eventId: string;
   user: CapiUserData;
@@ -46,27 +46,35 @@ function normalizePhone(phone: string): string {
  * with deduplication key (event_id matching browser fbq eventID).
  */
 export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean> {
-  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || process.env.META_PIXEL_ID;
-  const accessToken = process.env.META_CAPI_ACCESS_TOKEN || process.env.META_CONVERSIONS_API_TOKEN;
-  const testEventCode = process.env.META_CAPI_TEST_CODE;
+  const pixelId =
+    process.env.NEXT_PUBLIC_META_PIXEL_ID ||
+    process.env.META_PIXEL_ID ||
+    "1643533957395571";
+  const accessToken =
+    process.env.META_CAPI_ACCESS_TOKEN ||
+    process.env.META_CONVERSIONS_API_TOKEN;
+  const testEventCode =
+    process.env.META_TEST_EVENT_CODE ||
+    process.env.META_CAPI_TEST_CODE;
 
   // Gracefully skip if CAPI token or Pixel ID is not configured
   if (!pixelId || !accessToken) {
+    console.warn("[Meta CAPI] Skipped: META_CAPI_ACCESS_TOKEN or Pixel ID is not configured.");
     return false;
   }
 
   try {
     const userData: Record<string, unknown> = {};
 
-    if (params.user.email) {
+    if (params.user.email && params.user.email.trim()) {
       userData.em = [sha256(params.user.email)];
     }
 
-    if (params.user.phone) {
+    if (params.user.phone && params.user.phone.trim()) {
       userData.ph = [sha256(normalizePhone(params.user.phone))];
     }
 
-    if (params.user.name) {
+    if (params.user.name && params.user.name.trim()) {
       const parts = params.user.name.trim().split(/\s+/);
       if (parts[0]) userData.fn = [sha256(parts[0])];
       if (parts.length > 1 && parts[parts.length - 1]) {
@@ -100,15 +108,19 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
     };
 
     if (params.customData) {
-      eventPayload.custom_data = params.customData;
+      eventPayload.custom_data = {
+        ...params.customData,
+        currency: params.customData.currency || "INR",
+      };
     }
 
     const body: Record<string, unknown> = {
       data: [eventPayload],
     };
 
-    if (testEventCode) {
-      body.test_event_code = testEventCode;
+    // Include test_event_code at the top level only when configured
+    if (testEventCode && testEventCode.trim() !== "") {
+      body.test_event_code = testEventCode.trim();
     }
 
     const endpoint = `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${accessToken}`;
@@ -121,13 +133,15 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
 
     if (!res.ok) {
       const errText = await res.text().catch(() => "");
-      console.warn("Meta CAPI dispatch warning:", res.status, errText);
+      // Never log accessToken or PII
+      console.error("[Meta CAPI] Event dispatch rejected: HTTP", res.status, errText);
       return false;
     }
 
     return true;
-  } catch (error) {
-    console.error("Meta CAPI dispatch error:", error);
+  } catch (error: unknown) {
+    // Never log accessToken or PII
+    console.error("[Meta CAPI] Dispatch exception:", error instanceof Error ? error.message : "Unknown error");
     return false;
   }
 }

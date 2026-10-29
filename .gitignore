@@ -30,6 +30,7 @@
 !public/downloads/**/*.zip
 storage/downloads/backups/
 storage/videos_backup/
+storage/orders/
 
 # debug
 npm-debug.log*

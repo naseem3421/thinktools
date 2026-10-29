@@ -233,30 +233,36 @@ export default function ConstructionCalculatorPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-7 lg:gap-8 items-center">
               {/* Left Column: Emotion, Logic & Pricing Hook */}
               <div className="lg:col-span-6 space-y-3 sm:space-y-4 text-center lg:text-left">
-                {/* Standards Pill */}
-                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-1.5 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[11px] sm:text-xs text-slate-700 shadow-2xs">
-                  <Award className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="font-bold text-slate-900">Civil Engineer Built</span>
-                  <span className="text-slate-300">•</span>
-                  <span className="font-bold text-slate-900">CPWD & IS 456 Aligned</span>
-                  <span className="text-slate-300">•</span>
-                  <span className="text-amber-800 font-semibold">31 Connected Sheets (Feet/Inches & Metres)</span>
+                {/* Standards Authority Pill */}
+                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-amber-500/20 border-2 border-amber-500/70 text-xs text-slate-900 shadow-xs">
+                  <span className="flex items-center gap-1.5 font-black text-amber-950 uppercase tracking-wide text-[11px] sm:text-xs">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
+                    👷 Built by a Senior Civil Engineer (10+ Years On-Site)
+                  </span>
+                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
+                  <span className="font-bold text-slate-800 text-[11px] sm:text-xs">
+                    CPWD &amp; IS 456:2000 Aligned
+                  </span>
+                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
+                  <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
+                    31 Connected Sheets
+                  </span>
                 </div>
 
                 {/* Primary Headline */}
                 <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-950 tracking-tight leading-[1.15]">
-                  Never Overpay for Construction or Renovation Again.{" "}
+                  Never Overpay a Contractor. Never Misquote a Client.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-2xl lg:text-3xl">
-                    Accurate Material Estimates &amp; Budget Control in Minutes.
+                    Accurate Material Takeoffs &amp; Cost Control in Minutes.
                   </span>
                 </h1>
 
                 {/* Subtitle */}
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
                   <strong className="text-slate-900 font-semibold block mb-0.5">
-                    For Homeowners, Renovators &amp; Small Contractors Across India.
+                    Engineered for Indian Construction Realities.
                   </strong>
-                  Calculate exact cement, steel rebar, sand &amp; tiles before work starts. Audit running bills, catch 5%+ quantity inflations, and keep projects on budget.
+                  Calculate exact cement, steel rebar, sand &amp; tiles before work starts — whether you&apos;re building a home from scratch, renovating an apartment, or handing a transparent quote to a client.
                 </p>
 
                 {/* 3 Focused Use Cases */}
@@ -354,16 +360,78 @@ export default function ConstructionCalculatorPage() {
               {/* Right Column: Calculator Gallery */}
               <div className="lg:col-span-6 flex flex-col items-center">
                 <div className="w-full">
-                  <div className="mb-2 flex items-center justify-between text-xs text-slate-500 px-1">
-                    <span className="font-semibold text-amber-800 flex items-center gap-1.5 text-xs">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                      Look Inside the Spreadsheets
+                  <div className="mb-2.5 flex items-center justify-between text-xs px-1">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-black text-[11px] shadow-sm">
+                      <BadgeCheck className="w-4 h-4 stroke-[2.5]" />
+                      <span>CIVIL ENGINEER VERIFIED • UNLOCKED EXCEL</span>
+                    </div>
+                    <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                      31 Connected Tabs
                     </span>
-                    <span className="text-[11px] text-slate-400">Click tabs to inspect</span>
                   </div>
 
                   <CalculatorGallery onUnlockClick={() => setIsCheckoutOpen(true)} />
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 1.5 THE CIVIL ENGINEER DIFFERENCE - 3 KEY PILLARS */}
+        <section className="py-8 sm:py-11 bg-gradient-to-b from-white via-amber-50/25 to-white border-y border-amber-200/70 shadow-2xs">
+          <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
+            <div className="text-center max-w-2xl mx-auto mb-7 sm:mb-9">
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-950 bg-amber-100 border border-amber-300 px-3.5 py-1 rounded-full shadow-2xs">
+                <Award className="w-3.5 h-3.5 text-amber-700" />
+                The Site Engineer&apos;s Advantage
+              </span>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 mt-2 tracking-tight">
+                Why &ldquo;Civil Engineer Built&rdquo; Saves You Lakhs on Site
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 mt-1.5 max-w-xl mx-auto leading-relaxed">
+                Generic internet templates are built by spreadsheet creators who have never poured a slab. Construction Calculator Pro was built by an Indian site engineer with 10+ years managing real residential and commercial builds.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              {/* Pillar 1 */}
+              <div className="bg-white border-2 border-amber-200/80 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-shadow relative">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-800 flex items-center justify-center font-bold text-lg mb-3.5">
+                  📐
+                </div>
+                <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
+                  1. Official Indian Standards (IS 456 &amp; CPWD)
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Mix designs for M20, M25 concrete, 1:4 and 1:6 masonry mortar, and IS 1786 rebar densities are pre-programmed. Not copied from foreign YouTube templates, but calibrated directly to official Indian standards.
+                </p>
+              </div>
+
+              {/* Pillar 2 */}
+              <div className="bg-white border-2 border-amber-200/80 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-shadow relative">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-800 flex items-center justify-center font-bold text-lg mb-3.5">
+                  🧱
+                </div>
+                <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
+                  2. Real Job-Site Wastage Calculations
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Free spreadsheets assume 0% waste and leave you short mid-pour. This toolkit includes real-world 3–5% steel cutting scrap, 5–8% mortar spillage, and tile cutting margins so your work never halts.
+                </p>
+              </div>
+
+              {/* Pillar 3 */}
+              <div className="bg-white border-2 border-amber-200/80 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-shadow relative">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-800 flex items-center justify-center font-bold text-lg mb-3.5">
+                  🔍
+                </div>
+                <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
+                  3. Contractor-Proof Bill Auditing
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Includes the exact Running Account (RA) Bill audit formulas senior engineers use on site: automatically red-flags any contractor claim exceeding 5% variance and verifies empty cement bags before releasing payouts.
+                </p>
               </div>
             </div>
           </div>
@@ -467,6 +535,81 @@ export default function ConstructionCalculatorPage() {
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
+              </div>
+            </div>
+
+            {/* COMPARISON: GENERIC TEMPLATE VS CIVIL ENGINEER BUILT */}
+            <div className="mt-8 sm:mt-10 bg-white border-2 border-slate-200 rounded-3xl p-5 sm:p-7 shadow-xs">
+              <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
+                <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
+                  Side-By-Side Comparison
+                </span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-950 mt-1.5">
+                  Generic Free Template vs. Civil Engineer Built Toolkit
+                </h3>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse min-w-[540px]">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-3 px-3 sm:px-4 text-slate-500 font-semibold w-1/3">Feature / Capability</th>
+                      <th className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/60 font-bold w-1/3 rounded-t-xl">
+                        Generic Free / YouTube Template
+                      </th>
+                      <th className="py-3 px-3 sm:px-4 text-emerald-800 bg-emerald-50/80 font-black w-1/3 rounded-t-xl border-2 border-emerald-400 border-b-0">
+                        Construction Calculator Pro (Engineer Built)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Engineering Standards</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Generic guesswork; non-compliant with Indian codes
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ Strictly aligned with IS 456:2000, IS 1200 &amp; CPWD DSR
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Unit Flexibility</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Rigid single unit; formulas break when mixing units
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ 1-Click toggle between Feet/Inches (Residential) &amp; Metres
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Site Wastage Margins</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Assumes 0% waste; causes shortages &amp; site halts
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ Built-in 3–5% rebar cutting, 5–8% mortar &amp; tile buffers
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Contractor Bill Auditing</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Estimate only; cannot cross-check running bills
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ Automated 5% variance alert catches contractor overbilling
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Excel Compatibility</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30 rounded-b-xl">
+                        ❌ Complex macros or password-locked cells that crash
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-2 border-emerald-400 border-t-0 rounded-b-xl">
+                        ✅ 100% unlocked formulas, zero VBA macros, works on all versions
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -671,7 +814,7 @@ export default function ConstructionCalculatorPage() {
                     </span>
                   </div>
                   <h3 className="text-sm sm:text-base font-black text-slate-950 tracking-tight">
-                    Construction Calculator Pro + All 3 Companion Site Tools (₹499)
+                    Construction Calculator Pro + All 3 Essential Site Tools (₹499)
                   </h3>
                   <p className="text-[11px] text-slate-500">
                     Individual tool price: ₹596 (₹299 + 3×₹99) • Bundle: ₹499 (Save an extra ₹97 • ₹1,896 total retail value)
@@ -1074,6 +1217,7 @@ export default function ConstructionCalculatorPage() {
         onRemoveAddon={removeAddon}
         onToggleAddon={toggleAddon}
         onToggleBundle={toggleBundle}
+        onWatchDemo={openReel}
       />
 
       {/* 9:16 Instagram Reels Walkthrough Modal */}

@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
-import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
+import { extractMetaCookies } from "@/lib/metaCapi";
 import { generateDownloadToken } from "@/lib/downloadToken";
+import { dispatchCapiPurchaseWithIdempotency } from "@/lib/orderStore";
 
-// Memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries
+// In-memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries within the same node process
 const processedPayments = new Set<string>();
 
 export async function POST(request: Request) {
@@ -144,38 +145,45 @@ export async function POST(request: Request) {
       });
     }
 
-    // Automatically dispatch server-side Meta Conversions API (CAPI) event (only on first fulfillment)
-    if (isFirstFulfillment) {
-      const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
-      const userAgent = request.headers.get("user-agent") || undefined;
-      const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+    // Single authoritative CAPI Purchase dispatch with persistent atomic idempotency
+    // Checks order.capi_purchase_sent before sending; sets to true after successful send.
+    // Event ID is strictly String(razorpay_order_id) matching browser pixel eventID.
+    const clientIp =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      undefined;
+    const userAgent = request.headers.get("user-agent") || undefined;
+    const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
 
-      const contentIds = [productSlug, ...validAddonIds];
-
-      sendMetaCapiEvent({
-        eventName: "Purchase",
-        eventId: razorpay_payment_id,
+    try {
+      const capiResult = await dispatchCapiPurchaseWithIdempotency({
+        orderId: razorpay_order_id,
+        amount: totalPriceInRupees,
+        currency: "INR",
+        productSlug,
+        fullOrderTitle,
+        contentIds: [productSlug, ...validAddonIds],
         user: {
           email: recipientEmail,
           phone: body.customer_phone || body.phone || body.contact,
           name: body.customer_name || body.name,
           ip: clientIp,
-          userAgent: userAgent,
+          userAgent,
           fbp,
           fbc,
         },
-        customData: {
-          value: totalPriceInRupees,
-          currency: "INR",
-          content_name: fullOrderTitle,
-          content_ids: contentIds,
-          content_type: "product",
-          order_id: razorpay_order_id,
-        },
-        eventSourceUrl: `https://thinktools.in/p/${productSlug}`,
-      }).catch((capiErr) => {
-        console.error("Async Meta CAPI delivery error:", capiErr);
+        eventSourceUrl: `https://thinktools.in/p/${productSlug}/download`,
       });
+
+      if (!capiResult.success && !capiResult.alreadySent) {
+        console.warn(`[CAPI] Order ${razorpay_order_id} CAPI dispatch warning: ${capiResult.reason || "unknown"}`);
+      }
+    } catch (capiError) {
+      // Do not log PII or access tokens
+      console.error(
+        `[CAPI] Exception during CAPI dispatch execution for order ${razorpay_order_id}:`,
+        capiError instanceof Error ? capiError.message : "unknown"
+      );
     }
 
     // Generate cryptographically signed, 3-hour time-limited download token

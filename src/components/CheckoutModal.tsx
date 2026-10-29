@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { X, Lock, Check, AlertCircle, ShieldCheck, Sparkles } from "lucide-react";
+import { X, Lock, Check, AlertCircle, ShieldCheck, Sparkles, Play } from "lucide-react";
 import { Product, ADDON_PRODUCTS, AddonProduct } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
 
@@ -15,6 +15,7 @@ interface CheckoutModalProps {
   onRemoveAddon?: (id: string) => void;
   onToggleAddon?: (id: string) => void;
   onToggleBundle?: () => void;
+  onWatchDemo?: (addonId: string) => void;
 }
 
 interface RazorpaySuccessResponse {
@@ -84,9 +85,9 @@ export default function CheckoutModal({
   onRemoveAddon,
   onToggleAddon,
   onToggleBundle,
+  onWatchDemo,
 }: CheckoutModalProps) {
   const router = useRouter();
-  const trackedPaymentIds = useRef<Set<string>>(new Set());
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
@@ -262,33 +263,16 @@ export default function CheckoutModal({
               );
             }
 
-            // Track verified Purchase event with CAPI deduplication key (guarded against duplicate handler calls)
-            if (!trackedPaymentIds.current.has(response.razorpay_payment_id)) {
-              trackedPaymentIds.current.add(response.razorpay_payment_id);
-              trackEvent(
-                "Purchase",
-                {
-                  content_name: fullOrderTitle,
-                  content_ids: [product.id, ...activeAddonIds],
-                  content_type: "product",
-                  value: grandTotal,
-                  currency: "INR",
-                  transaction_id: response.razorpay_payment_id,
-                },
-                { eventID: response.razorpay_payment_id }
-              );
-            }
-
-            // Small delay to ensure browser tracking beacon dispatches before page navigation
-            await new Promise((resolve) => setTimeout(resolve, 350));
-
-            // 5. Successful verification: Redirect to download page
+            // 5. Successful verification: Redirect to download / thank-you page
+            // Browser-side Purchase tracking is executed strictly on the thank-you/download page
+            // with matching eventID: String(order_id) and localStorage reload guards.
             const queryParams: Record<string, string> = {
               order_id: response.razorpay_order_id,
               payment_id: response.razorpay_payment_id,
               name: encodeURIComponent(name),
               email: encodeURIComponent(email),
               phone: encodeURIComponent(phone),
+              amount: String(grandTotal),
             };
             if (verifyData.download_token) {
               queryParams.token = verifyData.download_token;
@@ -446,9 +430,25 @@ export default function CheckoutModal({
                             <Check className="w-3 h-3 stroke-[3]" />
                           </div>
                           <div className="min-w-0">
-                            <p className="font-semibold text-xs text-white truncate">
-                              {addon.shortTitle || addon.title}
-                            </p>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <p className="font-semibold text-xs text-white">
+                                {addon.shortTitle || addon.title}
+                              </p>
+                              {onWatchDemo && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onWatchDemo(addon.id);
+                                  }}
+                                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 hover:text-amber-200 border border-amber-400/30 text-[10px] font-bold transition-all cursor-pointer shrink-0 shadow-2xs"
+                                  title={`Watch 60s Demo for ${addon.title}`}
+                                >
+                                  <Play className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
+                                  <span>Watch Demo</span>
+                                </button>
+                              )}
+                            </div>
                             <p className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">
                               {addon.id === "site-expense-profit-tracker" && "Petty cash, vendor invoices & actual site profit"}
                               {addon.id === "labour-attendance-weekly-wage-sheet" && "Daily mistri/coolie registers & weekly wage slips"}
