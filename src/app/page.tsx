@@ -7,6 +7,8 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   Mail,
   Calculator,
   LayoutGrid,
@@ -21,11 +23,17 @@ import {
   Award,
   Sparkles,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HomeJsonLd from "@/components/HomeJsonLd";
 import ProjectDiscussionModal from "@/components/ProjectDiscussionModal";
 import ContractorChecklistModal from "@/components/ContractorChecklistModal";
+import { CALCULATOR_SCREENSHOTS } from "@/components/CalculatorGallery";
+
+const ReelPreviewModal = dynamic(() => import("@/components/ReelPreviewModal"), {
+  ssr: false,
+});
 import {
   DIGITAL_PRODUCTS,
   CUSTOM_SERVICES,
@@ -40,6 +48,33 @@ export default function HomePage() {
   const [isChecklistOpen, setIsChecklistOpen] = useState<boolean>(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [isReelModalOpen, setIsReelModalOpen] = useState<boolean>(false);
+  const [activeReelId, setActiveReelId] = useState<string>("main-calculator");
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
+  const [isSlideHovered, setIsSlideHovered] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (isSlideHovered || isReelModalOpen) return;
+    const interval = setInterval(() => {
+      setActiveSlideIndex((prev) => (prev + 1) % CALCULATOR_SCREENSHOTS.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [isSlideHovered, isReelModalOpen]);
+
+  const handlePrevSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveSlideIndex((prev) => (prev - 1 + CALCULATOR_SCREENSHOTS.length) % CALCULATOR_SCREENSHOTS.length);
+  };
+
+  const handleNextSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveSlideIndex((prev) => (prev + 1) % CALCULATOR_SCREENSHOTS.length);
+  };
+
+  const openReel = (id: string) => {
+    setActiveReelId(id);
+    setIsReelModalOpen(true);
+  };
 
   const handleOpenDiscussion = (topic: string) => {
     setDiscussionTopic(topic);
@@ -165,17 +200,26 @@ export default function HomePage() {
                     <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
                       👷 Built by a Civil Engineer, 10+ Years
                     </span>
-                    <span className="text-xs font-semibold text-amber-900 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 flex items-center gap-1">
-                      <Play className="w-3 h-3 fill-amber-500/30 text-amber-600" /> Walkthrough Video Included
-                    </span>
                     <span className="text-xs text-slate-500 font-medium font-mono">
                       v2.4 Live · Excel (.XLSX) + 13 PDFs
                     </span>
                   </div>
 
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#172033] tracking-tight">
-                    Construction Calculator Pro
-                  </h3>
+                  <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#172033] tracking-tight">
+                      Construction Calculator Pro
+                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => openReel("main-calculator")}
+                      className="py-1 px-2.5 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-300 hover:border-amber-400 text-slate-800 hover:text-amber-950 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                    >
+                      <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Play className="w-2 h-2 fill-current ml-0.5" />
+                      </span>
+                      <span>Watch 60s Demo</span>
+                    </button>
+                  </div>
 
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     A comprehensive, 31-sheet connected estimation system built specifically for Indian residential and commercial construction. Audits contractor bills, calculates cement, steel, bricks, sand, and finishes, and helps prevent over-billing.
@@ -207,70 +251,149 @@ export default function HomePage() {
                       <span>3 Companion Site Tools (₹99 each or in the 4-in-1 Bundle):</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                      <Link
-                        href="/p/construction-calculator-pro#business-tools"
-                        className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left group block"
-                      >
-                        <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
-                          <span>📊 Site Expenses</span>
-                          <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
-                        </div>
-                        <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
-                          Daily petty cash, vouchers &amp; vendor spend
-                        </p>
-                      </Link>
+                      {/* Tool 1: Site Expenses */}
+                      <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left flex flex-col justify-between">
+                        <Link
+                          href="/p/construction-calculator-pro#business-tools"
+                          className="group block"
+                        >
+                          <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
+                            <span>📊 Site Expenses</span>
+                            <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
+                            Daily petty cash, vouchers &amp; vendor spend
+                          </p>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => openReel("site-expense-profit-tracker")}
+                          className="mt-2 w-full py-1 px-2 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-950 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                        >
+                          <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Play className="w-2 h-2 fill-current ml-0.5" />
+                          </span>
+                          <span>Watch 60s Demo</span>
+                        </button>
+                      </div>
 
-                      <Link
-                        href="/p/construction-calculator-pro#business-tools"
-                        className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left group block"
-                      >
-                        <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
-                          <span>👷 Labour &amp; Wages</span>
-                          <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
-                        </div>
-                        <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
-                          Daily mistri/coolie registers &amp; wage slips
-                        </p>
-                      </Link>
+                      {/* Tool 2: Labour & Wages */}
+                      <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left flex flex-col justify-between">
+                        <Link
+                          href="/p/construction-calculator-pro#business-tools"
+                          className="group block"
+                        >
+                          <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
+                            <span>👷 Labour &amp; Wages</span>
+                            <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
+                            Daily mistri/coolie registers &amp; wage slips
+                          </p>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => openReel("labour-attendance-weekly-wage-sheet")}
+                          className="mt-2 w-full py-1 px-2 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-950 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                        >
+                          <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Play className="w-2 h-2 fill-current ml-0.5" />
+                          </span>
+                          <span>Watch 60s Demo</span>
+                        </button>
+                      </div>
 
-                      <Link
-                        href="/p/construction-calculator-pro#business-tools"
-                        className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left group block"
-                      >
-                        <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
-                          <span>💰 Payments</span>
-                          <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
-                        </div>
-                        <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
-                          Milestone invoices, GST &amp; aging reminders
-                        </p>
-                      </Link>
+                      {/* Tool 3: Payments */}
+                      <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50 hover:bg-amber-50/70 border border-slate-200 hover:border-amber-300 transition-all text-left flex flex-col justify-between">
+                        <Link
+                          href="/p/construction-calculator-pro#business-tools"
+                          className="group block"
+                        >
+                          <div className="text-[11px] font-bold text-slate-900 group-hover:text-amber-950 flex items-center justify-between">
+                            <span>💰 Payments</span>
+                            <span className="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-100 px-1 py-0.5 rounded">₹99</span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 mt-0.5 leading-snug">
+                            Milestone invoices, GST &amp; aging reminders
+                          </p>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => openReel("payment-collection-tracker")}
+                          className="mt-2 w-full py-1 px-2 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-950 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                        >
+                          <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Play className="w-2 h-2 fill-current ml-0.5" />
+                          </span>
+                          <span>Watch 60s Demo</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 w-full md:max-w-md md:mx-auto lg:w-80 lg:mx-0 shrink-0 flex flex-col justify-between space-y-3.5">
-                  {/* Workbook Visual Thumbnail */}
-                  <Link
-                    href="/p/construction-calculator-pro#calculator-gallery"
-                    className="block relative rounded-xl overflow-hidden border border-slate-200/80 shadow-xs group cursor-pointer aspect-video bg-slate-900"
+                  {/* Workbook Visual Thumbnail / Slides Carousel */}
+                  <div
+                    onMouseEnter={() => setIsSlideHovered(true)}
+                    onMouseLeave={() => setIsSlideHovered(false)}
+                    onClick={() => openReel("main-calculator")}
+                    className="block relative rounded-xl overflow-hidden border border-slate-200/80 shadow-xs group cursor-pointer aspect-video bg-slate-900 select-none"
                   >
                     <Image
-                      src="/screenshots/01_cost_estimate.webp"
-                      alt="Construction Calculator Pro Workbook Preview"
+                      key={CALCULATOR_SCREENSHOTS[activeSlideIndex].id}
+                      src={CALCULATOR_SCREENSHOTS[activeSlideIndex].imageSrc}
+                      alt={CALCULATOR_SCREENSHOTS[activeSlideIndex].altText}
                       width={480}
                       height={270}
                       className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end justify-between p-2">
-                      <span className="text-[10px] font-bold text-white bg-slate-900/80 backdrop-blur-xs px-2 py-0.5 rounded border border-white/20">
-                        Interactive Excel Workbook
-                      </span>
-                      <span className="text-[10px] font-semibold text-amber-300 flex items-center gap-1 bg-slate-900/80 backdrop-blur-xs px-1.5 py-0.5 rounded border border-amber-400/30">
-                        <FileSpreadsheet className="w-3 h-3 text-emerald-400" /> 31 Tabs
+
+                    {/* Left / Right Slide Navigation Chevrons */}
+                    <button
+                      type="button"
+                      onClick={handlePrevSlide}
+                      aria-label="Previous sheet slide"
+                      className="absolute left-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950/75 hover:bg-slate-950 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 cursor-pointer shadow-sm"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextSlide}
+                      aria-label="Next sheet slide"
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950/75 hover:bg-slate-950 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 cursor-pointer shadow-sm"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+
+                    {/* Top Right: Current Tab Badge */}
+                    <div className="absolute top-2 right-2 pointer-events-none">
+                      <span className="text-[9px] font-mono font-bold text-amber-300 bg-slate-950/85 backdrop-blur-xs px-1.5 py-0.5 rounded border border-amber-400/30">
+                        {CALCULATOR_SCREENSHOTS[activeSlideIndex].shortLabel}
                       </span>
                     </div>
-                  </Link>
+
+                    {/* Bottom Bar: Tab Name & Slide Dots */}
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent flex items-center justify-between p-2 pointer-events-none">
+                      <span className="text-[10px] font-bold text-white bg-slate-900/80 backdrop-blur-xs px-2 py-0.5 rounded border border-white/20 truncate max-w-[170px]">
+                        {CALCULATOR_SCREENSHOTS[activeSlideIndex].headline}
+                      </span>
+                      {/* Slide Indicator Dots */}
+                      <div className="flex items-center gap-1 shrink-0">
+                        {CALCULATOR_SCREENSHOTS.map((_, dotIdx) => (
+                          <span
+                            key={dotIdx}
+                            className={`h-1 rounded-full transition-all ${
+                              dotIdx === activeSlideIndex
+                                ? "bg-amber-400 w-2.5"
+                                : "bg-white/40 w-1"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Choice Buttons for ₹299 vs ₹499 */}
                   <div className="space-y-2.5">
@@ -318,13 +441,25 @@ export default function HomePage() {
                       </p>
                     </Link>
 
+                    {/* See How It Works (60s) Button */}
+                    <button
+                      type="button"
+                      onClick={() => openReel("main-calculator")}
+                      className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-xs shadow-2xs transition-all cursor-pointer group"
+                    >
+                      <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Play className="w-2 h-2 fill-current ml-0.5" />
+                      </span>
+                      <span>See How It Works (60s)</span>
+                    </button>
+
                     {/* Preview Gallery Link */}
                     <Link
                       href="/p/construction-calculator-pro#calculator-gallery"
-                      className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-xs transition-colors whitespace-nowrap"
+                      className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-500 hover:text-slate-800 font-medium text-[11px] transition-colors whitespace-nowrap"
                     >
                       <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      <span>Preview 8 Screenshots &amp; 31 Tabs</span>
+                      <span>Inspect All 31 Sheet Names</span>
                     </Link>
                   </div>
                 </div>
@@ -839,6 +974,19 @@ export default function HomePage() {
       <ContractorChecklistModal
         isOpen={isChecklistOpen}
         onClose={() => setIsChecklistOpen(false)}
+      />
+
+      {/* 9:16 Instagram Reels Walkthrough Modal */}
+      <ReelPreviewModal
+        isOpen={isReelModalOpen}
+        onClose={() => setIsReelModalOpen(false)}
+        activeReelId={activeReelId}
+        onSelectReel={(id) => setActiveReelId(id)}
+        selectedAddonIds={[]}
+        onToggleAddon={() => {}}
+        onOpenCheckout={() => {
+          window.location.href = "/p/construction-calculator-pro";
+        }}
       />
     </div>
   );

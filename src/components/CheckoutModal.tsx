@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { X, Lock, Check, AlertCircle, FileSpreadsheet, ShieldCheck, Trash2 } from "lucide-react";
+import { X, Lock, Check, AlertCircle, ShieldCheck, Sparkles } from "lucide-react";
 import { Product, ADDON_PRODUCTS, AddonProduct } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
 
@@ -13,6 +13,8 @@ interface CheckoutModalProps {
   onClose: () => void;
   selectedAddonIds?: string[];
   onRemoveAddon?: (id: string) => void;
+  onToggleAddon?: (id: string) => void;
+  onToggleBundle?: () => void;
 }
 
 interface RazorpaySuccessResponse {
@@ -80,6 +82,8 @@ export default function CheckoutModal({
   onClose,
   selectedAddonIds = [],
   onRemoveAddon,
+  onToggleAddon,
+  onToggleBundle,
 }: CheckoutModalProps) {
   const router = useRouter();
   const trackedPaymentIds = useRef<Set<string>>(new Set());
@@ -90,12 +94,40 @@ export default function CheckoutModal({
   const [validationError, setValidationError] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
+  // Local state synced with props to allow interactive toggling inside the modal
+  const [internalAddonIds, setInternalAddonIds] = useState<string[]>(selectedAddonIds);
+
+  useEffect(() => {
+    setInternalAddonIds(selectedAddonIds);
+  }, [selectedAddonIds, isOpen]);
+
+  const activeAddonIds = onToggleAddon ? selectedAddonIds : internalAddonIds;
+
+  const handleToggleAddon = (id: string) => {
+    if (onToggleAddon) {
+      onToggleAddon(id);
+    } else {
+      setInternalAddonIds((prev) =>
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      );
+    }
+  };
+
+  const handleToggleBundle = () => {
+    if (onToggleBundle) {
+      onToggleBundle();
+    } else {
+      const allKeys = Object.keys(ADDON_PRODUCTS);
+      setInternalAddonIds((prev) => (prev.length === allKeys.length ? [] : allKeys));
+    }
+  };
+
   // Authoritatively compute total with selected add-ons and bundle discount
-  const selectedAddons: AddonProduct[] = (selectedAddonIds || [])
+  const selectedAddons: AddonProduct[] = (activeAddonIds || [])
     .map((id) => ADDON_PRODUCTS[id])
     .filter(Boolean);
   const addonsSubtotal = selectedAddons.reduce((sum, item) => sum + item.price, 0);
-  const isBundleApplied = (selectedAddonIds || []).length === Object.keys(ADDON_PRODUCTS).length;
+  const isBundleApplied = (activeAddonIds || []).length === Object.keys(ADDON_PRODUCTS).length;
   const bundleDiscount = isBundleApplied ? 97 : 0;
   const grandTotal = product.price + addonsSubtotal - bundleDiscount;
   const amountInPaise = Math.round(grandTotal * 100);
@@ -136,12 +168,12 @@ export default function CheckoutModal({
           currency: "INR",
           receipt: `rcpt_${product.slug.slice(0, 20)}_${Date.now()}`,
           product_slug: product.slug,
-          addon_ids: selectedAddonIds,
+          addon_ids: activeAddonIds,
           notes: {
             product_id: product.id,
             product_slug: product.slug,
             product_title: product.title,
-            addon_ids: selectedAddonIds.join(","),
+            addon_ids: activeAddonIds.join(","),
             customer_name: name.trim(),
             customer_email: email.trim(),
             customer_phone: phone.trim(),
@@ -163,7 +195,7 @@ export default function CheckoutModal({
         "InitiateCheckout",
         {
           content_name: fullOrderTitle,
-          content_ids: [product.id, ...selectedAddonIds],
+          content_ids: [product.id, ...activeAddonIds],
           content_type: "product",
           value: grandTotal,
           currency: "INR",
@@ -218,7 +250,7 @@ export default function CheckoutModal({
                 product_id: product.id,
                 product_slug: product.slug,
                 product_title: product.title,
-                addon_ids: selectedAddonIds,
+                addon_ids: activeAddonIds,
                 amount: amountInPaise,
               }),
             });
@@ -237,7 +269,7 @@ export default function CheckoutModal({
                 "Purchase",
                 {
                   content_name: fullOrderTitle,
-                  content_ids: [product.id, ...selectedAddonIds],
+                  content_ids: [product.id, ...activeAddonIds],
                   content_type: "product",
                   value: grandTotal,
                   currency: "INR",
@@ -261,8 +293,8 @@ export default function CheckoutModal({
             if (verifyData.download_token) {
               queryParams.token = verifyData.download_token;
             }
-            if (selectedAddonIds.length > 0) {
-              queryParams.addons = selectedAddonIds.join(",");
+            if (activeAddonIds.length > 0) {
+              queryParams.addons = activeAddonIds.join(",");
             }
             const query = new URLSearchParams(queryParams);
             const downloadPath = product.slug.includes("diwali")
@@ -316,285 +348,304 @@ export default function CheckoutModal({
           <X className="w-4 h-4" />
         </button>
 
-        {/* Modal Top Eyebrow */}
-        <div className="pt-4 sm:pt-7 pb-1.5 sm:pb-3 text-center px-4 shrink-0">
-          <span className="text-amber-400 text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase inline-flex items-center gap-1.5 sm:gap-2">
+        {/* Modal Top Header */}
+        <div className="pt-3.5 sm:pt-5 pb-1 sm:pb-2 text-center px-4 shrink-0">
+          <span className="text-amber-400 text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase inline-flex items-center gap-1.5">
             <span className="w-2.5 sm:w-4 h-0.5 bg-amber-400 inline-block" />
-            GET THE TOOLKIT
+            SECURE INSTANT CHECKOUT
             <span className="w-2.5 sm:w-4 h-0.5 bg-amber-400 inline-block" />
           </span>
-          <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-white mt-0.5 sm:mt-1 tracking-tight">
+          <h2 className="text-lg sm:text-2xl font-black text-white mt-0.5 tracking-tight">
             Pay once. Download instantly.
           </h2>
         </div>
 
         {/* Main 2-Column Split Content */}
-        <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6 p-2.5 sm:p-6 md:p-8 pt-1 sm:pt-2">
-          {/* Order 1 on mobile: Checkout Form for immediate frictionless completion */}
-          <div className="order-1 lg:order-2 lg:col-span-6 bg-[#121820] border border-slate-800/80 rounded-xl sm:rounded-2xl p-3.5 sm:p-6 flex flex-col justify-between">
-            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm sm:text-lg font-bold text-white">Your details</h3>
-                <span className="text-xs font-mono font-bold text-amber-400">Total: ₹{grandTotal}</span>
-              </div>
-
-              {validationError && (
-                <div className="p-2.5 sm:p-3 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-300 text-xs flex items-center gap-2 animate-in fade-in">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-                  <span>{validationError}</span>
-                </div>
-              )}
-
-              {/* Input: Full Name */}
-              <div>
-                <label className="text-xs font-semibold text-slate-300 block mb-1">
-                  Full name <span className="text-amber-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 sm:py-2.5 text-base sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
-                />
-              </div>
-
-              {/* Input: Email */}
-              <div>
-                <label className="text-xs font-semibold text-slate-300 block mb-1">
-                  Email (we attach your toolkit files here) <span className="text-amber-400">*</span>
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 sm:py-2.5 text-base sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
-                />
-              </div>
-
-              {/* Input: Mobile number */}
-              <div>
-                <label className="text-xs font-semibold text-slate-300 block mb-1">
-                  Mobile number (Optional — for SMS & WhatsApp receipt)
-                </label>
-                <input
-                  type="tel"
-                  placeholder="10-digit mobile number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 sm:py-2.5 text-base sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
-                />
-              </div>
-
-              {/* Mandatory Policy Checkbox */}
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300 leading-relaxed pt-1">
-                <input
-                  type="checkbox"
-                  checked={agreeTerms}
-                  onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-700 text-amber-500 focus:ring-0 cursor-pointer"
-                />
-                <span>
-                  I understand this is an instant digital product with immediate delivery. I agree to the{" "}
-                  <Link href="/terms" target="_blank" className="text-amber-400 underline hover:text-amber-300">
-                    terms
-                  </Link>
-                  ,{" "}
-                  <Link href="/privacy-policy" target="_blank" className="text-amber-400 underline hover:text-amber-300">
-                    privacy policy
-                  </Link>{" "}
-                  and{" "}
-                  <Link href="/refund-policy" target="_blank" className="text-amber-400 underline hover:text-amber-300">
-                    cancellation & refund policy
-                  </Link>
-                  .
-                </span>
-              </label>
-
-              {/* Gold/Amber Secure Pay Button */}
-              <button
-                type="submit"
-                disabled={isProcessing}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#e5a83b] hover:bg-[#d4972e] text-slate-950 font-black text-sm tracking-wide shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
-              >
-                {isProcessing ? (
-                  <span className="flex items-center gap-2">
-                    <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                    Opening Secure Checkout...
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    <Lock className="w-4 h-4" />
-                    <span>PAY ₹{grandTotal} SECURELY</span>
-                  </span>
-                )}
-              </button>
-
-              {/* Digital Product Delivery Notice */}
-              <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 leading-relaxed flex items-start gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                <div>
-                  <strong>Instant Digital Delivery:</strong> Files are delivered immediately to your email with instant on-screen access. Review our{" "}
-                  <Link href="/refund-policy" target="_blank" className="text-amber-400 underline font-semibold">
-                    cancellation & refund policy
-                  </Link>
-                  . Our support team (support@thinktools.in) is always here to assist if you have any questions with your files.
-                </div>
-              </div>
-
-              {/* Payment Methods Badges */}
-              <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-[10px] text-slate-400 font-medium">
-                <span className="px-2.5 py-1 rounded bg-[#0b0f14] border border-slate-800 text-slate-300 font-mono">
-                  UPI
-                </span>
-                <span className="px-2.5 py-1 rounded bg-[#0b0f14] border border-slate-800 text-slate-300 font-mono">
-                  Cards
-                </span>
-                <span className="px-2.5 py-1 rounded bg-[#0b0f14] border border-slate-800 text-slate-300 font-mono">
-                  Net banking
-                </span>
-                <span className="px-2.5 py-1 rounded bg-[#0b0f14] border border-slate-800 text-slate-300 font-mono">
-                  Wallets
-                </span>
-              </div>
-
-              {/* Razorpay Trust Note */}
-              <div className="text-center text-[10px] text-slate-500 pt-1">
-                🔒 Payments are processed by Razorpay. We never see or store your card or UPI details.
-              </div>
-            </form>
-          </div>
-
-          {/* Order 2 on mobile, Order 1 on desktop: Product Highlights & Pricing Box */}
-          <div className="order-2 lg:order-1 lg:col-span-6 bg-[#121820] border border-slate-800/80 rounded-xl sm:rounded-2xl p-4 sm:p-6 flex flex-col justify-between">
+        <div className="flex-1 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6 p-2.5 sm:p-5 md:p-6 pt-1">
+          {/* Order 1 on Mobile / Left Column on Desktop: Order Items & Add-on Ticks */}
+          <div className="order-1 lg:col-span-6 bg-[#121820] border border-slate-800/80 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between">
             <div>
-              {/* Product Info Row */}
-              <div className="flex items-start gap-3 mb-4 pb-4 border-b border-slate-800">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
-                  <FileSpreadsheet className="w-5 h-5 sm:w-6 sm:h-6" />
+              {/* Included Base Product */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  Your Package
+                </span>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
+                  ✓ Included
+                </span>
+              </div>
+
+              <div className="p-3 rounded-xl bg-[#0b0f14] border border-amber-500/30 flex items-start justify-between gap-3">
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <div className="w-5 h-5 rounded-md bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 mt-0.5">
+                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-white text-xs sm:text-sm truncate">
+                        {product.title}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      31 connected sheets (.xlsx) · Chennai 3BHK &amp; Renovation examples · 13 PDF guides
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-bold text-white leading-tight">
-                    {product.title}
-                  </h3>
-                  <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
-                    for Construction & Renovation in India
-                  </p>
+                <div className="text-right shrink-0">
+                  <span className="font-mono font-bold text-amber-400 text-xs sm:text-sm">₹{product.price}</span>
+                  <span className="block text-[10px] text-slate-500 line-through">₹999</span>
                 </div>
               </div>
 
-              {/* Deliverables Bullet List */}
-              <div className="space-y-2 text-[11px] sm:text-xs text-slate-300">
-                {[
-                  "Complete 31-sheet system (Blank Master, 3BHK Example, Flat Renovation)",
-                  "31 connected Excel sheets, measurement to final billing",
-                  "Automated 5% contractor bill audit & tolerance flags",
-                  "Exact procurement order list with wastage & buffers",
-                  "13 PDF implementation guides & printable worksheets",
-                  "7 anti-fear bonuses (hiring kit, material tests, snag list)",
-                  "One-time payment, lifetime use"
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5 stroke-[2.5]" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
+              {/* Companion Add-ons Tick Selection */}
+              <div className="mt-3.5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <span>Add Companion Tools</span>
+                    <span className="text-[10px] text-amber-400 font-normal lowercase">(optional · ₹99 each)</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleToggleBundle}
+                    className="text-[10px] sm:text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors cursor-pointer"
+                  >
+                    {isBundleApplied ? "Clear Add-ons" : "Select All 3 (₹499)"}
+                  </button>
+                </div>
 
-              {/* Optional Selected Add-ons itemized list */}
-              {selectedAddons.length > 0 && (
-                <div className="mt-4 pt-3 border-t border-slate-800">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">
-                      Selected Add-Ons ({selectedAddons.length})
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400">
-                      Subtotal: ₹{addonsSubtotal}
-                    </span>
-                  </div>
-                  <div className="space-y-1.5">
-                    {selectedAddons.map((addon) => (
+                <div className="space-y-1.5">
+                  {Object.values(ADDON_PRODUCTS).map((addon) => {
+                    const isChecked = activeAddonIds.includes(addon.id);
+                    return (
                       <div
                         key={addon.id}
-                        className="flex items-center justify-between bg-[#0b0f14] border border-slate-800/80 rounded-lg p-2 text-xs"
+                        role="checkbox"
+                        aria-checked={isChecked}
+                        tabIndex={0}
+                        onClick={() => handleToggleAddon(addon.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleToggleAddon(addon.id);
+                          }
+                        }}
+                        className={`p-2.5 rounded-xl border transition-all cursor-pointer select-none flex items-start justify-between gap-2.5 ${
+                          isChecked
+                            ? "bg-amber-500/10 border-amber-400 shadow-2xs"
+                            : "bg-[#0b0f14] hover:bg-slate-900 border-slate-800 hover:border-slate-700"
+                        }`}
                       >
-                        <div className="min-w-0 pr-2">
-                          <p className="font-semibold text-slate-200 truncate">{addon.title}</p>
-                          <span className="text-[10px] text-slate-400">1 × ₹{addon.price} • One-time</span>
+                        <div className="flex items-start gap-2.5 min-w-0">
+                          <div
+                            className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                              isChecked
+                                ? "bg-amber-500 border-amber-400 text-slate-950 font-black"
+                                : "border-slate-600 bg-slate-900 text-transparent"
+                            }`}
+                          >
+                            <Check className="w-3 h-3 stroke-[3]" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="font-semibold text-xs text-white truncate">
+                              {addon.shortTitle || addon.title}
+                            </p>
+                            <p className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">
+                              {addon.id === "site-expense-profit-tracker" && "Petty cash, vendor invoices & actual site profit"}
+                              {addon.id === "labour-attendance-weekly-wage-sheet" && "Daily mistri/coolie registers & weekly wage slips"}
+                              {addon.id === "payment-collection-tracker" && "Milestone invoices, GST & payment reminders"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2 shrink-0">
-                          <span className="font-mono font-bold text-amber-400 text-xs">₹{addon.price}</span>
-                          {onRemoveAddon && (
-                            <button
-                              type="button"
-                              onClick={() => onRemoveAddon(addon.id)}
-                              className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors"
-                              title="Remove this add-on"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
-                          )}
+                        <div className="text-right shrink-0">
+                          <span className="font-mono font-bold text-xs text-amber-400">
+                            +₹{addon.price}
+                          </span>
+                          <span className="block text-[9px] text-slate-500 line-through">₹299</span>
                         </div>
                       </div>
-                    ))}
+                    );
+                  })}
+                </div>
+
+                {/* 4-in-1 Bundle Savings / Upsell Bar */}
+                {isBundleApplied ? (
+                  <div className="mt-2.5 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs text-emerald-400">
+                    <span className="flex items-center gap-1.5 font-bold text-[11px] sm:text-xs">
+                      <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      4-in-1 Complete Bundle Active!
+                    </span>
+                    <span className="font-mono font-extrabold text-[11px] sm:text-xs">-₹97 OFF (Save ₹1,397)</span>
                   </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleToggleBundle}
+                    className="mt-2 w-full p-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[11px] font-bold flex items-center justify-between transition-colors cursor-pointer text-left"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <span>Upgrade to Complete 4-in-1 Bundle for ₹499</span>
+                    </span>
+                    <span className="text-amber-400 font-extrabold text-xs whitespace-nowrap">Save ₹1,397 &rarr;</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Price Summary Breakdown */}
+            <div className="mt-4 pt-3 border-t border-slate-800 space-y-1.5 text-xs">
+              <div className="flex justify-between text-slate-400 text-[11px]">
+                <span>Base Package:</span>
+                <span className="font-mono text-slate-200">₹{product.price}</span>
+              </div>
+              {addonsSubtotal > 0 && (
+                <div className="flex justify-between text-slate-400 text-[11px]">
+                  <span>Companion Tools ({activeAddonIds.length}):</span>
+                  <span className="font-mono text-amber-400">+₹{addonsSubtotal}</span>
                 </div>
               )}
-            </div>
-
-            {/* Pricing & Countdown Container */}
-            <div className="mt-5 pt-4 border-t border-slate-800">
-              <div className="space-y-1.5 mb-3 text-xs">
-                <div className="flex justify-between text-slate-400">
-                  <span>Construction Calculator Pro:</span>
-                  <span className="font-mono text-slate-200">₹{product.price}</span>
+              {bundleDiscount > 0 && (
+                <div className="flex justify-between text-emerald-400 text-[11px] font-semibold">
+                  <span>⚡ 4-in-1 Bundle Discount:</span>
+                  <span className="font-mono">-₹{bundleDiscount}</span>
                 </div>
-                {selectedAddons.length > 0 && (
-                  <div className="flex justify-between text-slate-400">
-                    <span>Business Add-ons ({selectedAddons.length}):</span>
-                    <span className="font-mono text-amber-400">+₹{addonsSubtotal}</span>
-                  </div>
-                )}
-                {isBundleApplied && (
-                  <div className="flex justify-between text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">
-                    <span>⚡ 4-in-1 Complete Bundle Discount:</span>
-                    <span className="font-mono">-₹97</span>
-                  </div>
-                )}
-                <div className="flex items-baseline justify-between pt-2 border-t border-slate-800">
-                  <div>
-                    <span className="text-[11px] sm:text-xs text-slate-400 block">Total Due</span>
-                    <span className="text-xs text-emerald-400 font-semibold">Lifetime License</span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[11px] text-amber-400 font-bold uppercase tracking-wider block">
-                      One-Time Payment
-                    </span>
-                    <span className="text-2xl sm:text-4xl font-black text-white font-mono">
-                      ₹{grandTotal}
-                    </span>
-                  </div>
+              )}
+              <div className="flex items-baseline justify-between pt-2 border-t border-slate-800">
+                <div>
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Total Due</span>
+                  <span className="text-[11px] text-emerald-400 font-bold">Lifetime Access</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">
+                    One-Time Payment
+                  </span>
+                  <span className="text-2xl sm:text-3xl font-black text-white font-mono">
+                    ₹{grandTotal}
+                  </span>
                 </div>
               </div>
+            </div>
+          </div>
 
-              {/* Verified Product Delivery Info */}
-              <div className="bg-[#0b0f14] border border-slate-800 rounded-xl p-3 text-center space-y-1">
-                <div className="flex items-center justify-center gap-1.5 text-xs text-emerald-400 font-bold">
-                  <Check className="w-4 h-4 text-emerald-400 stroke-[2.5]" />
-                  <span>Instant Digital Delivery</span>
+          {/* Order 2 on Mobile / Right Column on Desktop: Contact Form & Pay Button */}
+          <div className="order-2 lg:col-span-6 bg-[#121820] border border-slate-800/80 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5 flex flex-col h-full justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between pb-1 border-b border-slate-800">
+                  <h3 className="text-sm sm:text-base font-bold text-white">Your details</h3>
+                  <span className="text-xs font-mono font-bold text-amber-400">Total: ₹{grandTotal}</span>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-relaxed">
-                  Direct on-screen download links + full packages automatically attached to your confirmation email.
-                </p>
+
+                {validationError && (
+                  <div className="p-2.5 rounded-xl bg-rose-950/60 border border-rose-800 text-rose-300 text-xs flex items-center gap-2 animate-in fade-in">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                    <span>{validationError}</span>
+                  </div>
+                )}
+
+                {/* Input: Full Name */}
+                <div>
+                  <label className="text-[11px] sm:text-xs font-semibold text-slate-300 block mb-1">
+                    Full name <span className="text-amber-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                  />
+                </div>
+
+                {/* Input: Email */}
+                <div>
+                  <label className="text-[11px] sm:text-xs font-semibold text-slate-300 block mb-1">
+                    Email (for instant file delivery) <span className="text-amber-400">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                  />
+                </div>
+
+                {/* Input: Mobile number */}
+                <div>
+                  <label className="text-[11px] sm:text-xs font-semibold text-slate-300 block mb-1">
+                    Mobile number <span className="text-slate-500 font-normal">(Optional — for WhatsApp receipt)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="10-digit mobile number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
+                  />
+                </div>
+
+                {/* Mandatory Policy Checkbox */}
+                <label className="flex items-start gap-2 cursor-pointer text-[11px] text-slate-400 leading-snug pt-1">
+                  <input
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    className="mt-0.5 rounded border-slate-700 text-amber-500 focus:ring-0 cursor-pointer"
+                  />
+                  <span>
+                    I understand this is an instant digital product. I agree to the{" "}
+                    <Link href="/terms" target="_blank" className="text-amber-400 underline hover:text-amber-300">
+                      terms
+                    </Link>
+                    ,{" "}
+                    <Link href="/privacy-policy" target="_blank" className="text-amber-400 underline hover:text-amber-300">
+                      privacy
+                    </Link>{" "}
+                    and{" "}
+                    <Link href="/refund-policy" target="_blank" className="text-amber-400 underline hover:text-amber-300">
+                      refund policy
+                    </Link>
+                    .
+                  </span>
+                </label>
               </div>
 
-              <p className="text-[10px] text-slate-500 mt-2.5 text-center">
-                The final amount is shown on the Razorpay payment screen before you pay.
-              </p>
-            </div>
+              <div className="pt-2">
+                {/* Gold/Amber Secure Pay Button */}
+                <button
+                  type="submit"
+                  disabled={isProcessing}
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#e5a83b] hover:bg-[#d4972e] text-slate-950 font-black text-sm tracking-wide shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                >
+                  {isProcessing ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                      Opening Secure Checkout...
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-2">
+                      <Lock className="w-4 h-4" />
+                      <span>PAY ₹{grandTotal} SECURELY</span>
+                    </span>
+                  )}
+                </button>
+
+                {/* Clean Trust line */}
+                <div className="pt-2.5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-slate-400 text-center">
+                  <span className="flex items-center gap-1 font-semibold text-emerald-400">
+                    <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
+                    Instant Download + Email Backup
+                  </span>
+                  <span>•</span>
+                  <span>
+                    🔒 UPI, GPay, Cards &amp; NetBanking
+                  </span>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
