@@ -13,6 +13,7 @@ import {
   Check,
   Plus,
   ArrowRight,
+  ArrowLeft,
   FileSpreadsheet,
   AlertCircle,
   Eye,
@@ -49,6 +50,13 @@ export default function ReelPreviewModal({
 
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const handleClose = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    onClose();
+  };
+
   // When viewing add-ons, 31 sheets (main calculator) is completely removed from the add-on player
   const isMainProductReel = activeReelId === "main-calculator";
   const reelList = isMainProductReel
@@ -83,7 +91,7 @@ export default function ReelPreviewModal({
     setIsMuted(false);
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
       if (e.key === "ArrowLeft") handlePrev();
       if (e.key === "ArrowRight") handleNext();
       if (e.key === " ") {
@@ -220,7 +228,7 @@ export default function ReelPreviewModal({
       role="dialog"
       aria-modal="true"
       className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-slate-950/92 backdrop-blur-md animate-in fade-in duration-200"
-      onClick={onClose}
+      onClick={handleClose}
     >
       {/* Outer Wrapper centering strict 9:16 player and exterior controls */}
       <div
@@ -230,7 +238,7 @@ export default function ReelPreviewModal({
         {/* Exterior Desktop Close Button (never covers video) */}
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleClose}
           aria-label="Close video player"
           className="hidden md:flex absolute -top-12 -right-4 z-[60] p-2 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white transition-all cursor-pointer border border-white/20 shadow-xl hover:scale-110"
         >
@@ -314,7 +322,7 @@ export default function ReelPreviewModal({
               {/* Mobile Close Button */}
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="p-1.5 rounded-full bg-black/60 hover:bg-black/85 text-white backdrop-blur-md border border-white/10 transition-colors cursor-pointer md:hidden shadow-md"
                 title="Close"
               >
@@ -403,15 +411,14 @@ export default function ReelPreviewModal({
             )}
           </div>
 
-          {/* Bottom Floating Reel Switcher & Action CTA (Auto-fades so video content is unblocked) */}
+          {/* Bottom Floating Reel Switcher & Action Bar - ALWAYS visible while playing video */}
           <div
-            className={`absolute bottom-3 left-2.5 right-2.5 z-30 space-y-2 transition-opacity duration-300 ${
-              showControls ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
+            className="absolute bottom-3 left-2.5 right-2.5 z-30 space-y-2 pointer-events-auto select-none"
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Reel Switcher Pills (Only shown for the 3 Add-on tools; 31 Sheets is excluded) */}
             {reelList.length > 1 && (
-              <div className="flex items-center justify-center gap-1 overflow-x-auto p-1 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 scrollbar-none shadow-lg">
+              <div className="flex items-center justify-center gap-1 overflow-x-auto p-1 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 scrollbar-none shadow-lg">
                 {reelList.map((reel) => {
                   const isActive = reel.id === activeReelId;
                   const label = ADDON_SHORT_TITLES[reel.id] || reel.title;
@@ -436,20 +443,36 @@ export default function ReelPreviewModal({
               </div>
             )}
 
-            {/* Pinned Action CTA */}
-            <div>
+            {/* Bottom Row: BACK button to close player + Action CTA */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClose();
+                }}
+                className="py-2.5 px-3.5 sm:px-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-white font-black text-xs min-[360px]:text-sm flex items-center justify-center gap-1.5 border border-white/20 shadow-xl backdrop-blur-md transition-all cursor-pointer hover:scale-105 active:scale-95 shrink-0"
+                aria-label="Close video player and go back"
+              >
+                <ArrowLeft className="w-4 h-4 text-amber-400 stroke-[2.5]" />
+                <span>BACK</span>
+              </button>
+
               {currentReel.isMainProduct ? (
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onClose();
+                    handleClose();
                     onOpenCheckout();
                   }}
-                  className="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-xl shadow-black/50 transition-all cursor-pointer"
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm flex items-center justify-center gap-1.5 shadow-xl shadow-black/50 transition-all cursor-pointer hover:scale-[1.02] active:scale-95 truncate"
                 >
-                  <span>Get Instant Access — ₹299</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="truncate">
+                    <span className="hidden min-[380px]:inline">Get Instant Access — ₹299</span>
+                    <span className="min-[380px]:hidden">Get Access — ₹299</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
               ) : currentReel.addonId ? (
                 <button
@@ -458,7 +481,7 @@ export default function ReelPreviewModal({
                     e.stopPropagation();
                     onToggleAddon(currentReel.addonId!);
                   }}
-                  className={`w-full py-2.5 px-4 rounded-xl font-black text-xs flex items-center justify-center gap-2 shadow-xl shadow-black/50 transition-all cursor-pointer ${
+                  className={`flex-1 py-2.5 px-3 rounded-xl font-black text-xs min-[360px]:text-sm flex items-center justify-center gap-1.5 shadow-xl shadow-black/50 transition-all cursor-pointer hover:scale-[1.02] active:scale-95 truncate ${
                     isAddonInCart
                       ? "bg-emerald-500 text-slate-950 hover:bg-emerald-400"
                       : "bg-amber-500 hover:bg-amber-400 text-slate-950"
@@ -466,13 +489,19 @@ export default function ReelPreviewModal({
                 >
                   {isAddonInCart ? (
                     <>
-                      <Check className="w-4 h-4 stroke-[3]" />
-                      <span>✓ Added to Order (₹99)</span>
+                      <Check className="w-4 h-4 stroke-[3] shrink-0" />
+                      <span className="truncate">
+                        <span className="hidden min-[380px]:inline">✓ Added to Order (₹99)</span>
+                        <span className="min-[380px]:hidden">✓ Added (₹99)</span>
+                      </span>
                     </>
                   ) : (
                     <>
-                      <Plus className="w-4 h-4 stroke-[3]" />
-                      <span>+ Add to Order (₹99)</span>
+                      <Plus className="w-4 h-4 stroke-[3] shrink-0" />
+                      <span className="truncate">
+                        <span className="hidden min-[380px]:inline">+ Add to Order (₹99)</span>
+                        <span className="min-[380px]:hidden">+ Add (₹99)</span>
+                      </span>
                     </>
                   )}
                 </button>
