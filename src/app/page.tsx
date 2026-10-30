@@ -217,7 +217,7 @@ export default function HomePage() {
                       <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <Play className="w-2 h-2 fill-current ml-0.5" />
                       </span>
-                      <span>Watch 60s Demo</span>
+                      <span>Watch 60-Second Demo</span>
                     </button>
                   </div>
 
@@ -273,7 +273,7 @@ export default function HomePage() {
                           <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Play className="w-2 h-2 fill-current ml-0.5" />
                           </span>
-                          <span>Watch 60s Demo</span>
+                          <span>Watch 60-Second Demo</span>
                         </button>
                       </div>
 
@@ -299,7 +299,7 @@ export default function HomePage() {
                           <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Play className="w-2 h-2 fill-current ml-0.5" />
                           </span>
-                          <span>Watch 60s Demo</span>
+                          <span>Watch 60-Second Demo</span>
                         </button>
                       </div>
 
@@ -325,7 +325,7 @@ export default function HomePage() {
                           <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Play className="w-2 h-2 fill-current ml-0.5" />
                           </span>
-                          <span>Watch 60s Demo</span>
+                          <span>Watch 60-Second Demo</span>
                         </button>
                       </div>
                     </div>
@@ -441,7 +441,7 @@ export default function HomePage() {
                       </p>
                     </Link>
 
-                    {/* See How It Works (60s) Button */}
+                    {/* Watch 60-Second Demo Button */}
                     <button
                       type="button"
                       onClick={() => openReel("main-calculator")}
@@ -450,7 +450,7 @@ export default function HomePage() {
                       <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <Play className="w-2 h-2 fill-current ml-0.5" />
                       </span>
-                      <span>See How It Works (60s)</span>
+                      <span>Watch 60-Second Demo</span>
                     </button>
 
                     {/* Preview Gallery Link */}

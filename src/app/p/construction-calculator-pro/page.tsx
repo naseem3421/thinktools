@@ -251,19 +251,37 @@ export default function ConstructionCalculatorPage() {
 
                 {/* Primary Headline */}
                 <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-950 tracking-tight leading-[1.15]">
-                  Never Overpay a Contractor. Never Misquote a Client.{" "}
+                  Build a Home. Renovate a Flat. Quote a Client.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-2xl lg:text-3xl">
-                    Accurate Material Takeoffs &amp; Cost Control in Minutes.
+                    Complete Cost &amp; Material Control Before You Spend a Single Rupee.
                   </span>
                 </h1>
 
                 {/* Subtitle */}
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
                   <strong className="text-slate-900 font-semibold block mb-0.5">
-                    Engineered for Indian Construction Realities.
+                    The all-in-one Excel estimation system calibrated for Indian site realities:
                   </strong>
-                  Calculate exact cement, steel rebar, sand &amp; tiles before work starts — whether you&apos;re building a home from scratch, renovating an apartment, or handing a transparent quote to a client.
+                  Calculate exact cement, steel, sand &amp; tiles before work starts — designed so home builders never overpay on bills, flat renovators order zero-waste finishes, and small contractors close itemized quotes in minutes.
                 </p>
+
+                {/* Watch 60-Second Demo Button - Placed ABOVE Home Builders for instant mobile visibility */}
+                <div className="pt-1 pb-0.5 flex justify-center lg:justify-start">
+                  <button
+                    type="button"
+                    onClick={() => openReel("main-calculator")}
+                    className="animate-blink-glow w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 py-2.5 sm:py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base border-2 border-amber-300 shadow-md shadow-amber-500/25 transition-all cursor-pointer group hover:scale-[1.02]"
+                  >
+                    <span className="w-6 h-6 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                      <Play className="w-3 h-3 fill-amber-400 ml-0.5" />
+                    </span>
+                    <span className="tracking-tight">Watch 60-Second Demo</span>
+                    <span className="relative flex h-2.5 w-2.5 shrink-0 ml-0.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
+                    </span>
+                  </button>
+                </div>
 
                 {/* 3 Focused Use Cases */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-left pt-0.5">
@@ -273,7 +291,7 @@ export default function ConstructionCalculatorPage() {
                       <span>Home Builders</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">
-                      Exact cement, steel &amp; brick takeoff. Audit contractor claims before payment.
+                      Exact cement, steel &amp; brick takeoff. Audit contractor running bills before releasing payment.
                     </p>
                   </div>
 
@@ -283,7 +301,7 @@ export default function ConstructionCalculatorPage() {
                       <span>Flat Renovators</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">
-                      Kitchen, tiling, paint &amp; bath remodel estimates without foundation clutter.
+                      Room-by-room tile box counts, paint liters &amp; bath remodel costs with zero excess waste.
                     </p>
                   </div>
 
@@ -293,7 +311,7 @@ export default function ConstructionCalculatorPage() {
                       <span>Small Contractors</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">
-                      Itemized client quotes, exact material wastage factors &amp; dispute-free billing.
+                      Itemized client BOQs in 15 mins, exact site wastage factors &amp; dispute-free billing.
                     </p>
                   </div>
                 </div>
@@ -309,21 +327,10 @@ export default function ConstructionCalculatorPage() {
                   <button
                     id="btn-hero-cta"
                     onClick={() => setIsCheckoutOpen(true)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs min-[360px]:text-sm sm:text-base shadow-lg shadow-amber-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
                   >
                     <span>Get Instant Access (₹{product.price})</span>
                     <ArrowRight className="w-4 h-4" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => openReel("main-calculator")}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-xs sm:text-sm shadow-2xs transition-all cursor-pointer group whitespace-nowrap"
-                  >
-                    <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
-                    </span>
-                    <span>See How It Works (60s)</span>
                   </button>
                 </div>
 
@@ -704,7 +711,7 @@ export default function ConstructionCalculatorPage() {
                     <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Play className="w-2 h-2 fill-current ml-0.5" />
                     </span>
-                    <span>See How It Works (60s)</span>
+                    <span>Watch 60-Second Demo</span>
                   </button>
 
                   <button
@@ -894,7 +901,7 @@ export default function ConstructionCalculatorPage() {
                         className="w-full py-1.5 px-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <Play className="w-3 h-3 text-amber-600 fill-amber-500/30" />
-                        <span>See How It Works (60s)</span>
+                        <span>Watch 60-Second Demo</span>
                       </button>
 
                       <button

@@ -442,10 +442,10 @@ export default function CheckoutModal({
                                     onWatchDemo(addon.id);
                                   }}
                                   className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 hover:text-amber-200 border border-amber-400/30 text-[10px] font-bold transition-all cursor-pointer shrink-0 shadow-2xs"
-                                  title={`Watch 60s Demo for ${addon.title}`}
+                                  title={`Watch 60-Second Demo for ${addon.title}`}
                                 >
                                   <Play className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
-                                  <span>Watch Demo</span>
+                                  <span>Watch 60-Second Demo</span>
                                 </button>
                               )}
                             </div>
