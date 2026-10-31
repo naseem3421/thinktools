@@ -1,21 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Inter } from "next/font/google";
 import Script from "next/script";
 import TrackingScripts from "@/components/TrackingScripts";
 import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
-
-const manrope = Manrope({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-});
-
-const inter = Inter({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thinktools.in";
 
@@ -111,10 +98,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${inter.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <head>
         {/* Preconnect to critical tracking and payment CDNs */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
