@@ -1044,8 +1044,8 @@ export default function ConstructionCalculatorPage() {
               <Download className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>
                 {isBundleApplied
-                  ? `Get Complete 4-in-1 Bundle (₹${orderTotal})`
-                  : `Get the Complete Package (₹${orderTotal})`}
+                  ? `Get 4-in-1 Bundle (₹${orderTotal})`
+                  : `Get the Package (₹${orderTotal})`}
               </span>
             </button>
 

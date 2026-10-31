@@ -472,7 +472,7 @@ export default function CheckoutModal({
                   <div className="mt-2.5 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs text-emerald-400">
                     <span className="flex items-center gap-1.5 font-bold text-[11px] sm:text-xs">
                       <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      4-in-1 Complete Bundle Active!
+                      4-in-1 Bundle Active!
                     </span>
                     <span className="font-mono font-extrabold text-[11px] sm:text-xs">-₹97 OFF (Save ₹1,397)</span>
                   </div>
@@ -484,7 +484,7 @@ export default function CheckoutModal({
                   >
                     <span className="flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                      <span>Upgrade to Complete 4-in-1 Bundle for ₹499</span>
+                      <span>Upgrade to 4-in-1 Bundle for ₹499</span>
                     </span>
                     <span className="text-amber-400 font-extrabold text-xs whitespace-nowrap">Save ₹1,397 &rarr;</span>
                   </button>
