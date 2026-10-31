@@ -6,7 +6,7 @@ const pageUrl = `${siteUrl}/p/construction-calculator-pro`;
 export const metadata: Metadata = {
   title: "Construction Calculator Pro — 31-Tab Master Civil Suite & BOQ Estimator",
   description:
-    "Authoritative civil engineering and construction estimation suite for Indian residential and commercial projects. 31 interconnected Excel sheets, IS 456:2000 & CPWD norms, automated steel, cement, brick, tile quantities, contractor bill auditing, and 7 bonus resources. Instant download at ₹299 one-time payment.",
+    "Excel construction cost estimator for Indian residential projects: 31 connected sheets, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
   keywords: [
     "construction calculator pro",
     "excel construction estimator india",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Construction Calculator Pro — 31-Tab Master Civil Suite & Estimator",
     description:
-      "Estimate building materials and organize construction budgets accurately. 31 connected Excel sheets + 43-page guide + 7 bonuses. ₹299 one-time payment.",
+      "Excel construction cost estimator for Indian residential projects: 31 connected sheets, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
     url: pageUrl,
     type: "website",
     siteName: "Thinktools",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         url: `${pageUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "Construction Calculator Pro — 31 Connected Excel Sheets for Civil Estimations",
+        alt: "Construction Calculator Pro — 31 Connected Excel Sheets for Civil Estimations (₹299)",
       },
     ],
   },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Construction Calculator Pro — 31-Tab Master Civil Suite",
     description:
-      "Automated material estimation, CPWD compliance, and contractor bill auditing in Microsoft Excel. ₹299 one-time.",
+      "Excel construction cost estimator for Indian residential projects: 31 connected sheets, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
     images: [`${pageUrl}/opengraph-image`],
   },
   other: {
@@ -200,7 +200,7 @@ export default function ConstructionCalculatorLayout({
           },
           {
             "@type": "Question",
-            "name": "How do I receive the files after paying ₹499?",
+            "name": "How do I receive the files after paying ₹299?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
@@ -222,7 +222,7 @@ export default function ConstructionCalculatorLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
-                "No. Thinktools operates on a transparent single one-time payment of ₹499 with permanent offline access and zero recurring fees or subscriptions.",
+                "No. Thinktools operates on a transparent single one-time payment of ₹299 with permanent offline access and zero recurring fees or subscriptions.",
             },
           },
         ],

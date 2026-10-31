@@ -30,6 +30,7 @@ import {
   BadgeCheck
 } from "lucide-react";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
+import { SHOW_AGGREGATE_STATS, SHOW_TESTIMONIALS } from "@/config/landingConfig";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CalculatorGallery from "@/components/CalculatorGallery";
@@ -198,7 +199,7 @@ export default function ConstructionCalculatorPage() {
     },
   ];
 
-  const loopedReviews = [...siteReviews, ...siteReviews];
+  const loopedReviews = siteReviews;
 
   const filteredSheets = product.workbookSheets.filter(
     (s) =>
@@ -237,11 +238,11 @@ export default function ConstructionCalculatorPage() {
                 <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-amber-500/20 border-2 border-amber-500/70 text-xs text-slate-900 shadow-xs">
                   <span className="flex items-center gap-1.5 font-black text-amber-950 uppercase tracking-wide text-[11px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
-                    👷 Built by a Senior Civil Engineer (10+ Years On-Site)
+                    👷 Built by a Civil Engineer (10+ Years On-Site)
                   </span>
                   <span className="text-amber-400 font-bold hidden sm:inline">•</span>
                   <span className="font-bold text-slate-800 text-[11px] sm:text-xs">
-                    CPWD &amp; IS 456:2000 Aligned
+                    Uses relevant IS &amp; CPWD norms
                   </span>
                   <span className="text-amber-400 font-bold hidden sm:inline">•</span>
                   <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
@@ -253,7 +254,7 @@ export default function ConstructionCalculatorPage() {
                 <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-950 tracking-tight leading-[1.15]">
                   Build a Home. Renovate a Flat. Quote a Client.{" "}
                   <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-2xl lg:text-3xl">
-                    Complete Cost &amp; Material Control Before You Spend a Single Rupee.
+                    Plan Costs and Materials Before You Spend a Single Rupee.
                   </span>
                 </h1>
 
@@ -262,7 +263,7 @@ export default function ConstructionCalculatorPage() {
                   <strong className="text-slate-900 font-semibold block mb-0.5">
                     The all-in-one Excel estimation system calibrated for Indian site realities:
                   </strong>
-                  Calculate exact cement, steel, sand &amp; tiles before work starts — designed so home builders never overpay on bills, flat renovators order zero-waste finishes, and small contractors close itemized quotes in minutes.
+                  Estimate cement, steel, sand and tiles before work starts. Built to help home builders check bills against their own estimate, flat renovators plan their finishes, and small contractors prepare itemized quotes faster.
                 </p>
 
                 {/* Watch 60-Second Demo Button - Placed ABOVE Home Builders for instant mobile visibility */}
@@ -370,7 +371,7 @@ export default function ConstructionCalculatorPage() {
                   <div className="mb-2.5 flex items-center justify-between text-xs px-1">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-black text-[11px] shadow-sm">
                       <BadgeCheck className="w-4 h-4 stroke-[2.5]" />
-                      <span>CIVIL ENGINEER VERIFIED • UNLOCKED EXCEL</span>
+                      <span>BUILT BY A CIVIL ENGINEER • UNLOCKED EXCEL</span>
                     </div>
                     <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
                       <Sparkles className="w-3.5 h-3.5 text-amber-600" />
@@ -394,7 +395,7 @@ export default function ConstructionCalculatorPage() {
                 The Site Engineer&apos;s Advantage
               </span>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 mt-2 tracking-tight">
-                Why &ldquo;Civil Engineer Built&rdquo; Saves You Lakhs on Site
+                Why &ldquo;Civil Engineer Built&rdquo; Matters on Site
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1.5 max-w-xl mx-auto leading-relaxed">
                 Generic internet templates are built by spreadsheet creators who have never poured a slab. Construction Calculator Pro was built by an Indian site engineer with 10+ years managing real residential and commercial builds.
@@ -408,10 +409,10 @@ export default function ConstructionCalculatorPage() {
                   📐
                 </div>
                 <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
-                  1. Official Indian Standards (IS 456 &amp; CPWD)
+                  1. Indian Standards Reference (IS 456 &amp; CPWD)
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Mix designs for M20, M25 concrete, 1:4 and 1:6 masonry mortar, and IS 1786 rebar densities are pre-programmed. Not copied from foreign YouTube templates, but calibrated directly to official Indian standards.
+                  Mix designs for M20 and M25 concrete, 1:4 and 1:6 masonry mortar, and IS 1786 rebar densities are built in, based on relevant Indian standards within the scope documented in the files.
                 </p>
               </div>
 
@@ -434,10 +435,10 @@ export default function ConstructionCalculatorPage() {
                   🔍
                 </div>
                 <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
-                  3. Contractor-Proof Bill Auditing
+                  3. Contractor Bill Check
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Includes the exact Running Account (RA) Bill audit formulas senior engineers use on site: automatically red-flags any contractor claim exceeding 5% variance and verifies empty cement bags before releasing payouts.
+                  Includes Running Account (RA) bill-check formulas that flag items where a billed quantity differs from your own estimate by more than 5%. Use it to ask better questions before you release a payment. It is a checking aid, not an audit or a legal service.
                 </p>
               </div>
             </div>
@@ -473,15 +474,15 @@ export default function ConstructionCalculatorPage() {
                   <div className="space-y-2.5 text-xs text-slate-700">
                     <div className="flex items-start gap-2">
                       <span className="text-rose-600 font-bold shrink-0">✕</span>
-                      <span><strong>Vague Lump-Sum Quotes:</strong> Unitemized sq.ft rates that escalate 20–40% midway through construction.</span>
+                      <span><strong>Vague Lump-Sum Quotes:</strong> Unitemized sq.ft rates that are hard to compare and can grow midway through construction.</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-rose-600 font-bold shrink-0">✕</span>
-                      <span><strong>Blind Material Ordering:</strong> Guessing cement, sand &amp; steel causes on-site theft, excess waste, and shortages.</span>
+                      <span><strong>Blind Material Ordering:</strong> Guessing cement, sand &amp; steel causes excess waste, material shortfalls and extra expenses.</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-rose-600 font-bold shrink-0">✕</span>
-                      <span><strong>Unverified Running Bills:</strong> Bills skip opening deductions (doors/windows), overbilling thousands in non-existent work.</span>
+                      <span><strong>Unverified Running Bills:</strong> Bills skip opening deductions (doors/windows), and can overbill for work that was not done.</span>
                     </div>
                     <div className="flex items-start gap-2">
                       <span className="text-rose-600 font-bold shrink-0">✕</span>
@@ -552,7 +553,7 @@ export default function ConstructionCalculatorPage() {
                   Side-By-Side Comparison
                 </span>
                 <h3 className="text-lg sm:text-xl font-black text-slate-950 mt-1.5">
-                  Generic Free Template vs. Civil Engineer Built Toolkit
+                  Free Templates vs. Civil Engineer Built Toolkit
                 </h3>
               </div>
 
@@ -562,7 +563,7 @@ export default function ConstructionCalculatorPage() {
                     <tr className="border-b border-slate-200">
                       <th className="py-3 px-3 sm:px-4 text-slate-500 font-semibold w-1/3">Feature / Capability</th>
                       <th className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/60 font-bold w-1/3 rounded-t-xl">
-                        Generic Free / YouTube Template
+                        Many free templates
                       </th>
                       <th className="py-3 px-3 sm:px-4 text-emerald-800 bg-emerald-50/80 font-black w-1/3 rounded-t-xl border-2 border-emerald-400 border-b-0">
                         Construction Calculator Pro (Engineer Built)
@@ -573,16 +574,16 @@ export default function ConstructionCalculatorPage() {
                     <tr>
                       <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Engineering Standards</td>
                       <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
-                        ❌ Generic guesswork; non-compliant with Indian codes
+                        ❌ Often generic guesswork; may not align with Indian codes
                       </td>
                       <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
-                        ✅ Strictly aligned with IS 456:2000, IS 1200 &amp; CPWD DSR
+                        ✅ Built with reference to relevant IS and CPWD norms (see scope in the files)
                       </td>
                     </tr>
                     <tr>
                       <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Unit Flexibility</td>
                       <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
-                        ❌ Rigid single unit; formulas break when mixing units
+                        ❌ Often rigid single unit; formulas may break when mixing units
                       </td>
                       <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
                         ✅ 1-Click toggle between Feet/Inches (Residential) &amp; Metres
@@ -591,7 +592,7 @@ export default function ConstructionCalculatorPage() {
                     <tr>
                       <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Site Wastage Margins</td>
                       <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
-                        ❌ Assumes 0% waste; causes shortages &amp; site halts
+                        ❌ Often assumes 0% waste; can cause shortages &amp; site halts
                       </td>
                       <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
                         ✅ Built-in 3–5% rebar cutting, 5–8% mortar &amp; tile buffers
@@ -600,19 +601,19 @@ export default function ConstructionCalculatorPage() {
                     <tr>
                       <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Contractor Bill Auditing</td>
                       <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
-                        ❌ Estimate only; cannot cross-check running bills
+                        ❌ Often estimate only; may not cross-check running bills
                       </td>
                       <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
-                        ✅ Automated 5% variance alert catches contractor overbilling
+                        ✅ 5% variance flag highlights bill items to review
                       </td>
                     </tr>
                     <tr>
                       <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Excel Compatibility</td>
                       <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30 rounded-b-xl">
-                        ❌ Complex macros or password-locked cells that crash
+                        ❌ May rely on complex macros or password-locked cells
                       </td>
                       <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-2 border-emerald-400 border-t-0 rounded-b-xl">
-                        ✅ 100% unlocked formulas, zero VBA macros, works on all versions
+                        ✅ Built for Microsoft Excel (Windows and Mac). No macros. Not for Google Sheets.
                       </td>
                     </tr>
                   </tbody>
@@ -630,7 +631,7 @@ export default function ConstructionCalculatorPage() {
                 Paisa Vasool Math
               </span>
               <h2 className="text-lg sm:text-2xl font-black text-slate-950 mt-1">
-                Why ₹299 is Less Than 0.02% of Your Build
+                Why ₹299 is a Small Part of Your Build (of a ₹15 lakh+ build)
               </h2>
             </div>
 
@@ -652,13 +653,13 @@ export default function ConstructionCalculatorPage() {
               </div>
               <div className="bg-amber-500 text-slate-950 p-2.5 sm:p-3 rounded-xl border border-amber-400 shadow-md flex flex-col justify-center">
                 <span className="text-[11px] font-bold block truncate">Construction Calculator Pro</span>
-                <span className="text-sm sm:text-lg font-black font-mono mt-0.5">₹299 (Lifetime)</span>
-                <span className="text-[10px] text-slate-900/80 font-semibold block mt-0.5">Lifetime Project ROI</span>
+                <span className="text-sm sm:text-lg font-black font-mono mt-0.5">₹299 (one-time)</span>
+                <span className="text-[10px] text-slate-900/80 font-semibold block mt-0.5">One-time payment</span>
               </div>
             </div>
 
             <p className="text-center text-xs text-slate-700 mt-3 sm:mt-4 max-w-2xl mx-auto leading-relaxed">
-              💡 <strong>The bottom line:</strong> If this spreadsheet catches just <strong>10 extra bags of cement</strong> or <strong>50 kg of steel</strong> overbilling on site, it pays for itself 10x over on day one.
+              💡 <strong>The bottom line:</strong> If it helps you spot even 10 extra bags of cement on a bill, that is already more than the price of the toolkit.
             </p>
           </div>
         </section>
@@ -964,6 +965,7 @@ export default function ConstructionCalculatorPage() {
         </section>
 
         {/* 7. VERIFIED REVIEWS MARQUEE */}
+        {SHOW_TESTIMONIALS && (
         <section className="py-6 sm:py-8 bg-[#0a0f16] text-white border-y border-slate-800 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-3.5 sm:px-6 relative z-10 mb-4 sm:mb-6 text-center">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-1.5">
@@ -973,20 +975,22 @@ export default function ConstructionCalculatorPage() {
             <h2 className="text-lg sm:text-2xl font-black text-white tracking-tight">
               Used on 250+ Construction Sites Across India
             </h2>
-            <div className="mt-2 inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-xs">
-              <div className="flex items-center gap-0.5 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                ))}
+            {SHOW_AGGREGATE_STATS && (
+              <div className="mt-2 inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-xs">
+                <div className="flex items-center gap-0.5 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="font-bold text-slate-200">
+                  <strong className="text-white">4.9 / 5</strong> Rating
+                </span>
+                <span className="text-slate-600 hidden sm:inline">•</span>
+                <span className="text-emerald-400 flex items-center gap-1 font-semibold">
+                  <BadgeCheck className="w-3.5 h-3.5" /> 100% Verified Excel Buyers
+                </span>
               </div>
-              <span className="font-bold text-slate-200">
-                <strong className="text-white">4.9 / 5</strong> Rating
-              </span>
-              <span className="text-slate-600 hidden sm:inline">•</span>
-              <span className="text-emerald-400 flex items-center gap-1 font-semibold">
-                <BadgeCheck className="w-3.5 h-3.5" /> 100% Verified Excel Buyers
-              </span>
-            </div>
+            )}
           </div>
 
           {/* Marquee Track */}
@@ -1042,6 +1046,7 @@ export default function ConstructionCalculatorPage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* 8. PRICING & OFFER CARD (DYNAMIC & COMPACT) */}
         <section className="py-5 sm:py-7 max-w-2xl mx-auto px-3.5 sm:px-6">

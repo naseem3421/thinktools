@@ -35,12 +35,12 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
     shortLabel: "13. Cost Estimate",
     category: "budget",
     categoryLabel: "Cost & Budget",
-    headline: "Know your full build cost before you sign",
+    headline: "See your estimated build cost before you sign",
     subtitle: "Every cost line, contingency and headroom vs. budget",
     imageSrc: "/screenshots/01_cost_estimate.webp",
     thumbSrc: "/screenshots/thumb_01_cost_estimate.webp",
-    altText: "Tab 13 Cost Estimate - Know your full build cost before you sign",
-    keyMetric: "Subtotal, 10% contingency, ₹17,08,134 at ₹1,139/sq.ft"
+    altText: "Tab 13 Cost Estimate - See your estimated build cost before you sign",
+    keyMetric: "Subtotal, 10% contingency, ₹17,08,134 at ₹1,139/sq.ft (sample project)"
   },
   {
     id: "dashboard",

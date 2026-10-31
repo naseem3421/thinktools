@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "Construction Calculator Pro — 31-Tab Master Civil Suite (₹499)";
+export const alt = "Construction Calculator Pro — 31-Tab Master Civil Suite (₹299)";
 export const size = {
   width: 1200,
   height: 630,
@@ -72,7 +72,7 @@ export default async function Image() {
                 fontWeight: "900",
               }}
             >
-              INR 499 ONLY
+              INR 299 ONLY
             </div>
           </div>
         </div>

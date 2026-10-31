@@ -65,6 +65,7 @@ export default function ReelPreviewModal({
 
   const currentIndex = reelList.findIndex((r) => r.id === activeReelId);
   const currentReel = reelList[currentIndex] || reelList[0];
+  const [videoSrc, setVideoSrc] = useState<string>(currentReel.src);
 
   const ADDON_SHORT_TITLES: Record<string, string> = {
     "site-expense-profit-tracker": "Site Expense",
@@ -162,7 +163,6 @@ export default function ReelPreviewModal({
     };
   }, [activeReelId, isOpen, currentReel.src]);
 
-  const [videoSrc, setVideoSrc] = useState<string>(currentReel.src);
 
   const handleVideoError = () => {
     if (videoSrc === currentReel.src && !videoSrc.endsWith(".mp4.mp4")) {
