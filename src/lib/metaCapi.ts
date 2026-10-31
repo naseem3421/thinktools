@@ -16,6 +16,7 @@ export interface CapiCustomData {
   content_name?: string;
   content_ids?: string[];
   content_type?: string;
+  num_items?: number;
   order_id?: string;
 }
 
@@ -136,6 +137,14 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
       // Never log accessToken or PII
       console.error("[Meta CAPI] Event dispatch rejected: HTTP", res.status, errText);
       return false;
+    }
+
+    if (process.env.NODE_ENV === "development") {
+      console.log("[Meta Tracking]", {
+        event_name: params.eventName,
+        event_id: params.eventId,
+        source: "server",
+      });
     }
 
     return true;

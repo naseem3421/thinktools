@@ -204,10 +204,13 @@ export async function dispatchCapiPurchaseWithIdempotency(
       return { success: true, alreadySent: true };
     }
 
-    // Step 4: Dispatch CAPI Purchase with event_id matching String(order.id)
+    // Step 4: Dispatch CAPI Purchase with event_id matching browser eventID (purchase_<orderId>)
+    const eventId = `purchase_${String(orderId).trim()}`;
+    const numItems = params.contentIds && params.contentIds.length > 0 ? params.contentIds.length : 1;
+
     const success = await sendMetaCapiEvent({
       eventName: "Purchase",
-      eventId: String(orderId),
+      eventId,
       user: params.user,
       customData: {
         value: params.amount,
@@ -215,6 +218,7 @@ export async function dispatchCapiPurchaseWithIdempotency(
         content_name: params.fullOrderTitle,
         content_ids: params.contentIds,
         content_type: "product",
+        num_items: numItems,
         order_id: String(orderId),
       },
       eventSourceUrl: params.eventSourceUrl || `https://thinktools.in/p/${params.productSlug}/download`,

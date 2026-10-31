@@ -36,8 +36,8 @@ This protocol guides you through verifying that browser Pixel and server CAPI Pu
 4. After payment authorization:
    - The browser automatically navigates to the confirmation page:
      `/p/construction-calculator-pro/download?order_id=order_xxxx&payment_id=pay_xxxx&amount=299`
-   - The download page fires the browser Pixel `Purchase` event **once** with `eventID: "order_xxxx"`.
-   - The server `/api/verify-payment` endpoint dispatches the server CAPI `Purchase` event **once** with `event_id: "order_xxxx"`.
+   - The download page fires the browser Pixel `Purchase` event **once** with `eventID: "purchase_order_xxxx"`.
+   - The server `/api/verify-payment` endpoint dispatches the server CAPI `Purchase` event **once** with `event_id: "purchase_order_xxxx"`.
 
 ---
 
@@ -49,16 +49,19 @@ In Meta Events Manager > **Test events** live feed, inspect the incoming events:
    - **Signal 1:** `Purchase` from **Browser** (`Pixel 1643533957395571`).
    - **Signal 2:** `Purchase` from **Server** (`Conversions API`).
 2. **Matching Event ID:**
-   - Click on the Browser `Purchase` event &rarr; verify `Event ID: order_xxxx`.
-   - Click on the Server `Purchase` event &rarr; verify `Event ID: order_xxxx`.
+   - Click on the Browser `Purchase` event &rarr; verify `Event ID: purchase_order_xxxx`.
+   - Click on the Server `Purchase` event &rarr; verify `Event ID: purchase_order_xxxx`.
 3. **Matching Parameters:**
    - Value: `299` (or the bundle total if add-ons were selected).
    - Currency: `INR`.
+   - Content IDs: `["construction-calculator-pro", ...addonIds]`.
+   - Content Type: `product`.
+   - Num Items: `1` (or `1 + addon count`).
 4. **Deduplication Badge:**
    - Meta will automatically group the two events into a single conversion row labeled **"Deduplicated"** (`Processed: 1 Purchase`).
 5. **Reload / Re-entry Protection Test:**
    - Refresh the `/download` page in your browser.
-   - Check Meta Events Manager: **zero new events** are recorded. The `localStorage` guard (`fb_purchase_order_xxxx`) prevents duplicate client-side triggers.
+   - Check Meta Events Manager: **zero new events** are recorded. The dual storage guard (`sessionStorage` and `localStorage` with key `thinktools_purchased_order_xxxx`) prevents duplicate client-side triggers.
    - Re-send or retry `/api/verify-payment` via cURL or Postman: **zero new CAPI events** are dispatched. The persistent atomic lock on `capi_purchase_sent: true` prevents duplicate server transmissions.
 
 ---

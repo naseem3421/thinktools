@@ -48,8 +48,8 @@ function DownloadContent() {
   const defaultAmount = calculatedBase + calculatedAddons - calculatedDiscount;
   const purchaseValue = !isNaN(rawAmount) && rawAmount > 0 ? rawAmount : defaultAmount;
 
-  // Exactly ONE browser-side Purchase event with matching eventID = String(order.id)
-  // Protected against reloads with localStorage key: "fb_purchase_" + orderId
+  // Exactly ONE browser-side Purchase event with matching eventID = "purchase_" + orderId
+  // Protected against reloads and back-navigation with sessionStorage + localStorage guards
   const purchaseFiredRef = useRef(false);
 
   useEffect(() => {
@@ -57,21 +57,30 @@ function DownloadContent() {
     if (!orderId || orderId === "TT-839201") return;
     if (purchaseFiredRef.current) return;
 
-    const storageKey = `fb_purchase_${orderId}`;
+    const storageKey = `thinktools_purchased_${orderId}`;
     try {
-      if (typeof window !== "undefined" && window.localStorage) {
-        if (window.localStorage.getItem(storageKey)) {
+      if (typeof window !== "undefined") {
+        const inSession = window.sessionStorage?.getItem(storageKey);
+        const inLocal = window.localStorage?.getItem(storageKey);
+        if (inSession || inLocal) {
+          purchaseFiredRef.current = true;
           return;
         }
-        window.localStorage.setItem(storageKey, "1");
+        window.sessionStorage?.setItem(storageKey, "1");
+        window.localStorage?.setItem(storageKey, "1");
       }
     } catch {
-      // Ignore localStorage restrictions in private browsing modes
+      // Ignore storage restrictions in private browsing modes
     }
 
     purchaseFiredRef.current = true;
 
-    // 1. Meta Pixel Purchase event with matching eventID
+    const eventId = `purchase_${String(orderId).trim()}`;
+    const productSlug = "construction-calculator-pro";
+    const contentIds = [productSlug, ...purchasedAddons.map((a) => a.id)];
+    const numItems = 1 + purchasedAddons.length;
+
+    // 1. Meta Pixel Purchase event with matching eventID and deduplication payload
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
       window.fbq(
         "track",
@@ -79,9 +88,20 @@ function DownloadContent() {
         {
           value: purchaseValue,
           currency: "INR",
+          content_ids: contentIds,
+          content_type: "product",
+          num_items: numItems,
         },
-        { eventID: String(orderId) }
+        { eventID: eventId }
       );
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("[Meta Tracking]", {
+          event_name: "Purchase",
+          event_id: eventId,
+          source: "browser",
+        });
+      }
     }
 
     // 2. GA4 Purchase event for consistency
@@ -90,9 +110,13 @@ function DownloadContent() {
         transaction_id: String(orderId),
         value: purchaseValue,
         currency: "INR",
+        items: [
+          { item_id: productSlug, item_name: "Construction Calculator Pro" },
+          ...purchasedAddons.map((a) => ({ item_id: a.id, item_name: a.title })),
+        ],
       });
     }
-  }, [orderId, purchaseValue]);
+  }, [orderId, purchaseValue, addonsParam]);
 
   const isGmail = decodedEmail.toLowerCase().includes("@gmail.com");
   const emailClientUrl = isGmail ? "https://mail.google.com/mail/u/0/#search/thinktools" : `mailto:`;
