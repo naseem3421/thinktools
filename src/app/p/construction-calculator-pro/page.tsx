@@ -15,7 +15,6 @@ import {
   Sliders,
   ChevronDown,
   X,
-  Award,
   Layers,
   XCircle,
   Mail,
@@ -381,65 +380,6 @@ export default function ConstructionCalculatorPage() {
 
                   <CalculatorGallery onUnlockClick={() => setIsCheckoutOpen(true)} />
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 1.5 THE CIVIL ENGINEER DIFFERENCE - 3 KEY PILLARS */}
-        <section className="py-8 sm:py-11 bg-gradient-to-b from-white via-amber-50/25 to-white border-y border-amber-200/70 shadow-2xs">
-          <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-7 sm:mb-9">
-              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-950 bg-amber-100 border border-amber-300 px-3.5 py-1 rounded-full shadow-2xs">
-                <Award className="w-3.5 h-3.5 text-amber-700" />
-                The Site Engineer&apos;s Advantage
-              </span>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 mt-2 tracking-tight">
-                Why &ldquo;Civil Engineer Built&rdquo; Matters on Site
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 mt-1.5 max-w-xl mx-auto leading-relaxed">
-                Generic internet templates are built by spreadsheet creators who have never poured a slab. Construction Calculator Pro was built by an Indian site engineer with 10+ years managing real residential and commercial builds.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-              {/* Pillar 1 */}
-              <div className="bg-white border-2 border-amber-200/80 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-shadow relative">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-800 flex items-center justify-center font-bold text-lg mb-3.5">
-                  📐
-                </div>
-                <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
-                  1. Indian Standards Reference (IS 456 &amp; CPWD)
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Mix designs for M20 and M25 concrete, 1:4 and 1:6 masonry mortar, and IS 1786 rebar densities are built in, based on relevant Indian standards within the scope documented in the files.
-                </p>
-              </div>
-
-              {/* Pillar 2 */}
-              <div className="bg-white border-2 border-amber-200/80 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-shadow relative">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-800 flex items-center justify-center font-bold text-lg mb-3.5">
-                  🧱
-                </div>
-                <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
-                  2. Real Job-Site Wastage Calculations
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Free spreadsheets assume 0% waste and leave you short mid-pour. This toolkit includes real-world 3–5% steel cutting scrap, 5–8% mortar spillage, and tile cutting margins so your work never halts.
-                </p>
-              </div>
-
-              {/* Pillar 3 */}
-              <div className="bg-white border-2 border-amber-200/80 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-shadow relative">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-800 flex items-center justify-center font-bold text-lg mb-3.5">
-                  🔍
-                </div>
-                <h3 className="font-extrabold text-slate-950 text-base mb-1.5">
-                  3. Contractor Bill Check
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Includes Running Account (RA) bill-check formulas that flag items where a billed quantity differs from your own estimate by more than 5%. Use it to ask better questions before you release a payment. It is a checking aid, not an audit or a legal service.
-                </p>
               </div>
             </div>
           </div>
