@@ -319,7 +319,7 @@ export default function ConstructionCalculatorPage() {
                 {/* Micro-Value Pill */}
                 <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs text-emerald-900 font-semibold">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>₹299 one-time payment provides a structured estimation framework for your project</span>
+                  <span>One-time payment provides a structured estimation framework for your project</span>
                 </div>
 
                 {/* Action CTA Group */}
@@ -448,7 +448,7 @@ export default function ConstructionCalculatorPage() {
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-snug">With Construction Calculator Pro (₹299)</h3>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-snug">With Construction Calculator Pro</h3>
                       <span className="text-[11px] text-emerald-800 font-semibold font-mono block">CPWD &amp; IS Code Aligned Toolkit</span>
                     </div>
                   </div>
@@ -474,7 +474,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-2.5">
-                  <span className="text-xs font-bold text-emerald-900 text-center sm:text-left">31 Connected Sheets · Complete Suite · ₹299</span>
+                  <span className="text-xs font-bold text-emerald-900 text-center sm:text-left">31 Connected Sheets · Complete Suite</span>
                   <button
                     onClick={() => setIsCheckoutOpen(true)}
                     className="w-full sm:w-auto py-2 px-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all whitespace-nowrap"
@@ -609,7 +609,7 @@ export default function ConstructionCalculatorPage() {
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
             <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
               <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
-                Everything Included In The ₹299 Package
+                Complete Deliverables Package
               </span>
               <h2 className="text-xl sm:text-3xl font-extrabold text-slate-950 mt-1.5">
                 Complete Construction Toolkit Box
@@ -724,7 +724,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 <div className="mt-4 pt-2.5 border-t border-slate-200 text-[11px] text-slate-500 font-medium flex items-center justify-between">
-                  <span>Included in ₹299 Package</span>
+                  <span>Included in Master Toolkit</span>
                   <span className="font-semibold text-slate-700">7 Reference Files</span>
                 </div>
               </div>
@@ -765,7 +765,7 @@ export default function ConstructionCalculatorPage() {
                     Construction Calculator Pro + All 3 Essential Site Tools (₹499)
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    Individual tool price: ₹596 (₹299 + 3×₹99) • Bundle: ₹499 (Save an extra ₹97 • ₹1,896 total retail value)
+                    Individual tool price: ₹596 (Core toolkit + 3 site tools) • Bundle: ₹499 (Save an extra ₹97 • ₹1,896 total retail value)
                   </p>
                 </div>
 
@@ -818,7 +818,7 @@ export default function ConstructionCalculatorPage() {
                           {addon.badge || "Excel Tool"}
                         </span>
                         <div className="flex items-baseline gap-1.5">
-                          <span className="text-xs text-slate-400 line-through font-mono">₹{addon.originalPrice}</span>
+                          <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Add-on:</span>
                           <span className="text-base font-black font-mono text-slate-900">₹{addon.price}</span>
                         </div>
                       </div>
@@ -1056,7 +1056,7 @@ export default function ConstructionCalculatorPage() {
                   onClick={() => setSelectedAddonIds([])}
                   className="text-[11px] text-slate-500 hover:text-slate-800 underline transition-colors cursor-pointer"
                 >
-                  Or get standalone calculator package only for ₹299
+                  Or get the standalone calculator package only
                 </button>
               </div>
             )}
