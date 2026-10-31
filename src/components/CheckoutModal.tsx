@@ -441,11 +441,15 @@ export default function CheckoutModal({
                                     e.stopPropagation();
                                     onWatchDemo(addon.id);
                                   }}
-                                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 hover:text-amber-200 border border-amber-400/30 text-[10px] font-bold transition-all cursor-pointer shrink-0 shadow-2xs"
+                                  className="animate-blink-glow inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-500 hover:bg-amber-400 text-slate-950 border border-amber-300 text-[10px] font-black transition-all cursor-pointer shrink-0 shadow-xs shadow-amber-500/25"
                                   title={`Watch 60-Second Demo for ${addon.title}`}
                                 >
-                                  <Play className="w-2.5 h-2.5 fill-amber-300 text-amber-300" />
+                                  <Play className="w-2.5 h-2.5 fill-slate-950 text-slate-950" />
                                   <span>Watch 60-Second Demo</span>
+                                  <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                                  </span>
                                 </button>
                               )}
                             </div>

@@ -647,12 +647,16 @@ export default function ConstructionCalculatorPage() {
                   <button
                     type="button"
                     onClick={() => openReel("main-calculator")}
-                    className="w-full py-2 px-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-300 text-amber-950 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer group"
+                    className="animate-blink-glow w-full py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 border-2 border-amber-300 text-slate-950 font-extrabold text-xs shadow-md shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer group hover:scale-[1.01]"
                   >
-                    <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-2 h-2 fill-current ml-0.5" />
+                    <span className="w-5 h-5 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                      <Play className="w-2.5 h-2.5 fill-amber-400 ml-0.5" />
                     </span>
-                    <span>Watch 60-Second Demo</span>
+                    <span className="tracking-tight">Watch 60-Second Demo</span>
+                    <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                    </span>
                   </button>
 
                   <button
@@ -839,10 +843,16 @@ export default function ConstructionCalculatorPage() {
                       <button
                         type="button"
                         onClick={() => openReel(addon.id)}
-                        className="w-full py-1.5 px-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                        className="animate-blink-glow w-full py-2 px-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 font-extrabold text-xs shadow-sm shadow-amber-500/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer group hover:scale-[1.01]"
                       >
-                        <Play className="w-3 h-3 text-amber-600 fill-amber-500/30" />
-                        <span>Watch 60-Second Demo</span>
+                        <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                          <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
+                        </span>
+                        <span className="tracking-tight">Watch 60-Second Demo</span>
+                        <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                        </span>
                       </button>
 
                       <button

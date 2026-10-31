@@ -212,12 +212,16 @@ export default function HomePage() {
                     <button
                       type="button"
                       onClick={() => openReel("main-calculator")}
-                      className="py-1 px-2.5 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-300 hover:border-amber-400 text-slate-800 hover:text-amber-950 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                      className="animate-blink-glow py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-amber-500/25 transition-all cursor-pointer group hover:scale-[1.02]"
                     >
-                      <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Play className="w-2 h-2 fill-current ml-0.5" />
+                      <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                        <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                       </span>
                       <span>Watch 60-Second Demo</span>
+                      <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                      </span>
                     </button>
                   </div>
 
@@ -268,12 +272,16 @@ export default function HomePage() {
                         <button
                           type="button"
                           onClick={() => openReel("site-expense-profit-tracker")}
-                          className="mt-2 w-full py-1 px-2 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-950 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                          className="animate-blink-glow mt-2 w-full py-1.5 px-2 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 text-[10px] font-extrabold flex items-center justify-center gap-1.5 shadow-xs shadow-amber-500/20 transition-all cursor-pointer group hover:scale-[1.01]"
                         >
-                          <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Play className="w-2 h-2 fill-current ml-0.5" />
+                          <span className="w-3.5 h-3.5 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                           </span>
                           <span>Watch 60-Second Demo</span>
+                          <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                          </span>
                         </button>
                       </div>
 
@@ -294,12 +302,16 @@ export default function HomePage() {
                         <button
                           type="button"
                           onClick={() => openReel("labour-attendance-weekly-wage-sheet")}
-                          className="mt-2 w-full py-1 px-2 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-950 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                          className="animate-blink-glow mt-2 w-full py-1.5 px-2 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 text-[10px] font-extrabold flex items-center justify-center gap-1.5 shadow-xs shadow-amber-500/20 transition-all cursor-pointer group hover:scale-[1.01]"
                         >
-                          <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Play className="w-2 h-2 fill-current ml-0.5" />
+                          <span className="w-3.5 h-3.5 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                           </span>
                           <span>Watch 60-Second Demo</span>
+                          <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                          </span>
                         </button>
                       </div>
 
@@ -320,12 +332,16 @@ export default function HomePage() {
                         <button
                           type="button"
                           onClick={() => openReel("payment-collection-tracker")}
-                          className="mt-2 w-full py-1 px-2 rounded-lg bg-white hover:bg-amber-100/70 border border-slate-200 hover:border-amber-300 text-slate-700 hover:text-amber-950 text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs group"
+                          className="animate-blink-glow mt-2 w-full py-1.5 px-2 rounded-lg bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 text-[10px] font-extrabold flex items-center justify-center gap-1.5 shadow-xs shadow-amber-500/20 transition-all cursor-pointer group hover:scale-[1.01]"
                         >
-                          <span className="w-3.5 h-3.5 rounded-full bg-amber-500/20 text-amber-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Play className="w-2 h-2 fill-current ml-0.5" />
+                          <span className="w-3.5 h-3.5 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                           </span>
                           <span>Watch 60-Second Demo</span>
+                          <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                          </span>
                         </button>
                       </div>
                     </div>
@@ -445,12 +461,16 @@ export default function HomePage() {
                     <button
                       type="button"
                       onClick={() => openReel("main-calculator")}
-                      className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-800 font-bold text-xs shadow-2xs transition-all cursor-pointer group"
+                      className="animate-blink-glow w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 font-black text-xs shadow-md shadow-amber-500/25 transition-all cursor-pointer group hover:scale-[1.01]"
                     >
-                      <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Play className="w-2 h-2 fill-current ml-0.5" />
+                      <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                        <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                       </span>
                       <span>Watch 60-Second Demo</span>
+                      <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                      </span>
                     </button>
 
                     {/* Preview Gallery Link */}
