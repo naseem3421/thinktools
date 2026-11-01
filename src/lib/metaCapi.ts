@@ -1,5 +1,13 @@
 import crypto from "crypto";
 
+/** SHA-256 hex digests captured in the browser (see src/lib/visitorIdentity.ts). */
+export interface CapiHashedIdentity {
+  em?: string;
+  ph?: string;
+  fn?: string;
+  ln?: string;
+}
+
 export interface CapiUserData {
   email?: string;
   phone?: string;
@@ -8,6 +16,25 @@ export interface CapiUserData {
   userAgent?: string;
   fbp?: string;
   fbc?: string;
+  /** First-party anonymous visitor id (tt_eid cookie). Hashed before sending. */
+  externalId?: string;
+  /** Already-hashed customer details remembered by the browser; used only to fill gaps. */
+  hashed?: CapiHashedIdentity;
+}
+
+const SHA256_HEX = /^[a-f0-9]{64}$/;
+const VISITOR_ID_PATTERN = /^[A-Za-z0-9_-]{8,64}$/;
+
+/** Keeps only well-formed SHA-256 hex values from untrusted input. */
+export function sanitizeHashedIdentity(raw: unknown): CapiHashedIdentity | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const src = raw as Record<string, unknown>;
+  const out: CapiHashedIdentity = {};
+  for (const key of ["em", "ph", "fn", "ln"] as const) {
+    const v = src[key];
+    if (typeof v === "string" && SHA256_HEX.test(v)) out[key] = v;
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }
 
 export interface CapiCustomData {
@@ -95,8 +122,32 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
       userData.fbp = params.user.fbp;
     }
 
-    if (params.user.fbc) {
-      userData.fbc = params.user.fbc;
+    // Fall back to building fbc from ?fbclid= when the _fbc cookie is not available yet
+    let fbc = params.user.fbc;
+    if (!fbc && params.eventSourceUrl) {
+      try {
+        const fbclid = new URL(params.eventSourceUrl).searchParams.get("fbclid");
+        if (fbclid && /^[\w-]{8,512}$/.test(fbclid)) fbc = `fb.1.${Date.now()}.${fbclid}`;
+      } catch {
+        // ignore malformed URL
+      }
+    }
+    if (fbc) {
+      userData.fbc = fbc;
+    }
+
+    // Stable anonymous visitor id: lets Meta link every event from the same visitor
+    if (params.user.externalId && VISITOR_ID_PATTERN.test(params.user.externalId)) {
+      userData.external_id = [sha256(params.user.externalId)];
+    }
+
+    // Customer details remembered by the browser (already hashed) fill whatever raw data did not provide
+    const hashed = params.user.hashed;
+    if (hashed) {
+      if (!userData.em && hashed.em) userData.em = [hashed.em];
+      if (!userData.ph && hashed.ph) userData.ph = [hashed.ph];
+      if (!userData.fn && hashed.fn) userData.fn = [hashed.fn];
+      if (!userData.ln && hashed.ln) userData.ln = [hashed.ln];
     }
 
     const eventPayload: Record<string, unknown> = {
@@ -159,12 +210,24 @@ export async function sendMetaCapiEvent(params: MetaCapiParams): Promise<boolean
  * Extracts Meta _fbp (browser ID) and _fbc (click ID) cookies from request headers
  * to significantly improve Conversions API Event Match Quality (EMQ) and deduplication.
  */
-export function extractMetaCookies(cookieHeader: string | null | undefined): { fbp?: string; fbc?: string } {
+export function extractMetaCookies(
+  cookieHeader: string | null | undefined
+): { fbp?: string; fbc?: string; externalId?: string } {
   if (!cookieHeader) return {};
   const fbpMatch = cookieHeader.match(/(?:^|;\s*)_fbp=([^;]+)/);
   const fbcMatch = cookieHeader.match(/(?:^|;\s*)_fbc=([^;]+)/);
+  const eidMatch = cookieHeader.match(/(?:^|;\s*)tt_eid=([^;]+)/);
+  const safeDecode = (v: string) => {
+    try {
+      return decodeURIComponent(v);
+    } catch {
+      return undefined;
+    }
+  };
+  const externalId = eidMatch ? safeDecode(eidMatch[1]) : undefined;
   return {
-    fbp: fbpMatch ? decodeURIComponent(fbpMatch[1]) : undefined,
-    fbc: fbcMatch ? decodeURIComponent(fbcMatch[1]) : undefined,
+    fbp: fbpMatch ? safeDecode(fbpMatch[1]) : undefined,
+    fbc: fbcMatch ? safeDecode(fbcMatch[1]) : undefined,
+    externalId: externalId && VISITOR_ID_PATTERN.test(externalId) ? externalId : undefined,
   };
 }
