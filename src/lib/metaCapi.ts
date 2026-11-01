@@ -21,7 +21,7 @@ export interface CapiCustomData {
 }
 
 export interface MetaCapiParams {
-  eventName: "Purchase" | "InitiateCheckout" | "ViewContent";
+  eventName: "Purchase" | "InitiateCheckout" | "ViewContent" | "PageView";
   eventId: string;
   user: CapiUserData;
   customData?: CapiCustomData;

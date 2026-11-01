@@ -29,6 +29,40 @@ export interface TrackingEventOptions {
   eventID?: string;
 }
 
+// Browsing events mirrored to our own Conversions API endpoint (/api/track).
+// InitiateCheckout and Purchase are sent server-side by create-order / verify-payment instead.
+const SERVER_MIRRORED_EVENTS: ReadonlySet<TrackingEventName> = new Set(["PageView", "ViewContent"]);
+
+function createEventId(eventName: TrackingEventName): string {
+  return `${eventName.toLowerCase()}_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+/**
+ * Sends the server copy of a browser event with the same event_id so Meta deduplicates them.
+ */
+function sendServerEvent(eventName: TrackingEventName, eventId: string, params?: TrackingEventParams) {
+  try {
+    const payload = JSON.stringify({
+      event_name: eventName,
+      event_id: eventId,
+      event_source_url: window.location.href,
+      custom_data: params,
+    });
+    if (typeof navigator.sendBeacon === "function") {
+      navigator.sendBeacon("/api/track", new Blob([payload], { type: "application/json" }));
+      return;
+    }
+    fetch("/api/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    // Tracking must never break the page
+  }
+}
+
 /**
  * Global telemetry dispatcher for Meta Pixel and GA4.
  * Never passes unhashed personally identifiable information (PII) to client scripts.
@@ -40,12 +74,17 @@ export function trackEvent(
 ) {
   if (typeof window === "undefined") return;
 
-  // 1. Meta Pixel
+  // 1. Meta Pixel (+ deduplicated server copy for browsing events)
   if (typeof window.fbq === "function") {
-    if (options?.eventID) {
-      window.fbq("track", eventName, params, { eventID: options.eventID });
+    const isMirrored = SERVER_MIRRORED_EVENTS.has(eventName);
+    const eventID = options?.eventID || (isMirrored ? createEventId(eventName) : undefined);
+    if (eventID) {
+      window.fbq("track", eventName, params, { eventID });
     } else {
       window.fbq("track", eventName, params);
+    }
+    if (isMirrored && eventID) {
+      sendServerEvent(eventName, eventID, params);
     }
   }
 
@@ -87,7 +126,9 @@ function MetaPixelRouteTracker() {
       lastTrackedUrl.current = currentUrl;
 
       if (typeof window !== "undefined" && typeof window.fbq === "function") {
-        window.fbq("track", "PageView");
+        const eventID = createEventId("PageView");
+        window.fbq("track", "PageView", {}, { eventID });
+        sendServerEvent("PageView", eventID);
       }
 
       const activeGaId = process.env.NEXT_PUBLIC_GA4_ID || "G-E8KZSPYVY1";
@@ -149,7 +190,18 @@ export default function TrackingScripts() {
                 s.parentNode.insertBefore(t,s)}(window, document,'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
                 fbq('init', '${pixelId}');
-                fbq('track', 'PageView');
+                (function(){
+                  var id = 'pageview_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+                  fbq('track', 'PageView', {}, { eventID: id });
+                  try {
+                    var payload = JSON.stringify({ event_name: 'PageView', event_id: id, event_source_url: window.location.href });
+                    if (navigator.sendBeacon) {
+                      navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }));
+                    } else {
+                      fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(function(){});
+                    }
+                  } catch (e) {}
+                })();
               `,
             }}
           />
