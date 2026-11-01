@@ -153,7 +153,7 @@ export async function POST(request: Request) {
       request.headers.get("x-real-ip") ||
       undefined;
     const userAgent = request.headers.get("user-agent") || undefined;
-    const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+    const { fbp, fbc, externalId } = extractMetaCookies(request.headers.get("cookie"));
 
     try {
       const capiResult = await dispatchCapiPurchaseWithIdempotency({
@@ -171,6 +171,7 @@ export async function POST(request: Request) {
           userAgent,
           fbp,
           fbc,
+          externalId,
         },
         eventSourceUrl: `https://thinktools.in/p/${productSlug}/download`,
       });

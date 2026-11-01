@@ -6,6 +6,7 @@ import Link from "next/link";
 import { X, Lock, Check, AlertCircle, ShieldCheck, Sparkles, Play } from "lucide-react";
 import { Product, ADDON_PRODUCTS, AddonProduct } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
+import { rememberCustomer } from "@/lib/visitorIdentity";
 
 interface CheckoutModalProps {
   product: Product;
@@ -152,6 +153,9 @@ export default function CheckoutModal({
 
     setValidationError("");
     setIsProcessing(true);
+
+    // Remember hashed contact details (never raw) so later PageView / ViewContent events match better
+    void rememberCustomer({ email, phone, name });
 
     try {
       // 1. Ensure Razorpay checkout.js script is ready

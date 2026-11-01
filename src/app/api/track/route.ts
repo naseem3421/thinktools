@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { sendMetaCapiEvent, extractMetaCookies, CapiCustomData } from "@/lib/metaCapi";
+import { sendMetaCapiEvent, extractMetaCookies, sanitizeHashedIdentity, CapiCustomData } from "@/lib/metaCapi";
 
 // Only browsing events are accepted here. InitiateCheckout and Purchase are sent
 // exclusively from create-order / verify-payment so they cannot be spoofed.
@@ -60,12 +60,19 @@ export async function POST(request: Request) {
     request.headers.get("x-real-ip") ||
     undefined;
   const userAgent = request.headers.get("user-agent") || undefined;
-  const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+  const { fbp, fbc, externalId } = extractMetaCookies(request.headers.get("cookie"));
 
   sendMetaCapiEvent({
     eventName: body.event_name,
     eventId: body.event_id,
-    user: { ip: clientIp, userAgent, fbp, fbc },
+    user: {
+      ip: clientIp,
+      userAgent,
+      fbp,
+      fbc,
+      externalId,
+      hashed: sanitizeHashedIdentity(body.user_hashes),
+    },
     customData: sanitizeCustomData(body.custom_data),
     eventSourceUrl: body.event_source_url,
   }).catch((capiErr) => {

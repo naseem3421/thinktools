@@ -125,7 +125,7 @@ export async function POST(request: Request) {
     // Dispatch server-side InitiateCheckout with deduplication key (matching browser eventID)
     const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
     const userAgent = request.headers.get("user-agent") || undefined;
-    const { fbp, fbc } = extractMetaCookies(request.headers.get("cookie"));
+    const { fbp, fbc, externalId } = extractMetaCookies(request.headers.get("cookie"));
 
     const contentIds = [productId, ...validAddonIds];
     const fullContentName = validAddonIds.length
@@ -143,6 +143,7 @@ export async function POST(request: Request) {
         userAgent: userAgent,
         fbp,
         fbc,
+        externalId,
       },
       customData: {
         value: orderAmount / 100,

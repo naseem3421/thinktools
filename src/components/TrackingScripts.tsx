@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
+import { getStoredHashes, getVisitorId } from "@/lib/visitorIdentity";
 
 declare global {
   interface Window {
@@ -42,11 +43,13 @@ function createEventId(eventName: TrackingEventName): string {
  */
 function sendServerEvent(eventName: TrackingEventName, eventId: string, params?: TrackingEventParams) {
   try {
+    getVisitorId(); // make sure the tt_eid cookie exists so the server mirror can read it
     const payload = JSON.stringify({
       event_name: eventName,
       event_id: eventId,
       event_source_url: window.location.href,
       custom_data: params,
+      user_hashes: getStoredHashes(),
     });
     if (typeof navigator.sendBeacon === "function") {
       navigator.sendBeacon("/api/track", new Blob([payload], { type: "application/json" }));
@@ -189,12 +192,27 @@ export default function TrackingScripts() {
                 t.src=v;s=b.getElementsByTagName(e)[0];
                 s.parentNode.insertBefore(t,s)}(window, document,'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', '${pixelId}');
+                var um = {};
+                try {
+                  var eid = null;
+                  var m = document.cookie.match(/(?:^|; )tt_eid=([^;]*)/);
+                  eid = m ? decodeURIComponent(m[1]) : null;
+                  if (!eid) {
+                    eid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+                    document.cookie = 'tt_eid=' + encodeURIComponent(eid) + ';path=/;max-age=63072000;SameSite=Lax' + (location.protocol === 'https:' ? ';Secure' : '');
+                  }
+                  var saved = JSON.parse(localStorage.getItem('tt_um') || '{}') || {};
+                  ['em','ph','fn','ln'].forEach(function(k){ if (typeof saved[k] === 'string' && /^[a-f0-9]{64}$/.test(saved[k])) um[k] = saved[k]; });
+                } catch (e) {}
+                var ud = {};
+                if (eid) ud.external_id = eid;
+                for (var k in um) ud[k] = um[k];
+                fbq('init', '${pixelId}', ud);
                 (function(){
                   var id = 'pageview_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
                   fbq('track', 'PageView', {}, { eventID: id });
                   try {
-                    var payload = JSON.stringify({ event_name: 'PageView', event_id: id, event_source_url: window.location.href });
+                    var payload = JSON.stringify({ event_name: 'PageView', event_id: id, event_source_url: window.location.href, user_hashes: um });
                     if (navigator.sendBeacon) {
                       navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }));
                     } else {
