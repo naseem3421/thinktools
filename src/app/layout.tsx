@@ -51,10 +51,16 @@ export const metadata: Metadata = {
     siteName: "Thinktools",
     images: [
       {
+        url: `${siteUrl}/logo-square.png`,
+        width: 1024,
+        height: 1024,
+        alt: "ThinkTools - Work Smarter.",
+      },
+      {
         url: `${siteUrl}/logo.png`,
         width: 1024,
-        height: 364,
-        alt: "ThinkTools - Work Smarter.",
+        height: 251,
+        alt: "ThinkTools Banner",
       },
     ],
   },
@@ -63,13 +69,16 @@ export const metadata: Metadata = {
     title: "ThinkTools | Digital Products & Custom Software Solutions",
     description:
       "Explore practical digital products, construction calculation tools, and custom calculator, software, and workflow automation development from ThinkTools.",
-    images: [`${siteUrl}/logo.png`],
+    images: [`${siteUrl}/logo-square.png`],
   },
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon-96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon-144.png", sizes: "144x144", type: "image/png" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },

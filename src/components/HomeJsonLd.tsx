@@ -13,7 +13,8 @@ export default function HomeJsonLd() {
         "name": "ThinkTools",
         "legalName": "Thinktools.in",
         "url": siteUrl,
-        "logo": `${siteUrl}/logo.png`,
+        "logo": `${siteUrl}/logo-square.png`,
+        "image": `${siteUrl}/logo-square.png`,
         "sameAs": ["https://www.instagram.com/thinktools.in"],
         "description":
           "Publisher of practical digital products, construction calculators, and custom software and workflow solutions.",

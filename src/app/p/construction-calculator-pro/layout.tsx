@@ -120,7 +120,7 @@ export default function ConstructionCalculatorLayout({
           "@type": "Organization",
           "name": "Thinktools",
           "url": siteUrl,
-          "logo": `${siteUrl}/logo.png`,
+          "logo": `${siteUrl}/logo-square.png`,
           "sameAs": ["https://www.instagram.com/thinktools.in"],
           "email": "support@thinktools.in",
         },

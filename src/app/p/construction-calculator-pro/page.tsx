@@ -198,7 +198,7 @@ export default function ConstructionCalculatorPage() {
     },
   ];
 
-  const loopedReviews = siteReviews;
+  const loopedReviews = [...siteReviews, ...siteReviews];
 
   const filteredSheets = product.workbookSheets.filter(
     (s) =>
@@ -948,7 +948,7 @@ export default function ConstructionCalculatorPage() {
             <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-[#0a0f16] to-transparent z-20 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-[#0a0f16] to-transparent z-20 pointer-events-none" />
 
-            <div className="animate-marquee gap-3.5 px-2">
+            <div className="animate-marquee gap-3.5 pr-3.5">
               {loopedReviews.map((rev, idx) => (
                 <div
                   key={idx}
