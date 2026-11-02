@@ -325,8 +325,10 @@ export default function CalculatorGallery({ onUnlockClick, className, price = 29
           key={currentItem.id}
           src={currentItem.imageSrc}
           alt={currentItem.altText}
+          width={1024}
+          height={690}
           draggable={false}
-          fetchPriority={activeIndex === 0 ? "high" : "auto"}
+          fetchPriority="auto"
           decoding="async"
           onClick={() => {
             if (!isSwipingRef.current) {

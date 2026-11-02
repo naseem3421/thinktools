@@ -271,6 +271,7 @@ export default function ConstructionCalculatorLayout({
         as="image"
         href="/screenshots/01_cost_estimate.webp"
         type="image/webp"
+        media="(min-width: 768px)"
         fetchPriority="high"
       />
       <script

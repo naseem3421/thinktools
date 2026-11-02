@@ -434,7 +434,7 @@ export default function ConstructionCalculatorPage() {
 
               {/* With Construction Calculator Pro */}
               <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl p-4 sm:p-6 flex flex-col justify-between shadow-md relative">
-                <div className="absolute top-3 right-3 bg-emerald-600 text-white font-bold text-[9px] uppercase px-2.5 py-0.5 rounded-full shadow-2xs">
+                <div className="absolute top-3 right-3 bg-emerald-700 text-white font-bold text-[9px] uppercase px-2.5 py-0.5 rounded-full shadow-2xs">
                   Disciplined Control
                 </div>
 
@@ -575,17 +575,17 @@ export default function ConstructionCalculatorPage() {
               <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-center">
                 <span className="text-[11px] text-slate-500 block truncate">1 Cement Bag</span>
                 <span className="text-sm sm:text-lg font-black text-slate-900 font-mono mt-0.5">₹420 – ₹440</span>
-                <span className="text-[10px] text-slate-400 block mt-0.5">Used in 20 min</span>
+                <span className="text-[10px] text-slate-600 font-medium block mt-0.5">Used in 20 min</span>
               </div>
               <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-center">
                 <span className="text-[11px] text-slate-500 block truncate">1 Family Dinner</span>
                 <span className="text-sm sm:text-lg font-black text-slate-900 font-mono mt-0.5">₹800 – ₹1,200</span>
-                <span className="text-[10px] text-slate-400 block mt-0.5">Gone in 1 evening</span>
+                <span className="text-[10px] text-slate-600 font-medium block mt-0.5">Gone in 1 evening</span>
               </div>
               <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-center">
                 <span className="text-[11px] text-slate-500 block truncate">1 Day Supervisor</span>
                 <span className="text-sm sm:text-lg font-black text-slate-900 font-mono mt-0.5">₹1,000 – ₹1,500</span>
-                <span className="text-[10px] text-slate-400 block mt-0.5">Daily recurring cost</span>
+                <span className="text-[10px] text-slate-600 font-medium block mt-0.5">Daily recurring cost</span>
               </div>
               <div className="bg-amber-500 text-slate-950 p-2.5 sm:p-3 rounded-xl border border-amber-400 shadow-md flex flex-col justify-center">
                 <span className="text-[11px] font-bold block truncate">Construction Calculator Pro</span>

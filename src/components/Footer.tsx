@@ -70,9 +70,9 @@ export default function Footer() {
         {/* Links Navigation Columns */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 pt-2 pb-6 border-b border-slate-800/80 text-xs">
           <div>
-            <h4 className="font-bold text-white uppercase tracking-wider text-[11px] mb-3">
+            <h3 className="font-bold text-white uppercase tracking-wider text-[11px] mb-3">
               Explore
-            </h4>
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/#products" className="text-slate-400 hover:text-white transition-colors">
@@ -93,9 +93,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold text-white uppercase tracking-wider text-[11px] mb-3">
+            <h3 className="font-bold text-white uppercase tracking-wider text-[11px] mb-3">
               Support
-            </h4>
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/contact" className="text-slate-400 hover:text-white transition-colors">
@@ -151,9 +151,9 @@ export default function Footer() {
           </div>
 
           <div className="col-span-2 sm:col-span-1 md:col-span-2">
-            <h4 className="font-bold text-white uppercase tracking-wider text-[11px] mb-3">
+            <h3 className="font-bold text-white uppercase tracking-wider text-[11px] mb-3">
               Legal
-            </h4>
+            </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <li>
                 <Link href="/terms" className="text-slate-400 hover:text-white transition-colors">
