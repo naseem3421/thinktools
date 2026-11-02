@@ -145,9 +145,10 @@ export const CALCULATOR_SCREENSHOTS: CalculatorScreenshot[] = [
 interface CalculatorGalleryProps {
   onUnlockClick?: () => void;
   className?: string;
+  price?: number;
 }
 
-export default function CalculatorGallery({ onUnlockClick, className }: CalculatorGalleryProps = {}) {
+export default function CalculatorGallery({ onUnlockClick, className, price = 299 }: CalculatorGalleryProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isAutoPlay, setIsAutoPlay] = useState<boolean>(true);
@@ -440,7 +441,7 @@ export default function CalculatorGallery({ onUnlockClick, className }: Calculat
                     }}
                     className="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer hidden sm:inline-flex items-center gap-1.5"
                   >
-                    <span>Download All 31 Tabs (₹499)</span>
+                    <span>Download All 31 Tabs (₹{price})</span>
                   </button>
                 )}
                 <button

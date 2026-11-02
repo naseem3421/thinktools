@@ -210,7 +210,7 @@ export default function ConstructionCalculatorPage() {
       <Header
         isFocusMode={true}
         productTitle={product.title}
-        price={product.price}
+        price={orderTotal}
         onCtaClick={() => setIsCheckoutOpen(true)}
       />
 
