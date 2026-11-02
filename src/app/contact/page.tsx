@@ -28,8 +28,8 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
-      alert("Please fill in your name, email, and message.");
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      alert("Please fill in your name, email, WhatsApp number, and message.");
       return;
     }
     
@@ -186,10 +186,11 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
-                      WhatsApp Number <span className="text-slate-400 font-normal">(Optional — for quick updates)</span>
+                      WhatsApp Number <span className="text-rose-500">*</span>
                     </label>
                     <input
                       type="tel"
+                      required
                       placeholder="e.g. +91 98765 43210"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}

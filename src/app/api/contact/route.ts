@@ -6,9 +6,9 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const { name, email, phone, orderId, subject, message } = body;
 
-    if (!name || !email || !message) {
+    if (!name || !email || !phone || !message) {
       return NextResponse.json(
-        { error: "Name, email, and message are required." },
+        { error: "Name, email, WhatsApp number, and message are required." },
         { status: 400 }
       );
     }
