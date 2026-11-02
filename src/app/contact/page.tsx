@@ -17,6 +17,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     orderId: "",
     subject: "download-issue",
     message: ""
@@ -139,6 +140,7 @@ export default function ContactPage() {
                     setFormData({
                       name: "",
                       email: "",
+                      phone: "",
                       orderId: "",
                       subject: "download-issue",
                       message: ""
@@ -184,6 +186,19 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
+                      WhatsApp Number <span className="text-slate-400 font-normal">(Optional — for quick updates)</span>
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="e.g. +91 98765 43210"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
                       Order ID / Razorpay Payment ID <span className="text-slate-400 font-normal">(Optional)</span>
                     </label>
                     <input
@@ -194,23 +209,23 @@ export default function ContactPage() {
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Inquiry Category
-                    </label>
-                    <select
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
-                    >
-                      <option value="download-issue">File Download / Re-dispatch</option>
-                      <option value="file-compatibility">Microsoft Excel Compatibility</option>
-                      <option value="pre-sales">Pre-Sales Question</option>
-                      <option value="billing">Billing / Duplicate Charge</option>
-                      <option value="other">Other Inquiry</option>
-                    </select>
-                  </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Inquiry Category
+                  </label>
+                  <select
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
+                  >
+                    <option value="download-issue">File Download / Re-dispatch</option>
+                    <option value="file-compatibility">Microsoft Excel Compatibility</option>
+                    <option value="pre-sales">Pre-Sales Question</option>
+                    <option value="billing">Billing / Duplicate Charge</option>
+                    <option value="other">Other Inquiry</option>
+                  </select>
                 </div>
 
                 <div>

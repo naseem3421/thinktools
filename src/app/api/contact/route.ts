@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { name, email, orderId, subject, message } = body;
+    const { name, email, phone, orderId, subject, message } = body;
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -62,6 +62,10 @@ export async function POST(request: Request) {
             <tr>
               <td style="padding: 6px 0; color: #64748b;">Customer Email:</td>
               <td style="padding: 6px 0; font-weight: bold;"><a href="mailto:${email}">${email}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #64748b;">WhatsApp Number:</td>
+              <td style="padding: 6px 0; font-weight: bold;">${phone || "Not Provided"}</td>
             </tr>
             <tr>
               <td style="padding: 6px 0; color: #64748b;">Order / Payment ID:</td>
