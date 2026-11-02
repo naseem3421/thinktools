@@ -240,12 +240,12 @@ export default function TrackingScripts() {
       {gaId && (
         <>
           <Script
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
           />
           <Script
             id="ga4-init"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
