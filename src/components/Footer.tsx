@@ -1,7 +1,9 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Mail, CreditCard } from "lucide-react";
+import { ShieldCheck, Mail, CreditCard, Check, ExternalLink } from "lucide-react";
 
 function InstagramIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
@@ -23,8 +25,19 @@ function InstagramIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
 }
 
 export default function Footer() {
+  const [emailCopied, setEmailCopied] = useState(false);
+
+  const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Copy email to clipboard immediately so desktop users without a configured default mail client can paste it
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText("support@thinktools.in").catch(() => {});
+    }
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 3500);
+  };
+
   return (
-    <footer className="w-full bg-[#011c37] border-t border-slate-800/80 py-12 text-slate-300 text-xs font-sans">
+    <footer className="w-full bg-[#011c37] border-t border-slate-800/80 pt-12 pb-24 sm:pb-12 text-slate-300 text-xs font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
@@ -90,13 +103,38 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="mailto:support@thinktools.in"
-                  className="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5"
-                >
-                  <Mail className="w-3.5 h-3.5 text-[#b6f84c] shrink-0" />
-                  <span>support@thinktools.in</span>
-                </a>
+                <div className="space-y-1">
+                  <a
+                    href="mailto:support@thinktools.in"
+                    onClick={handleEmailClick}
+                    className="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer group"
+                    title="Click to email or copy support@thinktools.in"
+                  >
+                    {emailCopied ? (
+                      <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    ) : (
+                      <Mail className="w-3.5 h-3.5 text-[#b6f84c] shrink-0 group-hover:scale-110 transition-transform" />
+                    )}
+                    <span className={emailCopied ? "text-emerald-400 font-semibold" : ""}>
+                      {emailCopied ? "Copied to clipboard!" : "support@thinktools.in"}
+                    </span>
+                  </a>
+                  {emailCopied && (
+                    <div className="text-[10px] text-emerald-300 pl-5 flex items-center gap-1.5">
+                      <span>✓ Ready to paste</span>
+                      <span>·</span>
+                      <a
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=support@thinktools.in"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline text-emerald-200 hover:text-white inline-flex items-center gap-0.5"
+                      >
+                        <span>Open Gmail</span>
+                        <ExternalLink className="w-2.5 h-2.5" />
+                      </a>
+                    </div>
+                  )}
+                </div>
               </li>
               <li>
                 <a
