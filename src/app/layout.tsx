@@ -98,6 +98,7 @@ export const metadata: Metadata = {
 };
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WWK5L329";
+const clarityId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || "z7wjvanly7";
 
 export default function RootLayout({
   children,
@@ -134,12 +135,29 @@ export default function RootLayout({
           />
         </noscript>
 
-        {/* Preconnect & DNS-Prefetch for tracking & payments */}
+        {/* Preconnect & DNS-Prefetch for tracking, clarity & payments */}
+        <link rel="preconnect" href="https://www.clarity.ms" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://connect.facebook.net" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://api.razorpay.com" />
+
+        {/* Microsoft Clarity Tracking */}
+        {clarityId && (
+          <Script
+            id="microsoft-clarity"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "${clarityId}");`,
+            }}
+          />
+        )}
       </head>
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans">
         {/* Google Tag Manager (noscript) */}
