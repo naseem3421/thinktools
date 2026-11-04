@@ -1,6 +1,4 @@
 import nodemailer from "nodemailer";
-import path from "path";
-import fs from "fs";
 import { ADDON_PRODUCTS } from "@/data/products";
 
 interface SendOrderDeliveryParams {
@@ -44,81 +42,17 @@ export async function sendOrderDeliveryEmail({
     },
   });
 
-  // Master zip bundle candidate paths
-  const candidatePaths = [
-    path.join(process.cwd(), "public", "downloads", "d7x9m2k4q8v1", "Construction_Calculator_Pro_Excel.zip"),
-    path.join(process.cwd(), "public", "downloads", "Construction_Calculator_Pro_Excel.zip"),
-    path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro_Excel.zip"),
-    path.join(process.cwd(), "storage", "downloads", "Construction_Calculator_Pro.zip"),
-  ];
+  const masterDownloadUrl = "https://thinktools.in/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip";
+  const onlineHubUrl = `https://thinktools.in/p/construction-calculator-pro/download?order_id=${encodeURIComponent(orderId)}&email=${encodeURIComponent(toEmail)}&name=${encodeURIComponent(customerName)}&addons=${encodeURIComponent(addonIds.join(","))}`;
 
-  let fileBuffer: Buffer | null = null;
-  let zipFileName = "Construction_Calculator_Pro_Excel.zip";
-
-  for (const p of candidatePaths) {
-    if (fs.existsSync(p)) {
-      try {
-        fileBuffer = fs.readFileSync(p);
-        zipFileName = path.basename(p);
-        console.log(`[Mailer] Successfully loaded attachment: ${p} (${fileBuffer.length} bytes)`);
-        break;
-      } catch (err) {
-        console.error(`[Mailer] Error reading file at ${p}:`, err);
-      }
-    }
-  }
-
-  const attachments: { filename: string; content: Buffer; contentType: string }[] = [];
-  if (fileBuffer) {
-    attachments.push({
-      filename: zipFileName,
-      content: fileBuffer,
-      contentType: "application/zip",
-    });
-  } else {
-    console.error(`[Mailer] CRITICAL WARNING: Zip attachment not found in any candidate path!`);
-  }
-
-  // Look for any purchased addon files to attach
+  // Look for any purchased addon files
   const purchasedAddons = (addonIds || []).map((id) => ADDON_PRODUCTS[id]).filter(Boolean);
-  for (const addon of purchasedAddons) {
-    const addonCandidatePaths = [
-      path.join(process.cwd(), "public", "downloads", "d7x9m2k4q8v1", "addons", `${addon.id}.zip`),
-      path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.zip`),
-      path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.zip`),
-      path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.xlsx`),
-      path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.xlsx`),
-      path.join(process.cwd(), "storage", "downloads", `${addon.id}.zip`),
-      path.join(process.cwd(), "storage", `${addon.id}.zip`),
-    ];
-    for (const ap of addonCandidatePaths) {
-      if (fs.existsSync(ap)) {
-        try {
-          const ab = fs.readFileSync(ap);
-          const ext = path.extname(ap).toLowerCase();
-          const contentType =
-            ext === ".zip"
-              ? "application/zip"
-              : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-          attachments.push({
-            filename: `${addon.title.replace(/[^a-zA-Z0-9_-]/g, "_")}${ext}`,
-            content: ab,
-            contentType,
-          });
-          console.log(`[Mailer] Successfully attached addon file: ${ap}`);
-          break;
-        } catch (err) {
-          console.error(`[Mailer] Error reading addon file ${ap}:`, err);
-        }
-      }
-    }
-  }
 
   const addonsListHtml = purchasedAddons.length > 0
     ? `
       <div class="package-list" style="background: #f0fdf4; border: 1px solid #bbf7d0; margin-top: 16px; border-radius: 12px; padding: 16px 20px;">
         <h4 style="color: #166534; margin: 0 0 10px 0; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-          Included Business Add-On Tools (${purchasedAddons.length}):
+          Your ${purchasedAddons.length} Business Add-On Tools:
         </h4>
         <div style="margin-top: 10px;">
           ${purchasedAddons.map((addon) => `
@@ -134,8 +68,6 @@ export async function sendOrderDeliveryEmail({
       </div>
     `
     : "";
-
-  const onlineHubUrl = `https://thinktools.in/p/construction-calculator-pro/download?order_id=${encodeURIComponent(orderId)}&email=${encodeURIComponent(toEmail)}&name=${encodeURIComponent(customerName)}&addons=${encodeURIComponent(addonIds.join(","))}`;
 
   const html = `
     <!DOCTYPE html>
@@ -169,14 +101,14 @@ export async function sendOrderDeliveryEmail({
         <div class="container">
           <div class="header">
             <span class="badge">Payment Verified • Lifetime License</span>
-            <h1 class="title">Your Files Are Attached</h1>
+            <h1 class="title">Your Digital Toolkit is Ready</h1>
             <p class="subtitle">ThinkTools.in • Work Smarter.</p>
           </div>
 
           <div class="content">
             <div class="greeting">Hello ${customerName || "Valued Builder"},</div>
             <p class="text">
-              Your payment has been successfully confirmed. In accordance with our direct digital delivery policy, your complete <strong>${productTitle}</strong> has been attached directly to this email for permanent offline access.
+              Your payment has been successfully confirmed. In accordance with our instant digital delivery policy, your complete <strong>${productTitle}</strong> is ready for instant download below.
             </p>
 
             <div class="box">
@@ -198,8 +130,17 @@ export async function sendOrderDeliveryEmail({
               </div>
             </div>
 
+            <div style="text-align: center; margin: 28px 0;">
+              <a href="${masterDownloadUrl}" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
+                ⬇️ Download Master Calculator Bundle (1.9 MB)
+              </a>
+              <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
+                Direct offline master package (.zip) • Includes 31 sheets &amp; PDF guides
+              </div>
+            </div>
+
             <div class="package-list">
-              <h4>Included in your attached .ZIP bundle (1.9 MB):</h4>
+              <h4>Included in your Master Package (1.9 MB):</h4>
               <ul>
                 <li><strong>Complete 31-Sheet System (.xlsx)</strong> with all 31 calculation tabs pre-linked.</li>
                 <li><strong>Master Guide (PDF)</strong> with fast-track setup and IS 456 formula rules.</li>
@@ -209,25 +150,18 @@ export async function sendOrderDeliveryEmail({
             </div>
             ${addonsListHtml}
 
-            <div style="text-align: center; margin: 28px 0;">
-              <a href="https://thinktools.in/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
-                ⬇️ Click Here to Download Master .ZIP (1.9 MB)
+            <div style="text-align: center; margin: 22px 0;">
+              <a href="${onlineHubUrl}" style="color: #2563eb; font-size: 13px; text-decoration: underline; font-weight: 600;">
+                🌐 Or access &amp; manage all files on the Thinktools Download Hub ➔
               </a>
-              <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
-                Direct offline master package • No login or password required
-              </div>
-              <div style="margin-top: 16px;">
-                <a href="${onlineHubUrl}" style="color: #2563eb; font-size: 13px; text-decoration: underline; font-weight: 600;">
-                  🌐 Or view &amp; download files on the Thinktools Download Hub ➔
-                </a>
-              </div>
             </div>
 
             <div class="instructions">
-              <strong>📎 Dual Ways to Access Your Files:</strong><br/>
-              1. <strong>Direct Download Links:</strong> Click the buttons above to download files directly to your device.<br/>
-              2. <strong>Direct Email Attachments:</strong> All ${attachments.length} files are also attached directly at the bottom of this email for your offline backup.<br/>
-              Right-click and choose <em>"Extract All"</em> on your PC or Mac to open the workbooks in Microsoft Excel immediately.
+              <strong>💡 How to Access &amp; Open Your Files:</strong><br/>
+              1. <strong>Direct Download Links:</strong> Click the download buttons above to download the files directly to your device.<br/>
+              2. <strong>Extract Files:</strong> Right-click the downloaded .ZIP file and choose <em>"Extract All"</em> on your PC or Mac.<br/>
+              3. <strong>Open in Excel:</strong> Open the extracted workbooks in Microsoft Excel, Google Sheets, or WPS Office.<br/>
+              4. <strong>Permanent Cloud Access:</strong> Your files remain accessible anytime via the Download Hub link above.
             </div>
 
             <p class="text" style="margin-top: 24px; font-size: 13px;">
@@ -248,9 +182,8 @@ export async function sendOrderDeliveryEmail({
     const info = await transporter.sendMail({
       from,
       to: toEmail,
-      subject: `Your Construction Calculator Pro Package (#${orderId}) - Attached Files`,
+      subject: `Your Construction Calculator Pro Package (#${orderId}) - Download Access`,
       html,
-      attachments,
     });
 
     console.log(`[Mailer] Order confirmation email sent to ${toEmail}: ${info.messageId}`);
