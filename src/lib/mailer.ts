@@ -83,12 +83,13 @@ export async function sendOrderDeliveryEmail({
   const purchasedAddons = (addonIds || []).map((id) => ADDON_PRODUCTS[id]).filter(Boolean);
   for (const addon of purchasedAddons) {
     const addonCandidatePaths = [
+      path.join(process.cwd(), "public", "downloads", "d7x9m2k4q8v1", "addons", `${addon.id}.zip`),
       path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.zip`),
-      path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.xlsx`),
       path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.zip`),
       path.join(process.cwd(), "storage", "downloads", "addons", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "public", "downloads", "addons", `${addon.id}.xlsx`),
       path.join(process.cwd(), "storage", "downloads", `${addon.id}.zip`),
-      path.join(process.cwd(), "storage", "downloads", `${addon.id}.xlsx`),
+      path.join(process.cwd(), "storage", `${addon.id}.zip`),
     ];
     for (const ap of addonCandidatePaths) {
       if (fs.existsSync(ap)) {
@@ -115,14 +116,26 @@ export async function sendOrderDeliveryEmail({
 
   const addonsListHtml = purchasedAddons.length > 0
     ? `
-      <div class="package-list" style="background: #f0fdf4; border: 1px solid #bbf7d0; margin-top: 16px;">
-        <h4 style="color: #166534;">Included Business Add-On Tools (${purchasedAddons.length}):</h4>
-        <ul>
-          ${purchasedAddons.map((addon) => `<li><strong>${addon.title}</strong> — ${addon.description}</li>`).join("")}
-        </ul>
+      <div class="package-list" style="background: #f0fdf4; border: 1px solid #bbf7d0; margin-top: 16px; border-radius: 12px; padding: 16px 20px;">
+        <h4 style="color: #166534; margin: 0 0 10px 0; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+          Included Business Add-On Tools (${purchasedAddons.length}):
+        </h4>
+        <div style="margin-top: 10px;">
+          ${purchasedAddons.map((addon) => `
+            <div style="background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+              <div style="font-weight: 700; color: #166534; font-size: 13px;">${addon.title}</div>
+              <div style="font-size: 12px; color: #475569; margin: 3px 0 8px 0; line-height: 1.4;">${addon.description}</div>
+              <a href="https://thinktools.in/downloads/d7x9m2k4q8v1/addons/${addon.id}.zip" style="display: inline-block; background: #16a34a; color: #ffffff; font-weight: 700; font-size: 11px; padding: 6px 14px; border-radius: 6px; text-decoration: none;">
+                ⬇️ Download ${addon.shortTitle || addon.title} (.zip)
+              </a>
+            </div>
+          `).join("")}
+        </div>
       </div>
     `
     : "";
+
+  const onlineHubUrl = `https://thinktools.in/p/construction-calculator-pro/download?order_id=${encodeURIComponent(orderId)}&email=${encodeURIComponent(toEmail)}&name=${encodeURIComponent(customerName)}&addons=${encodeURIComponent(addonIds.join(","))}`;
 
   const html = `
     <!DOCTYPE html>
@@ -163,7 +176,7 @@ export async function sendOrderDeliveryEmail({
           <div class="content">
             <div class="greeting">Hello ${customerName || "Valued Builder"},</div>
             <p class="text">
-              Your payment has been successfully confirmed. In accordance with our direct digital delivery policy, your complete <strong>${productTitle}</strong> has been attached directly to this email as a single offline bundle.
+              Your payment has been successfully confirmed. In accordance with our direct digital delivery policy, your complete <strong>${productTitle}</strong> has been attached directly to this email for permanent offline access.
             </p>
 
             <div class="box">
@@ -198,17 +211,22 @@ export async function sendOrderDeliveryEmail({
 
             <div style="text-align: center; margin: 28px 0;">
               <a href="https://thinktools.in/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
-                ⬇️ Click Here to Download .ZIP (1.9 MB)
+                ⬇️ Click Here to Download Master .ZIP (1.9 MB)
               </a>
               <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
                 Direct offline master package • No login or password required
               </div>
+              <div style="margin-top: 16px;">
+                <a href="${onlineHubUrl}" style="color: #2563eb; font-size: 13px; text-decoration: underline; font-weight: 600;">
+                  🌐 Or view &amp; download files on the Thinktools Download Hub ➔
+                </a>
+              </div>
             </div>
 
             <div class="instructions">
-              <strong>📎 Two ways to access your files:</strong><br/>
-              1. <strong>Click the button above</strong> to download the full package instantly to your device.<br/>
-              2. <strong>Or download the attached file</strong> (<code>${zipFileName}</code>) located at the bottom of this email.<br/>
+              <strong>📎 Dual Ways to Access Your Files:</strong><br/>
+              1. <strong>Direct Download Links:</strong> Click the buttons above to download files directly to your device.<br/>
+              2. <strong>Direct Email Attachments:</strong> All ${attachments.length} files are also attached directly at the bottom of this email for your offline backup.<br/>
               Right-click and choose <em>"Extract All"</em> on your PC or Mac to open the workbooks in Microsoft Excel immediately.
             </div>
 
