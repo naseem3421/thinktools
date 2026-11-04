@@ -17,7 +17,7 @@ function getSecretKey(): string {
 
 /**
  * Generate a cryptographically signed, time-limited token for digital downloads.
- * Defaults to 3 hours validity.
+ * Defaults to 1 year validity (8760 hours).
  */
 export function generateDownloadToken(params: {
   order_id: string;
@@ -25,7 +25,7 @@ export function generateDownloadToken(params: {
   product_slug?: string;
   hoursValid?: number;
 }): string {
-  const hours = params.hoursValid ?? 3;
+  const hours = params.hoursValid ?? 8760;
   const payload: TokenPayload = {
     order_id: params.order_id,
     addon_ids: params.addon_ids || [],

@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { ADDON_PRODUCTS } from "@/data/products";
+import { generateDownloadToken } from "@/lib/downloadToken";
 
 interface SendOrderDeliveryParams {
   toEmail: string;
@@ -42,8 +43,15 @@ export async function sendOrderDeliveryEmail({
     },
   });
 
-  const masterDownloadUrl = "https://thinktools.in/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip";
-  const onlineHubUrl = `https://thinktools.in/p/construction-calculator-pro/download?order_id=${encodeURIComponent(orderId)}&email=${encodeURIComponent(toEmail)}&name=${encodeURIComponent(customerName)}&addons=${encodeURIComponent(addonIds.join(","))}`;
+  const downloadToken = generateDownloadToken({
+    order_id: orderId,
+    addon_ids: addonIds,
+    product_slug: "construction-calculator-pro",
+    hoursValid: 8760,
+  });
+
+  const masterDownloadUrl = `https://thinktools.in/api/download?file=main&token=${encodeURIComponent(downloadToken)}&order_id=${encodeURIComponent(orderId)}`;
+  const onlineHubUrl = `https://thinktools.in/p/construction-calculator-pro/download?order_id=${encodeURIComponent(orderId)}&token=${encodeURIComponent(downloadToken)}&email=${encodeURIComponent(toEmail)}&name=${encodeURIComponent(customerName)}&addons=${encodeURIComponent(addonIds.join(","))}`;
 
   // Look for any purchased addon files
   const purchasedAddons = (addonIds || []).map((id) => ADDON_PRODUCTS[id]).filter(Boolean);
@@ -59,7 +67,7 @@ export async function sendOrderDeliveryEmail({
             <div style="background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
               <div style="font-weight: 700; color: #166534; font-size: 13px;">${addon.title}</div>
               <div style="font-size: 12px; color: #475569; margin: 3px 0 8px 0; line-height: 1.4;">${addon.description}</div>
-              <a href="https://thinktools.in/downloads/d7x9m2k4q8v1/addons/${addon.id}.zip" style="display: inline-block; background: #16a34a; color: #ffffff; font-weight: 700; font-size: 11px; padding: 6px 14px; border-radius: 6px; text-decoration: none;">
+              <a href="https://thinktools.in/api/download?file=${addon.id}&token=${encodeURIComponent(downloadToken)}&order_id=${encodeURIComponent(orderId)}" style="display: inline-block; background: #16a34a; color: #ffffff; font-weight: 700; font-size: 11px; padding: 6px 14px; border-radius: 6px; text-decoration: none;">
                 ⬇️ Download ${addon.shortTitle || addon.title} (.zip)
               </a>
             </div>

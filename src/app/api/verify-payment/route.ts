@@ -192,7 +192,7 @@ export async function POST(request: Request) {
       order_id: razorpay_order_id,
       addon_ids: validAddonIds,
       product_slug: productSlug,
-      hoursValid: 3,
+      hoursValid: 8760,
     });
 
     return NextResponse.json({

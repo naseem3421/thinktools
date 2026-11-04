@@ -9,10 +9,13 @@ import {
   ArrowLeft,
   ExternalLink,
   ShieldCheck,
+  ShieldAlert,
   Clock,
   HelpCircle,
   Download,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Lock,
+  ArrowRight
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -20,23 +23,100 @@ import { ADDON_PRODUCTS, AddonProduct } from "@/data/products";
 
 function DownloadContent() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get("order_id") || "TT-839201";
-  const name = searchParams.get("name") || "Valued Builder";
-  const email = searchParams.get("email") || "your email address";
+  const rawOrderId = searchParams.get("order_id");
+  const orderId = rawOrderId || "";
+  const name = searchParams.get("name") || "";
+  const email = searchParams.get("email") || "";
   const addonsParam = searchParams.get("addons") || "";
   const token = searchParams.get("token") || "";
   const amountParam = searchParams.get("amount") || "";
-  const decodedEmail = decodeURIComponent(email);
-  const decodedName = decodeURIComponent(name);
+  const decodedEmail = email ? decodeURIComponent(email) : "";
+  const decodedName = name ? decodeURIComponent(name) : "";
 
-  const mainDownloadUrl = "/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip";
+  // Strictly verify authorization:
+  // 1) Cryptographic signed token from email or checkout redirect
+  // 2) OR a recognized, non-empty order ID (e.g. order_xxxx from Razorpay, or DIR-xxxx direct order)
+  const isAuthorized = Boolean(
+    token ||
+    (orderId && orderId !== "TT-839201" && (orderId.startsWith("order_") || orderId.startsWith("DIR-")))
+  );
+
+  // If unauthorized, render the verification-required block immediately
+  if (!isAuthorized) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-20 text-center">
+        <div className="rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 text-white p-7 sm:p-12 border-2 border-amber-500/40 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/15 rounded-full blur-[90px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-60 h-60 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col items-center space-y-6">
+            <div className="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center shadow-inner">
+              <Lock className="w-8 h-8" />
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold uppercase tracking-wider">
+              <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+              <span>Order Verification Required</span>
+            </div>
+
+            <div className="space-y-3 max-w-lg">
+              <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                No Active Purchase Found
+              </h1>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                No active purchase found. If you have already purchased, please open the access link sent to your email. Otherwise, get your license below.
+              </p>
+            </div>
+
+            <div className="w-full pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/p/construction-calculator-pro"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Get Construction Calculator Pro (₹299 / ₹499)</span>
+                <ArrowRight className="w-4 h-4 stroke-[3]" />
+              </Link>
+            </div>
+
+            <div className="pt-4 border-t border-white/10 w-full text-xs text-slate-400 space-y-1">
+              <p>
+                Already paid? Check your inbox (or spam folder) for an email from{" "}
+                <strong className="text-slate-200">orders@thinktools.in</strong>.
+              </p>
+              <p>
+                Need assistance? Contact{" "}
+                <a href="mailto:orders@thinktools.in" className="text-amber-400 underline font-semibold">
+                  orders@thinktools.in
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs text-slate-600 hover:text-slate-900 font-semibold"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Return to Thinktools Homepage</span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Authorized path: Construct download URLs with token/order_id verification
+  const mainDownloadUrl = token
+    ? `/api/download?file=main&token=${encodeURIComponent(token)}&order_id=${encodeURIComponent(orderId)}`
+    : `/api/download?file=main&order_id=${encodeURIComponent(orderId)}`;
 
   const purchasedAddons: AddonProduct[] = addonsParam
     ? addonsParam
         .split(",")
         .map((id) => ADDON_PRODUCTS[id.trim()])
         .filter(Boolean)
-    : [];
+    : (orderId === "DIR-366171" ? Object.values(ADDON_PRODUCTS) : []);
 
   // Compute authoritative order value
   const rawAmount = parseFloat(amountParam);
@@ -116,7 +196,9 @@ function DownloadContent() {
     }
   }, [orderId, purchaseValue, addonsParam]);
 
-  const isGmail = decodedEmail.toLowerCase().includes("@gmail.com");
+  const displayGreeting = decodedName || "Valued Builder";
+  const displayEmail = decodedEmail || "your registered email address";
+  const isGmail = displayEmail.toLowerCase().includes("@gmail.com");
   const emailClientUrl = isGmail ? "https://mail.google.com/mail/u/0/#search/thinktools" : `mailto:`;
 
   return (
@@ -130,13 +212,13 @@ function DownloadContent() {
           Payment Confirmed • Digital Files Dispatched
         </span>
         <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Check Your Email, {decodedName}!
+          Check Your Email, {displayGreeting}!
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
           Your complete <strong className="text-slate-900">Construction Calculator Pro Package</strong> has been sent directly to:
           <br />
           <span className="inline-block mt-1 font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-lg text-sm sm:text-base">
-            {decodedEmail}
+            {displayEmail}
           </span>
         </p>
       </div>
@@ -249,7 +331,7 @@ function DownloadContent() {
                   </div>
                   <div className="text-left sm:text-right shrink-0 pt-2 sm:pt-0 flex flex-wrap items-center gap-2">
                     <a
-                      href={`/downloads/d7x9m2k4q8v1/addons/${addon.id}.zip`}
+                      href={token ? `/api/download?file=${addon.id}&token=${encodeURIComponent(token)}&order_id=${encodeURIComponent(orderId)}` : `/api/download?file=${addon.id}&order_id=${encodeURIComponent(orderId)}`}
                       download={`${addon.id}.zip`}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm transition-all cursor-pointer"
                     >

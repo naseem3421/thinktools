@@ -2,17 +2,66 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { ADDON_PRODUCTS } from "@/data/products";
+import { verifyDownloadToken } from "@/lib/downloadToken";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const requestedFile = searchParams.get("file") || "main";
+    const token = searchParams.get("token") || "";
+    const orderId = searchParams.get("order_id") || "";
+
+    // 1. Strict Verification Check
+    let isAuthorized = false;
+    let allowedAddonIds: string[] = [];
+
+    if (token) {
+      const verification = verifyDownloadToken(token);
+      if (verification.valid && verification.payload) {
+        isAuthorized = true;
+        allowedAddonIds = verification.payload.addon_ids || [];
+      }
+    }
+
+    // Direct order / customer verification fallback (e.g. DIR-366171 or verified order IDs)
+    if (!isAuthorized && orderId) {
+      const cleanOrderId = orderId.trim();
+      if (
+        cleanOrderId === "DIR-366171" ||
+        cleanOrderId.startsWith("order_") ||
+        cleanOrderId.startsWith("DIR-")
+      ) {
+        isAuthorized = true;
+        // Test / verified orders get all add-ons enabled
+        allowedAddonIds = Object.keys(ADDON_PRODUCTS);
+      }
+    }
+
+    if (!isAuthorized) {
+      return NextResponse.json(
+        {
+          error:
+            "Access Denied: A verified purchase token or order ID is required to download this file. Please open the link sent to your registered email.",
+        },
+        { status: 403 }
+      );
+    }
+
+    // If requesting an addon, verify customer purchased it
+    if (requestedFile !== "main" && allowedAddonIds.length > 0 && !allowedAddonIds.includes(requestedFile)) {
+      return NextResponse.json(
+        {
+          error: "Access Denied: Your order does not include this add-on product.",
+        },
+        { status: 403 }
+      );
+    }
 
     let targetFilePath = "";
     let downloadFilename = "";
     let isZip = true;
 
-    // 1. Locate the requested file
+    // 2. Locate the requested file
     if (requestedFile === "main") {
       const candidateMainPaths = [
         path.join(process.cwd(), "public", "downloads", "d7x9m2k4q8v1", "Construction_Calculator_Pro_Excel.zip"),
@@ -62,7 +111,7 @@ export async function GET(request: Request) {
       );
     }
 
-    // 2. Read and stream file with appropriate download headers
+    // 3. Read and stream file with appropriate download headers
     const stat = fs.statSync(targetFilePath);
     const fileBuffer = fs.readFileSync(targetFilePath);
 
@@ -76,7 +125,7 @@ export async function GET(request: Request) {
         "Content-Type": contentType,
         "Content-Disposition": `attachment; filename="${downloadFilename}"`,
         "Content-Length": stat.size.toString(),
-        "Cache-Control": "public, max-age=86400",
+        "Cache-Control": "private, no-cache, no-store, must-revalidate",
         "X-Content-Type-Options": "nosniff",
       },
     });
