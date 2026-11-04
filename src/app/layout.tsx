@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import TrackingScripts from "@/components/TrackingScripts";
 import CookieBanner from "@/components/CookieBanner";
+import WebMCPProvider from "@/components/WebMCPProvider";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thinktools.in";
@@ -185,6 +186,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
 
         <TrackingScripts />
+        <WebMCPProvider />
         {children}
         <CookieBanner />
       </body>

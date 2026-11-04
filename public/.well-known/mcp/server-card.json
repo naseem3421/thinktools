@@ -1,0 +1,59 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server-card.json",
+  "schema_version": "1.0.0",
+  "name": "thinktools-mcp-server",
+  "title": "ThinkTools Engineering & Estimation MCP Server",
+  "version": "1.0.0",
+  "description": "Official Model Context Protocol (MCP) server for ThinkTools.in, providing Indian civil construction estimation, material quantity thumb-rules, and toolkit catalog for autonomous AI agents.",
+  "endpoint": "https://thinktools.in/api/mcp",
+  "transport": {
+    "type": "http",
+    "url": "https://thinktools.in/api/mcp"
+  },
+  "documentation_url": "https://thinktools.in/llms.txt",
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    },
+    "resources": {
+      "subscribe": false,
+      "listChanged": false
+    },
+    "prompts": {
+      "listChanged": false
+    }
+  },
+  "tools": [
+    {
+      "name": "calculate_construction_materials",
+      "description": "Calculate approximate quantities of cement bags, sand (cft), aggregate (cft), and reinforcement steel (kg) for Indian residential/commercial construction based on built-up slab area.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "builtUpAreaSqFt": {
+            "type": "number",
+            "description": "Total built-up slab area in square feet (e.g. 1000, 1500, 2400)"
+          },
+          "floors": {
+            "type": "number",
+            "description": "Number of floors (e.g. 1 for ground floor, 2 for G+1)",
+            "default": 1
+          }
+        },
+        "required": ["builtUpAreaSqFt"]
+      }
+    },
+    {
+      "name": "get_toolkit_catalog",
+      "description": "Retrieve current prices, license options, and module listings for ThinkTools Construction Calculator Pro and business companion tools.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ],
+  "contact": {
+    "email": "support@thinktools.in",
+    "url": "https://thinktools.in/about"
+  }
+}

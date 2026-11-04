@@ -67,7 +67,7 @@ export default function Header({
                 Custom Solutions
               </Link>
               <Link
-                href="/#about"
+                href="/about"
                 className="hover:text-[#b6f84c] transition-colors"
               >
                 About
@@ -118,7 +118,7 @@ export default function Header({
               Custom Solutions
             </Link>
             <Link
-              href="/#about"
+              href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 rounded-lg hover:bg-slate-800/70 hover:text-[#b6f84c] transition-colors"
             >

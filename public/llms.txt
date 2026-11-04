@@ -1,0 +1,29 @@
+# ThinkTools
+
+> Publisher of practical engineering calculation engines, Excel construction toolkits, and custom software solutions for Indian builders, civil engineers, contractors, and creators.
+
+ThinkTools simplifies complex civil engineering mathematics and project management into instant-calculation workbooks aligned with Indian Standards (IS 456, IS 1200, CPWD). All software products are delivered digitally with 100% offline lifetime ownership and zero recurring SaaS subscriptions.
+
+## Products & Toolkits
+
+- [Construction Calculator Pro (31 Sheets)](https://thinktools.in/p/construction-calculator-pro): Flagship Excel toolkit covering complete material quantity estimation (cement, sand, aggregate, steel, bricks, paint, tiles, electrical, plumbing), BOQ costing, rate analysis, and anti-fear contractor audit checklists. ₹299 base / ₹499 VIP bundle.
+- [Site Expense & Profit Tracker](https://thinktools.in/p/construction-calculator-pro): Comprehensive cashflow, contractor advances, and site profitability tracking system.
+- [Labour Attendance & Weekly Wage Sheet](https://thinktools.in/p/construction-calculator-pro): Automated muster roll, overtime calculation, advance deductions, and weekly wage slips.
+- [Payment Collection Tracker](https://thinktools.in/p/construction-calculator-pro): Invoice aging tracker with automated payment follow-up schedules and WhatsApp reminder templates.
+
+## Key Links & Resources
+
+- [Home](https://thinktools.in/): Official homepage, product showcases, and bespoke custom engineering software.
+- [About ThinkTools](https://thinktools.in/about): Engineering philosophy, mission, and company background.
+- [Contact Support](https://thinktools.in/contact): Official support desk for licensing, technical assistance, and custom requests.
+- [Model Context Protocol Server](https://thinktools.in/.well-known/mcp/server-card.json): SEP-1649 MCP Server Card for AI agent tools.
+- [Terms of Service](https://thinktools.in/terms): Digital licensing and usage terms.
+- [Refund Policy](https://thinktools.in/refund-policy): Product delivery and guarantee details.
+- [Shipping Policy](https://thinktools.in/shipping-policy): Instant digital delivery policy via email and web hub.
+- [Privacy Policy](https://thinktools.in/privacy-policy): Customer data protection and privacy standards.
+
+## Contact Information
+
+- **Email:** support@thinktools.in / orders@thinktools.in
+- **Location:** Anna Nagar, Chennai, Tamil Nadu 600040, India
+- **Website:** https://thinktools.in

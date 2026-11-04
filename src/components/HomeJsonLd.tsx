@@ -8,7 +8,7 @@ export default function HomeJsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": ["Organization", "LocalBusiness"],
         "@id": `${siteUrl}#organization`,
         "name": "ThinkTools",
         "legalName": "Thinktools.in",
@@ -17,8 +17,20 @@ export default function HomeJsonLd() {
         "image": `${siteUrl}/logo-square.png`,
         "sameAs": ["https://www.instagram.com/thinktools.in"],
         "description":
-          "Publisher of practical digital products, construction calculators, and custom software and workflow solutions.",
+          "Publisher of practical digital products, construction calculators, and custom software and workflow solutions for Indian engineers and builders.",
         "email": "support@thinktools.in",
+        "telephone": "+91-93450-48201",
+        "priceRange": "₹299 - ₹499",
+        "currenciesAccepted": "INR",
+        "paymentAccepted": "UPI, NetBanking, Credit Card, Debit Card",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Anna Nagar",
+          "addressLocality": "Chennai",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "600040",
+          "addressCountry": "IN"
+        },
         "foundingLocation": {
           "@type": "Place",
           "name": "India",
@@ -37,8 +49,9 @@ export default function HomeJsonLd() {
         "contactPoint": {
           "@type": "ContactPoint",
           "email": "support@thinktools.in",
+          "telephone": "+91-93450-48201",
           "contactType": "Customer Support",
-          "availableLanguage": ["English", "Hindi"],
+          "availableLanguage": ["English", "Hindi", "Tamil"],
         },
       },
       {

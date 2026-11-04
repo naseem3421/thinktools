@@ -1,0 +1,70 @@
+# ThinkTools — Full Agent Context & Product Knowledge Base
+
+## Overview
+ThinkTools (https://thinktools.in) is an engineering and digital product publishing company headquartered in Chennai, Tamil Nadu, India. The company builds specialized offline calculation engines and custom software for civil engineers, general building contractors, project managers, and independent homeowners.
+
+### Philosophy & Business Model
+- **No Recurring Subscriptions:** Products are sold as permanent lifetime licenses (one-time payment).
+- **100% Offline Capability:** All primary tools are engineered in native Microsoft Excel (.xlsx) with pre-linked formulas, macros-free reliability, and mobile compatibility across WPS Office, Google Sheets, and Excel for Android/iOS.
+- **Indian Standard Validation:** Material coefficients, structural constants, and unit weight tables follow IS 456 (Plain and Reinforced Concrete), IS 1200 (Method of Measurement of Building and Civil Engineering Works), and CPWD Schedule of Rates (DSR).
+
+---
+
+## Detailed Product Catalog
+
+### 1. Construction Calculator Pro (Flagship)
+- **Slug:** `construction-calculator-pro`
+- **Pricing:**
+  - Base Package: ₹299 (Master 31-sheet calculation system + PDF guides + 7 Anti-Fear bonus templates)
+  - 4-in-1 VIP Bundle: ₹499 (Master package + all 3 Business Add-On Tools)
+- **Included Modules:**
+  1. Built-up Area & Stage-wise Cost Estimator (₹/sq.ft. budgeting)
+  2. Concrete Volume & Mix Design (M15, M20, M25, M30 cement bags, sand cft, aggregate cft, water requirement)
+  3. Steel Bar Bending Schedule (BBS) Calculator (8mm, 10mm, 12mm, 16mm, 20mm, 25mm weights and wastage factor)
+  4. Brickwork & AAC Block Estimator (Standard red bricks, fly-ash bricks, mortar ratios 1:4 and 1:6)
+  5. Plastering Estimator (Internal 12mm, External 20mm, ceiling 6mm plaster mortar quantity)
+  6. Flooring & Tiling Calculator (Vitrified tiles, ceramic, granite, marble area, skirting, adhesive/cement mortar)
+  7. Painting & Putty Estimator (Primer coats, wall putty, emulsion coats, exterior weather-coat paint)
+  8. Electrical & Plumbing Rough-in Material Estimator
+  9. Excavation & Earthwork Calculator
+  10. Contractor Rate Analysis & BOQ Generator
+
+### 2. Site Expense & Profit Tracker
+- Real-time petty cash tracking for site supervisors
+- Material purchase ledger and vendor payment status
+- Projected vs actual margin tracking
+
+### 3. Labour Attendance & Weekly Wage Sheet
+- Daily muster roll for masons, helpers, barbenders, and carpenters
+- Automated weekly wage computation including overtime hours and advance deductions
+- Exportable, printable wage receipts
+
+### 4. Payment Collection Tracker
+- Outstanding client billing tracker
+- Stage-wise milestone billing reminders
+- Pre-drafted WhatsApp reminder scripts for overdue construction payments
+
+---
+
+## Technical Integration for Agents
+
+### WebMCP Tools
+ThinkTools pages register WebMCP tools via `navigator.modelContext.registerTool()`:
+- `calculate_construction_materials`: Instant material estimation given built-up area and number of floors.
+- `get_product_pricing`: Returns current SKU pricing, bundle options, and checkout URLs.
+
+### Machine-Readable Endpoints
+- **LLM Summary:** https://thinktools.in/llms.txt
+- **LLM Full Context:** https://thinktools.in/llms-full.txt
+- **MCP Server Card:** https://thinktools.in/.well-known/mcp/server-card.json
+- **Markdown Alternate:** Pass `Accept: text/markdown` to https://thinktools.in/
+- **Sitemap:** https://thinktools.in/sitemap.xml
+- **Robots Directives:** https://thinktools.in/robots.txt (Content-Signal: search=yes, ai-train=no)
+
+---
+
+## Contact & Governance
+- **Publisher:** ThinkTools (Thinktools.in)
+- **Email:** support@thinktools.in / orders@thinktools.in
+- **Address:** Anna Nagar, Chennai, Tamil Nadu 600040, India
+- **Phone:** +91-93450-48201

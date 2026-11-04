@@ -1,0 +1,30 @@
+# ThinkTools Robots Configuration & Agent Directives
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /p/construction-calculator-pro/diwali
+Disallow: /p/construction-calculator-pro/download
+
+# Content Signals (AI & Content Use Policy)
+Content-Signal: search=yes, ai-train=no
+
+# Explicitly welcome AI Answer & Generative Search Engines (AIO / AEO / GEO)
+User-Agent: GPTBot
+User-Agent: ChatGPT-User
+User-Agent: ClaudeBot
+User-Agent: Claude-Web
+User-Agent: PerplexityBot
+User-Agent: Google-Extended
+User-Agent: Applebot
+User-Agent: Applebot-Extended
+User-Agent: Bingbot
+User-Agent: cohere-ai
+User-Agent: Bytespider
+User-Agent: CCBot
+Allow: /
+Disallow: /api/
+Disallow: /p/construction-calculator-pro/diwali
+Disallow: /p/construction-calculator-pro/download
+
+Sitemap: https://thinktools.in/sitemap.xml
