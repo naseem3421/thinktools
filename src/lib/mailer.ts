@@ -23,7 +23,10 @@ export async function sendOrderDeliveryEmail({
   const port = Number(process.env.SMTP_PORT) || 465;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
-  const from = process.env.SMTP_FROM || `"Thinktools" <${user || "orders@thinktools.in"}>`;
+  const rawFrom = (process.env.SMTP_FROM || "").trim();
+  const from = rawFrom.includes("@")
+    ? (rawFrom.includes("<") ? rawFrom : `"Thinktools" <${rawFrom}>`)
+    : `"Thinktools" <${user || "orders@thinktools.in"}>`;
 
   if (!user || !pass) {
     console.warn("[Mailer] SMTP credentials (SMTP_USER / SMTP_PASS) not configured. Email skipped.");
