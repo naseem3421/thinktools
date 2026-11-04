@@ -29,9 +29,7 @@ function DownloadContent() {
   const decodedEmail = decodeURIComponent(email);
   const decodedName = decodeURIComponent(name);
 
-  const mainDownloadUrl = token
-    ? `/api/download?file=main&token=${encodeURIComponent(token)}`
-    : `/api/download?file=main`;
+  const mainDownloadUrl = "/downloads/d7x9m2k4q8v1/Construction_Calculator_Pro_Excel.zip";
 
   const purchasedAddons: AddonProduct[] = addonsParam
     ? addonsParam
@@ -251,7 +249,7 @@ function DownloadContent() {
                   </div>
                   <div className="text-left sm:text-right shrink-0 pt-2 sm:pt-0 flex flex-wrap items-center gap-2">
                     <a
-                      href={token ? `/api/download?file=${addon.id}&token=${encodeURIComponent(token)}` : `/api/download?file=${addon.id}`}
+                      href={`/downloads/d7x9m2k4q8v1/addons/${addon.id}.zip`}
                       download={`${addon.id}.zip`}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm transition-all cursor-pointer"
                     >
