@@ -165,3 +165,4 @@ export async function GET() {
     card: "https://thinktools.in/.well-known/mcp/server-card.json",
   });
 }
+

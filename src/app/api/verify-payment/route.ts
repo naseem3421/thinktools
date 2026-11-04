@@ -4,7 +4,7 @@ import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { extractMetaCookies } from "@/lib/metaCapi";
 import { generateDownloadToken } from "@/lib/downloadToken";
-import { dispatchCapiPurchaseWithIdempotency } from "@/lib/orderStore";
+import { dispatchCapiPurchaseWithIdempotency, claimEmailDelivery, claimSheetSync } from "@/lib/orderStore";
 
 // In-memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries within the same node process
 const processedPayments = new Set<string>();
@@ -80,20 +80,38 @@ export async function POST(request: Request) {
       ? `${productTitle} + ${validAddonIds.length} Add-on${validAddonIds.length > 1 ? "s" : ""}`
       : productTitle;
 
-    // Idempotency check: prevent duplicate fulfillment on network retry
+    // Fast in-memory deduplication check
     const isFirstFulfillment = !processedPayments.has(razorpay_payment_id);
     if (isFirstFulfillment) {
       processedPayments.add(razorpay_payment_id);
-      // Bound the set size to prevent memory leaks over time
       if (processedPayments.size > 10000) {
         const first = processedPayments.values().next().value;
         if (first) processedPayments.delete(first);
       }
     }
 
-    // Automatically sync transaction to Google Sheet Webhook if configured (only on first fulfillment)
+    const recipientEmail = body.customer_email || body.email;
+
+    // Persistent atomic claim for email delivery (guarantees webhook vs browser race conditions never duplicate)
+    const shouldSendEmail =
+      isFirstFulfillment &&
+      (await claimEmailDelivery(razorpay_order_id || razorpay_payment_id, {
+        paymentId: razorpay_payment_id,
+        email: recipientEmail,
+        name: body.customer_name || body.name,
+        addonIds: validAddonIds,
+        amount: totalPriceInRupees,
+        productSlug,
+      }));
+
+    // Persistent atomic claim for Google Sheets sync
     const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    if (sheetWebhookUrl && isFirstFulfillment) {
+    const shouldSyncSheet =
+      isFirstFulfillment &&
+      (await claimSheetSync(razorpay_order_id || razorpay_payment_id));
+
+    // Automatically sync transaction to Google Sheet Webhook if configured
+    if (sheetWebhookUrl && shouldSyncSheet) {
       try {
         await fetch(sheetWebhookUrl, {
           method: "POST",
@@ -130,9 +148,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // Automatically dispatch instant digital delivery email with attachment (only on first fulfillment)
-    const recipientEmail = body.customer_email || body.email;
-    if (recipientEmail && isFirstFulfillment) {
+    // Automatically dispatch instant digital delivery email with download links
+    if (recipientEmail && shouldSendEmail) {
       sendOrderDeliveryEmail({
         toEmail: recipientEmail,
         customerName: body.customer_name || body.name || "Valued Builder",
@@ -187,7 +204,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate cryptographically signed, 3-hour time-limited download token
+    // Generate cryptographically signed, permanent download token
     const downloadToken = generateDownloadToken({
       order_id: razorpay_order_id,
       addon_ids: validAddonIds,

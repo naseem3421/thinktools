@@ -7,8 +7,18 @@ export interface OrderRecord {
   amount: number;
   currency: string;
   status: "created" | "paid" | "failed";
+  payment_id?: string;
+  recipient_email?: string;
+  customer_name?: string;
+  customer_phone?: string;
+  addon_ids?: string[];
+  product_slug?: string;
   capi_purchase_sent: boolean;
   capi_sent_at?: number;
+  email_sent?: boolean;
+  email_sent_at?: number;
+  sheet_synced?: boolean;
+  sheet_synced_at?: number;
   created_at: number;
   updated_at: number;
 }
@@ -242,3 +252,108 @@ export async function dispatchCapiPurchaseWithIdempotency(
   }
 }
 
+/**
+ * Atomically checks and claims email delivery rights for an order.
+ * Returns true if this process claimed delivery first and should send the email.
+ * Returns false if the email was already recorded as sent.
+ */
+export async function claimEmailDelivery(
+  orderId: string,
+  details?: {
+    paymentId?: string;
+    email?: string;
+    name?: string;
+    addonIds?: string[];
+    amount?: number;
+    productSlug?: string;
+  }
+): Promise<boolean> {
+  const safeId = orderId ? orderId.replace(/[^a-zA-Z0-9_-]/g, "") : "";
+  if (!safeId) return true;
+
+  let acquired = false;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    if (acquireLock(safeId)) {
+      acquired = true;
+      break;
+    }
+    await new Promise((r) => setTimeout(r, 80 * (attempt + 1)));
+  }
+
+  if (!acquired) {
+    const existing = getOrder(safeId);
+    return !(existing?.email_sent);
+  }
+
+  try {
+    let order = getOrder(safeId);
+    if (!order) {
+      order = initOrder(safeId, {
+        amount: details?.amount || 0,
+        currency: "INR",
+        status: "paid",
+      });
+    }
+
+    if (order.email_sent) {
+      return false; // Already sent by another thread/webhook
+    }
+
+    order.email_sent = true;
+    order.email_sent_at = Date.now();
+    order.status = "paid";
+    if (details?.paymentId) order.payment_id = details.paymentId;
+    if (details?.email) order.recipient_email = details.email;
+    if (details?.name) order.customer_name = details.name;
+    if (details?.addonIds) order.addon_ids = details.addonIds;
+    if (details?.productSlug) order.product_slug = details.productSlug;
+    if (details?.amount) order.amount = details.amount;
+
+    saveOrder(order);
+    return true; // Claimed successfully
+  } finally {
+    releaseLock(safeId);
+  }
+}
+
+/**
+ * Atomically checks and claims Google Sheets sync rights for an order.
+ * Returns true if this process should sync to Google Sheets.
+ * Returns false if already synced.
+ */
+export async function claimSheetSync(orderId: string): Promise<boolean> {
+  const safeId = orderId ? orderId.replace(/[^a-zA-Z0-9_-]/g, "") : "";
+  if (!safeId) return true;
+
+  let acquired = false;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    if (acquireLock(safeId)) {
+      acquired = true;
+      break;
+    }
+    await new Promise((r) => setTimeout(r, 80 * (attempt + 1)));
+  }
+
+  if (!acquired) {
+    const existing = getOrder(safeId);
+    return !(existing?.sheet_synced);
+  }
+
+  try {
+    let order = getOrder(safeId);
+    if (!order) {
+      order = initOrder(safeId, { status: "paid" });
+    }
+
+    if (order.sheet_synced) {
+      return false; // Already synced
+    }
+
+    order.sheet_synced = true;
+    order.sheet_synced_at = Date.now();
+    saveOrder(order);
+    return true; // Claimed successfully
+  } finally {
+    releaseLock(safeId);
+  }
+}
