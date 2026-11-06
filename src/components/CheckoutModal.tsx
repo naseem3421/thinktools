@@ -7,6 +7,7 @@ import { X, Lock, Check, AlertCircle, ShieldCheck, Sparkles, Play } from "lucide
 import { Product, ADDON_PRODUCTS, AddonProduct } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
 import { rememberCustomer } from "@/lib/visitorIdentity";
+import { validateEmailWithTypoDetection, normalizeEmail, normalizeIndianPhone } from "@/lib/emailValidation";
 
 interface CheckoutModalProps {
   product: Product;
@@ -95,6 +96,7 @@ export default function CheckoutModal({
   const [agreeTerms, setAgreeTerms] = useState<boolean>(true);
   const [validationError, setValidationError] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [emailTypoSuggestion, setEmailTypoSuggestion] = useState<string | null>(null);
 
   // Local state synced with props to allow interactive toggling inside the modal
   const [internalAddonIds, setInternalAddonIds] = useState<string[]>(selectedAddonIds);
@@ -138,18 +140,29 @@ export default function CheckoutModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isProcessing) return;
+
     if (!name.trim()) {
       setValidationError("Please enter your full name.");
       return;
     }
-    if (!email.trim() || !email.includes("@")) {
-      setValidationError("Please enter a valid email address.");
+    const emailValidation = validateEmailWithTypoDetection(email);
+    if (!emailValidation.valid) {
+      setValidationError(emailValidation.error || "Please enter a valid email address.");
+      return;
+    }
+    if (emailTypoSuggestion) {
+      setValidationError(`Did you mean "${emailTypoSuggestion}"? Click 'Yes, Fix It' above or confirm your email to continue.`);
       return;
     }
     if (!agreeTerms) {
       setValidationError("Please accept the terms and refund policy to proceed.");
       return;
     }
+
+    const cleanEmail = normalizeEmail(email);
+    const phoneData = normalizeIndianPhone(phone);
+    const cleanPhone = phoneData.normalized;
 
     setValidationError("");
     setIsProcessing(true);
@@ -180,8 +193,8 @@ export default function CheckoutModal({
             product_title: product.title,
             addon_ids: activeAddonIds.join(","),
             customer_name: name.trim(),
-            customer_email: email.trim(),
-            customer_phone: phone.trim(),
+            customer_email: cleanEmail,
+            customer_phone: cleanPhone,
           },
         }),
       });
@@ -288,7 +301,7 @@ export default function CheckoutModal({
             const downloadPath = product.slug.includes("diwali")
               ? "/p/construction-calculator-pro/download"
               : `/p/${product.slug}/download`;
-            router.push(`${downloadPath}?${query.toString()}`);
+            router.push(`/order/${response.razorpay_order_id}`);
           } catch (verifyErr: unknown) {
             console.error("Verification error:", verifyErr);
             const err = verifyErr as { message?: string };
@@ -576,9 +589,36 @@ export default function CheckoutModal({
                     required
                     placeholder="you@example.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setEmail(val);
+                      const check = validateEmailWithTypoDetection(val);
+                      if (check.hasTypo && check.suggestedEmail) {
+                        setEmailTypoSuggestion(check.suggestedEmail);
+                      } else {
+                        setEmailTypoSuggestion(null);
+                      }
+                    }}
                     className="w-full bg-[#0b0f14] border border-slate-700/80 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors"
                   />
+                  {emailTypoSuggestion && (
+                    <div className="mt-1.5 p-2 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs flex items-center justify-between gap-2">
+                      <span className="text-[11px]">
+                        Did you mean <strong className="underline text-amber-200">{emailTypoSuggestion}</strong>?
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmail(emailTypoSuggestion);
+                          setEmailTypoSuggestion(null);
+                          setValidationError("");
+                        }}
+                        className="px-2 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[10px] shrink-0 cursor-pointer"
+                      >
+                        Yes, Fix It
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Input: Mobile number */}

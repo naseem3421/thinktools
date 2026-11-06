@@ -15,7 +15,8 @@ import {
   Download,
   FileSpreadsheet,
   Lock,
-  ArrowRight
+  ArrowRight,
+  MessageCircle,
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -64,16 +65,16 @@ function DownloadContent() {
                 No Active Purchase Found
               </h1>
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                No active purchase found. If you have already purchased, please open the access link sent to your email. Otherwise, get your license below.
+                If you have already purchased, you can recover your download link immediately on our self-service recovery page.
               </p>
             </div>
 
             <div className="w-full pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
-                href="/p/construction-calculator-pro"
+                href="/resend"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
               >
-                <span>Get Construction Calculator Pro (₹299 / ₹499)</span>
+                <span>Find My Files by Email / Order ID</span>
                 <ArrowRight className="w-4 h-4 stroke-[3]" />
               </Link>
             </div>
@@ -118,7 +119,6 @@ function DownloadContent() {
         .filter(Boolean)
     : (orderId === "DIR-366171" ? Object.values(ADDON_PRODUCTS) : []);
 
-  // Compute authoritative order value
   const rawAmount = parseFloat(amountParam);
   const calculatedBase = 299;
   const calculatedAddons = purchasedAddons.reduce((sum, a) => sum + a.price, 0);
@@ -126,12 +126,10 @@ function DownloadContent() {
   const defaultAmount = calculatedBase + calculatedAddons - calculatedDiscount;
   const purchaseValue = !isNaN(rawAmount) && rawAmount > 0 ? rawAmount : defaultAmount;
 
-  // Exactly ONE browser-side Purchase event with matching eventID = "purchase_" + orderId
-  // Protected against reloads and back-navigation with sessionStorage + localStorage guards
+  // Browser-side Purchase tracking with reload guards
   const purchaseFiredRef = useRef(false);
 
   useEffect(() => {
-    // Only fire for real orders, not fallback placeholders
     if (!orderId || orderId === "TT-839201") return;
     if (purchaseFiredRef.current) return;
 
@@ -148,7 +146,7 @@ function DownloadContent() {
         window.localStorage?.setItem(storageKey, "1");
       }
     } catch {
-      // Ignore storage restrictions in private browsing modes
+      // Ignore private browsing storage restriction
     }
 
     purchaseFiredRef.current = true;
@@ -158,7 +156,7 @@ function DownloadContent() {
     const contentIds = [productSlug, ...purchasedAddons.map((a) => a.id)];
     const numItems = 1 + purchasedAddons.length;
 
-    // 1. Meta Pixel Purchase event with matching eventID and deduplication payload
+    // 1. Meta Pixel Purchase event with matching eventID
     if (typeof window !== "undefined" && typeof window.fbq === "function") {
       window.fbq(
         "track",
@@ -172,17 +170,9 @@ function DownloadContent() {
         },
         { eventID: eventId }
       );
-
-      if (process.env.NODE_ENV === "development") {
-        console.log("[Meta Tracking]", {
-          event_name: "Purchase",
-          event_id: eventId,
-          source: "browser",
-        });
-      }
     }
 
-    // 2. GA4 Purchase event for consistency
+    // 2. GA4 Purchase event
     if (typeof window !== "undefined" && typeof window.gtag === "function") {
       window.gtag("event", "purchase", {
         transaction_id: String(orderId),
@@ -201,6 +191,10 @@ function DownloadContent() {
   const isGmail = displayEmail.toLowerCase().includes("@gmail.com");
   const emailClientUrl = isGmail ? "https://mail.google.com/mail/u/0/#search/thinktools" : `mailto:`;
 
+  const waMessage = encodeURIComponent(
+    `Hi Thinktools Support, my Order ID is ${orderId}. Please send my download package link here on WhatsApp!`
+  );
+
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       {/* Success Badge */}
@@ -209,13 +203,13 @@ function DownloadContent() {
           <CheckCircle2 className="w-9 h-9" />
         </div>
         <span className="inline-block text-xs uppercase font-bold tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 px-3.5 py-1 rounded-full">
-          Payment Confirmed • Digital Files Dispatched
+          Payment Confirmed • Digital Files Active
         </span>
         <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-          Check Your Email, {displayGreeting}!
+          Your Files Are Ready, {displayGreeting}!
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
-          Your complete <strong className="text-slate-900">Construction Calculator Pro Package</strong> has been sent directly to:
+          Your complete <strong className="text-slate-900">Construction Calculator Pro Package</strong> is available for instant download below, and a permanent backup link has been sent to:
           <br />
           <span className="inline-block mt-1 font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-lg text-sm sm:text-base">
             {displayEmail}
@@ -224,24 +218,23 @@ function DownloadContent() {
       </div>
 
       <div className="space-y-6">
-        {/* EMAIL DISPATCH CONFIRMATION CARD */}
+        {/* DOWNLOAD CARD */}
         <div className="relative rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950 text-white p-6 sm:p-9 border-2 border-amber-500/50 shadow-2xl overflow-hidden">
-          {/* Decorative ambient background accents */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/15 rounded-full blur-[90px] pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-60 h-60 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold uppercase tracking-wider">
-              <Mail className="w-3.5 h-3.5 text-amber-400" />
-              <span>Direct Attachment Inside Your Email</span>
+              <Download className="w-3.5 h-3.5 text-amber-400" />
+              <span>Instant Download Access Enabled</span>
             </div>
 
             <div className="space-y-2 max-w-xl">
               <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                Toolkit Delivered to Your Inbox
+                Download Master Package (.zip)
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                For security and permanent offline access, your files are attached directly to your confirmation email as a single master archive:
+                Click below to download your complete master file. Includes all 31 pre-linked Excel tabs, 13 PDF implementation guides, and 7 bonus kits.
               </p>
             </div>
 
@@ -249,7 +242,7 @@ function DownloadContent() {
               <div className="flex items-center justify-between py-1 border-b border-white/10">
                 <span className="text-slate-400 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                  Attached File:
+                  Primary File:
                 </span>
                 <span className="font-mono font-bold text-amber-300">
                   Construction_Calculator_Pro_Excel.zip (1.9 MB)
@@ -265,11 +258,11 @@ function DownloadContent() {
               <div className="flex items-center justify-between py-1">
                 <span className="text-slate-400 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-blue-400 shrink-0" />
-                  Delivery Status:
+                  Access Validity:
                 </span>
                 <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Dispatched (Arrives in 1–2 mins)
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  7-Day Download Link • Permanent Offline Access
                 </span>
               </div>
             </div>
@@ -282,7 +275,7 @@ function DownloadContent() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 <Download className="w-5 h-5 text-slate-950 stroke-[2.5]" />
-                <span>Download Files Now (.zip)</span>
+                <span>Download Master Files (.zip)</span>
               </a>
 
               <a
@@ -298,9 +291,13 @@ function DownloadContent() {
               </a>
             </div>
 
-            <p className="text-xs text-slate-400 font-mono">
-              Order Reference: <strong className="text-slate-300">#{orderId}</strong>
-            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400">
+              <span>Order Reference: <strong className="text-slate-300 font-mono">#{orderId}</strong></span>
+              <span>•</span>
+              <Link href={`/order/${orderId}`} className="text-amber-400 hover:underline font-semibold">
+                View Full Order Dashboard ➔
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -338,10 +335,6 @@ function DownloadContent() {
                       <Download className="w-3.5 h-3.5 stroke-[2.5]" />
                       <span>Download (.zip)</span>
                     </a>
-                    <span className="inline-flex items-center gap-1.5 text-emerald-700 font-semibold bg-emerald-100/70 px-2.5 py-1 rounded-lg text-xs">
-                      <Clock className="w-3.5 h-3.5 text-emerald-600" />
-                      In Email
-                    </span>
                   </div>
                 </div>
               ))}
@@ -349,26 +342,31 @@ function DownloadContent() {
           </div>
         )}
 
-        {/* HELPFUL TIPS CARD */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
-            <HelpCircle className="w-4.5 h-4.5 text-amber-600" />
-            <span>Don&apos;t see the email yet?</span>
+        {/* WHATSAPP & SELF-SERVICE RECOVERY */}
+        <div className="rounded-2xl bg-amber-50/60 border border-amber-200 p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+          <div>
+            <h4 className="font-bold text-amber-950 text-sm">Need your download link on WhatsApp?</h4>
+            <p className="text-amber-800 mt-0.5">
+              Get an instant link sent to your phone or recover misplaced files anytime.
+            </p>
           </div>
-          <ul className="text-xs text-slate-600 space-y-2 leading-relaxed list-disc list-inside">
-            <li>
-              Please check your <strong>Spam / Junk</strong> folder or the <strong>Promotions / Updates</strong> tab in your email provider.
-            </li>
-            <li>
-              Search for subject: <strong className="text-slate-800">&quot;Your Construction Calculator Pro Package&quot;</strong> or sender <strong className="text-slate-800">orders@thinktools.in</strong>.
-            </li>
-            <li>
-              In rare cases, email providers take 2–3 minutes to scan attachments before showing them in your inbox.
-            </li>
-            <li>
-              Need immediate help or manual re-dispatch? Reply or email us anytime at <a href="mailto:support@thinktools.in" className="text-amber-700 underline font-semibold">support@thinktools.in</a> with your Order ID <strong className="text-slate-800">#{orderId}</strong>.
-            </li>
-          </ul>
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href={`https://wa.me/919345048201?text=${waMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm transition-all"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Send to WhatsApp</span>
+            </a>
+            <Link
+              href="/resend"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all"
+            >
+              <span>Resend Desk</span>
+            </Link>
+          </div>
         </div>
 
         {/* Back Link */}

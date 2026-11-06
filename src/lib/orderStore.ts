@@ -1,32 +1,82 @@
 import fs from "fs";
 import path from "path";
 import { sendMetaCapiEvent, CapiUserData } from "./metaCapi";
+import { normalizeEmail } from "./emailValidation";
+
+export type OrderStatus =
+  | "pending"           // Created at checkout, awaiting payment
+  | "paid"              // Verified & captured by Razorpay webhook
+  | "delivery_queued"   // Delivery job scheduled / in-progress
+  | "delivery_sent"     // Delivery email confirmed sent
+  | "delivery_failed"   // Delivery attempts exhausted / error
+  | "payment_failed";   // Gateway notified payment failure
+
+export interface DeliveryAttempt {
+  attempt: number;
+  timestamp: number;
+  success: boolean;
+  error?: string;
+  messageId?: string;
+}
+
+export interface DownloadLog {
+  timestamp: number;
+  file: string;
+  ip: string;
+  userAgent: string;
+  isScanner: boolean;
+}
 
 export interface OrderRecord {
-  id: string;
-  amount: number;
-  currency: string;
-  status: "created" | "paid" | "failed";
-  payment_id?: string;
-  recipient_email?: string;
-  customer_name?: string;
+  id: string; // Order ID (e.g. order_xxxx or DIR-xxxx)
+  payment_id?: string; // Razorpay payment ID (e.g. pay_xxxx)
+  amount: number; // in Rupees
+  currency: string; // "INR"
+  status: OrderStatus;
+
+  // Customer info
+  customer_name: string;
+  customer_email: string; // Trimmed, lowercase
   customer_phone?: string;
-  addon_ids?: string[];
-  product_slug?: string;
+
+  // Product info
+  product_slug: string;
+  product_title: string;
+  addon_ids: string[];
+  full_order_title: string;
+
+  // Delivery state machine
+  delivery_attempts: number;
+  max_delivery_attempts: number; // default: 4
+  next_retry_at?: number | null;
+  last_delivery_error?: string | null;
+  delivery_sent_at?: number | null;
+  delivery_message_id?: string | null;
+  delivery_history: DeliveryAttempt[];
+
+  // Download security & quotas (min 5 allowed, default 10)
+  download_token?: string;
+  token_expires_at?: number;
+  download_count: number;
+  max_downloads: number;
+  download_logs: DownloadLog[];
+
+  // Meta Conversions API & Google Sheets
   capi_purchase_sent: boolean;
   capi_sent_at?: number;
-  email_sent?: boolean;
-  email_sent_at?: number;
-  sheet_synced?: boolean;
+  sheet_synced: boolean;
   sheet_synced_at?: number;
+
+  // Timestamps
   created_at: number;
   updated_at: number;
+  paid_at?: number;
 }
 
 const ORDERS_DIR = path.join(process.cwd(), "storage", "orders");
 const MAX_LOCK_AGE_MS = 30000; // 30-second stale lock expiration
 
-function ensureOrdersDir(): void {
+export function ensureOrdersDir(): void {
   if (!fs.existsSync(ORDERS_DIR)) {
     fs.mkdirSync(ORDERS_DIR, { recursive: true });
   }
@@ -43,12 +93,13 @@ function getLockFilePath(orderId: string): string {
 }
 
 /**
- * Acquires an exclusive file-based lock for an order ID.
- * Uses atomic OS flag 'wx' to prevent race conditions across concurrent processes/requests.
+ * Acquires an exclusive file-based lock for an order ID using atomic OS flag 'wx'.
  */
-function acquireLock(orderId: string): boolean {
+export function acquireLock(orderId: string): boolean {
   ensureOrdersDir();
-  const lockFile = getLockFilePath(orderId);
+  const safeId = orderId.replace(/[^a-zA-Z0-9_-]/g, "");
+  if (!safeId) return false;
+  const lockFile = getLockFilePath(safeId);
 
   // Clear stale lock if prior process crashed or timed out
   try {
@@ -63,7 +114,7 @@ function acquireLock(orderId: string): boolean {
       }
     }
   } catch {
-    // Ignore stat failures
+    // Ignore stat errors
   }
 
   try {
@@ -79,8 +130,10 @@ function acquireLock(orderId: string): boolean {
 /**
  * Releases the exclusive file lock.
  */
-function releaseLock(orderId: string): void {
-  const lockFile = getLockFilePath(orderId);
+export function releaseLock(orderId: string): void {
+  const safeId = orderId.replace(/[^a-zA-Z0-9_-]/g, "");
+  if (!safeId) return;
+  const lockFile = getLockFilePath(safeId);
   try {
     if (fs.existsSync(lockFile)) {
       fs.unlinkSync(lockFile);
@@ -95,7 +148,10 @@ function releaseLock(orderId: string): void {
  */
 export function getOrder(orderId: string): OrderRecord | null {
   ensureOrdersDir();
-  const filePath = getOrderFilePath(orderId);
+  const safeId = orderId ? orderId.replace(/[^a-zA-Z0-9_-]/g, "") : "";
+  if (!safeId) return null;
+
+  const filePath = getOrderFilePath(safeId);
   if (!fs.existsSync(filePath)) {
     return null;
   }
@@ -112,7 +168,8 @@ export function getOrder(orderId: string): OrderRecord | null {
  */
 export function saveOrder(order: OrderRecord): void {
   ensureOrdersDir();
-  const filePath = getOrderFilePath(order.id);
+  const safeId = order.id.replace(/[^a-zA-Z0-9_-]/g, "");
+  const filePath = getOrderFilePath(safeId);
   const tempPath = `${filePath}.tmp.${Date.now()}.${Math.random().toString(36).substring(2, 8)}`;
   order.updated_at = Date.now();
   fs.writeFileSync(tempPath, JSON.stringify(order, null, 2), "utf-8");
@@ -120,26 +177,246 @@ export function saveOrder(order: OrderRecord): void {
 }
 
 /**
- * Initializes an order record with capi_purchase_sent: false if it doesn't already exist.
+ * Initializes or updates an order record.
  */
 export function initOrder(orderId: string, initialData: Partial<OrderRecord> = {}): OrderRecord {
   ensureOrdersDir();
-  const existing = getOrder(orderId);
+  const safeId = orderId.replace(/[^a-zA-Z0-9_-]/g, "");
+  const existing = getOrder(safeId);
   if (existing) {
     return existing;
   }
   const now = Date.now();
   const record: OrderRecord = {
-    id: orderId,
+    id: safeId,
+    payment_id: initialData.payment_id,
     amount: initialData.amount ?? 0,
     currency: initialData.currency ?? "INR",
-    status: initialData.status ?? "created",
+    status: initialData.status ?? "pending",
+    customer_name: initialData.customer_name || "Valued Builder",
+    customer_email: normalizeEmail(initialData.customer_email || ""),
+    customer_phone: initialData.customer_phone || "",
+    product_slug: initialData.product_slug || "construction-calculator-pro",
+    product_title: initialData.product_title || "Construction Calculator Pro",
+    addon_ids: initialData.addon_ids || [],
+    full_order_title: initialData.full_order_title || "Construction Calculator Pro",
+    delivery_attempts: 0,
+    max_delivery_attempts: 4,
+    delivery_history: [],
+    download_count: 0,
+    max_downloads: 10, // Requirement 6: multiple downloads (min. 5)
+    download_logs: [],
     capi_purchase_sent: false,
+    sheet_synced: false,
     created_at: now,
     updated_at: now,
   };
   saveOrder(record);
   return record;
+}
+
+/**
+ * Finds an order by customer email or Razorpay payment ID.
+ */
+export function findOrders(filter: {
+  email?: string;
+  paymentId?: string;
+  status?: OrderStatus;
+}): OrderRecord[] {
+  ensureOrdersDir();
+  const results: OrderRecord[] = [];
+  try {
+    const files = fs.readdirSync(ORDERS_DIR);
+    const targetEmail = filter.email ? normalizeEmail(filter.email) : undefined;
+    const targetPayment = filter.paymentId?.trim();
+
+    for (const file of files) {
+      if (!file.endsWith(".json")) continue;
+      try {
+        const content = fs.readFileSync(path.join(ORDERS_DIR, file), "utf-8");
+        const order = JSON.parse(content) as OrderRecord;
+
+        let match = true;
+        if (targetEmail && normalizeEmail(order.customer_email) !== targetEmail) {
+          match = false;
+        }
+        if (targetPayment && order.payment_id !== targetPayment) {
+          match = false;
+        }
+        if (filter.status && order.status !== filter.status) {
+          match = false;
+        }
+
+        if (match) {
+          results.push(order);
+        }
+      } catch {
+        // Skip unreadable files
+      }
+    }
+  } catch (err) {
+    console.error("Error reading orders directory in findOrders:", err);
+  }
+
+  // Sort latest first
+  return results.sort((a, b) => b.created_at - a.created_at);
+}
+
+/**
+ * Lists all orders sorted latest first, with optional status and limit filters.
+ */
+export function listAllOrders(options?: { status?: OrderStatus; limit?: number }): OrderRecord[] {
+  ensureOrdersDir();
+  const results: OrderRecord[] = [];
+  try {
+    const files = fs.readdirSync(ORDERS_DIR);
+    for (const file of files) {
+      if (!file.endsWith(".json")) continue;
+      try {
+        const content = fs.readFileSync(path.join(ORDERS_DIR, file), "utf-8");
+        const order = JSON.parse(content) as OrderRecord;
+        if (options?.status && order.status !== options.status) {
+          continue;
+        }
+        results.push(order);
+      } catch {
+        // Ignore malformed files
+      }
+    }
+  } catch (err) {
+    console.error("Error listing all orders:", err);
+  }
+
+  results.sort((a, b) => b.created_at - a.created_at);
+  if (options?.limit && options.limit > 0) {
+    return results.slice(0, options.limit);
+  }
+  return results;
+}
+
+/**
+ * Transitions an order to 'paid' status authoritatively.
+ * Returns true if this call transitioned it (first paid event), false if already paid.
+ */
+export function markOrderPaid(
+  orderId: string,
+  details: {
+    paymentId: string;
+    amount?: number;
+    email?: string;
+    name?: string;
+    phone?: string;
+    productSlug?: string;
+    productTitle?: string;
+    addonIds?: string[];
+    fullOrderTitle?: string;
+  }
+): { order: OrderRecord; isFirstTransition: boolean } {
+  let order = getOrder(orderId);
+  const now = Date.now();
+
+  if (!order) {
+    order = initOrder(orderId, {
+      payment_id: details.paymentId,
+      amount: details.amount,
+      customer_email: details.email,
+      customer_name: details.name,
+      customer_phone: details.phone,
+      product_slug: details.productSlug,
+      product_title: details.productTitle,
+      addon_ids: details.addonIds,
+      full_order_title: details.fullOrderTitle,
+      status: "paid",
+    });
+    order.paid_at = now;
+    saveOrder(order);
+    return { order, isFirstTransition: true };
+  }
+
+  const isFirstTransition = order.status === "pending" || !order.paid_at;
+
+  order.status = "paid";
+  order.payment_id = details.paymentId || order.payment_id;
+  if (!order.paid_at) order.paid_at = now;
+  if (details.amount && details.amount > 0) order.amount = details.amount;
+  if (details.email) order.customer_email = normalizeEmail(details.email);
+  if (details.name) order.customer_name = details.name;
+  if (details.phone) order.customer_phone = details.phone;
+  if (details.addonIds && details.addonIds.length > 0) order.addon_ids = details.addonIds;
+  if (details.productSlug) order.product_slug = details.productSlug;
+  if (details.fullOrderTitle) order.full_order_title = details.fullOrderTitle;
+
+  saveOrder(order);
+  return { order, isFirstTransition };
+}
+
+/**
+ * Marks an order as payment_failed with error details.
+ */
+export function markOrderPaymentFailed(orderId: string, errorReason: string): OrderRecord {
+  let order = getOrder(orderId);
+  if (!order) {
+    order = initOrder(orderId, { status: "payment_failed" });
+  }
+  order.status = "payment_failed";
+  order.last_delivery_error = errorReason;
+  saveOrder(order);
+  return order;
+}
+
+/**
+ * Records a customer download attempt, with anti-scanner defense and download quota tracking.
+ * Scanners (HEAD requests, security bots) DO NOT consume the download quota.
+ */
+export function recordDownloadAccess(
+  orderId: string,
+  data: { file: string; ip: string; userAgent: string; isScanner: boolean }
+): { allowed: boolean; remainingDownloads: number; reason?: string } {
+  const order = getOrder(orderId);
+  if (!order) {
+    return { allowed: true, remainingDownloads: 10 }; // Fallback for direct token downloads
+  }
+
+  // If scanner or preview bot, allow stream but DO NOT increment quota
+  if (data.isScanner) {
+    return { allowed: true, remainingDownloads: Math.max(0, order.max_downloads - order.download_count) };
+  }
+
+  // Real human download: Check quota
+  if (order.download_count >= order.max_downloads) {
+    return {
+      allowed: false,
+      remainingDownloads: 0,
+      reason: `Download limit of ${order.max_downloads} downloads reached. Please visit https://thinktools.in/resend to regenerate access.`,
+    };
+  }
+
+  order.download_count += 1;
+  order.download_logs = order.download_logs || [];
+  order.download_logs.push({
+    timestamp: Date.now(),
+    file: data.file,
+    ip: data.ip,
+    userAgent: data.userAgent.slice(0, 100),
+    isScanner: false,
+  });
+
+  saveOrder(order);
+  return {
+    allowed: true,
+    remainingDownloads: Math.max(0, order.max_downloads - order.download_count),
+  };
+}
+
+/**
+ * Resets download limit for an order (used by Resend page and Admin portal).
+ */
+export function resetDownloadLimit(orderId: string): OrderRecord | null {
+  const order = getOrder(orderId);
+  if (!order) return null;
+  order.download_count = 0;
+  saveOrder(order);
+  return order;
 }
 
 export interface DispatchCapiPurchaseParams {
@@ -161,37 +438,27 @@ export interface CapiDispatchResult {
 
 /**
  * Executes a CAPI Purchase event dispatch with atomic check-and-set idempotency.
- * 
- * Guarantees:
- * 1. Checks order.capi_purchase_sent before sending.
- * 2. Uses atomic lock to block concurrent webhooks and verify calls from duplicate firing.
- * 3. Sends event_id = String(orderId).
- * 4. Only marks capi_purchase_sent = true AFTER Meta API confirms HTTP success.
- * 5. Does NOT mark as sent if Meta call fails, permitting retries.
  */
 export async function dispatchCapiPurchaseWithIdempotency(
   params: DispatchCapiPurchaseParams
 ): Promise<CapiDispatchResult> {
   const { orderId } = params;
 
-  // Step 1: Fast initial check
   let order = getOrder(orderId);
   if (order?.capi_purchase_sent) {
     return { success: true, alreadySent: true };
   }
 
-  // Step 2: Acquire atomic lock (retry with brief backoff for near-simultaneous triggers)
   let acquired = false;
   for (let attempt = 0; attempt < 4; attempt++) {
     if (acquireLock(orderId)) {
       acquired = true;
       break;
     }
-    await new Promise((resolve) => setTimeout(resolve, 100 * (attempt + 1)));
+    await new Promise((resolve) => setTimeout(resolve, 80 * (attempt + 1)));
   }
 
   if (!acquired) {
-    // If lock could not be obtained, check if concurrent process just finished sending
     order = getOrder(orderId);
     if (order?.capi_purchase_sent) {
       return { success: true, alreadySent: true };
@@ -200,7 +467,6 @@ export async function dispatchCapiPurchaseWithIdempotency(
   }
 
   try {
-    // Step 3: Re-read state under exclusive lock
     order = getOrder(orderId);
     if (!order) {
       order = initOrder(orderId, {
@@ -214,7 +480,6 @@ export async function dispatchCapiPurchaseWithIdempotency(
       return { success: true, alreadySent: true };
     }
 
-    // Step 4: Dispatch CAPI Purchase with event_id matching browser eventID (purchase_<orderId>)
     const eventId = `purchase_${String(orderId).trim()}`;
     const numItems = params.contentIds && params.contentIds.length > 0 ? params.contentIds.length : 1;
 
@@ -234,9 +499,7 @@ export async function dispatchCapiPurchaseWithIdempotency(
       eventSourceUrl: params.eventSourceUrl || `https://thinktools.in/p/${params.productSlug}/download`,
     });
 
-    // Step 5: Mark sent only upon verified success
     if (success) {
-      order.status = "paid";
       order.capi_purchase_sent = true;
       order.capi_sent_at = Date.now();
       saveOrder(order);
@@ -249,111 +512,5 @@ export async function dispatchCapiPurchaseWithIdempotency(
     return { success: false, alreadySent: false, reason: errorMsg };
   } finally {
     releaseLock(orderId);
-  }
-}
-
-/**
- * Atomically checks and claims email delivery rights for an order.
- * Returns true if this process claimed delivery first and should send the email.
- * Returns false if the email was already recorded as sent.
- */
-export async function claimEmailDelivery(
-  orderId: string,
-  details?: {
-    paymentId?: string;
-    email?: string;
-    name?: string;
-    addonIds?: string[];
-    amount?: number;
-    productSlug?: string;
-  }
-): Promise<boolean> {
-  const safeId = orderId ? orderId.replace(/[^a-zA-Z0-9_-]/g, "") : "";
-  if (!safeId) return true;
-
-  let acquired = false;
-  for (let attempt = 0; attempt < 5; attempt++) {
-    if (acquireLock(safeId)) {
-      acquired = true;
-      break;
-    }
-    await new Promise((r) => setTimeout(r, 80 * (attempt + 1)));
-  }
-
-  if (!acquired) {
-    const existing = getOrder(safeId);
-    return !(existing?.email_sent);
-  }
-
-  try {
-    let order = getOrder(safeId);
-    if (!order) {
-      order = initOrder(safeId, {
-        amount: details?.amount || 0,
-        currency: "INR",
-        status: "paid",
-      });
-    }
-
-    if (order.email_sent) {
-      return false; // Already sent by another thread/webhook
-    }
-
-    order.email_sent = true;
-    order.email_sent_at = Date.now();
-    order.status = "paid";
-    if (details?.paymentId) order.payment_id = details.paymentId;
-    if (details?.email) order.recipient_email = details.email;
-    if (details?.name) order.customer_name = details.name;
-    if (details?.addonIds) order.addon_ids = details.addonIds;
-    if (details?.productSlug) order.product_slug = details.productSlug;
-    if (details?.amount) order.amount = details.amount;
-
-    saveOrder(order);
-    return true; // Claimed successfully
-  } finally {
-    releaseLock(safeId);
-  }
-}
-
-/**
- * Atomically checks and claims Google Sheets sync rights for an order.
- * Returns true if this process should sync to Google Sheets.
- * Returns false if already synced.
- */
-export async function claimSheetSync(orderId: string): Promise<boolean> {
-  const safeId = orderId ? orderId.replace(/[^a-zA-Z0-9_-]/g, "") : "";
-  if (!safeId) return true;
-
-  let acquired = false;
-  for (let attempt = 0; attempt < 5; attempt++) {
-    if (acquireLock(safeId)) {
-      acquired = true;
-      break;
-    }
-    await new Promise((r) => setTimeout(r, 80 * (attempt + 1)));
-  }
-
-  if (!acquired) {
-    const existing = getOrder(safeId);
-    return !(existing?.sheet_synced);
-  }
-
-  try {
-    let order = getOrder(safeId);
-    if (!order) {
-      order = initOrder(safeId, { status: "paid" });
-    }
-
-    if (order.sheet_synced) {
-      return false; // Already synced
-    }
-
-    order.sheet_synced = true;
-    order.sheet_synced_at = Date.now();
-    saveOrder(order);
-    return true; // Claimed successfully
-  } finally {
-    releaseLock(safeId);
   }
 }

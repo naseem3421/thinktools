@@ -1,10 +1,11 @@
 import crypto from "crypto";
 
-interface TokenPayload {
+export interface TokenPayload {
   order_id: string;
   addon_ids: string[];
   product_slug: string;
   exp: number; // unix timestamp in ms
+  iat: number;
 }
 
 function getSecretKey(): string {
@@ -17,7 +18,7 @@ function getSecretKey(): string {
 
 /**
  * Generate a cryptographically signed, time-limited token for digital downloads.
- * Defaults to 1 year validity (8760 hours).
+ * Requirement 6: Signed URLs valid for 7 days (168 hours).
  */
 export function generateDownloadToken(params: {
   order_id: string;
@@ -25,12 +26,14 @@ export function generateDownloadToken(params: {
   product_slug?: string;
   hoursValid?: number;
 }): string {
-  const hours = params.hoursValid ?? 8760;
+  const hours = params.hoursValid ?? 168; // Default 7 days (168 hours)
+  const now = Date.now();
   const payload: TokenPayload = {
     order_id: params.order_id,
     addon_ids: params.addon_ids || [],
     product_slug: params.product_slug || "construction-calculator-pro",
-    exp: Date.now() + hours * 60 * 60 * 1000,
+    iat: now,
+    exp: now + hours * 60 * 60 * 1000,
   };
 
   const payloadString = JSON.stringify(payload);
@@ -88,7 +91,7 @@ export function verifyDownloadToken(token: string): {
     if (Date.now() > payload.exp) {
       return {
         valid: false,
-        error: "Download link has expired. Please check your email for permanent offline access.",
+        error: "Download link has expired (valid for 7 days). You can generate a fresh link anytime on our 'Resend My File' page: https://thinktools.in/resend",
         payload,
       };
     }
@@ -97,4 +100,48 @@ export function verifyDownloadToken(token: string): {
   } catch {
     return { valid: false, error: "Failed to parse download token payload." };
   }
+}
+
+/**
+ * Anti-scanner protection:
+ * Detects whether an incoming HTTP request is from automated email security scanners,
+ * anti-virus link checkers, or link preview bots (e.g. Outlook SafeLinks, Barracuda, Gmail image proxy).
+ * Scanners make HEAD requests or have distinctive User-Agent strings.
+ * Such requests must NOT consume the customer's download quota.
+ */
+export function isEmailScannerOrPreview(request: Request): boolean {
+  const method = request.method ? request.method.toUpperCase() : "GET";
+  if (method === "HEAD" || method === "OPTIONS") {
+    return true;
+  }
+
+  const userAgent = (request.headers.get("user-agent") || "").toLowerCase();
+  if (!userAgent) return false;
+
+  const scannerSignatures = [
+    "safelinks",
+    "barracuda",
+    "proofpoint",
+    "mimecast",
+    "googleimageproxy",
+    "google-proxy",
+    "bingpreview",
+    "facebookexternalhit",
+    "twitterbot",
+    "slackbot",
+    "whatsapp",
+    "telegrambot",
+    "applebot",
+    "crawler",
+    "spider",
+    "bot",
+    "preview",
+    "scan",
+    "headlesschrome",
+    "curl",
+    "wget",
+    "python-requests",
+  ];
+
+  return scannerSignatures.some((sig) => userAgent.includes(sig));
 }

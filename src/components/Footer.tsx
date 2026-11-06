@@ -103,6 +103,11 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
+                <Link href="/resend" className="text-amber-400 font-semibold hover:text-amber-300 transition-colors flex items-center gap-1">
+                  <span>Resend My File</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="text-slate-400 hover:text-white transition-colors">
                   Contact Us
                 </Link>

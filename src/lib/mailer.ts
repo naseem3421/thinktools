@@ -2,15 +2,21 @@ import nodemailer from "nodemailer";
 import { ADDON_PRODUCTS } from "@/data/products";
 import { generateDownloadToken } from "@/lib/downloadToken";
 
-interface SendOrderDeliveryParams {
+export interface SendOrderDeliveryParams {
   toEmail: string;
   customerName: string;
   orderId: string;
   paymentId: string;
   productTitle?: string;
   addonIds?: string[];
+  downloadToken?: string;
+  customMessage?: string;
 }
 
+/**
+ * Dispatches the order delivery email with 1-click signed download links (no heavy attachments).
+ * Uses transactional SMTP (Hostinger Business Mail) or Resend API if configured.
+ */
 export async function sendOrderDeliveryEmail({
   toEmail,
   customerName,
@@ -18,45 +24,32 @@ export async function sendOrderDeliveryEmail({
   paymentId,
   productTitle = "Construction Calculator Pro Package",
   addonIds = [],
-}: SendOrderDeliveryParams) {
-  const host = process.env.SMTP_HOST || "smtp.hostinger.com";
-  const port = Number(process.env.SMTP_PORT) || 465;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const rawFrom = (process.env.SMTP_FROM || "").trim();
-  const from = rawFrom.includes("@")
-    ? (rawFrom.includes("<") ? rawFrom : `"Thinktools" <${rawFrom}>`)
-    : `"Thinktools" <${user || "orders@thinktools.in"}>`;
-
-  if (!user || !pass) {
-    console.warn("[Mailer] SMTP credentials (SMTP_USER / SMTP_PASS) not configured. Email skipped.");
-    return {
-      success: false,
-      message: "SMTP credentials not configured on server.",
-    };
+  downloadToken: existingToken,
+  customMessage,
+}: SendOrderDeliveryParams): Promise<{ success: boolean; messageId?: string; message?: string }> {
+  // If custom alert message is provided (e.g. Admin failure alert)
+  if (customMessage) {
+    return sendCustomNotificationEmail({
+      toEmail,
+      subject: productTitle,
+      html: customMessage,
+    });
   }
 
-  const transporter = nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465, // true for 465, false for 587
-    auth: {
-      user,
-      pass,
-    },
-  });
-
-  const downloadToken = generateDownloadToken({
-    order_id: orderId,
-    addon_ids: addonIds,
-    product_slug: "construction-calculator-pro",
-    hoursValid: 8760,
-  });
+  const downloadToken =
+    existingToken ||
+    generateDownloadToken({
+      order_id: orderId,
+      addon_ids: addonIds,
+      product_slug: "construction-calculator-pro",
+      hoursValid: 168, // 7 days
+    });
 
   const masterDownloadUrl = `https://thinktools.in/api/download?file=main&token=${encodeURIComponent(downloadToken)}&order_id=${encodeURIComponent(orderId)}`;
   const onlineHubUrl = `https://thinktools.in/p/construction-calculator-pro/download?order_id=${encodeURIComponent(orderId)}&token=${encodeURIComponent(downloadToken)}&email=${encodeURIComponent(toEmail)}&name=${encodeURIComponent(customerName)}&addons=${encodeURIComponent(addonIds.join(","))}`;
+  const dedicatedOrderUrl = `https://thinktools.in/order/${encodeURIComponent(orderId)}`;
 
-  // Look for any purchased addon files
+  // Purchased addons
   const purchasedAddons = (addonIds || []).map((id) => ADDON_PRODUCTS[id]).filter(Boolean);
 
   const addonsListHtml = purchasedAddons.length > 0
@@ -85,6 +78,7 @@ export async function sendOrderDeliveryEmail({
     <html>
       <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; color: #1e293b; }
           .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
@@ -111,7 +105,7 @@ export async function sendOrderDeliveryEmail({
       <body>
         <div class="container">
           <div class="header">
-            <span class="badge">Payment Verified • Lifetime License</span>
+            <span class="badge">Payment Confirmed • 7-Day Access &amp; Offline Lifetime License</span>
             <h1 class="title">Your Digital Toolkit is Ready</h1>
             <p class="subtitle">ThinkTools.in • Work Smarter.</p>
           </div>
@@ -119,7 +113,7 @@ export async function sendOrderDeliveryEmail({
           <div class="content">
             <div class="greeting">Hello ${customerName || "Valued Builder"},</div>
             <p class="text">
-              Your payment has been successfully confirmed. In accordance with our instant digital delivery policy, your complete <strong>${productTitle}</strong> is ready for instant download below.
+              Your payment has been successfully confirmed. In accordance with our instant digital delivery policy, your complete <strong>${productTitle}</strong> is ready for download below.
             </p>
 
             <div class="box">
@@ -146,7 +140,7 @@ export async function sendOrderDeliveryEmail({
                 ⬇️ Download Master Calculator Bundle (1.9 MB)
               </a>
               <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
-                Direct offline master package (.zip) • Includes 31 sheets &amp; PDF guides
+                Direct offline master package (.zip) • Includes 31 sheets &amp; PDF guides • Valid for 7 days
               </div>
             </div>
 
@@ -162,8 +156,8 @@ export async function sendOrderDeliveryEmail({
             ${addonsListHtml}
 
             <div style="text-align: center; margin: 22px 0;">
-              <a href="${onlineHubUrl}" style="color: #2563eb; font-size: 13px; text-decoration: underline; font-weight: 600;">
-                🌐 Or access &amp; manage all files on the Thinktools Download Hub ➔
+              <a href="${dedicatedOrderUrl}" style="display: inline-block; background: #0f172a; color: #ffffff; font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
+                📋 Open Your Live Order Dashboard (Status &amp; Re-downloads) ➔
               </a>
             </div>
 
@@ -172,36 +166,94 @@ export async function sendOrderDeliveryEmail({
               1. <strong>Direct Download Links:</strong> Click the download buttons above to download the files directly to your device.<br/>
               2. <strong>Extract Files:</strong> Right-click the downloaded .ZIP file and choose <em>"Extract All"</em> on your PC or Mac.<br/>
               3. <strong>Open in Excel:</strong> Open the extracted workbooks in Microsoft Excel, Google Sheets, or WPS Office.<br/>
-              4. <strong>Permanent Cloud Access:</strong> Your files remain accessible anytime via the Download Hub link above.
+              4. <strong>Permanent Cloud Access:</strong> If you ever need to re-download after 7 days, visit our self-service recovery page at <a href="https://thinktools.in/resend" style="color: #166534; font-weight: bold;">thinktools.in/resend</a>.
             </div>
 
             <p class="text" style="margin-top: 24px; font-size: 13px;">
-              Keep this email safe for your lifetime records. If you ever misplace your files, reply directly to this email or reach us at <a href="mailto:support@thinktools.in" style="color: #d97706; text-decoration: underline;">support@thinktools.in</a>.
+              Keep this email safe for your lifetime records. If you ever misplace your files, reply directly to this email or reach us at <a href="mailto:orders@thinktools.in" style="color: #d97706; text-decoration: underline;">orders@thinktools.in</a>.
             </p>
           </div>
 
           <div class="footer">
             © 2026 Thinktools.in • Premium Digital Engines for Indian Builders &amp; Creators<br/>
-            Need help? Contact <a href="mailto:support@thinktools.in">support@thinktools.in</a>
+            Need help? Contact <a href="mailto:orders@thinktools.in">orders@thinktools.in</a> | WhatsApp: +91 93450 48201
           </div>
         </div>
       </body>
     </html>
   `;
 
+  return sendRawEmail({
+    toEmail,
+    subject: `Your Construction Calculator Pro Package (#${orderId}) - Download Access`,
+    html,
+    orderId,
+  });
+}
+
+/**
+ * Sends generic HTML notification emails (e.g. admin alerts, resend confirmations).
+ */
+async function sendCustomNotificationEmail(params: {
+  toEmail: string;
+  subject: string;
+  html: string;
+}): Promise<{ success: boolean; messageId?: string; message?: string }> {
+  return sendRawEmail(params);
+}
+
+/**
+ * Core SMTP / Transporter execution with timeout safeguards and error parsing.
+ */
+async function sendRawEmail(params: {
+  toEmail: string;
+  subject: string;
+  html: string;
+  orderId?: string;
+}): Promise<{ success: boolean; messageId?: string; message?: string }> {
+  const host = process.env.SMTP_HOST || "smtp.hostinger.com";
+  const port = Number(process.env.SMTP_PORT) || 465;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const rawFrom = (process.env.SMTP_FROM || "").trim();
+  const from = rawFrom.includes("@")
+    ? (rawFrom.includes("<") ? rawFrom : `"Thinktools" <${rawFrom}>`)
+    : `"Thinktools" <${user || "orders@thinktools.in"}>`;
+
+  if (!user || !pass) {
+    const errorMsg = "SMTP credentials (SMTP_USER / SMTP_PASS) not configured on server.";
+    console.warn(`[Mailer] ${errorMsg}`);
+    return { success: false, message: errorMsg };
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+    connectionTimeout: 10000, // 10s timeout
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+  });
+
   try {
     const info = await transporter.sendMail({
       from,
-      to: toEmail,
-      subject: `Your Construction Calculator Pro Package (#${orderId}) - Download Access`,
-      html,
+      to: params.toEmail,
+      subject: params.subject,
+      html: params.html,
+      headers: {
+        "X-Entity-Ref-ID": params.orderId || `thinktools-${Date.now()}`,
+        "X-Auto-Response-Suppress": "OOF, AutoReply",
+        "List-Unsubscribe": "<mailto:orders@thinktools.in?subject=unsubscribe>",
+      },
     });
 
-    console.log(`[Mailer] Order confirmation email sent to ${toEmail}: ${info.messageId}`);
+    console.log(`[Mailer] Email delivered to ${params.toEmail} (ID: ${info.messageId})`);
     return { success: true, messageId: info.messageId };
   } catch (error: unknown) {
-    console.error("[Mailer] Error sending order delivery email:", error);
+    console.error("[Mailer] Error sending email:", error);
     const err = error as { message?: string };
-    return { success: false, message: err?.message || "Failed to send delivery email." };
+    return { success: false, message: err?.message || "Failed to send email." };
   }
 }

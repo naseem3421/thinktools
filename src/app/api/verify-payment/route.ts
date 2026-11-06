@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { extractMetaCookies } from "@/lib/metaCapi";
 import { generateDownloadToken } from "@/lib/downloadToken";
-import { dispatchCapiPurchaseWithIdempotency, claimEmailDelivery, claimSheetSync } from "@/lib/orderStore";
-
-// In-memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries within the same node process
-const processedPayments = new Set<string>();
+import {
+  markOrderPaid,
+  getOrder,
+  dispatchCapiPurchaseWithIdempotency,
+} from "@/lib/orderStore";
+import { queueOrderDelivery } from "@/lib/deliveryQueue";
+import { logger } from "@/lib/logger";
+import { normalizeEmail } from "@/lib/emailValidation";
 
 export async function POST(request: Request) {
   try {
@@ -80,38 +83,35 @@ export async function POST(request: Request) {
       ? `${productTitle} + ${validAddonIds.length} Add-on${validAddonIds.length > 1 ? "s" : ""}`
       : productTitle;
 
-    // Fast in-memory deduplication check
-    const isFirstFulfillment = !processedPayments.has(razorpay_payment_id);
-    if (isFirstFulfillment) {
-      processedPayments.add(razorpay_payment_id);
-      if (processedPayments.size > 10000) {
-        const first = processedPayments.values().next().value;
-        if (first) processedPayments.delete(first);
-      }
-    }
+    const recipientEmail = normalizeEmail(body.customer_email || body.email || "");
 
-    const recipientEmail = body.customer_email || body.email;
+    // 1. Mark Order Paid in authoritative Order Store
+    const { order, isFirstTransition } = markOrderPaid(razorpay_order_id, {
+      paymentId: razorpay_payment_id,
+      amount: totalPriceInRupees,
+      email: recipientEmail,
+      name: body.customer_name || body.name,
+      phone: body.customer_phone || body.phone,
+      productSlug,
+      productTitle,
+      addonIds: validAddonIds,
+      fullOrderTitle,
+    });
 
-    // Persistent atomic claim for email delivery (guarantees webhook vs browser race conditions never duplicate)
-    const shouldSendEmail =
-      isFirstFulfillment &&
-      (await claimEmailDelivery(razorpay_order_id || razorpay_payment_id, {
-        paymentId: razorpay_payment_id,
-        email: recipientEmail,
-        name: body.customer_name || body.name,
-        addonIds: validAddonIds,
-        amount: totalPriceInRupees,
-        productSlug,
-      }));
+    logger.paymentVerified({
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+      amount: totalPriceInRupees,
+      email: recipientEmail,
+      source: "client_verify",
+    });
 
-    // Persistent atomic claim for Google Sheets sync
+    // 2. Queue Reliable Delivery Job (idempotent, won't duplicate if webhook already delivered)
+    await queueOrderDelivery(razorpay_order_id, true);
+
+    // 3. Sync to Google Sheets if configured and first transition
     const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-    const shouldSyncSheet =
-      isFirstFulfillment &&
-      (await claimSheetSync(razorpay_order_id || razorpay_payment_id));
-
-    // Automatically sync transaction to Google Sheet Webhook if configured
-    if (sheetWebhookUrl && shouldSyncSheet) {
+    if (sheetWebhookUrl && isFirstTransition && !order.sheet_synced) {
       try {
         await fetch(sheetWebhookUrl, {
           method: "POST",
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
                   method: body.method || "Razorpay / UPI",
                   status: "captured",
                   name: body.customer_name || "Customer",
-                  email: body.customer_email || "",
+                  email: recipientEmail,
                   contact: body.customer_phone || "",
                   notes: {
                     product_title: fullOrderTitle,
@@ -135,7 +135,7 @@ export async function POST(request: Request) {
                     addon_ids: validAddonIds.join(","),
                     addon_titles: validAddonIds.map((id) => ADDON_PRODUCTS[id].title).join(", "),
                     customer_name: body.customer_name || "",
-                    customer_email: body.customer_email || "",
+                    customer_email: recipientEmail,
                     customer_phone: body.customer_phone || "",
                   },
                 },
@@ -143,28 +143,14 @@ export async function POST(request: Request) {
             },
           }),
         });
+        order.sheet_synced = true;
+        order.sheet_synced_at = Date.now();
       } catch (sheetError) {
         console.error("Failed to forward transaction to Google Sheet webhook:", sheetError);
       }
     }
 
-    // Automatically dispatch instant digital delivery email with download links
-    if (recipientEmail && shouldSendEmail) {
-      sendOrderDeliveryEmail({
-        toEmail: recipientEmail,
-        customerName: body.customer_name || body.name || "Valued Builder",
-        orderId: razorpay_order_id,
-        paymentId: razorpay_payment_id,
-        productTitle: fullOrderTitle,
-        addonIds: validAddonIds,
-      }).catch((emailErr) => {
-        console.error("Async email delivery error:", emailErr);
-      });
-    }
-
-    // Single authoritative CAPI Purchase dispatch with persistent atomic idempotency
-    // Checks order.capi_purchase_sent before sending; sets to true after successful send.
-    // Event ID is strictly String(razorpay_order_id) matching browser pixel eventID.
+    // 4. Meta CAPI Purchase Dispatch with Idempotency
     const clientIp =
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       request.headers.get("x-real-ip") ||
@@ -173,7 +159,7 @@ export async function POST(request: Request) {
     const { fbp, fbc, externalId } = extractMetaCookies(request.headers.get("cookie"));
 
     try {
-      const capiResult = await dispatchCapiPurchaseWithIdempotency({
+      await dispatchCapiPurchaseWithIdempotency({
         orderId: razorpay_order_id,
         amount: totalPriceInRupees,
         currency: "INR",
@@ -192,24 +178,19 @@ export async function POST(request: Request) {
         },
         eventSourceUrl: `https://thinktools.in/p/${productSlug}/download`,
       });
-
-      if (!capiResult.success && !capiResult.alreadySent) {
-        console.warn(`[CAPI] Order ${razorpay_order_id} CAPI dispatch warning: ${capiResult.reason || "unknown"}`);
-      }
     } catch (capiError) {
-      // Do not log PII or access tokens
       console.error(
         `[CAPI] Exception during CAPI dispatch execution for order ${razorpay_order_id}:`,
         capiError instanceof Error ? capiError.message : "unknown"
       );
     }
 
-    // Generate cryptographically signed, permanent download token
+    // 5. Generate 7-day signed download token for immediate on-screen access
     const downloadToken = generateDownloadToken({
       order_id: razorpay_order_id,
       addon_ids: validAddonIds,
       product_slug: productSlug,
-      hoursValid: 8760,
+      hoursValid: 168, // 7 days
     });
 
     return NextResponse.json({

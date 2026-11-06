@@ -2,10 +2,15 @@ import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
-import { initOrder } from "@/lib/orderStore";
+import { initOrder, findOrders, getOrder } from "@/lib/orderStore";
+import { normalizeEmail } from "@/lib/emailValidation";
+import { verifyAllCatalogDeliverables } from "@/lib/catalogMapping";
 
 export async function POST(request: Request) {
   try {
+    // Requirement 10: Verify catalog deliverables mapping exists. Fails loudly if files are missing.
+    verifyAllCatalogDeliverables();
+
     const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
@@ -19,7 +24,6 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     const { currency = "INR", receipt, notes = {}, addon_ids = [] } = body;
 
-    // Support both catalog products and direct amounts
     const productSlug = notes?.product_slug || body.product_slug;
     const catalogProduct = productSlug ? PRODUCTS[productSlug] : undefined;
 
@@ -37,7 +41,6 @@ export async function POST(request: Request) {
       baseAmountPaise = Math.round(Number(body.amount));
       if (body.product_title) productTitle = body.product_title;
     } else {
-      // Default to construction-calculator-pro
       const defaultProduct = PRODUCTS["construction-calculator-pro"];
       baseAmountPaise = defaultProduct ? Math.round(defaultProduct.price * 100) : 29900;
       if (defaultProduct) {
@@ -48,7 +51,6 @@ export async function POST(request: Request) {
     }
 
     // Authoritative Addon Validation & Server-Side Price Calculation
-    // Never trust client amounts: validate IDs against authoritative ADDON_PRODUCTS dictionary
     const rawAddonIds = Array.isArray(addon_ids)
       ? addon_ids
       : (typeof notes?.addon_ids === "string" ? notes.addon_ids.split(",") : []);
@@ -61,26 +63,12 @@ export async function POST(request: Request) {
       0
     );
 
-    // Bundle Offer Logic: If all 3 add-ons are selected, bundle price is ₹499 (saves ₹97)
+    // Bundle Offer Logic: If all 3 add-ons are selected, bundle saves ₹97
     const isBundleApplied = validAddonIds.length === Object.keys(ADDON_PRODUCTS).length;
     const bundleDiscountPaise = isBundleApplied ? 97 * 100 : 0;
-
     const orderAmount = baseAmountPaise + addonsPaise - bundleDiscountPaise;
 
-    // Validate client-sent amount if provided against authoritative server total
-    if (body.amount !== undefined) {
-      const clientAmount = Math.round(Number(body.amount));
-      if (clientAmount !== orderAmount) {
-        return NextResponse.json(
-          {
-            error: `Price mismatch: Client requested ₹${clientAmount / 100}, but authoritative price is ₹${orderAmount / 100}.`,
-          },
-          { status: 400 }
-        );
-      }
-    }
-
-    // Minimum amount validation: Razorpay requires at least 100 paise (₹1)
+    // Minimum amount validation
     if (orderAmount < 100) {
       return NextResponse.json(
         { error: "Order amount must be at least 100 paise (₹1)." },
@@ -88,15 +76,46 @@ export async function POST(request: Request) {
       );
     }
 
+    const customerEmail = normalizeEmail(notes?.customer_email || body.email || "");
+    const customerName = (notes?.customer_name || body.name || "Valued Builder").trim();
+    const customerPhone = (notes?.customer_phone || body.phone || "").trim();
+
+    // Requirement 11: Prevent duplicate order creation on rapid double-clicks
+    // Check if an existing order was created for this exact email & amount in the last 60 seconds
+    if (customerEmail) {
+      const recentOrders = findOrders({ email: customerEmail, status: "pending" });
+      const duplicateOrder = recentOrders.find(
+        (o) =>
+          o.amount === orderAmount / 100 &&
+          o.product_slug === actualSlug &&
+          Date.now() - o.created_at < 60000 // 60 seconds window
+      );
+
+      if (duplicateOrder) {
+        console.log(`[OrderCreate] Reusing existing pending order ${duplicateOrder.id} to prevent duplicate.`);
+        return NextResponse.json({
+          order_id: duplicateOrder.id,
+          amount: duplicateOrder.amount * 100,
+          currency: duplicateOrder.currency || "INR",
+          key_id: keyId,
+          is_reused: true,
+        });
+      }
+    }
+
     const razorpay = new Razorpay({
       key_id: keyId,
       key_secret: keySecret,
     });
 
+    const fullOrderTitle = validAddonIds.length
+      ? `${productTitle} + ${validAddonIds.length} Add-on${validAddonIds.length > 1 ? "s" : ""}`
+      : productTitle;
+
     const options = {
       amount: orderAmount,
       currency: currency || "INR",
-      receipt: receipt || `rcpt_${actualSlug.slice(0, 20)}_${Date.now()}`,
+      receipt: receipt || `rcpt_${actualSlug.slice(0, 16)}_${Date.now()}`,
       notes: {
         ...notes,
         product_id: productId,
@@ -106,41 +125,49 @@ export async function POST(request: Request) {
         addon_titles: validAddonIds.map((id) => ADDON_PRODUCTS[id].title).join(", "),
         bundle_applied: isBundleApplied ? "true" : "false",
         price_inr: orderAmount / 100,
+        customer_name: customerName,
+        customer_email: customerEmail,
+        customer_phone: customerPhone,
       },
     };
 
     const order = await razorpay.orders.create(options);
 
-    // Persist order with capi_purchase_sent: false default
+    // Persist order in state machine with status: "pending"
     try {
       initOrder(order.id, {
         amount: orderAmount / 100,
         currency: currency || "INR",
-        status: "created",
+        status: "pending",
+        customer_name: customerName,
+        customer_email: customerEmail,
+        customer_phone: customerPhone,
+        product_slug: actualSlug,
+        product_title: productTitle,
+        addon_ids: validAddonIds,
+        full_order_title: fullOrderTitle,
       });
     } catch (orderStoreErr) {
       console.warn("Could not persist initial order record:", orderStoreErr);
     }
 
-    // Dispatch server-side InitiateCheckout with deduplication key (matching browser eventID)
-    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;
+    // Dispatch server-side InitiateCheckout with deduplication key matching order.id
+    const clientIp =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      undefined;
     const userAgent = request.headers.get("user-agent") || undefined;
     const { fbp, fbc, externalId } = extractMetaCookies(request.headers.get("cookie"));
-
-    const contentIds = [productId, ...validAddonIds];
-    const fullContentName = validAddonIds.length
-      ? `${productTitle} + ${validAddonIds.length} Add-on${validAddonIds.length > 1 ? "s" : ""}`
-      : productTitle;
 
     sendMetaCapiEvent({
       eventName: "InitiateCheckout",
       eventId: order.id,
       user: {
-        email: notes?.customer_email || body.email,
-        phone: notes?.customer_phone || body.phone,
-        name: notes?.customer_name || body.name,
+        email: customerEmail,
+        phone: customerPhone,
+        name: customerName,
         ip: clientIp,
-        userAgent: userAgent,
+        userAgent,
         fbp,
         fbc,
         externalId,
@@ -148,8 +175,8 @@ export async function POST(request: Request) {
       customData: {
         value: orderAmount / 100,
         currency: currency || "INR",
-        content_name: fullContentName,
-        content_ids: contentIds,
+        content_name: fullOrderTitle,
+        content_ids: [productId, ...validAddonIds],
         content_type: "product",
         order_id: order.id,
       },
