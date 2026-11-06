@@ -360,9 +360,17 @@ function DownloadContent() {
               <MessageCircle className="w-4 h-4" />
               <span>Send to WhatsApp</span>
             </a>
+            {orderId && (
+              <Link
+                href={`/order/${encodeURIComponent(orderId)}`}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all"
+              >
+                <span>Track Order</span>
+              </Link>
+            )}
             <Link
               href="/resend"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs shadow-sm transition-all"
             >
               <span>Resend Desk</span>
             </Link>

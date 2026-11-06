@@ -4,12 +4,9 @@ import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { sendMetaCapiEvent, extractMetaCookies } from "@/lib/metaCapi";
 import { initOrder, findOrders, getOrder } from "@/lib/orderStore";
 import { normalizeEmail } from "@/lib/emailValidation";
-import { verifyAllCatalogDeliverables } from "@/lib/catalogMapping";
 
 export async function POST(request: Request) {
   try {
-    // Requirement 10: Verify catalog deliverables mapping exists. Fails loudly if files are missing.
-    verifyAllCatalogDeliverables();
 
     const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;

@@ -84,6 +84,48 @@ export default function OrderStatusPage() {
     return () => clearInterval(interval);
   }, [orderId]);
 
+  // Fallback client-side Purchase event with idempotency guards
+  useEffect(() => {
+    if (!order?.is_paid || !orderId) return;
+
+    const storageKey = `thinktools_purchased_${orderId}`;
+    try {
+      if (typeof window !== "undefined") {
+        if (window.sessionStorage?.getItem(storageKey) || window.localStorage?.getItem(storageKey)) {
+          return;
+        }
+        window.sessionStorage?.setItem(storageKey, "1");
+        window.localStorage?.setItem(storageKey, "1");
+      }
+    } catch {
+      // Ignore private storage restriction
+    }
+
+    const eventId = `purchase_${String(orderId).trim()}`;
+    const purchaseValue = order.amount || 299;
+
+    if (typeof window !== "undefined" && typeof (window as any).fbq === "function") {
+      (window as any).fbq(
+        "track",
+        "Purchase",
+        {
+          value: purchaseValue,
+          currency: "INR",
+          content_type: "product",
+        },
+        { eventID: eventId }
+      );
+    }
+
+    if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+      (window as any).gtag("event", "purchase", {
+        transaction_id: String(orderId),
+        value: purchaseValue,
+        currency: "INR",
+      });
+    }
+  }, [order?.is_paid, orderId, order?.amount]);
+
   const copyLinks = () => {
     if (!order?.downloads) return;
     const text = order.downloads.map((d) => `${d.title}: https://thinktools.in${d.url}`).join("\n\n");

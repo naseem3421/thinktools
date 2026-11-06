@@ -84,9 +84,12 @@ export async function GET(request: Request) {
       }
     }
 
-    // 2. Resolve deliverable file from private storage
+    // 2. Resolve deliverable file from storage or public CDN
     const deliverable = resolveDeliverablePath(requestedFile);
     if (!deliverable.exists || !deliverable.absolutePath) {
+      if (deliverable.fallbackCdnUrl) {
+        return NextResponse.redirect(new URL(deliverable.fallbackCdnUrl, request.url));
+      }
       return NextResponse.json(
         {
           error: "File is currently being prepared. Please try again or download directly from your email.",
