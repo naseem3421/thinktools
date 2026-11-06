@@ -495,7 +495,7 @@ export default function CheckoutModal({
                       <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       4-in-1 Bundle Active!
                     </span>
-                    <span className="font-mono font-extrabold text-[11px] sm:text-xs">-₹97 OFF (Save ₹1,397)</span>
+                    <span className="font-mono font-extrabold text-[11px] sm:text-xs">74% OFF (Save ₹1,397)</span>
                   </div>
                 ) : (
                   <button

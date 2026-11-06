@@ -755,17 +755,17 @@ export default function ConstructionCalculatorPage() {
                 <div className="space-y-0.5 text-left">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="px-2 py-0.5 rounded-md bg-amber-500 text-slate-950 font-black text-[10px] uppercase">
-                      ⚡ 4-IN-1 BUNDLE SAVINGS
+                      ⚡ 4-IN-1 BUNDLE OFFER
                     </span>
                     <span className="text-emerald-700 font-bold text-xs font-mono">
-                      Save ₹1,397 (74% OFF Total Value)
+                      74% OFF • Save ₹1,397
                     </span>
                   </div>
                   <h3 className="text-sm sm:text-base font-black text-slate-950 tracking-tight">
                     Construction Calculator Pro + All 3 Essential Site Tools (₹499)
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    Individual tool price: ₹596 (Core toolkit + 3 site tools) • Bundle: ₹499 (Save an extra ₹97 • ₹1,896 total retail value)
+                    Complete 4-in-1 Suite: Includes Master Calculator (₹999 value) + All 3 Companion Site Tools (₹897 value)
                   </p>
                 </div>
 
