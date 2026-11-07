@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
+import { logCheckoutLead } from "@/lib/leadLog";
 import {
   claimEmailDelivery,
   claimSheetSync,
@@ -81,6 +82,20 @@ export async function POST(request: Request) {
 
     const eventType: string = eventData.event || "";
     console.log(`[Razorpay Webhook] Received authentic event: ${eventType} (ID: ${eventData.id || "n/a"})`);
+
+    // Failed payments: mark the lead row as Failed so it can be followed up manually
+    if (eventType === "payment.failed") {
+      const failed = eventData.payload?.payment?.entity || {};
+      if (failed.order_id) {
+        await logCheckoutLead({
+          orderId: failed.order_id,
+          status: "Failed",
+          paymentId: failed.id,
+          note: failed.error_description || failed.error_reason || "",
+        });
+      }
+      return NextResponse.json({ status: "ok", message: "Failed payment logged." });
+    }
 
     // We process successful payment and order fulfillment events
     const supportedEvents = ["payment.captured", "order.paid"];
@@ -231,6 +246,18 @@ export async function POST(request: Request) {
         }
       }
     }
+
+    // 2b. Mark the lead row as Paid (idempotent: updates the row by order ID)
+    await logCheckoutLead({
+      orderId: primaryKey,
+      status: "Paid",
+      name: customerName,
+      email: customerEmail,
+      phone: customerPhone,
+      product: fullOrderTitle,
+      amountInr: totalPriceInRupees,
+      paymentId,
+    });
 
     // 3. Dispatch Meta CAPI Purchase (Idempotent: only fires if not already sent by client verify)
     try {
