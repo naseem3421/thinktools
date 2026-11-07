@@ -4,6 +4,7 @@ import { sendOrderDeliveryEmail } from "@/lib/mailer";
 import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
 import { extractMetaCookies } from "@/lib/metaCapi";
 import { generateDownloadToken } from "@/lib/downloadToken";
+import { logCheckoutLead } from "@/lib/leadLog";
 import { dispatchCapiPurchaseWithIdempotency, claimEmailDelivery, claimSheetSync } from "@/lib/orderStore";
 
 // In-memory cache of processed payment IDs to prevent duplicate fulfillment on rapid retries within the same node process
@@ -147,6 +148,18 @@ export async function POST(request: Request) {
         console.error("Failed to forward transaction to Google Sheet webhook:", sheetError);
       }
     }
+
+    // Mark the lead row as Paid (idempotent: updates the row by order ID)
+    await logCheckoutLead({
+      orderId: razorpay_order_id,
+      status: "Paid",
+      name: body.customer_name,
+      email: body.customer_email,
+      phone: body.customer_phone,
+      product: fullOrderTitle,
+      amountInr: totalPriceInRupees,
+      paymentId: razorpay_payment_id,
+    });
 
     // Automatically dispatch instant digital delivery email with download links
     if (recipientEmail && shouldSendEmail) {
