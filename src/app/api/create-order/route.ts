@@ -123,7 +123,7 @@ export async function POST(request: Request) {
       console.warn("Could not persist initial order record:", orderStoreErr);
     }
 
-    // Log the checkout attempt to the lead sheet (Sheet4) so failed/abandoned payments can be followed up.
+    // Log the checkout attempt to the lead sheet (Checkout Leads tab) so failed/abandoned payments can be followed up.
     // Awaited with a short timeout inside logCheckoutLead; it never throws or blocks checkout.
     const fullLeadTitle = validAddonIds.length
       ? `${productTitle} + ${validAddonIds.map((id) => ADDON_PRODUCTS[id].title).join(", ")}`

@@ -1,5 +1,5 @@
 /**
- * Thinktools checkout lead log -> Google Sheet tab "Sheet4"
+ * Thinktools checkout lead log -> Google Sheet tab "Checkout Leads"
  *
  * Setup (once):
  * 1. Open the "Think Tools Transactions" sheet > Extensions > Apps Script.
@@ -14,7 +14,7 @@
  * 5. (Optional, to catch failed payments) In Razorpay Dashboard > Webhooks, enable the
  *    "payment.failed" event on your existing webhook.
  *
- * Columns in Sheet4 (row 1 headers):
+ * Columns in Checkout Leads (row 1 headers):
  * A Timestamp | B Razorpay Order ID | C Name | D Email | E Phone | F Product |
  * G Amount (INR) | H Status | I Razorpay Payment ID | J Follow-up Notes
  *
@@ -22,7 +22,7 @@
  * it. Rows still "Initiated" later are the people to follow up. Column J is never overwritten.
  */
 
-var SHEET_NAME = "Sheet4";
+var SHEET_NAME = "Checkout Leads";
 var SECRET = "CHANGE_ME_TO_A_LONG_RANDOM_STRING";
 
 function doPost(e) {

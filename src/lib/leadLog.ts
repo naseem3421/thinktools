@@ -1,5 +1,5 @@
 /**
- * Checkout lead log (Google Sheet "Sheet4").
+ * Checkout lead log (Google Sheet tab "Checkout Leads").
  *
  * Records every checkout attempt the moment the buyer clicks Pay, then updates the
  * same row to Paid / Failed. Rows that stay "Initiated" are follow-up leads.
