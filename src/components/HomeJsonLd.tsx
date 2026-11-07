@@ -19,7 +19,6 @@ export default function HomeJsonLd() {
         "description":
           "Publisher of practical digital products, construction calculators, and custom software and workflow solutions for Indian engineers and builders.",
         "email": "support@thinktools.in",
-        "telephone": "+91-93450-48201",
         "priceRange": "₹299 - ₹499",
         "currenciesAccepted": "INR",
         "paymentAccepted": "UPI, NetBanking, Credit Card, Debit Card",
@@ -49,7 +48,6 @@ export default function HomeJsonLd() {
         "contactPoint": {
           "@type": "ContactPoint",
           "email": "support@thinktools.in",
-          "telephone": "+91-93450-48201",
           "contactType": "Customer Support",
           "availableLanguage": ["English", "Hindi", "Tamil"],
         },

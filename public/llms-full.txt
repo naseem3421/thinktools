@@ -67,5 +67,4 @@ ThinkTools pages register WebMCP tools via `navigator.modelContext.registerTool(
 - **Publisher:** ThinkTools (Thinktools.in)
 - **Email:** support@thinktools.in / orders@thinktools.in
 - **Address:** Anna Nagar, Chennai, Tamil Nadu 600040, India
-- **Phone:** +91-93450-48201
 

@@ -35,7 +35,6 @@ Complete civil estimation system aligned with Indian Standards (IS 456, IS 1200,
 - **Publisher:** ThinkTools (Thinktools.in)
 - **Location:** Anna Nagar, Chennai, Tamil Nadu 600040, India
 - **Email:** support@thinktools.in / orders@thinktools.in
-- **Phone:** +91-93450-48201
 - **About:** https://thinktools.in/about
 - **Contact:** https://thinktools.in/contact
 - **Terms:** https://thinktools.in/terms
