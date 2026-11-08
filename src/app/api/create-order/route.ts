@@ -123,12 +123,12 @@ export async function POST(request: Request) {
       console.warn("Could not persist initial order record:", orderStoreErr);
     }
 
-    // Log the checkout attempt to the lead sheet (Checkout Leads tab) so failed/abandoned payments can be followed up.
-    // Awaited with a short timeout inside logCheckoutLead; it never throws or blocks checkout.
+    // Log the checkout attempt to the lead sheet (Checkout Leads tab) in background so failed/abandoned payments can be followed up.
+    // Non-blocking fire-and-forget: Razorpay order creation responds immediately to buyer.
     const fullLeadTitle = validAddonIds.length
       ? `${productTitle} + ${validAddonIds.map((id) => ADDON_PRODUCTS[id].title).join(", ")}`
       : productTitle;
-    await logCheckoutLead({
+    logCheckoutLead({
       orderId: order.id,
       status: "Initiated",
       name: notes?.customer_name || body.name,
@@ -136,7 +136,7 @@ export async function POST(request: Request) {
       phone: notes?.customer_phone || body.phone,
       product: fullLeadTitle,
       amountInr: orderAmount / 100,
-    });
+    }).catch((err) => console.warn("[CreateOrder] Lead log error:", err));
 
     // Dispatch server-side InitiateCheckout with deduplication key (matching browser eventID)
     const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || undefined;

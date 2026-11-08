@@ -87,12 +87,12 @@ export async function POST(request: Request) {
     if (eventType === "payment.failed") {
       const failed = eventData.payload?.payment?.entity || {};
       if (failed.order_id) {
-        await logCheckoutLead({
+        logCheckoutLead({
           orderId: failed.order_id,
           status: "Failed",
           paymentId: failed.id,
           note: failed.error_description || failed.error_reason || "",
-        });
+        }).catch((err) => console.error("[Razorpay Webhook] Failed lead log error:", err));
       }
       return NextResponse.json({ status: "ok", message: "Failed payment logged." });
     }
@@ -251,8 +251,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2b. Mark the lead row as Paid and record to main Sales tab in Google Sheet
-    await logCheckoutLead({
+    // 2b. Mark the lead row as Paid and record to main Sales tab in Google Sheet (background, non-blocking)
+    logCheckoutLead({
       orderId: primaryKey,
       status: "Paid",
       name: customerName,
@@ -262,6 +262,8 @@ export async function POST(request: Request) {
       amountInr: totalPriceInRupees,
       paymentId,
       method: payment.method || "upi",
+    }).catch((sheetErr) => {
+      console.error("[Razorpay Webhook] Failed to sync sale to Google Sheet:", sheetErr);
     });
 
     // 3. Dispatch Meta CAPI Purchase (Idempotent: only fires if not already sent by client verify)

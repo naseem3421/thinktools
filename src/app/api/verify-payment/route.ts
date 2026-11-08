@@ -153,8 +153,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // Mark the lead row as Paid and record to main Sales tab in Google Sheet
-    await logCheckoutLead({
+    // Mark the lead row as Paid and record to main Sales tab in Google Sheet (background, non-blocking)
+    logCheckoutLead({
       orderId: razorpay_order_id,
       status: "Paid",
       name: body.customer_name,
@@ -164,6 +164,8 @@ export async function POST(request: Request) {
       amountInr: totalPriceInRupees,
       paymentId: razorpay_payment_id,
       method: body.method || "upi",
+    }).catch((sheetErr) => {
+      console.error("[VerifyPayment] Failed to sync sale to Google Sheet:", sheetErr);
     });
 
     // Automatically dispatch instant digital delivery email with download links

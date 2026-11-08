@@ -23,7 +23,7 @@ export interface LeadLogEntry {
   note?: string;
 }
 
-const LEAD_LOG_TIMEOUT_MS = 15000;
+const LEAD_LOG_TIMEOUT_MS = 60000;
 
 export async function logCheckoutLead(entry: LeadLogEntry): Promise<void> {
   const url = process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL;
