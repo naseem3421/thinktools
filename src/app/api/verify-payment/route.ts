@@ -106,7 +106,7 @@ export async function POST(request: Request) {
       }));
 
     // Persistent atomic claim for Google Sheets sync
-    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL || process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL;
     const shouldSyncSheet =
       isFirstFulfillment &&
       (await claimSheetSync(razorpay_order_id || razorpay_payment_id));

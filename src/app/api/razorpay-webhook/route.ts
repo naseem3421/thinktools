@@ -205,7 +205,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Claim Google Sheet Sync
-    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL || process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL;
     if (sheetWebhookUrl) {
       const shouldSyncSheet = await claimSheetSync(primaryKey);
       if (shouldSyncSheet) {
