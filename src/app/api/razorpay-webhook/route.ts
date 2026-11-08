@@ -205,14 +205,16 @@ export async function POST(request: Request) {
     }
 
     // 2. Claim Google Sheet Sync
-    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL || process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL;
-    if (sheetWebhookUrl) {
+    const dedicatedSheetUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    if (dedicatedSheetUrl && dedicatedSheetUrl !== process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL) {
       const shouldSyncSheet = await claimSheetSync(primaryKey);
       if (shouldSyncSheet) {
         try {
-          await fetch(sheetWebhookUrl, {
+          const ctrl = new AbortController();
+          const timeout = setTimeout(() => ctrl.abort(), 10000);
+          await fetch(dedicatedSheetUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
               event: "payment.captured",
               payload: {
@@ -221,7 +223,7 @@ export async function POST(request: Request) {
                     id: paymentId || primaryKey,
                     order_id: orderId || primaryKey,
                     amount: amountPaise,
-                    method: payment.method || "Razorpay / Webhook",
+                    method: payment.method || "upi",
                     status: "captured",
                     name: customerName,
                     email: customerEmail,
@@ -239,15 +241,17 @@ export async function POST(request: Request) {
                 },
               },
             }),
-          });
-          console.log(`[Razorpay Webhook] Successfully synced order ${primaryKey} to Google Sheet.`);
+            redirect: "follow",
+            signal: ctrl.signal,
+          }).finally(() => clearTimeout(timeout));
+          console.log(`[Razorpay Webhook] Successfully synced order ${primaryKey} to dedicated Google Sheet.`);
         } catch (sheetErr) {
           console.error(`[Razorpay Webhook] Google Sheet sync error for ${primaryKey}:`, sheetErr);
         }
       }
     }
 
-    // 2b. Mark the lead row as Paid (idempotent: updates the row by order ID)
+    // 2b. Mark the lead row as Paid and record to main Sales tab in Google Sheet
     await logCheckoutLead({
       orderId: primaryKey,
       status: "Paid",
@@ -257,6 +261,7 @@ export async function POST(request: Request) {
       product: fullOrderTitle,
       amountInr: totalPriceInRupees,
       paymentId,
+      method: payment.method || "upi",
     });
 
     // 3. Dispatch Meta CAPI Purchase (Idempotent: only fires if not already sent by client verify)

@@ -106,17 +106,19 @@ export async function POST(request: Request) {
       }));
 
     // Persistent atomic claim for Google Sheets sync
-    const sheetWebhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL || process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL;
+    const dedicatedSheetUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
     const shouldSyncSheet =
       isFirstFulfillment &&
       (await claimSheetSync(razorpay_order_id || razorpay_payment_id));
 
-    // Automatically sync transaction to Google Sheet Webhook if configured
-    if (sheetWebhookUrl && shouldSyncSheet) {
+    // If an independent legacy sales webhook is configured, notify it safely
+    if (dedicatedSheetUrl && shouldSyncSheet && dedicatedSheetUrl !== process.env.GOOGLE_SHEETS_LEADS_WEBHOOK_URL) {
       try {
-        await fetch(sheetWebhookUrl, {
+        const ctrl = new AbortController();
+        const timeout = setTimeout(() => ctrl.abort(), 10000);
+        await fetch(dedicatedSheetUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify({
             event: "payment.captured",
             payload: {
@@ -125,7 +127,7 @@ export async function POST(request: Request) {
                   id: razorpay_payment_id,
                   order_id: razorpay_order_id,
                   amount: totalAmountPaise,
-                  method: body.method || "Razorpay / UPI",
+                  method: body.method || "upi",
                   status: "captured",
                   name: body.customer_name || "Customer",
                   email: body.customer_email || "",
@@ -143,13 +145,15 @@ export async function POST(request: Request) {
               },
             },
           }),
-        });
+          redirect: "follow",
+          signal: ctrl.signal,
+        }).finally(() => clearTimeout(timeout));
       } catch (sheetError) {
-        console.error("Failed to forward transaction to Google Sheet webhook:", sheetError);
+        console.error("Failed to forward transaction to dedicated Google Sheet webhook:", sheetError);
       }
     }
 
-    // Mark the lead row as Paid (idempotent: updates the row by order ID)
+    // Mark the lead row as Paid and record to main Sales tab in Google Sheet
     await logCheckoutLead({
       orderId: razorpay_order_id,
       status: "Paid",
@@ -159,6 +163,7 @@ export async function POST(request: Request) {
       product: fullOrderTitle,
       amountInr: totalPriceInRupees,
       paymentId: razorpay_payment_id,
+      method: body.method || "upi",
     });
 
     // Automatically dispatch instant digital delivery email with download links
