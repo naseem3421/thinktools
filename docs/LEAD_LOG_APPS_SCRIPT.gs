@@ -1,9 +1,20 @@
 /**
  * Thinktools Unified Google Sheets Webhook
- * 1. Sales Tab (gid=1283655229): Records every completed paid sale.
- * 2. Checkout Leads Tab: Tracks unpaid checkouts (auto-deleted when paid).
- *
- * Date Format: DD/MM/YYYY, hh:mm a (IST)
+ * 
+ * 1. Main Sales Tab (gid=1283655229):
+ *    A: Time Stamp (DD/MM/YYYY HH:mm:ss)
+ *    B: Payment ID
+ *    C: Order ID
+ *    D: Customer Name
+ *    E: Customer Email
+ *    F: Customer Phone
+ *    G: Product
+ *    H: Amount
+ *    I: Method
+ *    J: Status
+ * 
+ * 2. Checkout Leads Tab (gid=143429233):
+ *    Unpaid checkouts only (auto-deleted when paid)
  */
 
 var SECRET = "00f3e9347a92fa6c8fcf406b6f72d8952a46d7315d77d76b";
@@ -33,31 +44,32 @@ function doPost(e) {
     var salesSheet = getSheetByGid(ss, SALES_GID) || ss.getSheets()[0];
     var leadsSheet = ss.getSheetByName(LEADS_SHEET_NAME);
 
-    // Normalize data (supports both direct leadLog and Razorpay payload)
+    // Extract transaction details (supports both direct website dispatch and Razorpay webhook payload)
     var orderId = data.orderId || (data.payload && data.payload.payment && data.payload.payment.entity.order_id) || "";
     var paymentId = data.paymentId || (data.payload && data.payload.payment && data.payload.payment.entity.id) || "";
-    var status = data.status || (data.event === "payment.captured" ? "Paid" : "Initiated");
+    var status = data.status || (data.event === "payment.captured" ? "captured" : "Initiated");
     var name = data.name || (data.payload && data.payload.payment && data.payload.payment.entity.notes && data.payload.payment.entity.notes.customer_name) || (data.payload && data.payload.payment && data.payload.payment.entity.name) || "";
     var email = data.email || (data.payload && data.payload.payment && data.payload.payment.entity.email) || "";
     var phone = data.phone || (data.payload && data.payload.payment && data.payload.payment.entity.contact) || "";
-    var product = data.product || (data.payload && data.payload.payment && data.payload.payment.entity.notes && data.payload.payment.entity.notes.product_title) || "Construction Calculator Pro";
+    var product = data.product || (data.payload && data.payload.payment && data.payload.payment.entity.notes && data.payload.payment.entity.notes.product_title) || "CONSTRUCTION CALCULATOR PRO – INDIA";
     var amount = data.amountInr || (data.payload && data.payload.payment && Math.round(data.payload.payment.entity.amount / 100)) || "";
+    var method = data.method || (data.payload && data.payload.payment && data.payload.payment.entity.method) || "upi";
 
-    // Date formatted as DD/MM/YYYY, hh:mm a in Indian Standard Time (IST)
-    var timestamp = Utilities.formatDate(new Date(), "Asia/Kolkata", "dd/MM/yyyy, hh:mm a");
+    // Format timestamp exactly matching your sheet: DD/MM/YYYY HH:mm:ss
+    var timestamp = Utilities.formatDate(new Date(), "Asia/Kolkata", "dd/MM/yyyy HH:mm:ss");
 
     // ==========================================
-    // 1. IF PAID: LOG TO SALES TAB & CLEAN UP LEADS TAB
+    // 1. IF PAID: LOG TO SALES TAB (COLUMNS A to J)
     // ==========================================
     if (status === "Paid" || status === "captured") {
-      // Avoid duplicate entries in Sales Tab
+      // Check for duplicate in Sales Tab by Payment ID or Order ID
       var alreadyInSales = false;
       var salesLastRow = salesSheet.getLastRow();
       if (salesLastRow >= 2) {
-        var salesData = salesSheet.getRange(2, 1, salesLastRow - 1, Math.min(salesSheet.getLastColumn(), 5)).getValues();
+        var salesData = salesSheet.getRange(2, 2, salesLastRow - 1, 2).getValues(); // Check Col B (Payment ID) and Col C (Order ID)
         for (var s = 0; s < salesData.length; s++) {
-          var rowText = salesData[s].join(" ");
-          if ((orderId && rowText.indexOf(orderId) !== -1) || (paymentId && rowText.indexOf(paymentId) !== -1)) {
+          if ((paymentId && String(salesData[s][0]) === String(paymentId)) || 
+              (orderId && String(salesData[s][1]) === String(orderId))) {
             alreadyInSales = true;
             break;
           }
@@ -65,20 +77,23 @@ function doPost(e) {
       }
 
       if (!alreadyInSales) {
+        // Appends in exact order of your screenshot:
+        // A: Time Stamp | B: Payment ID | C: Order ID | D: Customer Name | E: Customer Email | F: Customer Phone | G: Product | H: Amount | I: Method | J: Status
         salesSheet.appendRow([
           timestamp,
-          orderId,
           paymentId,
+          orderId,
           name,
           email,
           "'" + phone,
           product,
           amount ? "₹" + amount : "",
-          "PAID"
+          method,
+          "captured"
         ]);
       }
 
-      // Automatically remove from "Checkout Leads" tab (keeps leads Unpaid Only)
+      // Automatically clean up this buyer from "Checkout Leads" tab (keeps leads Unpaid Only)
       if (leadsSheet) {
         var leadsLastRow = leadsSheet.getLastRow();
         if (leadsLastRow >= 2) {
