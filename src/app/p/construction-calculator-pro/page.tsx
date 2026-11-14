@@ -243,6 +243,10 @@ export default function ConstructionCalculatorPage() {
                   <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
                     38 Connected Sheets
                   </span>
+                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
+                  <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
+                    3-Min Demo
+                  </span>
                 </div>
 
                 {/* Primary Headline */}
@@ -347,6 +351,9 @@ export default function ConstructionCalculatorPage() {
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 text-[11px] text-slate-500 pt-0.5">
                   <span className="flex items-center gap-1 font-medium">
                     <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery
+                  </span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <Play className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" /> 3-Min Video Demo
                   </span>
                   <span className="flex items-center gap-1 font-medium">
                     <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Built for Microsoft Excel

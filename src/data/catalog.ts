@@ -74,6 +74,7 @@ export const CATALOG_TOOLS: CatalogTool[] = [
     fileTypes: [".xlsx (Requires Microsoft Excel 2016 or later)", "13 PDF Guides & Worksheets", "7 Bonus Manuals"],
     keyFeatures: [
       "38 Connected Worksheets: 4 Starter Plans, Room areas, concrete, steel, masonry, plaster, paint, tiles, services, and Additional Works (sump, septic, compound wall, borewell)",
+      "3-Minute Video Walkthrough: Comprehensive 180s live feature demonstration",
       "Dynamic Central Rate Master: Pre-filled sample rates for 9 Indian cities, 90-day staleness warning, and one-rate global updates",
       "Subcontractor Bill Verification Ledger: Cross-check contractor claims against drawing measurements with a 5% variance flag",
       "Includes 38 Connected Sheets: Clean Master Template with Beginner/Pro mode, New House 30x50 Example, and Flat Renovation Example",

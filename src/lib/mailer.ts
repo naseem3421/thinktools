@@ -143,7 +143,7 @@ export async function sendOrderDeliveryEmail({
 
             <div style="text-align: center; margin: 28px 0;">
               <a href="${masterDownloadUrl}" style="display: inline-block; background: #f59e0b; color: #090d16; font-weight: 800; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
-                ⬇️ Download Master Calculator Bundle (1.9 MB)
+                ⬇️ Download Master Calculator Bundle (2.1 MB)
               </a>
               <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
                 Direct offline master package (.zip) • Includes 38 sheets &amp; PDF guides
@@ -151,7 +151,7 @@ export async function sendOrderDeliveryEmail({
             </div>
 
             <div class="package-list">
-              <h4>Included in your Master Package (1.9 MB):</h4>
+              <h4>Included in your Master Package (2.1 MB):</h4>
               <ul>
                 <li><strong>Complete 38-Sheet System (.xlsx)</strong> with all 38 calculation tabs pre-linked.</li>
                 <li><strong>Master Guide (PDF)</strong> with fast-track setup and IS 456 formula rules.</li>

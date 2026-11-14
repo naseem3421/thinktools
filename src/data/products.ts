@@ -184,7 +184,7 @@ export const PRODUCTS: Record<string, Product> = {
     originalPrice: 999,
     currency: "INR",
     currencySymbol: "₹",
-    badge: "38 Connected Sheets · 2 Finished Examples · 13 PDF Guides · 7 Bonuses",
+    badge: "38 Connected Sheets · 3-Min Demo · 2 Finished Examples · 13 PDF Guides · 7 Bonuses",
     unitsSupported: [
       "Feet & Inches (Indian Construction Practice)",
       "Metres & Millimetres (Metric Units)"

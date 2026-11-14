@@ -56,7 +56,7 @@ export default function ShippingPolicyPage() {
                 <Mail className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-slate-900 block font-semibold">1. Direct Email Delivery with Attached Bundle (&lt; 2 Minutes)</strong>
-                  A confirmation email from <code>orders@thinktools.in</code> containing your complete master package (all Excel workbooks and PDF guides in a single 2.0 MB .zip archive attached directly) is dispatched to your registered checkout email address.
+                  A confirmation email from <code>orders@thinktools.in</code> containing your complete master package (all Excel workbooks and PDF guides in a single 2.1 MB .zip archive attached directly) is dispatched to your registered checkout email address.
                 </div>
               </div>
 

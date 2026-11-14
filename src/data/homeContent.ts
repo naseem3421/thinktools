@@ -24,6 +24,7 @@ export const DIGITAL_PRODUCTS: DigitalProduct[] = [
     description: "An end-to-end 38-sheet connected Excel estimation system for Indian home builders, contractors, and renovations.",
     facts: [
       "38 connected Excel sheets with 4 Starter Plans",
+      "3-Min Video Walkthrough included",
       "Feet/Inches & Metres 1-cell switchable",
       "Additional Works (sump, septic, compound wall)",
       "13 execution PDF guides & 7 bonus kits",
