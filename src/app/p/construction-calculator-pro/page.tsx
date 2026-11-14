@@ -233,7 +233,7 @@ export default function ConstructionCalculatorPage() {
                 <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-amber-500/20 border-2 border-amber-500/70 text-xs text-slate-900 shadow-xs">
                   <span className="flex items-center gap-1.5 font-black text-amber-950 uppercase tracking-wide text-[11px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
-                    👷 Built by Mohamed Naseem (10+ Years On-Site, 20+ Homes Built)
+                    👷 Built by a Senior Civil Engineer (10+ Years On-Site, 20+ Homes Built)
                   </span>
                   <span className="text-amber-400 font-bold hidden sm:inline">•</span>
                   <span className="font-bold text-slate-800 text-[11px] sm:text-xs">
