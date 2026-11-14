@@ -1407,7 +1407,7 @@ export const REEL_VIDEOS: Record<string, ReelVideo> = {
     title: "Construction Calculator Pro",
     subtitle: "38 Connected Excel Sheets Walkthrough",
     priceTag: "₹299",
-    duration: "60s",
+    duration: "3m",
     isMainProduct: true
   },
   "site-expense-profit-tracker": {

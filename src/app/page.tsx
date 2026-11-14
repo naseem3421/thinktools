@@ -217,7 +217,7 @@ export default function HomePage() {
                       <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                         <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                       </span>
-                      <span>Watch 60-Second Demo</span>
+                      <span>Watch 3-Minute Demo</span>
                       <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
@@ -457,7 +457,7 @@ export default function HomePage() {
                       </p>
                     </Link>
 
-                    {/* Watch 60-Second Demo Button */}
+                    {/* Watch 3-Minute Demo Button */}
                     <button
                       type="button"
                       onClick={() => openReel("main-calculator")}
@@ -466,7 +466,7 @@ export default function HomePage() {
                       <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                         <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
                       </span>
-                      <span>Watch 60-Second Demo</span>
+                      <span>Watch 3-Minute Demo</span>
                       <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>

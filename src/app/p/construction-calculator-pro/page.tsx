@@ -261,7 +261,7 @@ export default function ConstructionCalculatorPage() {
                   Estimate cement, steel, sand and tiles before work starts. Built to help home builders check bills against their own estimate, flat renovators plan their finishes, and small contractors prepare itemized quotes faster.
                 </p>
 
-                {/* Watch 60-Second Demo Button - Placed ABOVE Home Builders for instant mobile visibility */}
+                {/* Watch 3-Minute Demo Button - Placed ABOVE Home Builders for instant mobile visibility */}
                 <div className="pt-1 pb-0.5 flex justify-center lg:justify-start">
                   <button
                     type="button"
@@ -271,7 +271,7 @@ export default function ConstructionCalculatorPage() {
                     <span className="w-6 h-6 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                       <Play className="w-3 h-3 fill-amber-400 ml-0.5" />
                     </span>
-                    <span className="tracking-tight">Watch 60-Second Demo</span>
+                    <span className="tracking-tight">Watch 3-Minute Demo</span>
                     <span className="relative flex h-2.5 w-2.5 shrink-0 ml-0.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
@@ -648,7 +648,7 @@ export default function ConstructionCalculatorPage() {
                     <span className="w-5 h-5 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                       <Play className="w-2.5 h-2.5 fill-amber-400 ml-0.5" />
                     </span>
-                    <span className="tracking-tight">Watch 60-Second Demo</span>
+                    <span className="tracking-tight">Watch 3-Minute Demo</span>
                     <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>

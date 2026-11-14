@@ -219,6 +219,16 @@ export default function ReelPreviewModal({
     }
   };
 
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (!videoRef.current || !videoRef.current.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(1, clickX / rect.width));
+    videoRef.current.currentTime = percentage * videoRef.current.duration;
+    setProgress(percentage * 100);
+  };
+
   const isAddonInCart = currentReel.addonId
     ? selectedAddonIds.includes(currentReel.addonId)
     : false;
@@ -271,12 +281,18 @@ export default function ReelPreviewModal({
         <div
           className="relative aspect-[9/16] h-[min(90vh,760px)] w-auto max-w-[94vw] bg-black rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/15 flex items-center justify-center select-none"
         >
-          {/* Top Video Progress Bar (Slim 2px line) */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-white/20 z-30 pointer-events-none">
-            <div
-              className="h-full bg-amber-400 transition-all duration-100 ease-linear"
-              style={{ width: `${progress}%` }}
-            />
+          {/* Top Video Progress & Scrub Bar */}
+          <div
+            onClick={handleSeek}
+            className="absolute top-0 left-0 right-0 h-3 z-30 cursor-pointer group flex items-start"
+            title="Click to jump forward/back"
+          >
+            <div className="w-full h-1 group-hover:h-2 bg-white/20 transition-all">
+              <div
+                className="h-full bg-amber-400 transition-all duration-100 ease-linear"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
 
           {/* Top Floating Controls Bar */}
