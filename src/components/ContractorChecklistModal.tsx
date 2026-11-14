@@ -241,7 +241,7 @@ export default function ContractorChecklistModal({
                 Need Automated Estimation?
               </span>
               <h4 className="text-sm font-bold mt-0.5">
-                Construction Calculator Pro (31 Sheets + 13 PDFs)
+                Construction Calculator Pro (38 Sheets + 13 PDFs)
               </h4>
               <p className="text-xs text-slate-300 mt-1">
                 Includes full printable worksheets, master Bill of Quantities, and contractor rate comparison sheets.
@@ -252,7 +252,7 @@ export default function ContractorChecklistModal({
               onClick={onClose}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shrink-0 transition-colors whitespace-nowrap"
             >
-              <span>View Full Toolkit (₹499)</span>
+              <span>View Full Toolkit (₹299)</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

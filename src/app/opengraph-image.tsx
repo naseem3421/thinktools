@@ -102,7 +102,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", marginRight: "32px" }}>
-            <span style={{ color: "#f59e0b", fontWeight: "900", marginRight: "8px" }}>[+]</span> 31-Tab Connected Civil Suite
+            <span style={{ color: "#f59e0b", fontWeight: "900", marginRight: "8px" }}>[+]</span> 38-Tab Connected Civil Suite
           </div>
           <div style={{ display: "flex", alignItems: "center", marginRight: "32px" }}>
             <span style={{ color: "#f59e0b", fontWeight: "900", marginRight: "8px" }}>[+]</span> Instant Digital Delivery

@@ -226,13 +226,13 @@ export default function HomePage() {
                   </div>
 
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    A comprehensive, 31-sheet connected estimation system built specifically for Indian residential and commercial construction. Audits contractor bills, calculates cement, steel, bricks, sand, and finishes, and helps prevent over-billing.
+                    A comprehensive, 38-sheet connected estimation system built specifically for Indian residential and commercial construction. Features 4 instant starter plans, Beginner/Pro mode, Additional Works, and contractor bill verification.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700 pt-0.5">
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span><strong>31 Connected Sheets:</strong> Master system & examples</span>
+                      <span><strong>38 Connected Sheets:</strong> 4 Starter Plans + Master &amp; Examples</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -413,7 +413,7 @@ export default function HomePage() {
 
                   {/* Choice Buttons for ₹299 vs ₹499 */}
                   <div className="space-y-2.5">
-                    {/* Primary Option: 31-Sheet Calculator Pro (₹299) */}
+                    {/* Primary Option: 38-Sheet Calculator Pro (₹299) */}
                     <Link
                       href="/p/construction-calculator-pro"
                       className="w-full p-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-md shadow-amber-500/20 transition-all cursor-pointer block group text-left border border-amber-400"
@@ -428,7 +428,7 @@ export default function HomePage() {
                         </div>
                       </div>
                       <p className="text-[10px] text-amber-950/80 mt-0.5 leading-tight flex items-center justify-between">
-                        <span>31-Sheet Master Suite + 13 PDFs</span>
+                        <span>38-Sheet Master Suite + 13 PDFs</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                       </p>
                     </Link>
@@ -479,7 +479,7 @@ export default function HomePage() {
                       className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-500 hover:text-slate-800 font-medium text-[11px] transition-colors whitespace-nowrap"
                     >
                       <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      <span>Inspect All 31 Sheet Names</span>
+                      <span>Inspect All 38 Sheet Names</span>
                     </Link>
                   </div>
                 </div>

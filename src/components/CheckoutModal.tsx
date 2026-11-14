@@ -375,7 +375,7 @@ export default function CheckoutModal({
                       </span>
                     </div>
                     <p className="text-[11px] text-slate-400 mt-0.5">
-                      31 connected sheets (.xlsx) · Chennai 3BHK &amp; Renovation examples · 13 PDF guides
+                      38 connected sheets (.xlsx) · 4 Starter Plans · 2 Examples · 13 PDF guides
                     </p>
                   </div>
                 </div>

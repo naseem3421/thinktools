@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "Construction Calculator Pro — 31-Tab Master Civil Suite (₹299)";
+export const alt = "Construction Calculator Pro — 38-Tab Master Civil Suite (₹299)";
 export const size = {
   width: 1200,
   height: 630,
@@ -118,7 +118,7 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            31 interconnected sheets for cement, steel, bricks, paint, tiles, foundation and contractor bill audits. 31 connected sheets + 43-page guide + 7 bonuses.
+            38 interconnected sheets for cement, steel, bricks, paint, tiles, foundation and contractor bill audits. 38 connected sheets + 43-page guide + 7 bonuses.
           </div>
         </div>
 
@@ -135,7 +135,7 @@ export default async function Image() {
           }}
         >
           <div style={{ display: "flex", alignItems: "center", marginRight: "32px" }}>
-            <span style={{ color: "#f59e0b", fontWeight: "900", marginRight: "8px" }}>[+]</span> 31 Connected Tabs
+            <span style={{ color: "#f59e0b", fontWeight: "900", marginRight: "8px" }}>[+]</span> 38 Connected Tabs
           </div>
           <div style={{ display: "flex", alignItems: "center", marginRight: "32px" }}>
             <span style={{ color: "#f59e0b", fontWeight: "900", marginRight: "8px" }}>[+]</span> IS 456 and CPWD Norms

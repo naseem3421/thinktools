@@ -57,7 +57,7 @@ export default function ReelPreviewModal({
     onClose();
   };
 
-  // When viewing add-ons, 31 sheets (main calculator) is completely removed from the add-on player
+  // When viewing add-ons, 38 sheets (main calculator) is completely removed from the add-on player
   const isMainProductReel = activeReelId === "main-calculator";
   const reelList = isMainProductReel
     ? [REEL_VIDEOS["main-calculator"]].filter(Boolean)
@@ -416,7 +416,7 @@ export default function ReelPreviewModal({
             className="absolute bottom-3 left-2.5 right-2.5 z-30 space-y-2 pointer-events-auto select-none"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Reel Switcher Pills (Only shown for the 3 Add-on tools; 31 Sheets is excluded) */}
+            {/* Reel Switcher Pills (Only shown for the 3 Add-on tools; 38 Sheets is excluded) */}
             {reelList.length > 1 && (
               <div className="flex items-center justify-center gap-1 overflow-x-auto p-1 rounded-xl bg-black/80 backdrop-blur-md border border-white/10 scrollbar-none shadow-lg">
                 {reelList.map((reel) => {

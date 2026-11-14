@@ -443,7 +443,7 @@ export default function CalculatorGallery({ onUnlockClick, className, price = 29
                     }}
                     className="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all cursor-pointer hidden sm:inline-flex items-center gap-1.5"
                   >
-                    <span>Download All 31 Tabs (₹{price})</span>
+                    <span>Download All 38 Tabs (₹{price})</span>
                   </button>
                 )}
                 <button

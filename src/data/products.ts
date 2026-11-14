@@ -152,11 +152,11 @@ export const PRODUCTS: Record<string, Product> = {
     subtitle: "Plan, price and pay for your house build or flat renovation across India with precision.",
     packageStats: {
       workbooksCount: 3,
-      tabsCount: 31,
+      tabsCount: 38,
       pdfGuidesCount: 13,
       bonusesCount: 7,
       combinedGuidePages: 43,
-      versionDate: "13 October 2026 Package"
+      versionDate: "14 November 2026 Package"
     },
     workbooksIncluded: [
       {
@@ -184,124 +184,143 @@ export const PRODUCTS: Record<string, Product> = {
     originalPrice: 999,
     currency: "INR",
     currencySymbol: "₹",
-    badge: "31 Connected Sheets · 13 PDF Guides · 7 Bonuses",
+    badge: "38 Connected Sheets · 2 Finished Examples · 13 PDF Guides · 7 Bonuses",
     unitsSupported: [
       "Feet & Inches (Indian Construction Practice)",
       "Metres & Millimetres (Metric Units)"
     ],
     compatibility: [
-      "Microsoft Excel Only (Office 365, Excel 2016 - 2024 on Windows & Mac)",
+      "Microsoft Excel 2016 or later (Windows & Mac)",
       "Engineered specifically for native Microsoft Excel calculation and formatting",
+      "Not tested on Google Sheets, LibreOffice or Numbers",
       "Dual Units: Toggle Feet/Inches or Metres with automatic conversions",
       "Instant Digital Download • One-Time Payment"
     ],
     summary:
-      "Construction Calculator Pro turns a house plan into accurate material quantities, a costed estimate, a purchase order list, and a phased payment schedule. During construction, it gives you tools to compare contractor bids, audit contractor bills, approve change orders, and conduct site material quality checks.",
+      "Construction Calculator Pro is one Excel workbook (38 tabs) that takes your room sizes and local rates and gives you a full cost estimate, a material buying list, a stage-wise budget, a payment and cash-flow plan, a schedule, and a client-ready report. Includes 4 starter plans (2BHK, 3BHK, Villa, Renovation) for a 30-second estimate, beginner/pro mode, yellow input cells with locked green formula cells, and an Additional Works tab for sump, septic, compound wall, and gates.",
     targetAudience: [
       {
         title: "Homeowner Building a House",
-        situation: "Hiring a turnkey or item-rate contractor and wants to verify the true cost and avoid overpaying.",
-        primaryUse: "Quick Start, Cost Estimate, Bill Check, Payments, Specification Sheet, Snag List",
+        situation: "Hiring a turnkey or item-rate contractor and wants to verify the true cost, track cash flow, and avoid overpaying.",
+        primaryUse: "Quick Start, Starter Plans, Cost Estimate, Additional Works, Bill Check, Payments, Snag List",
         description: "Verify material requirements before signing contracts and cross-check contractor claims so you never pay ahead of work."
       },
       {
         title: "Owner-Builder / Direct Site Manager",
         situation: "Managing labour piece-rates and procuring cement, steel, sand, and bricks directly.",
-        primaryUse: "Calculators, Order List, Rate Quotes, Material Quality Checks, Task Tracker",
+        primaryUse: "Calculators, Additional Works, Order List, Cash Flow, Material Quality Checks, Task Tracker",
         description: "Know exactly how much cement and steel to order with wastage margins, when to place orders, and how to verify truck deliveries on site."
       },
       {
         title: "Home Renovator",
         situation: "Kitchen, bathroom, tiling, or room remodel with no structural RCC changes.",
-        primaryUse: "Renovation Example (.xlsx), Room Area, Paint & Tiles, Services, Room Costs",
+        primaryUse: "Renovation Starter Plan, Renovation Example (.xlsx), Room Area, Paint & Tiles, Services",
         description: "Calculate wall tile boxes, waterproofing litres, plastering bags, and electrical point costs for flats and apartments without paying for structural calculators."
       },
       {
         title: "Small Civil Contractor & Engineer",
         situation: "Pricing construction jobs for clients and managing up to 5 concurrent sites.",
-        primaryUse: "Calculators, Print-ready Quotation (BOQ), Projects Tracker, Bids, Rate Library",
-        description: "Generate professional client BOQ proposals in minutes and maintain your historical supplier pricing library across multiple projects."
+        primaryUse: "Calculators, What-If, Material Compare, Client Report & Quotation (A4), Projects Tracker, Bids",
+        description: "Generate professional client BOQ proposals and one-page A4 Client Reports with your business name, logo box, and GST number in minutes."
       }
     ],
     buyerJourney: [
       {
         step: 1,
         name: "Start",
-        action: "Answer six simple questions; choose Feet or Metres",
-        tabs: "Start Here (1), Quick Start (2), Setup (3)",
+        action: "Answer six simple questions; pick Beginner/Pro mode, starter plan, and choose Feet or Metres",
+        tabs: "Start Here (1), Quick Start (2), Setup (3), Starter Plans (4)",
         docs: "Start Here PDF (2 pages), Main Guide Module 1"
       },
       {
         step: 2,
         name: "Measure",
-        action: "Enter rooms, walls, openings, concrete, steel, and services",
-        tabs: "Room Area to Services (tabs 4 to 12)",
+        action: "Pre-fill or customize rooms, walls, openings, concrete, steel, additional works, and services",
+        tabs: "Room Area to Services & Additional Works (tabs 5 to 18)",
         docs: "Modules 2 & 3, Worksheets A to C, Site Cheat Sheet"
       },
       {
         step: 3,
         name: "Price",
-        action: "Collect local supplier quotes and enter your city rates",
-        tabs: "Rates (20), Rate Quotes (21), Rate Library (31)",
+        action: "Pick 9-city sample rates or enter local supplier quotes with 90-day staleness warning",
+        tabs: "Rates (26), Rate Quotes (27), Rate Library (38)",
         docs: "Module 4, Worksheet D, Template 1, Script 1, Brand Sheet"
       },
       {
         step: 4,
-        name: "Check",
-        action: "Review estimate, 9-stage budget allocation, and budget headroom",
-        tabs: "Cost Estimate (13), Room Costs (14), Stage Budget (15), Dashboard (24)",
+        name: "Check & Simulate",
+        action: "Review estimate, 9-stage budget, Cash Flow forecast, What-If simulation, and Material Compare",
+        tabs: "Cost Estimate (19), Stage Budget (21), Cash Flow (22), What-If (24), Material Compare (25), Dashboard (30)",
         docs: "Module 5, Action Plan Week 3"
       },
       {
         step: 5,
-        name: "Control",
-        action: "Order materials, track tasks, audit contractor bills, and record payments",
-        tabs: "Order List (17), Task Tracker (18), Permits (19), Bill Check (25), Bids (27), Payments (28)",
+        name: "Control & Report",
+        action: "Generate Order List, Client Report, Quotation, audit contractor bills, and record payments",
+        tabs: "Order List (23), Client Report (31), Quotation (32), Bill Check (34), Payments (36)",
         docs: "Modules 6–8, Checklists, 7 Bonuses, Snag List"
       }
     ],
     workbookSheets: [
-      // PART 1
+      // PART 1: GUIDED START
       {
         number: 1,
         name: "Start Here",
-        category: "Get Started",
-        part: "Part 1 · Get Started",
-        description: "Overview of the 5-step roadmap, what each tab does, and essential usage instructions.",
-        userEnters: "Nothing (Read-only reference)",
-        userGets: "5-step route, tab index, color coding rules"
+        category: "Guided Start",
+        part: "Part 1 · Guided Start",
+        description: "Interactive map of all tabs in colour-coded groups, live status ticks, and Beginner / Pro mode switcher.",
+        userEnters: "Pick Beginner Mode (shows how-to panels) or Pro Mode (clean screen)",
+        userGets: "Live progress roadmap, colour-coded tab index, active tab checklist"
       },
       {
         number: 2,
         name: "Quick Start",
-        category: "Get Started",
-        part: "Part 1 · Get Started",
-        description: "20-minute setup engine. Enter basic project dimensions to unlock initial quantities immediately.",
-        userEnters: "Project name, client, built-up area, budget, city, Feet or Metres",
-        userGets: "Setup populated; step-by-step tab order recommendations"
+        category: "Guided Start",
+        part: "Part 1 · Guided Start",
+        description: "Answer six simple questions to initialize the entire project and view live cost and quantity totals in minutes.",
+        userEnters: "Project name, client, built-up area, budget, city, and units (Feet or Metres)",
+        userGets: "Whole workbook populated; instant starting estimate and recommended tab order"
       },
       {
         number: 3,
         name: "Setup",
-        category: "Get Started",
-        part: "Part 1 · Get Started",
-        description: "Project parameters, unit conversion engine (Feet/Metres), default contingency, and tax placeholders.",
-        userEnters: "Project type, contingency % (10% default), GST % (placeholder)",
-        userGets: "Length & area conversion factors applied across all 31 tabs"
+        category: "Guided Start",
+        part: "Part 1 · Guided Start",
+        description: "Project parameters, unit conversion engine, contingency %, and company details for reports.",
+        userEnters: "Company name, phone, GST number, logo box, contingency % (10% default)",
+        userGets: "Business details populate Client Report and Quotation automatically"
       },
-
-      // PART 2
       {
         number: 4,
+        name: "Starter Plans",
+        category: "Guided Start",
+        part: "Part 1 · Guided Start",
+        description: "Ready-made starter plan templates: 2BHK, 3BHK, Villa, or Renovation for an instant 30-second estimate.",
+        userEnters: "Select starter plan (2BHK, 3BHK, Villa, or Renovation)",
+        userGets: "Pre-fills rooms, concrete, earthwork, steel, bricks, paint, and tasks instantly"
+      },
+
+      // PART 2: MEASURING & QUANTITIES
+      {
+        number: 5,
         name: "Room Area",
         category: "Measure & Quantify",
         part: "Part 2 · Measure & Quantify",
         description: "Calculates carpet area, built-up area, and room-by-room dimensions for up to 12 rooms.",
-        userEnters: "Room name, length, width, count",
-        userGets: "Carpet area per room (sq ft & sq m), total floor area"
+        userEnters: "Room name, length, width, count (pre-filled from starter plan)",
+        userGets: "Carpet area per room (sq ft & sq m), total floor area, room proportions"
       },
       {
-        number: 5,
+        number: 6,
+        name: "Paint & Tiles",
+        category: "Measure & Quantify",
+        part: "Part 2 · Measure & Quantify",
+        description: "Net interior wall areas with doors/windows deducted; calculates primer, paint litres, and tile box counts.",
+        userEnters: "Wall heights, openings per room, tile sizes & coverage",
+        userGets: "Net wall area, primer & paint litres, tile box counts, and finishing costs"
+      },
+      {
+        number: 7,
         name: "Earthwork",
         category: "Measure & Quantify",
         part: "Part 2 · Measure & Quantify",
@@ -310,30 +329,12 @@ export const PRODUCTS: Record<string, Product> = {
         userGets: "Total volume to dig (cu.ft / cu.m) and excavation labor cost"
       },
       {
-        number: 6,
-        name: "Paint & Tiles",
-        category: "Measure & Quantify",
-        part: "Part 2 · Measure & Quantify",
-        description: "Net interior wall areas after deducting doors/windows; calculates paint litres, primer, and tile counts.",
-        userEnters: "Wall heights, doors/windows per room, tile sizes & coverage",
-        userGets: "Net wall area, primer & paint litres, tile box counts and costs"
-      },
-      {
-        number: 7,
-        name: "Exterior & Roof",
-        category: "Measure & Quantify",
-        part: "Part 2 · Measure & Quantify",
-        description: "Outside building perimeter, exterior wall paint coverage, and flat terrace waterproofing area.",
-        userEnters: "Outside wall length, height, openings; flat roof dimensions",
-        userGets: "Exterior paint litres, painting labor, terrace waterproofing cost"
-      },
-      {
         number: 8,
         name: "Concrete",
         category: "Measure & Quantify",
         part: "Part 2 · Measure & Quantify",
-        description: "Footings, plinth beams, columns, lintels, and roof slabs concrete volume with nominal mix ratios.",
-        userEnters: "Member dimensions, mix ratio from structural drawings (e.g. M20)",
+        description: "Footings, plinth beams, columns, lintels, and roof slabs concrete volume with nominal mix ratios (M15, M20, M25).",
+        userEnters: "Member dimensions, mix ratio from drawings (M15, M20, or M25)",
         userGets: "Wet & dry concrete volume, cement bags, sand, aggregate, cost"
       },
       {
@@ -341,7 +342,7 @@ export const PRODUCTS: Record<string, Product> = {
         name: "Bricks & Blocks",
         category: "Measure & Quantify",
         part: "Part 2 · Measure & Quantify",
-        description: "External 9-inch and internal 4.5-inch wall masonry quantities; supports red bricks and AAC blocks.",
+        description: "External 9-inch and internal 4.5-inch wall masonry quantities; supports red bricks and AAC blocks with breakage margins.",
         userEnters: "Wall length, height, thickness; standard brick or AAC block sizes",
         userGets: "Total brick / AAC block count, mortar cement bags, masonry labor"
       },
@@ -361,7 +362,7 @@ export const PRODUCTS: Record<string, Product> = {
         part: "Part 2 · Measure & Quantify",
         description: "Theoretical rebar steel calculator using standard IS:1786 D²/162 formula across 8mm to 25mm bars.",
         userEnters: "Bar diameter (8, 10, 12, 16, 20mm), bar length, number of bars",
-        userGets: "Weight in kg and metric tonnes; total rebar cost"
+        userGets: "Weight in kg and metric tonnes; total rebar cost with cutting wastage"
       },
       {
         number: 12,
@@ -369,69 +370,141 @@ export const PRODUCTS: Record<string, Product> = {
         category: "Measure & Quantify",
         part: "Part 2 · Measure & Quantify",
         description: "Plumbing fixture inlets/outlets and electrical light/switch point tally with unit rates.",
-        userEnters: "Count of plumbing points and electrical switch points; rate/point",
+        userEnters: "Count of plumbing points and electrical switch points; rate per point",
         userGets: "Total plumbing & electrical point contracting estimates"
       },
-
-      // PART 3
       {
         number: 13,
-        name: "Cost Estimate",
-        category: "Cost & Budget",
-        part: "Part 3 · Cost & Budget",
-        description: "Master estimate summarizing all 8 calculators, specialized items, actual spend, and cost per sq ft.",
-        userEnters: "Specialized scopes (sanitaryware, kitchen, doors), actual spend",
-        userGets: "Subtotal, 10% contingency, GST, total budget, cost per sq ft"
+        name: "Additional Works",
+        category: "Measure & Quantify",
+        part: "Part 2 · Measure & Quantify",
+        description: "Covers the essential extras most estimates miss: Sump & overhead tank, septic tank, compound wall, gates, borewell, rainwater pit, staircase, and extras checklist.",
+        userEnters: "People count, tank sizes, wall length/height, gate size, borewell depth",
+        userGets: "Exact materials & costs that flow automatically into Cost Estimate & Order List"
       },
       {
         number: 14,
+        name: "Exterior & Roof",
+        category: "Measure & Quantify",
+        part: "Part 2 · Measure & Quantify",
+        description: "Outside building perimeter, exterior wall weather-proof paint coverage, and flat terrace waterproofing area.",
+        userEnters: "Outside wall length, height, openings; flat roof dimensions",
+        userGets: "Exterior paint litres, painting labor, terrace waterproofing cost"
+      },
+
+      // PART 3: COSTING & BUDGET
+      {
+        number: 15,
+        name: "Cost Estimate",
+        category: "Cost & Budget",
+        part: "Part 3 · Cost & Budget",
+        description: "Master estimate itemized across 20 cost lines, contingency, GST, total budget, and cost per sq ft.",
+        userEnters: "Specialized scopes (sanitaryware, kitchen, doors), actual spend",
+        userGets: "Complete itemized estimate, 10% contingency, GST, cost per sq ft"
+      },
+      {
+        number: 16,
         name: "Room Costs",
         category: "Cost & Budget",
         part: "Part 3 · Cost & Budget",
         description: "Automated cost breakdown showing the finish cost and percentage share of each individual room.",
-        userEnters: "Nothing (Automatically reads from Paint & Tiles)",
+        userEnters: "Nothing (Automatically reads from Paint & Tiles and Room Area)",
         userGets: "Finish cost per room and each room's % share of finishing spend"
       },
       {
-        number: 15,
+        number: 17,
         name: "Stage Budget",
         category: "Cost & Budget",
         part: "Part 3 · Cost & Budget",
-        description: "Cash-flow allocation across 9 construction stages with variance flags (Over / Within budget).",
+        description: "Splits construction spend into 9 construction stages against target percentages you set.",
         userEnters: "Target % share for each of the 9 stages (foundation to finishes)",
         userGets: "Estimate vs target per stage, variance flag, budget share chart"
       },
-
-      // PART 4
       {
-        number: 16,
+        number: 18,
+        name: "Budget Alerts",
+        category: "Cost & Budget",
+        part: "Part 3 · Cost & Budget",
+        description: "Early warning system flagging each stage as over target, close, or on track in plain words before money is spent.",
+        userEnters: "Tolerance buffer % (default 5%)",
+        userGets: "Visual status flags (Green = On Track, Amber = Close, Red = Overspend Alert)"
+      },
+      {
+        number: 19,
+        name: "What-If",
+        category: "Cost & Budget",
+        part: "Part 3 · Cost & Budget",
+        description: "Price sensitivity simulator: test steel, cement, or labour rates 5% to 20% higher or lower to see price-rise risk.",
+        userEnters: "Percentage change for key materials or labour (-20% to +20%)",
+        userGets: "Impact on total project cost, cost per sq ft, and contingency buffer"
+      },
+      {
+        number: 20,
+        name: "Material Compare",
+        category: "Cost & Budget",
+        part: "Part 3 · Cost & Budget",
+        description: "Side-by-side trade-off matrix: Red Brick vs AAC Block vs Fly-Ash walls, and M15 vs M20 vs M25 concrete.",
+        userEnters: "Select material option and local quoted rates",
+        userGets: "Direct comparison on total cost, execution time, and dead weight"
+      },
+
+      // PART 4: BUYING, PAYING & TRACKING
+      {
+        number: 21,
+        name: "Order List",
+        category: "Buy, Track & Approve",
+        part: "Part 4 · Buy, Track & Approve",
+        description: "Consolidated material purchase list with wastage buffers and costs grouped by construction stage.",
+        userEnters: "Wastage allowance % (e.g. 5%), selected supplier, order-by date",
+        userGets: "Itemized buying list ready to hand to suppliers or compare with quotes"
+      },
+      {
+        number: 22,
+        name: "Cash Flow",
+        category: "Buy, Track & Approve",
+        part: "Part 4 · Buy, Track & Approve",
+        description: "Month-by-month cash requirement forecast built from the timeline and stage budget against actual payments.",
+        userEnters: "Estimated stage durations and monthly inflow targets",
+        userGets: "Monthly cash demand forecast: know exactly what to arrange for next 3 months"
+      },
+      {
+        number: 23,
+        name: "Timeline",
+        category: "Buy, Track & Approve",
+        part: "Part 4 · Buy, Track & Approve",
+        description: "Construction phase schedule monitoring planned start/end dates and actual milestone progress.",
+        userEnters: "Phase dates, completion percentage",
+        userGets: "Phase duration, critical path progress, and days remaining before handover"
+      },
+      {
+        number: 24,
+        name: "Payments",
+        category: "Buy, Track & Approve",
+        part: "Part 4 · Buy, Track & Approve",
+        description: "Milestone payment tracker logging disbursements, contractor running balances, and retention money.",
+        userEnters: "Payment amount, date, milestone, and approved change order costs",
+        userGets: "Total paid to date, outstanding contractor balance, and remaining funds"
+      },
+      {
+        number: 25,
+        name: "Task Tracker",
+        category: "Buy, Track & Approve",
+        part: "Part 4 · Buy, Track & Approve",
+        description: "Site execution schedule tracking tasks, trade owners, target dates, and overdue alerts in red.",
+        userEnters: "Task name, stage, owner, start/end dates, priority, status",
+        userGets: "Days remaining, automated overdue alerts, visual progress chart"
+      },
+      {
+        number: 26,
         name: "Stage Checklist",
         category: "Buy, Track & Approve",
         part: "Part 4 · Buy, Track & Approve",
         description: "Mandatory quality and verification checks before moving to the next stage or releasing funds.",
         userEnters: "Check status (Done/Pending), date, inspector name, site notes",
-        userGets: "Readiness clearance before paying contractors or continuing"
+        userGets: "Readiness clearance before paying contractors or starting next phase"
       },
       {
-        number: 17,
-        name: "Order List",
-        category: "Buy, Track & Approve",
-        part: "Part 4 · Buy, Track & Approve",
-        description: "Consolidated material purchase list with buffer wastage percentages and required order-by dates.",
-        userEnters: "Wastage allowance % (e.g. 5%), selected supplier, order-by date",
-        userGets: "Exact order quantities with safety buffers, cost per line"
-      },
-      {
-        number: 18,
-        name: "Task Tracker",
-        category: "Buy, Track & Approve",
-        part: "Part 4 · Buy, Track & Approve",
-        description: "Site execution schedule tracking tasks, owners, target completion dates, and overdue alerts in red.",
-        userEnters: "Task name, stage, owner, start/end dates, priority, status",
-        userGets: "Days remaining, automated overdue alerts, visual progress chart"
-      },
-      {
-        number: 19,
+        number: 27,
         name: "Permits & Approvals",
         category: "Buy, Track & Approve",
         part: "Part 4 · Buy, Track & Approve",
@@ -440,18 +513,18 @@ export const PRODUCTS: Record<string, Product> = {
         userGets: "Approval status log; total fees linked directly to Cost Estimate"
       },
 
-      // PART 5
+      // PART 5: RATES & ASSUMPTIONS
       {
-        number: 20,
+        number: 28,
         name: "Rates",
         category: "Rates & Assumptions",
         part: "Part 5 · Rates & Assumptions",
-        description: "Master database of 16 editable local city rates for cement, steel, sand, bricks, and specialized labor.",
-        userEnters: "Your local market rates with dated supplier quotes",
-        userGets: "Every cost formula in the workbook recalculates automatically"
+        description: "Central database of 16 key rates with sample rates for 9 major Indian cities and a 90-day rate staleness warning.",
+        userEnters: "Your local supplier rates (or pick from 9 city sample sets)",
+        userGets: "Single-point update: changing one rate recalculates every sheet in the workbook"
       },
       {
-        number: 21,
+        number: 29,
         name: "Rate Quotes",
         category: "Rates & Assumptions",
         part: "Part 5 · Rates & Assumptions",
@@ -460,94 +533,85 @@ export const PRODUCTS: Record<string, Product> = {
         userGets: "Highlights the true cheaper option factoring in delivery terms"
       },
       {
-        number: 22,
+        number: 30,
         name: "Assumptions",
         category: "Rates & Assumptions",
         part: "Part 5 · Rates & Assumptions",
-        description: "Transparent engineering documentation of all dry-volume ratios, mortar splits, and consumption factors.",
+        description: "Transparent engineering documentation of dry-volume ratios, mortar splits, and material consumption factors.",
         userEnters: "Review notes from your qualified structural engineer or QS",
         userGets: "Complete formula audit trail with source validation status"
       },
       {
-        number: 23,
+        number: 31,
         name: "Terms & Disclaimer",
         category: "Rates & Assumptions",
         part: "Part 5 · Rates & Assumptions",
-        description: "Operational scope definition, licensing terms, and guidance on professional engineering review.",
+        description: "Operational scope, limit of liability, licensing terms (named buyer, own projects, no resale), and disclaimers.",
         userEnters: "Nothing (Standard usage terms and license framework)",
         userGets: "Legal clarity on preliminary estimation vs structural drawings"
       },
 
-      // PART 6
+      // PART 6: OVERVIEW, CONTROL & CLIENT REPORTS
       {
-        number: 24,
+        number: 32,
         name: "Dashboard",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
-        description: "Executive control board displaying primary spend indicators, material totals, and next action items.",
-        userEnters: "Nothing (Real-time rollup of all 30 sheets)",
-        userGets: "Visual financial dashboard, material splits, budget headroom"
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
+        description: "Colour KPI cards (total, cost/sq ft, balance), stage-wise bar chart, cost doughnut chart, and budget alert table.",
+        userEnters: "Nothing (Real-time rollup of all sheets)",
+        userGets: "The entire project financial and physical status on one screen"
       },
       {
-        number: 25,
+        number: 33,
         name: "Bill Check",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
-        description: "Contractor bill auditing tool. Compares claimed quantities against calculated norms with a 5% flag.",
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
+        description: "Contractor bill auditing tool. Compares claimed quantities against calculated norms with a 5% variance flag.",
         userEnters: "Contractor's claimed bill quantities; tolerance margin (5% default)",
         userGets: "Identifies quantity discrepancies and flags overclaims above tolerance"
       },
       {
-        number: 26,
+        number: 34,
         name: "Projects",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
         description: "Multi-site portfolio tracker managing budgets, estimates, and actual spend for up to 5 properties.",
         userEnters: "Project names, allocated budget, client details",
         userGets: "Percentage of budget utilized and financial status per project"
       },
       {
-        number: 27,
+        number: 35,
         name: "Bids",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
         description: "Contractor quotation comparison matrix analyzing up to 3 competitive bids side-by-side.",
         userEnters: "Line-item quotations from up to 3 contractors",
         userGets: "Identifies lowest bidder per scope and calculates total savings"
       },
       {
-        number: 28,
-        name: "Payments",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
-        description: "Stage payment schedule tracking up to 15 milestone disbursements and 10 approved change orders.",
-        userEnters: "Payment amount, date, milestone, and approved change order costs",
-        userGets: "Revised forecast, total paid, and remaining balance still to pay"
-      },
-      {
-        number: 29,
-        name: "Timeline",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
-        description: "Construction phase schedule monitoring planned start/end dates and actual milestone progress.",
-        userEnters: "Phase dates, completion percentage",
-        userGets: "Phase duration and days remaining before handover"
-      },
-      {
-        number: 30,
+        number: 36,
         name: "Quotation",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
-        description: "Print-ready professional Bill of Quantities (BOQ) proposal generated directly from Cost Estimate.",
-        userEnters: "Contractor business details, client name, date",
-        userGets: "Clean, print-ready client quotation for contracts and agreements"
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
+        description: "Clean, print-ready Bill of Quantities (BOQ) with business name, contact, GST number, and logo box.",
+        userEnters: "Business details entered once on Setup",
+        userGets: "Professional quotation ready to print or save as PDF for clients"
       },
       {
-        number: 31,
+        number: 37,
+        name: "Client Report",
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
+        description: "One-page A4 summary with your business name, logo box, cost split by stage, schedule, payments, and key quantities.",
+        userEnters: "Nothing (Pulls project name, client, stage totals, and payments automatically)",
+        userGets: "Executive A4 summary to show clients, family members, or bank managers"
+      },
+      {
+        number: 38,
         name: "Rate Library",
-        category: "Overview, Pay & Check",
-        part: "Part 6 · Overview, Pay & Check",
-        description: "Historical database of material and labor quotes across different suppliers and cities.",
+        category: "Overview & Reports",
+        part: "Part 6 · Overview & Reports",
+        description: "Historical database of material and labor quotes across different suppliers and cities for future reference.",
         userEnters: "Material item, unit, city, supplier name, quoted rate, date",
         userGets: "Searchable reference library of past quotes for future projects"
       }
@@ -744,19 +808,19 @@ export const PRODUCTS: Record<string, Product> = {
     faqs: [
       {
         question: "What is included in the package?",
-        answer: "You receive 31 connected Excel sheets across master templates and finished examples (Blank Project Engine, Chennai 1,500 sq ft 3-BHK House Build Example, and 1,000 sq ft Flat Renovation Example), plus 13 PDF implementation guides, worksheets, checklists, negotiation scripts, and 7 specialized bonus kits."
+        answer: "You receive 38 connected Excel sheets across master templates and finished examples (Blank Project Engine with 4 Starter Plans, New House 30x50 Example, and Flat Renovation Example), plus 13 PDF implementation guides, worksheets, checklists, negotiation scripts, and 7 specialized bonus kits."
       },
       {
         question: "Can I use this for flat, apartment, or room renovations?",
-        answer: "Yes! The package includes a dedicated workbook: 'Construction_Calculator_Pro_EXAMPLE_renovation.xlsx'. It is built specifically for non-structural upgrades (kitchen remodel, bathroom tiling, bedroom flooring, wall painting, and electrical work) without overwhelming you with foundation and RCC sheets."
+        answer: "Yes! The package includes a dedicated starter plan and finished workbook: 'Construction_Calculator_Pro_EXAMPLE_renovation.xlsx'. It is built specifically for non-structural upgrades (kitchen remodel, bathroom tiling, bedroom flooring, wall painting, and electrical work) without overwhelming you with foundation and RCC sheets."
       },
       {
         question: "Does this workbook support both Feet and Metres?",
-        answer: "Yes! In Sheet #3 (Setup), you can toggle between Feet and Metres. Length, area, concrete volume, and brick count formulas automatically adapt to your chosen measurement unit."
+        answer: "Yes! In Quick Start / Setup, you can toggle between Feet and Metres on a single cell. Length, area, concrete volume, and brick count formulas automatically adapt to your chosen measurement unit."
       },
       {
         question: "Can I enter my local city rates for cement, steel and sand?",
-        answer: "Yes, absolutely! Sheet #20 is the 'Rates Table'. As soon as you enter your local prices for cement bags, steel per kg, sand per brass/cu.ft, bricks, or labor rates, all 31 sheets and your client BOQ update in real time."
+        answer: "Yes, absolutely! Sheet #26 is the 'Rates' tab. You can select pre-filled sample rates for 9 major Indian cities to get started, or overwrite with your own supplier quotes. All 38 sheets, cost estimate, cash flow, and client reports update in real time. It even includes a 90-day rate staleness warning."
       },
       {
         question: "How does the 'Bill Check' tab help review contractor claims?",
@@ -764,7 +828,7 @@ export const PRODUCTS: Record<string, Product> = {
       },
       {
         question: "How does the digital delivery work?",
-        answer: "This is an instant digital product. Immediately after completing checkout, you will receive on-screen download links for all 31 Excel sheets and all 13 PDF guides, along with an automated email backup confirmation."
+        answer: "This is an instant digital product. Immediately after completing checkout, you will receive on-screen download links for all 38 Excel sheets and all 13 PDF guides, along with an automated email backup confirmation."
       },
       {
         question: "Are there any recurring monthly charges?",
@@ -906,7 +970,7 @@ export const PRODUCTS: Record<string, Product> = {
       {
         stepNumber: 1,
         action: "Inspect the Finished Example",
-        details: "Open the new-build example file (1,500 sq ft Chennai house) to see how a completed project looks with all 31 tabs linked.",
+        details: "Open the new-build example file (30x50 House Example) to see how a completed project looks with all 38 tabs linked.",
         fileOrGuide: "Construction_Calculator_Pro_EXAMPLE_filled.xlsx"
       },
       {
@@ -962,23 +1026,23 @@ export const PRODUCTS: Record<string, Product> = {
         description: "Deducts door and window opening areas from masonry walls; feeds room-by-room finishing shares"
       },
       {
-        from: "Calculators 05–12 + Services (12) + Permits (19)",
-        to: "Cost Estimate (Tab 13)",
+        from: "Calculators 05–18 (Rooms, Concrete, Masonry, Steel, Services, Additional Works)",
+        to: "Cost Estimate (Tab 19)",
         description: "Feeds all material quantities and specialized costs into the master summary estimate"
       },
       {
-        from: "Cost Estimate (Tab 13)",
-        to: "Stage Budget (15), Dashboard (24), Payments (28), Quotation (30), Projects (26)",
-        description: "Drives executive charts, client BOQ proposals, stage allocations, and running financial forecast"
+        from: "Cost Estimate (Tab 19)",
+        to: "Stage Budget (21), Cash Flow (22), Dashboard (30), Payments (36), Client Report (31), Quotation (32)",
+        description: "Drives executive charts, client BOQ proposals, stage allocations, cash-flow projection, and running financial forecast"
       },
       {
-        from: "Calculators 05–12",
-        to: "Order List (Tab 17) & Bill Check (Tab 25)",
+        from: "Calculators 05–18",
+        to: "Order List (Tab 23) & Bill Check (Tab 34)",
         description: "Creates procurement quantities with wastage buffers and populates baseline 'Our Calculation' on Bill Check"
       },
       {
-        from: "Rate Quotes (21) & Rate Library (31)",
-        to: "Master Rates (Tab 20)",
+        from: "Rate Quotes (27) & Rate Library (38)",
+        to: "Master Rates (Tab 26)",
         description: "Compares supplier bids to choose best rates, then feeds every monetary formula across the workbook"
       }
     ],
@@ -1024,17 +1088,17 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-1",
         situation: "How much will my house cost to build in my city?",
         category: "cost",
-        whereToGo: "Quick Start → Calculators (04–12) → Rates (20) → Cost Estimate (13)",
-        tabs: ["02 Quick Start", "04 Room Area", "20 Rates", "13 Cost Estimate"],
+        whereToGo: "Quick Start → Calculators (05–18) → Rates (26) → Cost Estimate (19)",
+        tabs: ["02 Quick Start", "05 Room Area", "26 Rates", "19 Cost Estimate"],
         docs: ["00_Start_Here.pdf", "01_Main_Guide.pdf (Modules 1–4)"],
-        reason: "Enter basic room dimensions, plug in your local supplier rates, and immediately see your total cost and rate per sq ft."
+        reason: "Enter basic room dimensions (or pick a 30-second starter plan), select 9-city rates or plug in your local supplier prices, and immediately see your total cost and rate per sq ft."
       },
       {
         id: "sit-2",
         situation: "Which contractor should I choose without getting scammed?",
         category: "contractor",
-        whereToGo: "Specification Sheet → Contractor Hiring Kit → Bids Tab (27)",
-        tabs: ["27 Bids", "30 Quotation"],
+        whereToGo: "Specification Sheet → Contractor Hiring Kit → Bids Tab (33)",
+        tabs: ["33 Bids", "32 Quotation"],
         docs: ["Bonus_Specification_and_Brand_Sheet.pdf", "Bonus_Contractor_Hiring_Kit.pdf"],
         reason: "Send every contractor the exact same 5-page brand and spec sheet so only price varies, then score their references and past sites."
       },
@@ -1042,8 +1106,8 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-3",
         situation: "Is this material supplier really cheaper, or are delivery fees hidden?",
         category: "materials",
-        whereToGo: "Rate Quotes Tab (21) → Worksheet D → Negotiation Script 1",
-        tabs: ["21 Rate Quotes", "31 Rate Library"],
+        whereToGo: "Rate Quotes Tab (27) → Worksheet D → Negotiation Script 1",
+        tabs: ["27 Rate Quotes", "38 Rate Library"],
         docs: ["03_Worksheets.pdf (Worksheet D)", "07_Scripts.pdf (Script 1)"],
         reason: "Compare two suppliers on identical unit definitions and on-site delivery terms to reveal hidden freight charges."
       },
@@ -1051,8 +1115,8 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-4",
         situation: "How much cement, sand and TMT steel do I order, and when?",
         category: "materials",
-        whereToGo: "Concrete (08) & Steel (11) Tabs → Order List (17)",
-        tabs: ["08 Concrete", "11 Steel", "17 Order List"],
+        whereToGo: "Concrete (09) & Steel (12) Tabs → Order List (23)",
+        tabs: ["09 Concrete", "12 Steel", "23 Order List"],
         docs: ["01_Main_Guide.pdf (Module 6)", "09_Cheat_Sheet.pdf"],
         reason: "Calculates exact required quantities with buffer wastage percentages and calculates the precise order-by dates before the stage starts."
       },
@@ -1060,8 +1124,8 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-5",
         situation: "The truck has arrived on site. Is the material high quality or substandard?",
         category: "materials",
-        whereToGo: "Material Quality Checks Bonus → Receipt Log",
-        tabs: ["16 Stage Checklist", "17 Order List"],
+        whereToGo: "Material Quality Checks Bonus → Order List (23) & Task Tracker (35)",
+        tabs: ["23 Order List", "35 Task Tracker"],
         docs: ["Bonus_Material_Quality_Checks.pdf"],
         reason: "Run immediate field tests: sand silt jar test, cement bag manufacture week, steel ISI embossing, and brick water immersion tests."
       },
@@ -1069,8 +1133,8 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-6",
         situation: "The contractor's bill looks unusually high. How do I challenge it politely?",
         category: "bills",
-        whereToGo: "Bill Check Tab (25) → Bonus 1 → Script 2 → Worksheet E",
-        tabs: ["25 Bill Check", "13 Cost Estimate"],
+        whereToGo: "Bill Check Tab (34) → Bonus 1 → Script 2 → Worksheet E",
+        tabs: ["34 Bill Check", "19 Cost Estimate"],
         docs: ["Bonus_1_Contractor_Bill_Check.pdf", "07_Scripts.pdf (Script 2)", "03_Worksheets.pdf (Worksheet E)"],
         reason: "Enter the claimed quantities. The tab flags any variation over 5%. Script 2 gives you the polite, non-confrontational words to request measurement sheets."
       },
@@ -1078,8 +1142,8 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-7",
         situation: "The contractor demands extra money on the final bill for changes.",
         category: "bills",
-        whereToGo: "Change Order Template 2 → Bonus 3 → Script 3 → Payments Tab (28)",
-        tabs: ["28 Payments"],
+        whereToGo: "Change Order Template 2 → Bonus 3 → Script 3 → Payments Tab (36)",
+        tabs: ["36 Payments"],
         docs: ["06_Templates.pdf (Template 2)", "Bonus_3_Change_Order_Control.pdf", "07_Scripts.pdf (Script 3)"],
         reason: "Enforce the golden rule: no variation work starts without a signed, pre-priced change order, which automatically updates the revised budget forecast."
       },
@@ -1087,8 +1151,8 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-8",
         situation: "Should I release the next stage payment or hold it back?",
         category: "stages",
-        whereToGo: "Pre-Payment Checklist → Stage Checklist (16) → Payments Balance → Script 4",
-        tabs: ["16 Stage Checklist", "28 Payments"],
+        whereToGo: "Pre-Payment Checklist → Payments Balance (36) → Script 4",
+        tabs: ["36 Payments"],
         docs: ["04_Checklists.pdf", "03_Worksheets.pdf (Worksheet F)", "07_Scripts.pdf (Script 4)"],
         reason: "Complete the 5-point technical check before writing a cheque, and send Script 4 to explain why funds are held until inspections pass."
       },
@@ -1096,26 +1160,26 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-9",
         situation: "Am I over budget on any construction stage?",
         category: "cost",
-        whereToGo: "Stage Budget Tab (15) → Executive Dashboard (24)",
-        tabs: ["15 Stage Budget", "24 Dashboard", "13 Cost Estimate"],
+        whereToGo: "Stage Budget Tab (21) → Executive Dashboard (30) → Cash Flow (22)",
+        tabs: ["21 Stage Budget", "30 Dashboard", "22 Cash Flow", "19 Cost Estimate"],
         docs: ["01_Main_Guide.pdf (Module 5)"],
-        reason: "Compare target stage shares against real costs with automated Over/Within budget visual alerts and cash-flow headroom indicators."
+        reason: "Compare target stage shares against real costs with automated Over/Within budget visual alerts and month-by-month cash-flow forecast."
       },
       {
         id: "sit-10",
-        situation: "Which municipal approvals do I need, and how much will they cost?",
+        situation: "Which municipal approvals and additional works do I need, and how much will they cost?",
         category: "stages",
-        whereToGo: "Permits & Approvals Tab (19) → Template 4",
-        tabs: ["19 Permits & Approvals", "13 Cost Estimate"],
+        whereToGo: "Additional Works / Extras (18) → Cost Estimate (19)",
+        tabs: ["18 Additional Works", "19 Cost Estimate"],
         docs: ["06_Templates.pdf (Template 4)"],
-        reason: "Track building sanctions, water connection, temporary power, and sanctioned fees, automatically feeding fee totals into your Cost Estimate."
+        reason: "Calculates sumps, septic tanks, compound walls, gates, borewell, rainwater pit, and municipal approvals, automatically feeding totals into your Cost Estimate."
       },
       {
         id: "sit-11",
         situation: "The house is finished. Can I pay the contractor in full?",
         category: "stages",
-        whereToGo: "Snag List & Handover Check Bonus → Pre-Handover Checklist",
-        tabs: ["16 Stage Checklist", "28 Payments"],
+        whereToGo: "Snag List & Handover Check Bonus → Payments (36)",
+        tabs: ["36 Payments"],
         docs: ["Bonus_Snag_List_and_Handover.pdf", "04_Checklists.pdf"],
         reason: "Walk the house room-by-room with tools, document defects, and retain the agreed retention balance until all punch-list items are certified."
       },
@@ -1123,10 +1187,10 @@ export const PRODUCTS: Record<string, Product> = {
         id: "sit-12",
         situation: "I'm a contractor pricing a client job and running several sites.",
         category: "contractor",
-        whereToGo: "Calculators → Cost Estimate → Quotation (30) → Projects (26) & Rate Library (31)",
-        tabs: ["13 Cost Estimate", "30 Quotation", "26 Projects", "31 Rate Library"],
+        whereToGo: "Calculators → Cost Estimate (19) → Client Report (31) → Quotation (32) → Rate Library (38)",
+        tabs: ["19 Cost Estimate", "31 Client Report", "32 Quotation", "38 Rate Library"],
         docs: ["06_Templates.pdf", "08_Trackers.pdf"],
-        reason: "Generate a print-ready client BOQ quotation, monitor budget utilization across 5 projects, and preserve supplier rates for future jobs."
+        reason: "Generate a print-ready client BOQ quotation with your company logo & GST, monitor cash flow, and preserve supplier rates for future jobs."
       }
     ],
     exercisesDetailed: [
@@ -1250,7 +1314,7 @@ export const PRODUCTS: Record<string, Product> = {
     sellerChecklist: [
       {
         id: 1,
-        item: "Open all 31 sheets across templates in Microsoft Excel and run the Excel Test Script (including negative-amount check)",
+        item: "Open all 38 sheets across templates in Microsoft Excel and run the Excel Test Script (including negative-amount check)",
         status: "Pending",
         notes: "Verifies macro-free formula integrity and conditional formatting across Excel versions"
       },
@@ -1341,7 +1405,7 @@ export const REEL_VIDEOS: Record<string, ReelVideo> = {
     id: "main-calculator",
     src: "/videos/main-calculator-reel.mp4",
     title: "Construction Calculator Pro",
-    subtitle: "31 Connected Excel Sheets Walkthrough",
+    subtitle: "38 Connected Excel Sheets Walkthrough",
     priceTag: "₹299",
     duration: "60s",
     isMainProduct: true

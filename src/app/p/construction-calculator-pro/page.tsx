@@ -173,7 +173,7 @@ export default function ConstructionCalculatorPage() {
       city: "Jaipur, Rajasthan",
       rating: 4,
       highlight: "Clean Excel with zero macros",
-      review: "Takes about 15 minutes to navigate all 31 tabs initially, but the master rate sheet makes it worth it. In Jaipur our brick and aggregate rates change every few months, so updating local rates once and having the entire project re-calculate automatically is very convenient.",
+      review: "Takes about 15 minutes to explore the starter plans and tabs initially, but the master rate sheet makes it worth it. In Jaipur our brick and aggregate rates change every few months, so updating local rates once and having the entire project re-calculate automatically is very convenient.",
     },
     {
       name: "Arunachalam & Priya",
@@ -233,7 +233,7 @@ export default function ConstructionCalculatorPage() {
                 <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-amber-500/20 border-2 border-amber-500/70 text-xs text-slate-900 shadow-xs">
                   <span className="flex items-center gap-1.5 font-black text-amber-950 uppercase tracking-wide text-[11px] sm:text-xs">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
-                    👷 Built by a Civil Engineer (10+ Years On-Site)
+                    👷 Built by Mohamed Naseem (10+ Years On-Site, 20+ Homes Built)
                   </span>
                   <span className="text-amber-400 font-bold hidden sm:inline">•</span>
                   <span className="font-bold text-slate-800 text-[11px] sm:text-xs">
@@ -241,7 +241,7 @@ export default function ConstructionCalculatorPage() {
                   </span>
                   <span className="text-amber-400 font-bold hidden sm:inline">•</span>
                   <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
-                    31 Connected Sheets
+                    38 Connected Sheets
                   </span>
                 </div>
 
@@ -370,7 +370,7 @@ export default function ConstructionCalculatorPage() {
                     </div>
                     <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
                       <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                      31 Connected Tabs
+                      38 Connected Tabs
                     </span>
                   </div>
 
@@ -470,7 +470,7 @@ export default function ConstructionCalculatorPage() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-2.5">
-                  <span className="text-xs font-bold text-emerald-900 text-center sm:text-left">31 Connected Sheets · Complete Suite</span>
+                  <span className="text-xs font-bold text-emerald-900 text-center sm:text-left">38 Connected Sheets · Complete Suite</span>
                   <button
                     onClick={() => setIsCheckoutOpen(true)}
                     className="w-full sm:w-auto py-2 px-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all whitespace-nowrap"
@@ -622,19 +622,19 @@ export default function ConstructionCalculatorPage() {
                     </span>
                     <span className="text-xs text-amber-700 font-semibold font-mono">Core Engines</span>
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">31-Sheet Master + 2 Project Examples</h3>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">38-Sheet Master + 2 Project Examples</h3>
                   <div className="mt-2.5 space-y-1.5 text-xs text-slate-600">
                     <div className="flex items-start gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Blank Master Engine:</strong> Clean 31-tab file ready for your new build.</span>
+                      <span><strong>Blank Master Engine (38 Tabs):</strong> 4 Starter Plans (2BHK, 3BHK, Villa, Renovation) for a 30-sec estimate + Beginner/Pro mode.</span>
                     </div>
                     <div className="flex items-start gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Chennai 3BHK Example:</strong> 1,500 sq ft pre-filled project with sample rates.</span>
+                      <span><strong>New House 30x50 Example:</strong> Fully worked independent house with live drawing quantities and city rates.</span>
                     </div>
                     <div className="flex items-start gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>Flat Renovation Example:</strong> 1,000 sq ft remodel template without foundation clutter.</span>
+                      <span><strong>Flat Renovation Example:</strong> Apartment remodel with finishes, room costs &amp; cash flow.</span>
                     </div>
                   </div>
                 </div>
@@ -661,7 +661,7 @@ export default function ConstructionCalculatorPage() {
                     className="w-full py-1.5 px-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-xs transition-colors flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <Layers className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Inspect All 31 Sheet Names &rarr;</span>
+                    <span>Inspect All 38 Sheet Names &rarr;</span>
                   </button>
                 </div>
               </div>
@@ -733,6 +733,172 @@ export default function ConstructionCalculatorPage() {
         </section>
 
 
+
+        {/* 5. HOW IT WORKS & WHAT MAKES IT DIFFERENT */}
+        <section className="py-8 sm:py-12 bg-slate-900 text-white border-b border-slate-800 relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-3.5 sm:px-6 relative z-10">
+            {/* Header */}
+            <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
+              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full inline-block">
+                Engineered for Indian Site Realities
+              </span>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-white mt-2 tracking-tight">
+                How It Works in 4 Simple Steps
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
+                No complex CAD software or programming. Built on unlocked Microsoft Excel with color-coded safety: yellow cells for typing, protected green cells for formulas.
+              </p>
+            </div>
+
+            {/* 4 Steps Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    01
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Answer 6 Quick Questions</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Enter project name, area, budget, city, and pick Feet or Metres. Choose <strong>Beginner Mode</strong> for step-by-step guidance or <strong>Pro Mode</strong> for a clean screen.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-amber-400 font-medium">
+                  ⚡ 30-Sec Ready Estimate
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    02
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Pick a Plan or Customize</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Select a 2BHK, 3BHK, Villa, or Renovation starter plan to auto-fill rooms, concrete, steel, and bricks. Or type over yellow cells with your drawing numbers.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-emerald-400 font-medium">
+                  🛡️ Green Formulas Protected
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    03
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Select City or Local Rates</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Pick pre-filled rates for 9 major Indian cities or overwrite with quotes from your suppliers. Includes a 90-day staleness warning so prices stay accurate.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-blue-400 font-medium">
+                  📍 9 Major Indian Cities
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    04
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Read Results &amp; Print</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Cost Estimate (20 lines + GST), Material Buying List, Month-by-Month Cash Flow, and A4 Client Quotations with your logo update automatically.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-purple-400 font-medium">
+                  📄 Print / PDF Ready Reports
+                </div>
+              </div>
+            </div>
+
+            {/* Feature Spotlight: Additional Works & Advanced Control */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Box 1: Additional Works */}
+              <div className="bg-slate-800/50 border border-amber-500/30 rounded-2xl p-4 sm:p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded">
+                    Tab 18 Spotlight
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    Additional Works: The Items Estimates Miss
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-3">
+                  Most construction estimates fail because they only account for internal rooms. Tab 18 calculates all structural extras and automatically feeds costs into your master BOQ:
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Sump &amp; Overhead Tank</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Septic Tank &amp; Soak Pit</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Compound Wall &amp; Pillars</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Main Gates &amp; Safety Grills</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Borewell, Rainwater &amp; Paving</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Staircase RCC &amp; Railing</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Lintels, Sunshades &amp; Beams</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Solar, Terrace Waterproofing</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Box 2: Smart Financial & Material Simulation */}
+              <div className="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-4 sm:p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded">
+                    Advanced Decision Engines
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    What-If Simulator &amp; Cash Flow Forecast
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-3">
+                  Stay ahead of market price surges and avoid running out of funds halfway through construction:
+                </p>
+                <div className="space-y-2 text-[11px] text-slate-300">
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">📊</span>
+                    <span><strong>What-If Scenario Simulator:</strong> Stress-test cement, steel, or labour prices rising 5% to 20% before committing to purchases.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">🧱</span>
+                    <span><strong>Material Compare Engine:</strong> Compare Red Brick vs. AAC Blocks vs. Fly-Ash on cost, speed, and weight; compare M15, M20, M25 concrete.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">💰</span>
+                    <span><strong>Month-by-Month Cash Flow:</strong> Know exactly how much working capital you need across the next 3 months against contractor milestones.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">📋</span>
+                    <span><strong>Client Report &amp; Quotation:</strong> Enter company name, logo &amp; GST once on Setup; generates clean, branded PDF proposals.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* 6. COMPLETE SITE OPERATIONS (ADD-ONS) */}
         <section id="business-tools" className="py-7 sm:py-10 bg-white text-slate-900 border-y border-slate-200 relative overflow-hidden">
@@ -1030,7 +1196,7 @@ export default function ConstructionCalculatorPage() {
             <div className="py-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] sm:text-xs text-slate-700">
               <div className="flex items-center gap-1.5">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>31 connected Excel sheets</span>
+                <span>38 connected Excel sheets</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -1091,23 +1257,27 @@ export default function ConstructionCalculatorPage() {
             {[
               {
                 q: "What exactly do I receive inside the package?",
-                a: "You receive the Master 31-Sheet Construction Calculator Excel (.xlsx) file, two completed reference project files (a 1,500 sq ft Chennai 3BHK and a 1,000 sq ft flat renovation), 13 PDF implementation guides with printable site worksheets, and 7 bonus resources including the contractor hiring guide and material test checklists."
+                a: "You receive the Master 38-Sheet Construction Calculator Excel (.xlsx) file with 4 instant Starter Plans (2BHK, 3BHK, Villa, Renovation) and Beginner/Pro mode, two completed reference project files (New House 30x50 and Flat Renovation), 13 PDF implementation guides with printable site worksheets, and 7 bonus resources including the contractor hiring guide and material test checklists."
               },
               {
                 q: "Do I need prior civil engineering experience to use this?",
-                a: "No. The system is designed for homeowners and contractors alike. You only enter basic measurements (room length, width, thickness). All standard engineering formulas (IS 456, IS 1786), mix ratios (M15, M20, M25), and wastage factors calculate automatically."
+                a: "No. The system is designed for homeowners and contractors alike. Beginner mode activates plain-English guidance on every tab and marks advanced sheets as optional. You can pick a ready-made starter plan to get an estimate in 30 seconds, or enter your room sizes in the yellow input cells. All formulas in green cells are calculated and protected."
               },
               {
-                q: "Will this work on my version of Excel, Mac, or phone?",
-                a: "Yes. The toolkit is formatted natively in standard open .xlsx format without dangerous macros. It runs seamlessly on Microsoft Excel across Windows, Mac, iOS, Android, and Office 365."
+                q: "Will this work on my version of Excel or other spreadsheet software?",
+                a: "Construction Calculator Pro requires Microsoft Excel 2016 or later (including Excel 2019, 2021, and Microsoft 365) on Windows or Mac. The workbook uses native multi-tab formulas and formatting with zero macros. Note: It is not tested on or recommended for Google Sheets, LibreOffice, or Apple Numbers."
               },
               {
                 q: "How does the dual units system work?",
-                a: "Tab 03 provides a single toggle switch between Imperial (Feet and Inches, common in Indian residential work) and Metric (Metres and Millimetres). Changing this toggle updates all 31 calculation sheets instantly without formula breaks."
+                a: "In Quick Start and Setup, a single cell lets you toggle between Feet and Metres. Lengths, room areas, concrete volumes, rebar steel weight, and brick counts across all 38 calculation sheets adapt immediately."
+              },
+              {
+                q: "What is the new 'Additional Works' tab?",
+                a: "Most home estimates fail because they only count the main rooms and miss external structures. Tab 18 (Additional Works) automatically calculates quantities and costs for your sump, overhead tank, septic tank & soak pit, compound wall, gates, borewell, rainwater pit, staircase, and window/door schedules, feeding directly into your master Cost Estimate."
               },
               {
                 q: "How does digital delivery and support work?",
-                a: "Immediately upon payment, your complete digital toolkit (.zip bundle) is displayed on screen for instant download and automatically attached to your confirmation email. For any file questions, our support team (support@thinktools.in) will assist you promptly."
+                a: "Immediately upon payment, your complete digital toolkit (.zip bundle) is displayed on screen for instant download and automatically attached to your confirmation email. For any questions, our team (support@thinktools.in) will assist you promptly."
               }
             ].map((faq, idx) => (
               <div
@@ -1189,7 +1359,7 @@ export default function ConstructionCalculatorPage() {
         onOpenCheckout={() => setIsCheckoutOpen(true)}
       />
 
-      {/* 31-Tab Detailed Inspection Modal (Dynamic Lazy-Loaded) */}
+      {/* 38-Tab Detailed Inspection Modal (Dynamic Lazy-Loaded) */}
       <SheetCatalogModal
         isOpen={isSheetModalOpen}
         onClose={() => setIsSheetModalOpen(false)}

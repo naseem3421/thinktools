@@ -4,9 +4,9 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thinktools.in";
 const pageUrl = `${siteUrl}/p/construction-calculator-pro`;
 
 export const metadata: Metadata = {
-  title: "Construction Calculator Pro — 31-Tab Master Civil Suite & BOQ Estimator",
+  title: "Construction Calculator Pro — 38-Tab Master Civil Suite & BOQ Estimator",
   description:
-    "Excel construction cost estimator for Indian residential projects: 31 connected sheets, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
+    "Excel construction cost estimator for Indian residential projects: 38 connected sheets, 4 starter plans, additional works, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
   keywords: [
     "construction calculator pro",
     "excel construction estimator india",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     canonical: "/p/construction-calculator-pro",
   },
   openGraph: {
-    title: "Construction Calculator Pro — 31-Tab Master Civil Suite & Estimator",
+    title: "Construction Calculator Pro — 38-Tab Master Civil Suite & Estimator",
     description:
-      "Excel construction cost estimator for Indian residential projects: 31 connected sheets, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
+      "Excel construction cost estimator for Indian residential projects: 38 connected sheets, 4 starter plans, additional works, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
     url: pageUrl,
     type: "website",
     siteName: "Thinktools",
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
         url: `${pageUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "Construction Calculator Pro — 31 Connected Excel Sheets for Civil Estimations (₹299)",
+        alt: "Construction Calculator Pro — 38 Connected Excel Sheets for Civil Estimations (₹299)",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Construction Calculator Pro — 31-Tab Master Civil Suite",
+    title: "Construction Calculator Pro — 38-Tab Master Civil Suite",
     description:
-      "Excel construction cost estimator for Indian residential projects: 31 connected sheets, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
+      "Excel construction cost estimator for Indian residential projects: 38 connected sheets, 4 starter plans, additional works, quantity takeoff, bill check, BOQ and 7 bonus resources. Built by a civil engineer. ₹299 one-time.",
     images: [`${pageUrl}/opengraph-image`],
   },
   other: {
@@ -177,7 +177,7 @@ export default function ConstructionCalculatorLayout({
             "acceptedAnswer": {
               "@type": "Answer",
               "text":
-                "Construction Calculator Pro uses standard Indian civil engineering formulas (IS 456:2000 for concrete and IS 1786 for reinforcement steel). Users simply type room dimensions (feet or metres) and floor heights. The 31 connected tabs automatically calculate cement bags (50kg), sand (cu.ft / brass), aggregate, red bricks/AAC blocks, and steel rebar weight by bar diameter (8mm, 10mm, 12mm, 16mm, 20mm, 25mm) using the exact W = D²/162 kg/m formula with CPWD standard wastage factors.",
+                "Construction Calculator Pro uses standard Indian civil engineering formulas (IS 456:2000 for concrete and IS 1786 for reinforcement steel). Users simply type room dimensions (feet or metres) and floor heights, or start with one of 4 ready-made starter plans. The 38 connected tabs automatically calculate cement bags (50kg), sand (cu.ft / brass), aggregate, red bricks/AAC blocks, steel rebar weight by bar diameter (8mm, 10mm, 12mm, 16mm, 20mm, 25mm), and additional works like sumps, septic tanks, and compound walls.",
             },
           },
           {

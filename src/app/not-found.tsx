@@ -60,7 +60,7 @@ export default function NotFound() {
                   <h3 className="text-xs font-bold text-slate-900 group-hover:text-amber-700 transition-colors">
                     Construction Pro
                   </h3>
-                  <p className="text-[11px] text-slate-500">Flagship 31-tab Excel bundle</p>
+                  <p className="text-[11px] text-slate-500">Flagship 38-tab Excel bundle</p>
                 </div>
               </div>
             </Link>

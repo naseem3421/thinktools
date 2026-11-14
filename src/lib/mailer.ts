@@ -146,14 +146,14 @@ export async function sendOrderDeliveryEmail({
                 ⬇️ Download Master Calculator Bundle (1.9 MB)
               </a>
               <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
-                Direct offline master package (.zip) • Includes 31 sheets &amp; PDF guides
+                Direct offline master package (.zip) • Includes 38 sheets &amp; PDF guides
               </div>
             </div>
 
             <div class="package-list">
               <h4>Included in your Master Package (1.9 MB):</h4>
               <ul>
-                <li><strong>Complete 31-Sheet System (.xlsx)</strong> with all 31 calculation tabs pre-linked.</li>
+                <li><strong>Complete 38-Sheet System (.xlsx)</strong> with all 38 calculation tabs pre-linked.</li>
                 <li><strong>Master Guide (PDF)</strong> with fast-track setup and IS 456 formula rules.</li>
                 <li><strong>7 Anti-Fear Bonuses &amp; Audit Kits</strong> (Tolerance audits, milestone schedule, snag checklist).</li>
                 <li><strong>Contractor Hiring Kit &amp; Negotiation Scripts</strong> for phone, email, and WhatsApp.</li>

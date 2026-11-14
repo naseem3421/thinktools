@@ -69,15 +69,15 @@ export const CATALOG_TOOLS: CatalogTool[] = [
     imageSrc: "/screenshots/01_cost_estimate.png",
     imageAlt: "Construction Calculator Pro Cost Estimate Sheet showing bill of quantities and stage budget",
     workbooksCount: 3,
-    tabsCount: 31,
+    tabsCount: 38,
     guideCount: 13,
-    fileTypes: [".xlsx (Requires Microsoft Excel 2016-365)", "13 PDF Guides & Worksheets", "7 Bonus Manuals"],
+    fileTypes: [".xlsx (Requires Microsoft Excel 2016 or later)", "13 PDF Guides & Worksheets", "7 Bonus Manuals"],
     keyFeatures: [
-      "31 Connected Worksheets: Room areas, concrete, steel BBS, masonry, plaster, paint, tiles, and services",
-      "Dynamic Central Rate Master: Enter your local market material and labor rates to recalculate the entire project",
+      "38 Connected Worksheets: 4 Starter Plans, Room areas, concrete, steel, masonry, plaster, paint, tiles, services, and Additional Works (sump, septic, compound wall, borewell)",
+      "Dynamic Central Rate Master: Pre-filled sample rates for 9 Indian cities, 90-day staleness warning, and one-rate global updates",
       "Subcontractor Bill Verification Ledger: Cross-check contractor claims against drawing measurements with a 5% variance flag",
-      "Includes 31 Connected Sheets: Clean Master Template, 1,500 sq ft Villa Example (Chennai), and 1,000 sq ft Apartment Remodel Example",
-      "Dual Measurement Units: Toggle between Feet & Inches and Metric (Metres) across all sheets"
+      "Includes 38 Connected Sheets: Clean Master Template with Beginner/Pro mode, New House 30x50 Example, and Flat Renovation Example",
+      "Dual Measurement Units: Toggle between Feet & Inches and Metric (Metres) across all sheets on a single cell"
     ],
     solvedProblems: [
       "Replaces scattered scratchpad estimates with a unified, formula-linked project ledger",
@@ -197,7 +197,7 @@ export const COMPARISON_POINTS = [
 export const FAQS = [
   {
     question: "What is included in Construction Calculator Pro?",
-    answer: "You receive 31 connected Microsoft Excel (.xlsx) sheets across complete master templates and practical examples: (1) Blank Project Calculator Engine for your custom project, (2) 1,500 sq ft 3-BHK Villa Example (Chennai) with sample calculations and rates, and (3) 1,000 sq ft Flat Renovation Example for interior remodeling. You also receive 13 PDF implementation guides, worksheets, checklists, and 7 specialized bonus reference manuals delivered in a single compressed .zip bundle."
+    answer: "You receive 38 connected Microsoft Excel (.xlsx) sheets across complete master templates and practical examples: (1) Blank Project Calculator Engine with 4 instant Starter Plans (2BHK, 3BHK, Villa, Renovation) and Beginner/Pro mode, (2) New House 30x50 Example with real-world calculations and rates, and (3) Flat Renovation Example for interior remodeling. You also receive 13 PDF implementation guides, worksheets, checklists, and 7 specialized bonus reference manuals delivered in a single compressed .zip bundle."
   },
   {
     question: "Who is this calculator designed for?",

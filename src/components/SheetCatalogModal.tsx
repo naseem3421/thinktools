@@ -43,7 +43,7 @@ export default function SheetCatalogModal({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Complete 31-Sheet Architecture Index"
+      aria-label="Complete 38-Sheet Architecture Index"
       className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
@@ -54,10 +54,10 @@ export default function SheetCatalogModal({
         <div className="p-4 border-b border-slate-200 flex items-center justify-between gap-2">
           <div className="min-w-0">
             <span className="text-[10px] sm:text-xs uppercase font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
-              All 31 Connected Tabs
+              All 38 Connected Tabs
             </span>
             <h3 className="text-base sm:text-lg font-bold text-slate-950 mt-1 truncate">
-              Complete 31-Sheet Architecture Index
+              Complete 38-Sheet Architecture Index
             </h3>
           </div>
           <button
@@ -108,7 +108,7 @@ export default function SheetCatalogModal({
         </div>
 
         <div className="p-3 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-2">
-          <span className="text-[11px] sm:text-xs text-slate-600 font-mono">31 connected sheets</span>
+          <span className="text-[11px] sm:text-xs text-slate-600 font-mono">38 connected sheets</span>
           <button
             type="button"
             onClick={() => {

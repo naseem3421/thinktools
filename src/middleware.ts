@@ -6,9 +6,9 @@ const HOMEPAGE_MARKDOWN = `# ThinkTools — Work Smarter
 > Practical engineering calculation engines, Excel construction toolkits, and custom software solutions for Indian builders, civil engineers, contractors, and creators.
 
 ## Flagship Toolkit
-### Construction Calculator Pro (31 Sheets)
+### Construction Calculator Pro (38 Sheets)
 Complete civil estimation system aligned with Indian Standards (IS 456, IS 1200, CPWD).
-- **Base License:** ₹299 (Master 31-sheet calculation workbook + PDF quick-start guide + 7 contractor audit checklists)
+- **Base License:** ₹299 (Master 38-sheet calculation workbook + 4 Starter Plans + PDF quick-start guide + 7 contractor audit checklists)
 - **VIP Complete Bundle:** ₹499 (Master toolkit + Site Expense & Profit Tracker + Labour Attendance Sheet + Payment Collection Tracker)
 - **Product Details & Checkout:** https://thinktools.in/p/construction-calculator-pro
 - **Format:** Unlocked Microsoft Excel (.xlsx), 100% offline, zero monthly subscriptions.

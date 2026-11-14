@@ -81,7 +81,7 @@ export default function AboutPage() {
             In Indian construction, contractors and site supervisors lose lakhs of rupees every month to manual calculation errors, contractor material overages, and unbudgeted waste. Most available software solutions are either overpriced enterprise software designed for Western construction methods or fragile mobile apps loaded with ads.
           </p>
           <p>
-            We created <strong>ThinkTools</strong> to bridge this gap. Starting with our flagship <strong>Construction Calculator Pro (31 Sheets)</strong>, we package complex civil engineering mathematics into intuitive, instant-calculation workbooks that anyone with basic Excel can use within five minutes.
+            We created <strong>ThinkTools</strong> to bridge this gap. Starting with our flagship <strong>Construction Calculator Pro (38 Sheets)</strong>, we package complex civil engineering mathematics into intuitive, instant-calculation workbooks that anyone with basic Excel can use within five minutes.
           </p>
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
@@ -99,7 +99,7 @@ export default function AboutPage() {
             Explore Our Digital Construction Toolkits
           </h3>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            Get instant access to the complete 31-sheet Construction Calculator Pro and all 3 companion business tools for just ₹299 / ₹499.
+            Get instant access to the complete 38-sheet Construction Calculator Pro and all 3 companion business tools for just ₹299 / ₹499.
           </p>
           <div className="pt-2">
             <Link

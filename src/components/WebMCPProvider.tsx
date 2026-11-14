@@ -81,7 +81,7 @@ export default function WebMCPProvider() {
             product: "Construction Calculator Pro",
             basePriceINR: 299,
             vipBundlePriceINR: 499,
-            sheetsCount: 31,
+            sheetsCount: 38,
             currency: "INR",
             licenseType: "Lifetime Offline License (No subscriptions)",
             addonsIncludedInVIP: [

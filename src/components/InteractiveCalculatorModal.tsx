@@ -1019,7 +1019,7 @@ function BoqTemplateViewer() {
       </div>
 
       <p className="text-[11px] text-slate-500 italic">
-        Looking for the comprehensive 31-tab formula-linked workbook? Check our full{" "}
+        Looking for the comprehensive 38-tab formula-linked workbook? Check our full{" "}
         <a href="/p/construction-calculator-pro" className="text-amber-700 underline font-semibold">
           Construction Calculator Pro
         </a>.

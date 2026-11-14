@@ -110,7 +110,7 @@ export async function POST(request: Request) {
                 type: "text",
                 text: JSON.stringify(
                   {
-                    flagship: "Construction Calculator Pro (31 Sheets)",
+                    flagship: "Construction Calculator Pro (38 Sheets)",
                     basePriceINR: 299,
                     vipBundlePriceINR: 499,
                     currency: "INR",
