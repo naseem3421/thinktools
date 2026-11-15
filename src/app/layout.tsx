@@ -116,25 +116,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Asynchronous Non-Render-Blocking Google Fonts Loading */}
-        <link
-          rel="preload"
-          as="style"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
-        />
+        {/* Google Fonts */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
-          media="print"
-          // @ts-expect-error onLoad print-to-all switch for zero render-blocking
-          onLoad="this.media='all'"
         />
-        <noscript>
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
-          />
-        </noscript>
 
         {/* Preconnect & DNS-Prefetch for tracking, clarity & payments */}
         <link rel="preconnect" href="https://www.clarity.ms" crossOrigin="anonymous" />
