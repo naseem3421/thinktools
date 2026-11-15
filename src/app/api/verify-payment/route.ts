@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     const productObj = PRODUCTS[productSlug];
     const basePrice = productObj ? productObj.price : 299;
     const addonsTotal = validAddonIds.reduce((sum: number, id: string) => sum + ADDON_PRODUCTS[id].price, 0);
-    const isBundleApplied = validAddonIds.length === Object.keys(ADDON_PRODUCTS).length;
+    const isBundleApplied = validAddonIds.length >= 3;
     const bundleDiscount = isBundleApplied ? 97 : 0;
     const totalPriceInRupees = basePrice + addonsTotal - bundleDiscount;
     const totalAmountPaise = Math.round(totalPriceInRupees * 100);

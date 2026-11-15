@@ -157,14 +157,17 @@ export async function POST(request: Request) {
 
     // Safety fallback: If customer paid ₹499 (49900 paise), they purchased the 3-addon VIP bundle
     if (amountPaise >= 49900 && validAddonIds.length === 0) {
-      validAddonIds = Object.keys(ADDON_PRODUCTS);
+      const audienceRole = paymentEntity?.notes?.role || paymentEntity?.notes?.audience;
+      validAddonIds = audienceRole === "homeowner"
+        ? ["house-budget-expense-tracker", "stage-payment-planner", "stage-quality-checklist"]
+        : ["site-expense-profit-tracker", "labour-attendance-weekly-wage-sheet", "payment-collection-tracker"];
     }
 
     // Compute title and price
     const productObj = PRODUCTS[productSlug];
     const basePrice = productObj ? productObj.price : 299;
     const addonsTotal = validAddonIds.reduce((sum: number, id: string) => sum + (ADDON_PRODUCTS[id]?.price || 0), 0);
-    const isBundleApplied = validAddonIds.length === Object.keys(ADDON_PRODUCTS).length;
+    const isBundleApplied = validAddonIds.length >= 3;
     const bundleDiscount = isBundleApplied ? 97 : 0;
     const totalPriceInRupees = amountPaise > 0 ? Math.round(amountPaise / 100) : (basePrice + addonsTotal - bundleDiscount);
 

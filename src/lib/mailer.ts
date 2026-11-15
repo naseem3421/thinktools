@@ -63,7 +63,7 @@ export async function sendOrderDeliveryEmail({
     ? `
       <div class="package-list" style="background: #f0fdf4; border: 1px solid #bbf7d0; margin-top: 16px; border-radius: 12px; padding: 16px 20px;">
         <h4 style="color: #166534; margin: 0 0 10px 0; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
-          Your ${purchasedAddons.length} Business Add-On Tools:
+          Your ${purchasedAddons.length} Companion Add-On Tools:
         </h4>
         <div style="margin-top: 10px;">
           ${purchasedAddons.map((addon) => `

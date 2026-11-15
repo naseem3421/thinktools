@@ -310,7 +310,7 @@ function DownloadContent() {
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
                 <FileSpreadsheet className="w-4.5 h-4.5 text-amber-600" />
-                <span>Your Business Add-On Tools ({purchasedAddons.length})</span>
+                <span>Your Companion Add-On Tools ({purchasedAddons.length})</span>
               </div>
               <span className="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
                 Verified Included

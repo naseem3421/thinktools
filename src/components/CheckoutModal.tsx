@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { X, Lock, Check, AlertCircle, ShieldCheck, Sparkles, Play } from "lucide-react";
-import { Product, ADDON_PRODUCTS, AddonProduct } from "@/data/products";
+import { Product, ADDON_PRODUCTS, AddonProduct, HOMEOWNER_ADDON_IDS, CONTRACTOR_ADDON_IDS, REEL_VIDEOS } from "@/data/products";
 import { trackEvent } from "@/components/TrackingScripts";
 import { rememberCustomer } from "@/lib/visitorIdentity";
 
@@ -17,6 +17,7 @@ interface CheckoutModalProps {
   onToggleAddon?: (id: string) => void;
   onToggleBundle?: () => void;
   onWatchDemo?: (addonId: string) => void;
+  targetAudience?: "homeowner" | "contractor";
 }
 
 interface RazorpaySuccessResponse {
@@ -87,6 +88,7 @@ export default function CheckoutModal({
   onToggleAddon,
   onToggleBundle,
   onWatchDemo,
+  targetAudience = "homeowner",
 }: CheckoutModalProps) {
   const router = useRouter();
   const [name, setName] = useState<string>("");
@@ -95,6 +97,13 @@ export default function CheckoutModal({
   const [agreeTerms, setAgreeTerms] = useState<boolean>(true);
   const [validationError, setValidationError] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+
+  // Filter addons according to the selected persona
+  const relevantAddonIds =
+    targetAudience === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS;
+  const availableAddons: AddonProduct[] = relevantAddonIds
+    .map((id) => ADDON_PRODUCTS[id])
+    .filter(Boolean);
 
   // Local state synced with props to allow interactive toggling inside the modal
   const [internalAddonIds, setInternalAddonIds] = useState<string[]>(selectedAddonIds);
@@ -119,8 +128,9 @@ export default function CheckoutModal({
     if (onToggleBundle) {
       onToggleBundle();
     } else {
-      const allKeys = Object.keys(ADDON_PRODUCTS);
-      setInternalAddonIds((prev) => (prev.length === allKeys.length ? [] : allKeys));
+      setInternalAddonIds((prev) =>
+        prev.length >= relevantAddonIds.length ? [] : relevantAddonIds
+      );
     }
   };
 
@@ -129,7 +139,7 @@ export default function CheckoutModal({
     .map((id) => ADDON_PRODUCTS[id])
     .filter(Boolean);
   const addonsSubtotal = selectedAddons.reduce((sum, item) => sum + item.price, 0);
-  const isBundleApplied = (activeAddonIds || []).length === Object.keys(ADDON_PRODUCTS).length;
+  const isBundleApplied = (activeAddonIds || []).length >= 3;
   const bundleDiscount = isBundleApplied ? 97 : 0;
   const grandTotal = product.price + addonsSubtotal - bundleDiscount;
   const amountInPaise = Math.round(grandTotal * 100);
@@ -182,6 +192,8 @@ export default function CheckoutModal({
             customer_name: name.trim(),
             customer_email: email.trim(),
             customer_phone: phone.trim(),
+            role: targetAudience,
+            target_audience: targetAudience,
           },
         }),
       });
@@ -257,6 +269,7 @@ export default function CheckoutModal({
                 product_title: product.title,
                 addon_ids: activeAddonIds,
                 amount: amountInPaise,
+                role: targetAudience,
               }),
             });
 
@@ -277,6 +290,7 @@ export default function CheckoutModal({
               email: encodeURIComponent(email),
               phone: encodeURIComponent(phone),
               amount: String(grandTotal),
+              role: targetAudience,
             };
             if (verifyData.download_token) {
               queryParams.token = verifyData.download_token;
@@ -402,7 +416,7 @@ export default function CheckoutModal({
                 </div>
 
                 <div className="space-y-1.5">
-                  {Object.values(ADDON_PRODUCTS).map((addon) => {
+                  {availableAddons.map((addon) => {
                     const isChecked = activeAddonIds.includes(addon.id);
                     return (
                       <div
@@ -438,7 +452,7 @@ export default function CheckoutModal({
                               <p className="font-semibold text-xs text-white">
                                 {addon.shortTitle || addon.title}
                               </p>
-                              {onWatchDemo && (
+                              {onWatchDemo && REEL_VIDEOS[addon.id] && (
                                 <button
                                   type="button"
                                   onClick={(e) => {
@@ -461,6 +475,9 @@ export default function CheckoutModal({
                               {addon.id === "site-expense-profit-tracker" && "Petty cash, vendor invoices & actual site profit"}
                               {addon.id === "labour-attendance-weekly-wage-sheet" && "Daily mistri/coolie registers & weekly wage slips"}
                               {addon.id === "payment-collection-tracker" && "Milestone invoices, GST & payment reminders"}
+                              {addon.id === "house-budget-expense-tracker" && "22-category budget, 500-entry log & 24 hidden costs"}
+                              {addon.id === "stage-payment-planner" && "10 milestones, safety balance bar & extra work ledger"}
+                              {addon.id === "stage-quality-checklist" && "70 checks across 11 stages in plain English before concrete/plaster"}
                             </p>
                           </div>
                         </div>
@@ -480,7 +497,7 @@ export default function CheckoutModal({
                   <div className="mt-2.5 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-between text-xs text-emerald-400">
                     <span className="flex items-center gap-1.5 font-bold text-[11px] sm:text-xs">
                       <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      4-in-1 Bundle Active!
+                      {targetAudience === "contractor" ? "Contractor" : "Homeowner"} 4-in-1 Bundle Active!
                     </span>
                     <span className="font-mono font-extrabold text-[11px] sm:text-xs">-₹97 OFF (Save ₹1,397)</span>
                   </div>
@@ -492,7 +509,7 @@ export default function CheckoutModal({
                   >
                     <span className="flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                      <span>Upgrade to 4-in-1 Bundle for ₹499</span>
+                      <span>Upgrade to {targetAudience === "contractor" ? "Contractor" : "Homeowner"} 4-in-1 Bundle for ₹499</span>
                     </span>
                     <span className="text-amber-400 font-extrabold text-xs whitespace-nowrap">Save ₹1,397 &rarr;</span>
                   </button>

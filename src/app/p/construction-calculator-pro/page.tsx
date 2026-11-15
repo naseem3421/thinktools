@@ -28,7 +28,13 @@ import {
   Star,
   BadgeCheck
 } from "lucide-react";
-import { PRODUCTS, ADDON_PRODUCTS } from "@/data/products";
+import {
+  PRODUCTS,
+  ADDON_PRODUCTS,
+  HOMEOWNER_ADDON_IDS,
+  CONTRACTOR_ADDON_IDS,
+  REEL_VIDEOS
+} from "@/data/products";
 import { SHOW_AGGREGATE_STATS, SHOW_TESTIMONIALS } from "@/config/landingConfig";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -48,8 +54,11 @@ const SheetCatalogModal = dynamic(() => import("@/components/SheetCatalogModal")
   ssr: false,
 });
 
+type Role = "homeowner" | "contractor";
+
 export default function ConstructionCalculatorPage() {
   const product = PRODUCTS["construction-calculator-pro"];
+  const [selectedRole, setSelectedRole] = useState<Role>("homeowner");
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [isSheetModalOpen, setIsSheetModalOpen] = useState(false);
@@ -62,8 +71,9 @@ export default function ConstructionCalculatorPage() {
     setIsReelModalOpen(true);
   };
 
-  const allAddonIds = Object.keys(ADDON_PRODUCTS);
-  const isBundleApplied = selectedAddonIds.length === allAddonIds.length;
+  const roleAddonIds =
+    selectedRole === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS;
+  const isBundleApplied = selectedAddonIds.length >= 3;
   const bundleDiscount = isBundleApplied ? 97 : 0;
 
   const toggleAddon = (id: string) => {
@@ -80,7 +90,17 @@ export default function ConstructionCalculatorPage() {
     if (isBundleApplied) {
       setSelectedAddonIds([]);
     } else {
-      setSelectedAddonIds(allAddonIds);
+      setSelectedAddonIds(roleAddonIds);
+    }
+  };
+
+  const handleSelectRole = (role: Role) => {
+    setSelectedRole(role);
+    if (isBundleApplied) {
+      setSelectedAddonIds(role === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS);
+    } else if (selectedAddonIds.length > 0) {
+      const targetIds = role === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS;
+      setSelectedAddonIds((prev) => prev.filter((id) => targetIds.includes(id)));
     }
   };
 
@@ -105,8 +125,16 @@ export default function ConstructionCalculatorPage() {
 
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
+      const roleParam = urlParams.get("role");
+      let activeRole: Role = "homeowner";
+      if (roleParam === "contractor" || roleParam === "homeowner") {
+        activeRole = roleParam;
+        setSelectedRole(roleParam);
+      }
+      const initialRoleAddonIds =
+        activeRole === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS;
       if (urlParams.get("bundle") === "true") {
-        setSelectedAddonIds(Object.keys(ADDON_PRODUCTS));
+        setSelectedAddonIds(initialRoleAddonIds);
       }
       if (urlParams.get("checkout") === "true") {
         setIsCheckoutOpen(true);
@@ -249,23 +277,118 @@ export default function ConstructionCalculatorPage() {
                   </span>
                 </div>
 
-                {/* Primary Headline */}
-                <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-950 tracking-tight leading-[1.15]">
-                  Build a Home. Renovate a Flat. Quote a Client.{" "}
-                  <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-2xl lg:text-3xl">
-                    Plan Costs and Materials Before You Spend a Single Rupee.
-                  </span>
-                </h1>
+                {/* 2-Question Audience Switcher Card */}
+                <div className="bg-white border-2 border-slate-300 rounded-2xl p-3 sm:p-3.5 shadow-xs text-left">
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <span className="text-[10px] sm:text-xs font-mono font-bold tracking-wider uppercase text-amber-800 bg-amber-100/80 border border-amber-200/80 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                      <span>🎯</span>
+                      <span>Select Your Role</span>
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-medium">Click to tailor calculations &amp; add-ons</span>
+                  </div>
+                  <p className="text-xs sm:text-sm font-extrabold text-slate-950 mb-2">
+                    Are you building your own home or executing client projects?
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleSelectRole("homeowner")}
+                      className={`p-2.5 rounded-xl border-2 text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                        selectedRole === "homeowner"
+                          ? "border-amber-500 bg-amber-50/80 shadow-xs ring-2 ring-amber-500/25"
+                          : "border-slate-200 bg-slate-50/70 hover:bg-slate-100 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-base ${
+                        selectedRole === "homeowner" ? "bg-amber-500 text-slate-950 font-black shadow-xs" : "bg-slate-200 text-slate-700"
+                      }`}>
+                        🏡
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-extrabold text-xs sm:text-[13px] text-slate-950">
+                            I am a Homeowner
+                          </span>
+                          {selectedRole === "homeowner" && (
+                            <span className="text-[9px] font-black uppercase text-amber-900 bg-amber-200/90 px-1.5 py-0.5 rounded">
+                              Active
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-slate-600 leading-tight mt-0.5">
+                          Building own house / flat renovation
+                        </p>
+                      </div>
+                    </button>
 
-                {/* Subtitle */}
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  <strong className="text-slate-900 font-semibold block mb-0.5">
-                    The all-in-one Excel estimation system calibrated for Indian site realities:
-                  </strong>
-                  Estimate cement, steel, sand and tiles before work starts. Built to help home builders check bills against their own estimate, flat renovators plan their finishes, and small contractors prepare itemized quotes faster.
-                </p>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectRole("contractor")}
+                      className={`p-2.5 rounded-xl border-2 text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                        selectedRole === "contractor"
+                          ? "border-amber-500 bg-amber-50/80 shadow-xs ring-2 ring-amber-500/25"
+                          : "border-slate-200 bg-slate-50/70 hover:bg-slate-100 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-base ${
+                        selectedRole === "contractor" ? "bg-amber-500 text-slate-950 font-black shadow-xs" : "bg-slate-200 text-slate-700"
+                      }`}>
+                        👷
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-extrabold text-xs sm:text-[13px] text-slate-950">
+                            I am a Contractor
+                          </span>
+                          {selectedRole === "contractor" && (
+                            <span className="text-[9px] font-black uppercase text-amber-900 bg-amber-200/90 px-1.5 py-0.5 rounded">
+                              Active
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-slate-600 leading-tight mt-0.5">
+                          Civil contractor / builder / site engineer
+                        </p>
+                      </div>
+                    </button>
+                  </div>
+                </div>
 
-                {/* Watch 3-Minute Demo Button - Placed ABOVE Home Builders for instant mobile visibility */}
+                {/* Primary Headline (Dynamic based on selected persona) */}
+                {selectedRole === "homeowner" ? (
+                  <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-950 tracking-tight leading-[1.15]">
+                    Building Your Dream Home?{" "}
+                    <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-2xl lg:text-3xl">
+                      Plan Costs, Audit Contractor Bills &amp; Stop Overrun Before Concrete Pours.
+                    </span>
+                  </h1>
+                ) : (
+                  <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-950 tracking-tight leading-[1.15]">
+                    Civil Contractor or Builder?{" "}
+                    <span className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 bg-clip-text text-transparent block mt-1 text-lg min-[380px]:text-xl sm:text-2xl lg:text-3xl">
+                      Quote Itemized Client BOQs in 15 Minutes with Real Site Margins.
+                    </span>
+                  </h1>
+                )}
+
+                {/* Subtitle (Dynamic based on selected persona) */}
+                {selectedRole === "homeowner" ? (
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    <strong className="text-slate-900 font-semibold block mb-0.5">
+                      The all-in-one Excel estimation system calibrated for Indian site realities:
+                    </strong>
+                    Estimate cement, steel, sand and tiles before work starts. Built to help home builders cross-check contractor running bills, flat renovators plan finishes, and stop costly material leakage.
+                  </p>
+                ) : (
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    <strong className="text-slate-900 font-semibold block mb-0.5">
+                      The all-in-one Excel estimation system calibrated for Indian site realities:
+                    </strong>
+                    Prepare accurate client quotes fast with local rate overrides, calculate rebar and brick wastage, manage mistri/coolie daily registers, and stop losing profit on unbilled extra work.
+                  </p>
+                )}
+
+                {/* Watch 3-Minute Demo Button */}
                 <div className="pt-1 pb-0.5 flex justify-center lg:justify-start">
                   <button
                     type="button"
@@ -285,7 +408,11 @@ export default function ConstructionCalculatorPage() {
 
                 {/* 3 Focused Use Cases */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-left pt-0.5">
-                  <div className="bg-white border border-slate-200 rounded-xl p-2.5 shadow-2xs">
+                  <div className={`border rounded-xl p-2.5 shadow-2xs transition-all ${
+                    selectedRole === "homeowner"
+                      ? "bg-amber-50/40 border-amber-400 ring-1 ring-amber-400/30"
+                      : "bg-white border-slate-200"
+                  }`}>
                     <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
                       <span>🏡</span>
                       <span>Home Builders</span>
@@ -295,7 +422,11 @@ export default function ConstructionCalculatorPage() {
                     </p>
                   </div>
 
-                  <div className="bg-white border border-slate-200 rounded-xl p-2.5 shadow-2xs">
+                  <div className={`border rounded-xl p-2.5 shadow-2xs transition-all ${
+                    selectedRole === "homeowner"
+                      ? "bg-amber-50/40 border-amber-400 ring-1 ring-amber-400/30"
+                      : "bg-white border-slate-200"
+                  }`}>
                     <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
                       <span>🔨</span>
                       <span>Flat Renovators</span>
@@ -305,7 +436,11 @@ export default function ConstructionCalculatorPage() {
                     </p>
                   </div>
 
-                  <div className="bg-white border border-slate-200 rounded-xl p-2.5 shadow-2xs">
+                  <div className={`border rounded-xl p-2.5 shadow-2xs transition-all ${
+                    selectedRole === "contractor"
+                      ? "bg-amber-50/40 border-amber-400 ring-1 ring-amber-400/30"
+                      : "bg-white border-slate-200"
+                  }`}>
                     <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
                       <span>📐</span>
                       <span>Small Contractors</span>
@@ -915,11 +1050,43 @@ export default function ConstructionCalculatorPage() {
                 Optional Companion Tools • ₹99 Each
               </span>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-950 mt-1.5">
-                Complete Site Operations: Expenses, Labour &amp; Payments
+                {selectedRole === "homeowner"
+                  ? "Homeowner Companion Tools: Budget, Payments & Quality"
+                  : "Contractor Companion Tools: Expenses, Labour & Payments"}
               </h2>
               <p className="text-slate-600 text-xs sm:text-sm mt-1">
-                Essential companion Excel tools for <strong>Homeowners, Renovators &amp; Contractors</strong> to track daily supervisor petty cash, mistri/coolie wages, and contractor invoices.
+                {selectedRole === "homeowner"
+                  ? "Essential companion Excel workbooks built for Homeowners to track house budget, stage-wise contractor payment milestones, and on-site quality before work is covered."
+                  : "Essential companion Excel workbooks built for Contractors to track daily site petty cash, weekly mistri/coolie wages, and client milestone billing."}
               </p>
+
+              {/* Role Switcher in Companion Tools */}
+              <div className="mt-3.5 inline-flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => handleSelectRole("homeowner")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    selectedRole === "homeowner"
+                      ? "bg-amber-500 text-slate-950 shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <span>🏡</span>
+                  <span>Homeowner Add-ons</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSelectRole("contractor")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    selectedRole === "contractor"
+                      ? "bg-amber-500 text-slate-950 shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <span>👷</span>
+                  <span>Contractor Add-ons</span>
+                </button>
+              </div>
             </div>
 
             {/* 4-IN-1 BUNDLE PROMO BANNER */}
@@ -935,10 +1102,12 @@ export default function ConstructionCalculatorPage() {
                     </span>
                   </div>
                   <h3 className="text-sm sm:text-base font-black text-slate-950 tracking-tight">
-                    Construction Calculator Pro + All 3 Essential Site Tools (₹499)
+                    {selectedRole === "homeowner"
+                      ? "Construction Calculator Pro + Homeowner 4-in-1 Master Bundle (₹499)"
+                      : "Construction Calculator Pro + Contractor 4-in-1 Master Bundle (₹499)"}
                   </h3>
                   <p className="text-[11px] text-slate-500">
-                    Individual tool price: ₹596 (Core toolkit + 3 site tools) • Bundle: ₹499 (Save an extra ₹97 • ₹1,896 total retail value)
+                    Individual tool price: ₹596 (Core toolkit + 3 companion tools) • Bundle: ₹499 (Save an extra ₹97 • ₹1,896 total retail value)
                   </p>
                 </div>
 
@@ -974,8 +1143,9 @@ export default function ConstructionCalculatorPage() {
 
             {/* 3 ADDON CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
-              {Object.values(ADDON_PRODUCTS).map((addon) => {
+              {roleAddonIds.map((id) => ADDON_PRODUCTS[id]).filter(Boolean).map((addon) => {
                 const isSelected = selectedAddonIds.includes(addon.id);
+                const hasReel = Boolean(REEL_VIDEOS[addon.id]);
                 return (
                   <div
                     key={addon.id}
@@ -1009,20 +1179,22 @@ export default function ConstructionCalculatorPage() {
                     </div>
 
                     <div className="mt-3.5 pt-3 border-t border-slate-100 space-y-1.5">
-                      <button
-                        type="button"
-                        onClick={() => openReel(addon.id)}
-                        className="animate-blink-glow w-full py-2 px-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 font-extrabold text-xs shadow-sm shadow-amber-500/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer group hover:scale-[1.01]"
-                      >
-                        <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                          <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
-                        </span>
-                        <span className="tracking-tight">Watch 60-Second Demo</span>
-                        <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
-                        </span>
-                      </button>
+                      {hasReel && (
+                        <button
+                          type="button"
+                          onClick={() => openReel(addon.id)}
+                          className="animate-blink-glow w-full py-2 px-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 border border-amber-300 text-slate-950 font-extrabold text-xs shadow-sm shadow-amber-500/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer group hover:scale-[1.01]"
+                        >
+                          <span className="w-4 h-4 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <Play className="w-2 h-2 fill-amber-400 ml-0.5" />
+                          </span>
+                          <span className="tracking-tight">Watch 60-Second Demo</span>
+                          <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                          </span>
+                        </button>
+                      )}
 
                       <button
                         type="button"
@@ -1180,7 +1352,9 @@ export default function ConstructionCalculatorPage() {
               </span>
               <h3 className="text-lg sm:text-xl font-black text-slate-950 mt-0.5">
                 {isBundleApplied
-                  ? "Construction Calculator Pro + 4-in-1 Site Operations Bundle"
+                  ? selectedRole === "contractor"
+                    ? "Construction Calculator Pro + Contractor 4-in-1 Bundle"
+                    : "Construction Calculator Pro + Homeowner 4-in-1 Bundle"
                   : selectedAddonIds.length > 0
                   ? `Construction Calculator Pro + ${selectedAddonIds.length} Companion Tool${selectedAddonIds.length > 1 ? "s" : ""}`
                   : "Construction Calculator Pro Package"}
@@ -1207,7 +1381,13 @@ export default function ConstructionCalculatorPage() {
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>{isBundleApplied ? "3 Companion Site Trackers" : "Dual units (Feet & Metres)"}</span>
+                <span>
+                  {isBundleApplied
+                    ? selectedRole === "contractor"
+                      ? "3 Contractor Site Trackers"
+                      : "3 Homeowner Companion Tools"
+                    : "Dual units (Feet & Metres)"}
+                </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -1353,6 +1533,7 @@ export default function ConstructionCalculatorPage() {
         onToggleAddon={toggleAddon}
         onToggleBundle={toggleBundle}
         onWatchDemo={openReel}
+        targetAudience={selectedRole}
       />
 
       {/* 9:16 Instagram Reels Walkthrough Modal */}

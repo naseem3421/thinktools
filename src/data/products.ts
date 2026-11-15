@@ -1387,7 +1387,22 @@ export interface AddonProduct {
   fileFormat: string;
   badge?: string;
   videoSrc?: string;
+  targetAudience?: "homeowner" | "contractor" | "all";
 }
+
+export type AudienceRole = "homeowner" | "contractor";
+
+export const HOMEOWNER_ADDON_IDS = [
+  "house-budget-expense-tracker",
+  "stage-payment-planner",
+  "stage-quality-checklist"
+];
+
+export const CONTRACTOR_ADDON_IDS = [
+  "site-expense-profit-tracker",
+  "labour-attendance-weekly-wage-sheet",
+  "payment-collection-tracker"
+];
 
 export interface ReelVideo {
   id: string;
@@ -1458,7 +1473,7 @@ export function calculateOrderSummary(basePrice: number, addonIds: string[]): {
     0
   );
   const rawTotal = basePrice + addonsSubtotal;
-  const isBundleApplied = validIds.length === allAddonKeys.length;
+  const isBundleApplied = validIds.length >= 3;
   const bundleDiscount = isBundleApplied ? BUNDLE_DISCOUNT : 0;
   const grandTotal = rawTotal - bundleDiscount;
 
@@ -1472,6 +1487,7 @@ export function calculateOrderSummary(basePrice: number, addonIds: string[]): {
 }
 
 export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
+  // CONTRACTOR TOOLS
   "site-expense-profit-tracker": {
     id: "site-expense-profit-tracker",
     slug: "site-expense-profit-tracker",
@@ -1480,7 +1496,8 @@ export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
     description: "Track construction site expenses and budgets, monitor client payments and supervisor advances, and view actual and projected site profit.",
     price: 99,
     originalPrice: 299,
-    badge: "Add-on",
+    badge: "Contractor Add-on",
+    targetAudience: "contractor",
     videoSrc: "/videos/site-expense-tracker-reel.mp4",
     features: [
       "Track construction site expenses and budgets.",
@@ -1497,7 +1514,8 @@ export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
     description: "Record daily labour attendance, calculate weekly wages, overtime and advance deductions, and generate printable wage sheets.",
     price: 99,
     originalPrice: 299,
-    badge: "Add-on",
+    badge: "Contractor Add-on",
+    targetAudience: "contractor",
     videoSrc: "/videos/labour-attendance-sheet-reel.mp4",
     features: [
       "Record daily labour attendance.",
@@ -1514,12 +1532,66 @@ export const ADDON_PRODUCTS: Record<string, AddonProduct> = {
     description: "Track outstanding invoices and overdue payments, prioritise payment follow-ups, and prepare WhatsApp payment reminders.",
     price: 99,
     originalPrice: 299,
-    badge: "Add-on",
+    badge: "Contractor Add-on",
+    targetAudience: "contractor",
     videoSrc: "/videos/payment-collection-tracker-reel.mp4",
     features: [
       "Track outstanding invoices and overdue payments.",
       "Prioritise payment follow-ups.",
       "Prepare WhatsApp payment reminders."
+    ],
+    fileFormat: ".zip / .xlsx (Microsoft Excel)"
+  },
+
+  // HOMEOWNER TOOLS
+  "house-budget-expense-tracker": {
+    id: "house-budget-expense-tracker",
+    slug: "house-budget-expense-tracker",
+    title: "House Budget & Expense Tracker",
+    shortTitle: "House Budget Tracker",
+    description: "Plan your house budget, log every payment, and see where your money stands stage by stage with finishing choices and 24 hidden costs checklist.",
+    price: 99,
+    originalPrice: 299,
+    badge: "Homeowner Add-on",
+    targetAudience: "homeowner",
+    features: [
+      "Budget vs Actual for 22 categories across 6 construction stages.",
+      "500-entry Expense Log that auto-updates spent and remaining amounts.",
+      "Finishing Choices estimator (tiles, paint, wood) + 24 Hidden Costs checklist."
+    ],
+    fileFormat: ".zip / .xlsx (Microsoft Excel)"
+  },
+  "stage-payment-planner": {
+    id: "stage-payment-planner",
+    slug: "stage-payment-planner",
+    title: "Stage-wise Payment Planner",
+    shortTitle: "Stage Payment Planner",
+    description: "Pay your contractor only for finished and verified work. Features a 10-milestone disbursement schedule and written extra work ledger.",
+    price: 99,
+    originalPrice: 299,
+    badge: "Homeowner Add-on",
+    targetAudience: "homeowner",
+    features: [
+      "10 milestone stages with customizable % splits and completion criteria.",
+      "Visual 'Work Checked vs Money Paid' safety bar so advance money never runs ahead.",
+      "Extra Work approval ledger to stop unpriced verbal variation disputes."
+    ],
+    fileFormat: ".zip / .xlsx (Microsoft Excel)"
+  },
+  "stage-quality-checklist": {
+    id: "stage-quality-checklist",
+    slug: "stage-quality-checklist",
+    title: "Stage-wise Quality Checklist",
+    shortTitle: "Stage Quality Checklist",
+    description: "Know what to check at every stage of your house, in plain language, before concrete is poured or pipes are covered by plaster.",
+    price: 99,
+    originalPrice: 299,
+    badge: "Homeowner Add-on",
+    targetAudience: "homeowner",
+    features: [
+      "70 plain-English inspection checks across 11 construction stages.",
+      "'What to look for' guidance + 'Who can help' (Self, Engineer, Electrician, Plumber).",
+      "Status dashboard (OK / Needs fixing / Pending) with photo reference log."
     ],
     fileFormat: ".zip / .xlsx (Microsoft Excel)"
   }

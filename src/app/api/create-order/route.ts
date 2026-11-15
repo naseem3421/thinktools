@@ -62,8 +62,8 @@ export async function POST(request: Request) {
       0
     );
 
-    // Bundle Offer Logic: If all 3 add-ons are selected, bundle price is ₹499 (saves ₹97)
-    const isBundleApplied = validAddonIds.length === Object.keys(ADDON_PRODUCTS).length;
+    // Bundle Offer Logic: If 3 or more add-ons are selected, bundle price is ₹499 (saves ₹97)
+    const isBundleApplied = validAddonIds.length >= 3;
     const bundleDiscountPaise = isBundleApplied ? 97 * 100 : 0;
 
     const orderAmount = baseAmountPaise + addonsPaise - bundleDiscountPaise;
