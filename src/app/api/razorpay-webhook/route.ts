@@ -157,7 +157,7 @@ export async function POST(request: Request) {
 
     // Safety fallback: If customer paid ₹499 (49900 paise), they purchased the 3-addon VIP bundle
     if (amountPaise >= 49900 && validAddonIds.length === 0) {
-      const audienceRole = paymentEntity?.notes?.role || paymentEntity?.notes?.audience;
+      const audienceRole = notes.role || notes.audience;
       validAddonIds = audienceRole === "homeowner"
         ? ["house-budget-expense-tracker", "stage-payment-planner", "stage-quality-checklist"]
         : ["site-expense-profit-tracker", "labour-attendance-weekly-wage-sheet", "payment-collection-tracker"];
