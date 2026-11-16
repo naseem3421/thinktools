@@ -76,7 +76,8 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
     setIsReelModalOpen(true);
   };
 
-  const roleAddonIds = role === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS;
+  const roleAddonIds =
+    role === "contractor" ? CONTRACTOR_ADDON_IDS : HOMEOWNER_ADDON_IDS;
   const isBundleApplied = selectedAddonIds.length >= 3;
   const bundleDiscount = isBundleApplied ? 97 : 0;
 
@@ -217,6 +218,7 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
 
   const loopedReviews = [...siteReviews, ...siteReviews];
 
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-amber-500 selection:text-slate-950 font-sans">
       {/* Focused Navigation Header */}
@@ -242,6 +244,26 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-7 lg:gap-8 items-center">
               {/* Left Column: Emotion, Logic & Pricing Hook */}
               <div className="lg:col-span-6 space-y-3 sm:space-y-4 text-center lg:text-left">
+                {/* Standards Authority Pill */}
+                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-amber-500/20 border-2 border-amber-500/70 text-xs text-slate-900 shadow-xs">
+                  <span className="flex items-center gap-1.5 font-black text-amber-950 uppercase tracking-wide text-[11px] sm:text-xs">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
+                    👷 Built by a Senior Civil Engineer (10+ Years On-Site, 20+ Homes Built)
+                  </span>
+                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
+                  <span className="font-bold text-slate-800 text-[11px] sm:text-xs">
+                    Uses relevant IS &amp; CPWD norms
+                  </span>
+                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
+                  <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
+                    38 Connected Sheets
+                  </span>
+                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
+                  <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
+                    3-Min Demo
+                  </span>
+                </div>
+
                 {/* Persona Switch / Context Bar */}
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-xs font-black text-amber-950 uppercase tracking-wide">
@@ -260,27 +282,7 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
                   </Link>
                 </div>
 
-                {/* Standards Authority Pill */}
-                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/10 to-amber-500/20 border-2 border-amber-500/70 text-xs text-slate-900 shadow-xs">
-                  <span className="flex items-center gap-1.5 font-black text-amber-950 uppercase tracking-wide text-[11px] sm:text-xs">
-                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
-                    👷 Built by a Senior Civil Engineer (10+ Years On-Site, 20+ Homes Built)
-                  </span>
-                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
-                  <span className="font-bold text-slate-800 text-[11px] sm:text-xs">
-                    Relevant IS &amp; CPWD norms
-                  </span>
-                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
-                  <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
-                    38 Connected Sheets
-                  </span>
-                  <span className="text-amber-400 font-bold hidden sm:inline">•</span>
-                  <span className="text-amber-900 font-bold text-[11px] sm:text-xs">
-                    3-Min Demo
-                  </span>
-                </div>
-
-                {/* Primary Headline */}
+                {/* Primary Headline (Dynamic based on selected persona) */}
                 {role === "homeowner" ? (
                   <h1 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-950 tracking-tight leading-[1.15]">
                     Building Your Dream Home?{" "}
@@ -297,7 +299,7 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
                   </h1>
                 )}
 
-                {/* Subtitle */}
+                {/* Subtitle (Dynamic based on selected persona) */}
                 {role === "homeowner" ? (
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
                     <strong className="text-slate-900 font-semibold block mb-0.5">
@@ -409,285 +411,566 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
                 </div>
 
                 {/* Trust Signals */}
-                <div className="pt-1 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs text-slate-500">
-                  <div className="flex items-center gap-1 text-slate-700 font-medium">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>Instant On-Screen Download</span>
-                  </div>
-                  <span className="text-slate-300">•</span>
-                  <div className="flex items-center gap-1 text-slate-700 font-medium">
-                    <FileSpreadsheet className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>100% Editable &amp; Unlocked</span>
-                  </div>
-                  <span className="text-slate-300">•</span>
-                  <div className="flex items-center gap-1 text-slate-700 font-medium">
-                    <Zap className="w-4 h-4 text-amber-600 shrink-0" />
-                    <span>Lifetime Access (No Subscriptions)</span>
-                  </div>
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 text-[11px] text-slate-500 pt-0.5">
+                  <span className="flex items-center gap-1 font-medium">
+                    <Mail className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Instant Email Delivery
+                  </span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <Play className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" /> 3-Min Video Demo
+                  </span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <Laptop className="w-3.5 h-3.5 text-blue-600 shrink-0" /> Built for Microsoft Excel
+                  </span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <Sliders className="w-3.5 h-3.5 text-amber-600 shrink-0" /> Feet/Inches &amp; Metres
+                  </span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Dedicated Support
+                  </span>
                 </div>
               </div>
 
-              {/* Right Column: Interactive Spreadsheet Preview & Sheet Inspector */}
-              <div className="lg:col-span-6 space-y-3">
-                <div className="relative">
-                  <CalculatorGallery />
-                </div>
+              {/* Right Column: Calculator Gallery */}
+              <div className="lg:col-span-6 flex flex-col items-center">
+                <div className="w-full">
+                  <div className="mb-2.5 flex items-center justify-between text-xs px-1">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-black text-[11px] shadow-sm">
+                      <BadgeCheck className="w-4 h-4 stroke-[2.5]" />
+                      <span>BUILT BY A CIVIL ENGINEER • UNLOCKED EXCEL</span>
+                    </div>
+                    <span className="text-[11px] text-slate-500 font-semibold flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                      38 Connected Tabs
+                    </span>
+                  </div>
 
-                {/* 38-Sheet Catalog Inspection Trigger Button */}
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={() => setIsSheetModalOpen(true)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm border border-slate-700 shadow-sm flex items-center justify-center gap-2 transition-all cursor-pointer group hover:border-amber-400"
-                  >
-                    <Search className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
-                    <span>Inspect All 38 Connected Excel Sheets &amp; Formulas</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
-                  <p className="text-[11px] text-slate-500 text-center mt-1">
-                    Click above to inspect sheet purposes, yellow inputs, and green auto-formula outputs.
-                  </p>
+                  <CalculatorGallery onUnlockClick={() => setIsCheckoutOpen(true)} />
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 2. THE CONTRACTOR / SITE REALITY PROBLEM & SOLUTION */}
-        <section className="py-7 sm:py-10 bg-slate-900 text-white border-y border-slate-800 relative">
+        {/* 2. THE REALITY OF BUILDING & RENOVATING IN INDIA: WITHOUT VS WITH */}
+        <section className="py-7 sm:py-10 bg-slate-50/60 border-b border-slate-200">
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-6">
-              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-400 bg-amber-950/60 border border-amber-800/80 px-3 py-1 rounded-full inline-block">
-                The Reality of Indian Construction Sites
+            <div className="text-center max-w-2xl mx-auto mb-5 sm:mb-7">
+              <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
+                Why Budgets Spiral
               </span>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white mt-2">
-                Why Rough Estimates Lead to Massive Budget Leaks
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-950 mt-1.5 tracking-tight">
+                Building or Renovating in India? Guessing vs. Disciplined Control
               </h2>
-              <p className="text-slate-400 text-xs sm:text-sm mt-1">
-                Whether you are building your own home or quoting client contracts, generic thumb rules cost lakhs in wastage and disputes.
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              {/* Without Calculator */}
-              <div className="bg-rose-950/30 border border-rose-900/60 rounded-2xl p-4 sm:p-5">
-                <div className="flex items-center gap-2 text-rose-400 font-bold text-sm mb-3">
-                  <XCircle className="w-4.5 h-4.5 shrink-0" />
-                  <span>The Guesswork Method (Rough Diary Notes)</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
+              {/* Without Thinktools */}
+              <div className="bg-rose-50/50 border-2 border-rose-200 rounded-2xl p-4 sm:p-6 flex flex-col justify-between shadow-2xs">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-3 sm:mb-4">
+                    <div className="w-8 h-8 rounded-xl bg-rose-100 border border-rose-300 text-rose-700 flex items-center justify-center font-bold shrink-0">
+                      <XCircle className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900">Without a Structured System</h3>
+                      <span className="text-[11px] text-rose-700 font-semibold font-mono">The Costly Site Trap</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2.5 text-xs text-slate-700">
+                    <div className="flex items-start gap-2">
+                      <span className="text-rose-600 font-bold shrink-0">✕</span>
+                      <span><strong>Vague Lump-Sum Quotes:</strong> Unitemized sq.ft rates that are hard to compare and can grow midway through construction.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-rose-600 font-bold shrink-0">✕</span>
+                      <span><strong>Blind Material Ordering:</strong> Guessing cement, sand &amp; steel causes excess waste, material shortfalls and extra expenses.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-rose-600 font-bold shrink-0">✕</span>
+                      <span><strong>Unverified Running Bills:</strong> Bills skip opening deductions (doors/windows), and can overbill for work that was not done.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-rose-600 font-bold shrink-0">✕</span>
+                      <span><strong>Surprise Handover Variations:</strong> Unrecorded verbal changes lead to disputes and extra charges right before possession.</span>
+                    </div>
+                  </div>
                 </div>
-                <ul className="space-y-2 text-xs text-slate-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-400 font-bold">✗</span>
-                    <span>Blind reliance on rough per-sqft contractor rates with no itemized breakdown.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-400 font-bold">✗</span>
-                    <span>15-25% excess cement, steel &amp; sand ordered due to uncalculated wastage factors.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-400 font-bold">✗</span>
-                    <span>No way to audit running contractor bills against actual on-site work done.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-rose-400 font-bold">✗</span>
-                    <span>Bitter payment disputes with supervisors and mistris over unrecorded extra works.</span>
-                  </li>
-                </ul>
+
+                <div className="mt-4 pt-3 border-t border-rose-200/80 text-[11px] font-bold text-rose-800 text-center">
+                  Common Outcome: Budget exhaustion, stressful disputes, and delayed handover
+                </div>
               </div>
 
               {/* With Construction Calculator Pro */}
-              <div className="bg-emerald-950/30 border border-emerald-900/60 rounded-2xl p-4 sm:p-5">
-                <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm mb-3">
-                  <CheckCircle2 className="w-4.5 h-4.5 shrink-0" />
-                  <span>The Engineering Method (Construction Calculator Pro)</span>
+              <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-2xl p-4 sm:p-6 flex flex-col justify-between shadow-md relative">
+                <div className="absolute top-3 right-3 bg-emerald-700 text-white font-bold text-[9px] uppercase px-2.5 py-0.5 rounded-full shadow-2xs">
+                  Disciplined Control
                 </div>
-                <ul className="space-y-2 text-xs text-slate-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Exact takeoff for concrete, steel, mortar, bricks &amp; tiles across 38 connected sheets.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Calibrated with Indian standard cutting wastage factors and IS/CPWD site norms.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Audit running bills stage-by-stage so you only pay for materials actually consumed.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Clear written records for extra items, change requests, and milestone approvals.</span>
-                  </li>
-                </ul>
+
+                <div>
+                  <div className="flex items-center gap-2.5 mb-3 sm:mb-4 pr-24">
+                    <div className="w-8 h-8 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-snug">With Construction Calculator Pro</h3>
+                      <span className="text-[11px] text-emerald-800 font-semibold font-mono block">CPWD &amp; IS Code Aligned Toolkit</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2.5 text-xs text-slate-700">
+                    <div className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>Itemized Pre-Build Takeoff:</strong> Exact theoretical cement, steel rebar (IS 1786), sand &amp; bricks before signing.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>Automated 5% Variance Flag:</strong> Tab 25 cross-checks bills against norms and red-flags claims &gt;5%.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>1-Click Dual Unit Toggle:</strong> Switch instantly between Feet/Inches and Metric (Metres/mm) without formula breaks.</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5 stroke-[3]" />
+                      <span><strong>100% Unlocked Excel:</strong> Permanent offline access, zero macros, no passwords, and zero subscriptions.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+                  <span className="text-xs font-bold text-emerald-900 text-center sm:text-left">38 Connected Sheets · Complete Suite</span>
+                  <button
+                    onClick={() => setIsCheckoutOpen(true)}
+                    className="w-full sm:w-auto py-2 px-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 cursor-pointer transition-all whitespace-nowrap"
+                  >
+                    <span>Get Instant Access</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* COMPARISON: GENERIC TEMPLATE VS CIVIL ENGINEER BUILT */}
+            <div className="mt-8 sm:mt-10 bg-white border-2 border-slate-200 rounded-3xl p-5 sm:p-7 shadow-xs">
+              <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
+                <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
+                  Side-By-Side Comparison
+                </span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-950 mt-1.5">
+                  Free Templates vs. Civil Engineer Built Toolkit
+                </h3>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse min-w-[540px]">
+                  <thead>
+                    <tr className="border-b border-slate-200">
+                      <th className="py-3 px-3 sm:px-4 text-slate-500 font-semibold w-1/3">Feature / Capability</th>
+                      <th className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/60 font-bold w-1/3 rounded-t-xl">
+                        Many free templates
+                      </th>
+                      <th className="py-3 px-3 sm:px-4 text-emerald-800 bg-emerald-50/80 font-black w-1/3 rounded-t-xl border-2 border-emerald-400 border-b-0">
+                        Construction Calculator Pro (Engineer Built)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Engineering Standards</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Often generic guesswork; may not align with Indian codes
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ Built with reference to relevant IS and CPWD norms (see scope in the files)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Unit Flexibility</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Often rigid single unit; formulas may break when mixing units
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ 1-Click toggle between Feet/Inches (Residential) &amp; Metres
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Site Wastage Margins</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Often assumes 0% waste; can cause shortages &amp; site halts
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ Built-in 3–5% rebar cutting, 5–8% mortar &amp; tile buffers
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Contractor Bill Auditing</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30">
+                        ❌ Often estimate only; may not cross-check running bills
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-x-2 border-emerald-400">
+                        ✅ 5% variance flag highlights bill items to review
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-3 sm:px-4 font-semibold text-slate-900">Excel Compatibility</td>
+                      <td className="py-3 px-3 sm:px-4 text-rose-700 bg-rose-50/30 rounded-b-xl">
+                        ❌ May rely on complex macros or password-locked cells
+                      </td>
+                      <td className="py-3 px-3 sm:px-4 text-emerald-900 bg-emerald-50/40 font-semibold border-2 border-emerald-400 border-t-0 rounded-b-xl">
+                        ✅ Built for Microsoft Excel (Windows and Mac). No macros. Not for Google Sheets.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. CORE HIGHLIGHT: 38 CONNECTED SHEETS WALKTHROUGH */}
-        <section className="py-7 sm:py-10 bg-white text-slate-900 border-b border-slate-200">
-          <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-6">
-              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full inline-block">
-                Master Excel System
-              </span>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-950 mt-1.5">
-                38 Connected Sheets Across Every Construction Phase
-              </h2>
-              <p className="text-slate-600 text-xs sm:text-sm mt-1">
-                Enter your dimensions once in yellow cells. All 38 sheets update automatically with zero macros.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
-                <div className="text-amber-600 font-mono font-bold text-xs mb-1">Tabs 01-08</div>
-                <h3 className="font-bold text-slate-950 text-sm">Quick Setup &amp; Structural Takeoff</h3>
-                <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                  Project setup, master rate book, excavation, footings, column schedule, plinth beam &amp; slab concrete takeoff.
-                </p>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
-                <div className="text-amber-600 font-mono font-bold text-xs mb-1">Tabs 09-17</div>
-                <h3 className="font-bold text-slate-950 text-sm">Masonry, Plaster &amp; Finishes</h3>
-                <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                  Brickwork, AAC blocks, internal &amp; external plaster mixes, flooring vitrified tiles, waterproofing &amp; paint liters.
-                </p>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
-                <div className="text-amber-600 font-mono font-bold text-xs mb-1">Tabs 18-27</div>
-                <h3 className="font-bold text-slate-950 text-sm">External Works &amp; MEP Services</h3>
-                <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                  Compound wall, sump, overhead tank, septic tank, borewell, electrical points, plumbing lines &amp; doors/windows schedule.
-                </p>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5">
-                <div className="text-amber-600 font-mono font-bold text-xs mb-1">Tabs 28-38</div>
-                <h3 className="font-bold text-slate-950 text-sm">Cost Master, Cash Flow &amp; Reports</h3>
-                <p className="text-[11px] text-slate-600 mt-1 leading-snug">
-                  Master cost roll-up, what-if price surge simulator, monthly cash flow forecast, bill verification &amp; printable client proposal.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-5 text-center">
-              <button
-                type="button"
-                onClick={() => setIsSheetModalOpen(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm border border-slate-700 shadow-sm transition-all cursor-pointer"
-              >
-                <Search className="w-4 h-4 text-amber-400" />
-                <span>Browse Full 38-Sheet Catalog with Inputs &amp; Formulas</span>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. WHAT-IF SIMULATOR & DECISION ENGINES */}
-        <section className="py-7 sm:py-10 bg-[#0c121c] text-white border-b border-slate-800">
-          <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-6">
-              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-emerald-400 bg-emerald-950/60 border border-emerald-800/80 px-3 py-1 rounded-full inline-block">
-                Decision Engines
-              </span>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white mt-1.5">
-                What-If Simulator &amp; Material Comparison
-              </h2>
-              <p className="text-slate-400 text-xs sm:text-sm mt-1">
-                Stress-test market rate increases before buying and compare building materials side-by-side.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
-                <div className="text-2xl mb-1.5">📈</div>
-                <h3 className="text-sm font-bold text-white">What-If Price Simulator</h3>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Test cement, steel, or labour prices jumping 5% to 20% to see the exact budget impact before placing bulk orders.
-                </p>
-              </div>
-
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
-                <div className="text-2xl mb-1.5">🧱</div>
-                <h3 className="text-sm font-bold text-white">Red Brick vs. AAC Blocks</h3>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Compare walling options across cost, construction speed, mortar consumption, and dead load on foundation beams.
-                </p>
-              </div>
-
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
-                <div className="text-2xl mb-1.5">💵</div>
-                <h3 className="text-sm font-bold text-white">Monthly Cash Flow Forecast</h3>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Know exactly how much liquidity you need at every milestone so site work never stops due to sudden cash crunches.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. BEGINNER VS PRO MODE */}
-        <section className="py-7 sm:py-10 bg-slate-50 border-b border-slate-200">
+        {/* 3. THE "PAISA VASOOL" REALITY CHECK */}
+        <section className="py-6 sm:py-8 bg-amber-500/10 border-y border-amber-200/80">
           <div className="max-w-5xl mx-auto px-3.5 sm:px-6">
-            <div className="text-center max-w-xl mx-auto mb-6">
-              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-800 bg-amber-100/70 border border-amber-200 px-3 py-1 rounded-full inline-block">
-                Built For Real Site Users
+            <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
+              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-900 bg-amber-200/80 border border-amber-300 px-2.5 py-0.5 rounded-full">
+                Paisa Vasool Math
               </span>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-950 mt-1.5">
-                Simple For First-Timers. Powerful For Engineers.
+              <h2 className="text-lg sm:text-2xl font-black text-slate-950 mt-1">
+                Why ₹299 is a Small Part of Your Build (of a ₹15 lakh+ build)
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-2xs">
-                <div className="inline-block px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold text-xs mb-2">
-                  Beginner Mode
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 text-center">
+              <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-center">
+                <span className="text-[11px] text-slate-500 block truncate">1 Cement Bag</span>
+                <span className="text-sm sm:text-lg font-black text-slate-900 font-mono mt-0.5">₹420 – ₹440</span>
+                <span className="text-[10px] text-slate-600 font-medium block mt-0.5">Used in 20 min</span>
+              </div>
+              <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-center">
+                <span className="text-[11px] text-slate-500 block truncate">1 Family Dinner</span>
+                <span className="text-sm sm:text-lg font-black text-slate-900 font-mono mt-0.5">₹800 – ₹1,200</span>
+                <span className="text-[10px] text-slate-600 font-medium block mt-0.5">Gone in 1 evening</span>
+              </div>
+              <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200 shadow-2xs flex flex-col justify-center">
+                <span className="text-[11px] text-slate-500 block truncate">1 Day Supervisor</span>
+                <span className="text-sm sm:text-lg font-black text-slate-900 font-mono mt-0.5">₹1,000 – ₹1,500</span>
+                <span className="text-[10px] text-slate-600 font-medium block mt-0.5">Daily recurring cost</span>
+              </div>
+              <div className="bg-amber-500 text-slate-950 p-2.5 sm:p-3 rounded-xl border border-amber-400 shadow-md flex flex-col justify-center">
+                <span className="text-[11px] font-bold block truncate">Construction Calculator Pro</span>
+                <span className="text-sm sm:text-lg font-black font-mono mt-0.5">₹299 (one-time)</span>
+                <span className="text-[10px] text-slate-900/80 font-semibold block mt-0.5">One-time payment</span>
+              </div>
+            </div>
+
+            <p className="text-center text-xs text-slate-700 mt-3 sm:mt-4 max-w-2xl mx-auto leading-relaxed">
+              💡 <strong>The bottom line:</strong> If it helps you spot even 10 extra bags of cement on a bill, that is already more than the price of the toolkit.
+            </p>
+          </div>
+        </section>
+
+        {/* 4. THE COMPLETE BUNDLE BOX: WHAT YOU RECEIVE */}
+        <section className="py-7 sm:py-10 bg-white border-b border-slate-200">
+          <div className="max-w-6xl mx-auto px-3.5 sm:px-6">
+            <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
+              <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
+                Complete Deliverables Package
+              </span>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-950 mt-1.5">
+                Complete Construction Toolkit Box
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5">
+              {/* Deliverable 1 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-emerald-800 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                      3 Excel Workbooks (.XLSX)
+                    </span>
+                    <span className="text-xs text-amber-700 font-semibold font-mono">Core Engines</span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">38-Sheet Master + 2 Project Examples</h3>
+                  <div className="mt-2.5 space-y-1.5 text-xs text-slate-600">
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                      <span><strong>Blank Master Engine (38 Tabs):</strong> 4 Starter Plans (2BHK, 3BHK, Villa, Renovation) for a 30-sec estimate + Beginner/Pro mode.</span>
+                    </div>
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                      <span><strong>New House 30x50 Example:</strong> Fully worked independent house with live drawing quantities and city rates.</span>
+                    </div>
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                      <span><strong>Flat Renovation Example:</strong> Apartment remodel with finishes, room costs &amp; cash flow.</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-bold text-slate-950 text-sm">For Homeowners &amp; Flat Renovators</h3>
-                <ul className="mt-3 space-y-1.5 text-xs text-slate-600">
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>4 pre-filled starter templates (2BHK, 3BHK, Villa, Renovation)</span>
-                  </li>
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Clear plain-English notes on every sheet with zero technical jargon</span>
-                  </li>
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Protected formula cells to prevent accidental formula deletion</span>
-                  </li>
-                </ul>
+
+                <div className="mt-4 space-y-1.5">
+                  <button
+                    type="button"
+                    onClick={() => openReel("main-calculator")}
+                    className="animate-blink-glow w-full py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 border-2 border-amber-300 text-slate-950 font-extrabold text-xs shadow-md shadow-amber-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer group hover:scale-[1.01]"
+                  >
+                    <span className="w-5 h-5 rounded-full bg-slate-950 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                      <Play className="w-2.5 h-2.5 fill-amber-400 ml-0.5" />
+                    </span>
+                    <span className="tracking-tight">Watch 3-Minute Demo</span>
+                    <span className="relative flex h-2 w-2 shrink-0 ml-0.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsSheetModalOpen(true)}
+                    className="w-full py-1.5 px-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold text-xs transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <Layers className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Inspect All 38 Sheet Names &rarr;</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-2xs">
-                <div className="inline-block px-2.5 py-0.5 rounded-full bg-slate-900 text-amber-400 font-bold text-xs mb-2">
-                  Pro Mode
+              {/* Deliverable 2 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-blue-800 bg-blue-100/70 border border-blue-200 px-2 py-0.5 rounded font-bold">
+                      13 PDF Guides &amp; Kits
+                    </span>
+                    <span className="text-xs text-blue-700 font-semibold font-mono">Execution Plan</span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Implementation Kit &amp; Worksheets</h3>
+                  <div className="mt-2.5 space-y-1.5 text-xs text-slate-600">
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                      <span><strong>4-Week Action Plan:</strong> Weekly checklists from plot measurements to signed estimate.</span>
+                    </div>
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                      <span><strong>Printable Worksheets A–F:</strong> Take dual readings on site before typing into Excel.</span>
+                    </div>
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                      <span><strong>5 Practical Exercises:</strong> Practice identifying quantity discrepancies.</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-bold text-slate-950 text-sm">For Contractors &amp; Site Supervisors</h3>
-                <ul className="mt-3 space-y-1.5 text-xs text-slate-600">
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Full unit toggle (Feet-Inches ⇄ Metres) across all sheets</span>
-                  </li>
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>Detailed steel cutting schedules (BBS), wastage factors &amp; mix design ratios</span>
-                  </li>
-                  <li className="flex items-start gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>1-click client proposal generation with custom company branding</span>
-                  </li>
-                </ul>
+
+                <div className="mt-4 pt-2.5 border-t border-slate-200 text-[11px] text-slate-500 font-mono">
+                  Includes 43-page combined master guide
+                </div>
+              </div>
+
+              {/* Deliverable 3 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono text-amber-800 bg-amber-100/70 border border-amber-200 px-2 py-0.5 rounded font-bold">
+                      7 Bonus Guides
+                    </span>
+                    <span className="text-xs text-amber-800 font-semibold font-mono">Included Resources</span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">7 Contractor &amp; Quality Bonuses</h3>
+                  <div className="mt-2.5 space-y-1.5 text-xs text-slate-600">
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                      <span><strong>Contractor Hiring Kit:</strong> 15 interview questions &amp; numerical scoring sheet.</span>
+                    </div>
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                      <span><strong>Material Quality Tests:</strong> Silt jar test for sand, cement week check, rebar ISI test.</span>
+                    </div>
+                    <div className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                      <span><strong>Snag List &amp; 5 Scripts:</strong> 120-checkpoint inspection &amp; WhatsApp scripts.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-2.5 border-t border-slate-200 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                  <span>Included in Master Toolkit</span>
+                  <span className="font-semibold text-slate-700">7 Reference Files</span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 6. COMPLETE SITE OPERATIONS / COMPANION TOOLS (ADD-ONS) */}
+
+
+        {/* 5. HOW IT WORKS & WHAT MAKES IT DIFFERENT */}
+        <section className="py-8 sm:py-12 bg-slate-900 text-white border-b border-slate-800 relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-3.5 sm:px-6 relative z-10">
+            {/* Header */}
+            <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
+              <span className="text-[10px] sm:text-xs uppercase font-extrabold tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full inline-block">
+                Engineered for Indian Site Realities
+              </span>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-white mt-2 tracking-tight">
+                How It Works in 4 Simple Steps
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1.5 leading-relaxed">
+                No complex CAD software or programming. Built on unlocked Microsoft Excel with color-coded safety: yellow cells for typing, protected green cells for formulas.
+              </p>
+            </div>
+
+            {/* 4 Steps Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    01
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Answer 6 Quick Questions</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Enter project name, area, budget, city, and pick Feet or Metres. Choose <strong>Beginner Mode</strong> for step-by-step guidance or <strong>Pro Mode</strong> for a clean screen.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-amber-400 font-medium">
+                  ⚡ 30-Sec Ready Estimate
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    02
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Pick a Plan or Customize</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Select a 2BHK, 3BHK, Villa, or Renovation starter plan to auto-fill rooms, concrete, steel, and bricks. Or type over yellow cells with your drawing numbers.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-emerald-400 font-medium">
+                  🛡️ Green Formulas Protected
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    03
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Select City or Local Rates</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Pick pre-filled rates for 9 major Indian cities or overwrite with quotes from your suppliers. Includes a 90-day staleness warning so prices stay accurate.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-blue-400 font-medium">
+                  📍 9 Major Indian Cities
+                </div>
+              </div>
+
+              <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between">
+                <div>
+                  <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-mono font-black text-xs flex items-center justify-center mb-2.5">
+                    04
+                  </div>
+                  <h3 className="text-sm font-bold text-white">Read Results &amp; Print</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                    Cost Estimate (20 lines + GST), Material Buying List, Month-by-Month Cash Flow, and A4 Client Quotations with your logo update automatically.
+                  </p>
+                </div>
+                <div className="mt-3 pt-2.5 border-t border-slate-700/60 text-[11px] text-purple-400 font-medium">
+                  📄 Print / PDF Ready Reports
+                </div>
+              </div>
+            </div>
+
+            {/* Feature Spotlight: Additional Works & Advanced Control */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Box 1: Additional Works */}
+              <div className="bg-slate-800/50 border border-amber-500/30 rounded-2xl p-4 sm:p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-amber-400 bg-amber-500/20 px-2 py-0.5 rounded">
+                    Tab 18 Spotlight
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    Additional Works: The Items Estimates Miss
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-3">
+                  Most construction estimates fail because they only account for internal rooms. Tab 18 calculates all structural extras and automatically feeds costs into your master BOQ:
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Sump &amp; Overhead Tank</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Septic Tank &amp; Soak Pit</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Compound Wall &amp; Pillars</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Main Gates &amp; Safety Grills</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Borewell, Rainwater &amp; Paving</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Staircase RCC &amp; Railing</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Lintels, Sunshades &amp; Beams</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-amber-400">✓</span>
+                    <span>Solar, Terrace Waterproofing</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Box 2: Smart Financial & Material Simulation */}
+              <div className="bg-slate-800/50 border border-slate-700/80 rounded-2xl p-4 sm:p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded">
+                    Advanced Decision Engines
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    What-If Simulator &amp; Cash Flow Forecast
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-3">
+                  Stay ahead of market price surges and avoid running out of funds halfway through construction:
+                </p>
+                <div className="space-y-2 text-[11px] text-slate-300">
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">📊</span>
+                    <span><strong>What-If Scenario Simulator:</strong> Stress-test cement, steel, or labour prices rising 5% to 20% before committing to purchases.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">🧱</span>
+                    <span><strong>Material Compare Engine:</strong> Compare Red Brick vs. AAC Blocks vs. Fly-Ash on cost, speed, and weight; compare M15, M20, M25 concrete.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">💰</span>
+                    <span><strong>Month-by-Month Cash Flow:</strong> Know exactly how much working capital you need across the next 3 months against contractor milestones.</span>
+                  </div>
+                  <div className="flex items-start gap-1.5">
+                    <span className="text-emerald-400 font-bold shrink-0">📋</span>
+                    <span><strong>Client Report &amp; Quotation:</strong> Enter company name, logo &amp; GST once on Setup; generates clean, branded PDF proposals.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. COMPLETE SITE OPERATIONS (ADD-ONS) */}
         <section id="business-tools" className="py-7 sm:py-10 bg-white text-slate-900 border-y border-slate-200 relative overflow-hidden">
           <div className="max-w-6xl mx-auto px-3.5 sm:px-6 relative z-10">
             <div className="text-center max-w-2xl mx-auto mb-5 sm:mb-7">
@@ -704,6 +987,32 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
                   ? "Essential companion Excel workbooks built for Homeowners to track house budget, stage-wise contractor payment milestones, and on-site quality before work is covered."
                   : "Essential companion Excel workbooks built for Contractors to track daily site petty cash, weekly mistri/coolie wages, and client milestone billing."}
               </p>
+
+              {/* Role Switcher in Companion Tools */}
+              <div className="mt-3.5 inline-flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200 shadow-2xs">
+                <Link
+                  href="/p/construction-calculator-pro/homeowner"
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    role === "homeowner"
+                      ? "bg-amber-500 text-slate-950 shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <span>🏡</span>
+                  <span>Homeowner Add-ons</span>
+                </Link>
+                <Link
+                  href="/p/construction-calculator-pro/contractor"
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    role === "contractor"
+                      ? "bg-amber-500 text-slate-950 shadow-xs"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <span>👷</span>
+                  <span>Contractor Add-ons</span>
+                </Link>
+              </div>
             </div>
 
             {/* 4-IN-1 BUNDLE PROMO BANNER */}
