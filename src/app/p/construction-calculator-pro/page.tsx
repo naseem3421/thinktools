@@ -50,7 +50,7 @@ export default function ConstructionCalculatorGatewayPage() {
           {/* Engineering Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-[11px] font-semibold text-amber-950 mb-3 shadow-2xs">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-            <span>Senior Civil Engineer Designed • IS &amp; CPWD Standards</span>
+            <span>Senior Civil Engineer Designed with 10+ Years of Experience</span>
           </div>
 
           {/* Heading */}
