@@ -74,14 +74,9 @@ export default function ConstructionCalculatorGatewayPage() {
                   🏡
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base sm:text-lg font-black text-slate-950 leading-tight">
-                      I am a Homeowner
-                    </h2>
-                    <span className="px-2 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 font-mono font-bold text-[10px]">
-                      ₹299
-                    </span>
-                  </div>
+                  <h2 className="text-base sm:text-lg font-black text-slate-950 leading-tight">
+                    I am a Homeowner
+                  </h2>
                   <p className="text-xs text-slate-600 mt-1 leading-snug">
                     Building or renovating my home • Verify contractor bills &amp; material quantities
                   </p>
@@ -102,14 +97,9 @@ export default function ConstructionCalculatorGatewayPage() {
                   👷
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base sm:text-lg font-black text-white leading-tight">
-                      I am a Contractor / Engineer
-                    </h2>
-                    <span className="px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-amber-300 font-mono font-bold text-[10px]">
-                      ₹299
-                    </span>
-                  </div>
+                  <h2 className="text-base sm:text-lg font-black text-white leading-tight">
+                    I am a Contractor / Engineer
+                  </h2>
                   <p className="text-xs text-slate-300 mt-1 leading-snug">
                     Civil engineers &amp; builders • Fast client quotes, BBS &amp; site management
                   </p>
