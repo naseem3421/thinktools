@@ -19,7 +19,7 @@ import {
   Eye,
   EyeOff
 } from "lucide-react";
-import { ReelVideo, REEL_VIDEOS } from "@/data/products";
+import { ReelVideo, REEL_VIDEOS, HOMEOWNER_ADDON_IDS, CONTRACTOR_ADDON_IDS } from "@/data/products";
 
 interface ReelPreviewModalProps {
   isOpen: boolean;
@@ -29,6 +29,7 @@ interface ReelPreviewModalProps {
   selectedAddonIds: string[];
   onToggleAddon: (addonId: string) => void;
   onOpenCheckout: () => void;
+  targetAudience?: "homeowner" | "contractor";
 }
 
 export default function ReelPreviewModal({
@@ -38,7 +39,8 @@ export default function ReelPreviewModal({
   onSelectReel,
   selectedAddonIds,
   onToggleAddon,
-  onOpenCheckout
+  onOpenCheckout,
+  targetAudience
 }: ReelPreviewModalProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -59,18 +61,30 @@ export default function ReelPreviewModal({
 
   // When viewing add-ons, 38 sheets (main calculator) is completely removed from the add-on player
   const isMainProductReel = activeReelId === "main-calculator";
+  const isHomeownerReel =
+    targetAudience === "homeowner" || HOMEOWNER_ADDON_IDS.includes(activeReelId);
+  const isContractorReel =
+    targetAudience === "contractor" || CONTRACTOR_ADDON_IDS.includes(activeReelId);
+
   const reelList = isMainProductReel
     ? [REEL_VIDEOS["main-calculator"]].filter(Boolean)
+    : isHomeownerReel
+    ? HOMEOWNER_ADDON_IDS.map((id) => REEL_VIDEOS[id]).filter(Boolean)
+    : isContractorReel
+    ? CONTRACTOR_ADDON_IDS.map((id) => REEL_VIDEOS[id]).filter(Boolean)
     : Object.values(REEL_VIDEOS).filter((r) => !r.isMainProduct);
 
   const currentIndex = reelList.findIndex((r) => r.id === activeReelId);
-  const currentReel = reelList[currentIndex] || reelList[0];
-  const [videoSrc, setVideoSrc] = useState<string>(currentReel.src);
+  const currentReel = reelList[currentIndex] || reelList[0] || REEL_VIDEOS["main-calculator"];
+  const [videoSrc, setVideoSrc] = useState<string>(currentReel ? currentReel.src : "");
 
   const ADDON_SHORT_TITLES: Record<string, string> = {
     "site-expense-profit-tracker": "Site Expense",
     "labour-attendance-weekly-wage-sheet": "Labour & Wage",
-    "payment-collection-tracker": "Payment Tracker"
+    "payment-collection-tracker": "Payment Tracker",
+    "house-budget-expense-tracker": "House Budget",
+    "stage-payment-planner": "Payment Plan",
+    "stage-quality-checklist": "Quality Check"
   };
 
   const showControlsTemporarily = () => {

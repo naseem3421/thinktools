@@ -1451,6 +1451,33 @@ export const REEL_VIDEOS: Record<string, ReelVideo> = {
     priceTag: "₹99",
     duration: "60s",
     addonId: "payment-collection-tracker"
+  },
+  "house-budget-expense-tracker": {
+    id: "house-budget-expense-tracker",
+    src: "/videos/house-budget-expense-tracker-reel.mp4",
+    title: "House Budget & Expense Tracker",
+    subtitle: "Stage-wise House Budget, 500-Entry Expense Log & Finishing Estimator",
+    priceTag: "₹99",
+    duration: "60s",
+    addonId: "house-budget-expense-tracker"
+  },
+  "stage-payment-planner": {
+    id: "stage-payment-planner",
+    src: "/videos/stage-payment-planner-reel.mp4",
+    title: "Stage-wise Payment Planner",
+    subtitle: "10-Milestone Disbursement Schedule & Written Extra Work Ledger",
+    priceTag: "₹99",
+    duration: "60s",
+    addonId: "stage-payment-planner"
+  },
+  "stage-quality-checklist": {
+    id: "stage-quality-checklist",
+    src: "/videos/stage-quality-checklist-reel.mp4",
+    title: "Stage-wise Quality Checklist",
+    subtitle: "70 Plain-English Quality Checks Across 11 Construction Stages",
+    priceTag: "₹99",
+    duration: "60s",
+    addonId: "stage-quality-checklist"
   }
 };
 

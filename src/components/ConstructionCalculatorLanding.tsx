@@ -1471,6 +1471,7 @@ export default function ConstructionCalculatorLanding({ role }: ConstructionCalc
         selectedAddonIds={selectedAddonIds}
         onToggleAddon={toggleAddon}
         onOpenCheckout={() => setIsCheckoutOpen(true)}
+        targetAudience={role}
       />
 
       {/* 38-Tab Detailed Inspection Modal (Dynamic Lazy-Loaded) */}
