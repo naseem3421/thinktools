@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ConstructionCalculatorLanding from "@/components/ConstructionCalculatorLanding";
+import HomeownerMobileLanding from "@/components/HomeownerMobileLanding";
 
 export const metadata: Metadata = {
   title: "Construction Calculator Pro (Homeowner Edition) - Estimate Materials & Audit Bills",
@@ -11,5 +11,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomeownerLandingPage() {
-  return <ConstructionCalculatorLanding role="homeowner" />;
+  return <HomeownerMobileLanding />;
 }
